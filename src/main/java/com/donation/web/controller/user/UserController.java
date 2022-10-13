@@ -42,7 +42,6 @@ public class UserController {
     @GetMapping("/user")
     public ResponseEntity<?> getList(Pageable pageable){
         Slice<UserRespDto> list = userService.getList(pageable);
-
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 

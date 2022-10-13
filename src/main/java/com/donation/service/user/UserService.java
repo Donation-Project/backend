@@ -6,6 +6,7 @@ import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.exception.EmailDuplicateException;
+import com.donation.exception.NoSuchElementException;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +39,13 @@ public class UserService {
 
     public void login(UserLoginReqDto userLoginReqDto){
         userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Transactional(readOnly = true)
     public UserRespDto get(Long id){
         User user = userRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NoSuchElementException::new);
         return new UserRespDto(user);
     }
 
@@ -57,14 +58,14 @@ public class UserService {
 
     public void delete(Long id){
         User user = userRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NoSuchElementException::new);
         awsS3Service.delete(user.getProfileImage());
         userRepository.delete(user);
     }
 
     public void editProfile(Long id, MultipartFile multipartFile){
         User user = userRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NoSuchElementException::new);
         user.editProfile(awsS3Service.upload(multipartFile));
     }
 }

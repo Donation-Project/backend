@@ -4,8 +4,8 @@ import com.donation.common.reponse.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.domain.entites.User;
 import com.donation.exception.EmailDuplicateException;
+import com.donation.exception.NoSuchElementException;
 import com.donation.repository.user.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @SpringBootTest
@@ -30,8 +31,7 @@ class UserServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+
 
     @AfterEach
     void clear(){
@@ -124,7 +124,7 @@ class UserServiceTest {
         Long id = 100L;
         //then
         assertThatThrownBy(() -> userService.get(id))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -143,6 +143,6 @@ class UserServiceTest {
 
         //then
         assertThatThrownBy(() -> userService.get(id))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NoSuchElementException.class);
     }
 }

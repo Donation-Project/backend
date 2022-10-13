@@ -34,7 +34,7 @@ public class UserControllerExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> IllegalArgumentExceptionHandler(IllegalArgumentException e){
-        return new ResponseEntity<>(CommonResponse.fail(ErrorResponse.builder().errorCode("404")
-                .errorMessage(e.getMessage()).build()),HttpStatus.OK);
+        return new ResponseEntity<>(CommonResponse.fail(ErrorResponse.builder().errorCode("400")
+                .errorMessage(e.getMessage()).build()),HttpStatus.BAD_REQUEST);
     }
 }

@@ -30,7 +30,7 @@ public class DonationApplication {
 		//given
 		List<User> requestPosts = IntStream.range(1, 31)
 				.mapToObj(i -> User.builder()
-						.username("username" + i)
+						.username("username" + i + "@naver.com")
 						.name("name" + i)
 						.password("password" + i)
 						.profileImage(config.getBasicImageProfile())
