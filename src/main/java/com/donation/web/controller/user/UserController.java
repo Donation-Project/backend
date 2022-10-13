@@ -4,7 +4,6 @@ import com.donation.common.CommonResponse;
 import com.donation.common.reponse.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.service.s3.AwsS3Service;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,6 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
-    private final AwsS3Service awsS3Service;
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody @Valid UserJoinReqDto userJoinReqDto) {
@@ -60,8 +58,13 @@ public class UserController {
     @PutMapping("/user/{id}/profile")
     public ResponseEntity<?> editProfile(@PathVariable Long id,
                                     @RequestPart("profile") MultipartFile multipartFile){
-        String imageUrl = awsS3Service.upload(multipartFile);
-        userService.editProfile(id, imageUrl);
+        userService.editProfile(id, multipartFile);
+        return ResponseEntity.ok(CommonResponse.success());
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        userService.delete(id);
         return ResponseEntity.ok(CommonResponse.success());
     }
 }

@@ -3,23 +3,28 @@ package com.donation.service.user;
 import com.donation.common.reponse.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
+import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.exception.EmailDuplicateException;
 import com.donation.repository.user.UserRepository;
+import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final AwsS3Service awsS3Service;
+    private final ConstConfig config;
 
     public Long join(UserJoinReqDto userJoinReqDto) {
-        User user = userJoinReqDto.toUser();
+        User user = userJoinReqDto.toUser(config.getBasicImageProfile());
         if (userRepository.findByUsername(userJoinReqDto.getEmail()).isPresent())
             throw new EmailDuplicateException();
 
@@ -49,13 +54,14 @@ public class UserService {
     public void delete(Long id){
         User user = userRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
+        awsS3Service.delete(user.getProfileImage());
         userRepository.delete(user);
     }
 
-    public void editProfile(Long id, String imageUrl){
+    public void editProfile(Long id, MultipartFile multipartFile){
         User user = userRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
 
-        user.editProfile(imageUrl);
+        user.editProfile(awsS3Service.upload(multipartFile));
     }
 }

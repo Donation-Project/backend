@@ -1,5 +1,6 @@
 package com.donation;
 
+import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 public class DonationApplication {
 
 	private final UserRepository userRepository;
+	private final ConstConfig config;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DonationApplication.class, args);
@@ -30,6 +32,7 @@ public class DonationApplication {
 						.username("username" + i)
 						.name("name" + i)
 						.password("password" + i)
+						.profileImage(config.getBasicImageProfile())
 						.build()
 				)
 				.collect(Collectors.toList());

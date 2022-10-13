@@ -2,6 +2,7 @@ package com.donation.service.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.donation.config.ConstConfig;
 import com.donation.exception.EmptyFileException;
 import com.donation.exception.FileUploadFailedException;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +16,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class AwsS3Service {
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3 amazonS3;
+    private final ConstConfig config;
 
     public String upload(MultipartFile multipartFile) {
         validateFileExists(multipartFile);
 
         String s3FileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
-
         ObjectMetadata objMeta = new ObjectMetadata();
         try {
             objMeta.setContentLength(multipartFile.getInputStream().available());
@@ -40,5 +40,11 @@ public class AwsS3Service {
         if (multipartFile.isEmpty()) {
             throw new EmptyFileException();
         }
+    }
+
+    public void delete(String imageUrl) {
+        if (config.getBasicImageProfile().equals(imageUrl))
+            return;
+        amazonS3.deleteObject(bucket, imageUrl);
     }
 }
