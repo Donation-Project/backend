@@ -17,6 +17,12 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+## config
+src/main/java/com/donation/config/auth
+src/main/java/com/donation/config/security
+application.yml
+
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
