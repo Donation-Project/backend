@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * @description 회원 정보 CRUD 서비스
+ * @author  정우진
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -61,7 +65,6 @@ public class UserService {
     public void editProfile(Long id, MultipartFile multipartFile){
         User user = userRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
-
         user.editProfile(awsS3Service.upload(multipartFile));
     }
 }

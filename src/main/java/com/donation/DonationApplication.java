@@ -2,6 +2,7 @@ package com.donation;
 
 import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
+import com.donation.domain.enums.Role;
 import com.donation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -33,6 +34,7 @@ public class DonationApplication {
 						.name("name" + i)
 						.password("password" + i)
 						.profileImage(config.getBasicImageProfile())
+						.role(Role.USER)
 						.build()
 				)
 				.collect(Collectors.toList());

@@ -19,10 +19,7 @@ import javax.validation.Valid;
 /**
  * @description 회원 정보 CRUD 컨트롤러
  * @author  정우진
- * @since   2022-10-12
- * @updated 1.온보딩 메소드 URL 변경(/main -> /auth)
  */
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -61,6 +58,7 @@ public class UserController {
         userService.editProfile(id, multipartFile);
         return ResponseEntity.ok(CommonResponse.success());
     }
+
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){

@@ -13,6 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
 
+
+/**
+ * @description AWS S3 이미지 서비스
+ * @author  정우진
+ */
 @RequiredArgsConstructor
 @Service
 public class AwsS3Service {
