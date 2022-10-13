@@ -1,4 +1,4 @@
-package com.donation.controller;
+package com.donation.controller.user;
 
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.config.ConstConfig;

@@ -1,7 +1,7 @@
 package com.donation.web.controller.user;
 
 import com.donation.common.CommonResponse;
-import com.donation.common.reponse.UserRespDto;
+import com.donation.common.reponse.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.service.user.UserService;

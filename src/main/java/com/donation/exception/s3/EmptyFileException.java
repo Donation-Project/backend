@@ -1,6 +1,8 @@
-package com.donation.exception;
+package com.donation.exception.s3;
 
-public class EmptyFileException extends HighestLevelException{
+import com.donation.exception.HighestLevelException;
+
+public class EmptyFileException extends HighestLevelException {
 
     private static final String Message = "파일이 존재하지 않습니다.";
 

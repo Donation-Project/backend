@@ -1,7 +1,7 @@
 package com.donation.repository.user;
 
-import com.donation.common.reponse.QUserRespDto;
-import com.donation.common.reponse.UserRespDto;
+import com.donation.common.reponse.user.QUserRespDto;
+import com.donation.common.reponse.user.UserRespDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

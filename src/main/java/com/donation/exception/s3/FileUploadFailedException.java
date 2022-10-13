@@ -1,6 +1,8 @@
-package com.donation.exception;
+package com.donation.exception.s3;
 
-public class FileUploadFailedException extends HighestLevelException  {
+import com.donation.exception.HighestLevelException;
+
+public class FileUploadFailedException extends HighestLevelException {
 
     private static final String Message = "파일 업로드에 실패했습니다.";
 

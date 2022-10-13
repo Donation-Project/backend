@@ -1,5 +1,6 @@
-package com.donation.exception;
+package com.donation.exception.user;
 
+import com.donation.exception.HighestLevelException;
 import lombok.Getter;
 
 @Getter

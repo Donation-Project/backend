@@ -1,11 +1,11 @@
 package com.donation.service.user;
 
-import com.donation.common.reponse.UserRespDto;
+import com.donation.common.reponse.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
-import com.donation.exception.EmailDuplicateException;
+import com.donation.exception.user.EmailDuplicateException;
 import com.donation.exception.NoSuchElementException;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;

@@ -1,4 +1,4 @@
-package com.donation.common.reponse;
+package com.donation.common.reponse.user;
 
 import com.donation.domain.entites.User;
 import com.querydsl.core.annotations.QueryProjection;
