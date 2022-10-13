@@ -21,6 +21,7 @@ bin/
 src/main/java/com/donation/config/auth
 src/main/java/com/donation/config/security
 application.yml
+src/main/java/com/donation/init.java
 
 
 ### IntelliJ IDEA ###

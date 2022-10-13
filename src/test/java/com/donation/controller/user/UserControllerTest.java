@@ -51,7 +51,7 @@ class UserControllerTest {
         userRepository.deleteAll();
     }
 
-    private User getUser() {
+    User getUser() {
         String username = "username@naver.com";
         String name = "정우진";
         String password = "1234";

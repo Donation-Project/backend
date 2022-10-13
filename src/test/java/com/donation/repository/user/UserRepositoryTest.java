@@ -3,6 +3,7 @@ package com.donation.repository.user;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,11 @@ class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @AfterEach
+    void clean(){
+        userRepository.deleteAll();
+    }
 
     static User getUser() {
         String username = "username@naver.com";
