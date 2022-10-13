@@ -11,10 +11,13 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class Write {
     private String title;
+
     private String content;
+
     @Builder
     public Write(String title, String content) {
         this.title = title;
         this.content = content;
     }
+
 }

@@ -12,15 +12,15 @@ spring:
 
 
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:tcp://localhost/~/test
     username: sa
     password:
     driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create #create update none
+      ddl-auto: update #create update none
     properties:
       hibernate:
-        # show_sql: true
+        show_sql: true
         format_sql: true

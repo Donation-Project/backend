@@ -1,14 +1,15 @@
 package com.donation.domain.entites;
 
+import com.donation.common.request.post.PostSaveReqDto;
+import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -17,6 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Post extends BaseEntity{
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "post_Id")
@@ -37,17 +39,30 @@ public class Post extends BaseEntity{
     @Enumerated(STRING)
     private PostState state;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<PostDetailImage> postDetailImages = new ArrayList<>();
 
     @Builder
-    public Post(Long id, User user, Write write, int amount, Category category, PostState state, List<PostDetailImage> postDetailImages) {
+    public Post(Long id, User user, Write write, int amount, Category category, PostState state) {
         this.id = id;
         this.user = user;
         this.write = write;
         this.amount = amount;
         this.category = category;
         this.state = state;
-        this.postDetailImages = postDetailImages;
+
+    }
+
+
+    public Post update(PostUpdateReqDto dto) {
+        this.write = getWrite(dto);
+        this.category=dto.getCategory();
+        this.amount=dto.getAmount();
+        return this;
+    }
+
+    private static Write getWrite(PostUpdateReqDto dto) {
+        return Write.builder()
+                .content(dto.getContent())
+                .title(dto.getTitle()).
+                build();
     }
 }

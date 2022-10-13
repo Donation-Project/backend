@@ -22,10 +22,6 @@ public class User extends BaseEntity {
     private String username;
     private String password;
     private String name;
-
-    private String provider;
-    private String providerId;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -35,8 +31,10 @@ public class User extends BaseEntity {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.provider = provider;
-        this.providerId = providerId;
         this.role = role;
+    }
+
+    public void passwordUpdate(String password){
+        this.password = password;
     }
 }
