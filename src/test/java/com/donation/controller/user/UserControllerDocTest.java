@@ -18,12 +18,9 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,6 +59,12 @@ public class UserControllerDocTest {
                 .build();
     }
 
+    @Test
+    @DisplayName("로그인")
+    void login() throws Exception{
+
+    }
+
 
     @Test
     @DisplayName("회원(컨트롤러) : 단건 조회")
@@ -71,7 +74,7 @@ public class UserControllerDocTest {
         userRepository.save(user);
 
         // expected
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user/{id}", user.getId()))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/login", user.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
@@ -80,10 +83,12 @@ public class UserControllerDocTest {
                 .andExpect(jsonPath("$.data.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(document("user-inquiry",
+                .andDo(document("login",
+                        preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("id").description("유저 ID")
+                        responseFields(
+                                fieldWithPath("email").description("유저 Email"),
+                                fieldWithPath("password").description("유저 Password")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),

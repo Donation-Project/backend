@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ApiSpecContoller {
+public class ApiSpecController {
 
-    @GetMapping("/")
+    @GetMapping("/apispec")
     public String apiSpec(){
         return "docs/index";
     }
