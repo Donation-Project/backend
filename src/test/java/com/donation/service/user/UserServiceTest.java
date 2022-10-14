@@ -1,6 +1,6 @@
 package com.donation.service.user;
 
-import com.donation.common.reponse.user.UserRespDto;
+import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.domain.entites.User;
 import com.donation.exception.user.EmailDuplicateException;
@@ -52,7 +52,7 @@ class UserServiceTest {
         Long id = userService.join(userDto);
 
         //then
-        UserRespDto userRespDto = userService.get(id);
+        UserRespDto userRespDto = new UserRespDto(userService.get(id));
         assertThat(userRespDto.getUsername()).isEqualTo(userDto.getEmail());
         assertThat(userRespDto.getName()).isEqualTo(userDto.getName());
     }
@@ -110,7 +110,7 @@ class UserServiceTest {
                 .build();
         Long id = userService.join(userDto);
         //when
-        UserRespDto dto = userService.get(id);
+        UserRespDto dto = new UserRespDto(userService.get(id));
 
         //then
         assertThat(dto.getUsername()).isEqualTo(userDto.getEmail());

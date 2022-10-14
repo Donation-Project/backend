@@ -1,7 +1,7 @@
 package com.donation.web.controller.user;
 
 import com.donation.common.CommonResponse;
-import com.donation.common.reponse.user.UserRespDto;
+import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.service.user.UserService;
@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> get(@PathVariable Long id){
-        UserRespDto userRespDto = userService.get(id);
+        UserRespDto userRespDto = new UserRespDto(userService.get(id));
         return ResponseEntity.ok(CommonResponse.success(userRespDto));
     }
 

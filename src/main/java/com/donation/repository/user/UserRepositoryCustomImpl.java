@@ -1,7 +1,7 @@
 package com.donation.repository.user;
 
-import com.donation.common.reponse.user.QUserRespDto;
-import com.donation.common.reponse.user.UserRespDto;
+import com.donation.common.response.user.QUserRespDto;
+import com.donation.common.response.user.UserRespDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,7 @@ import java.util.List;
 import static com.donation.domain.entites.QUser.user;
 
 @RequiredArgsConstructor
-public class UserCustomRepositoryImpl implements UserCustomRepository{
+public class UserRepositoryCustomImpl implements UserRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
@@ -42,4 +42,6 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
         }
         return false;
     }
+
+
 }

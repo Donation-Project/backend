@@ -1,9 +1,11 @@
 package com.donation.domain.entites;
 
+import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -17,8 +19,10 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
-public class Post extends BaseEntity{
-    @Id @GeneratedValue(strategy = IDENTITY)
+@Getter
+public class Post extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "post_Id")
     private Long id;
 
@@ -49,5 +53,16 @@ public class Post extends BaseEntity{
         this.category = category;
         this.state = state;
         this.postDetailImages = postDetailImages;
+    }
+
+
+    public Post update(PostUpdateReqDto dto) {
+        this.write = Write.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .build();
+        this.category = dto.getCategory();
+        this.amount = dto.getAmount();
+        return this;
     }
 }

@@ -1,5 +1,5 @@
 package com.donation.domain.enums;
 
 public enum PostState {
-    APPROVAL, COMPLETION
+    WAITING, DELETE, APPROVAL, COMPLETION
 }

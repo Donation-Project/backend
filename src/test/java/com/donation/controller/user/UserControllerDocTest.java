@@ -21,6 +21,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,8 +66,6 @@ public class UserControllerDocTest {
     void login() throws Exception{
 
     }
-
-
     @Test
     @DisplayName("회원(컨트롤러) : 단건 조회")
     void get() throws Exception {
@@ -74,7 +74,7 @@ public class UserControllerDocTest {
         userRepository.save(user);
 
         // expected
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/login", user.getId()))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user/{id}", user.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
@@ -83,12 +83,10 @@ public class UserControllerDocTest {
                 .andExpect(jsonPath("$.data.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(document("login",
-                        preprocessRequest(prettyPrint()),
+                .andDo(document("user-inquiry",
                         preprocessResponse(prettyPrint()),
-                        responseFields(
-                                fieldWithPath("email").description("유저 Email"),
-                                fieldWithPath("password").description("유저 Password")
+                        pathParameters(
+                                parameterWithName("id").description("유저 ID")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
@@ -101,4 +99,6 @@ public class UserControllerDocTest {
 
                 ));
     }
+
+
 }

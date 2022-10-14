@@ -1,4 +1,4 @@
-package com.donation.common.reponse.user;
+package com.donation.common.response.user;
 
 import com.donation.domain.entites.User;
 import com.querydsl.core.annotations.QueryProjection;
@@ -10,7 +10,6 @@ public class UserRespDto {
     private Long id;
     private String username;
     private String name;
-
     private String profileImage;
 
     @QueryProjection
@@ -20,6 +19,7 @@ public class UserRespDto {
         this.name = name;
         this.profileImage = profileImage;
     }
+
     public UserRespDto(User user){
         this.id = user.getId();
         this.username = user.getUsername();

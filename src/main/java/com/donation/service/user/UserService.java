@@ -1,6 +1,6 @@
 package com.donation.service.user;
 
-import com.donation.common.reponse.user.UserRespDto;
+import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.config.ConstConfig;
@@ -43,10 +43,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserRespDto get(Long id){
-        User user = userRepository.findById(id)
+    public User get(Long id){
+        return userRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
-        return new UserRespDto(user);
     }
 
 
