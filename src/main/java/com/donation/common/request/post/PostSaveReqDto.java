@@ -5,12 +5,14 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@AllArgsConstructor
 public class PostSaveReqDto {
     @NotBlank(message = "제목이 없습니다.")
     private String title;

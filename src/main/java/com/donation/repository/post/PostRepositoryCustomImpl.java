@@ -45,8 +45,6 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .stream().findAny();
     }
 
-
-
     @Override
     public Slice<PostListRespDto> findDetailPostAll(Pageable pageable) {
         List<PostListRespDto> content = queryFactory
@@ -106,6 +104,8 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
         return new SliceImpl<>(content, pageable, hasNext);
     }
+
+
 
     private BooleanExpression postStateNe(PostState state){
         return state != null ? post.state.ne(state) : null;

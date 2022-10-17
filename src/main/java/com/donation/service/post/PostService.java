@@ -53,13 +53,8 @@ public class PostService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-
     public Slice<PostListRespDto> getList(Pageable pageable) {
         return postRepository.findDetailPostAll(pageable);
-    }
-
-    public Slice<PostListRespDto> findAllUserId(Long userId, Pageable pageable){
-        return postRepository.findAllUserId(userId, pageable);
     }
 
     public void postStateIsDeleteAnd7DaysOver(){
