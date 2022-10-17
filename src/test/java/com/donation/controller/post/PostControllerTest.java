@@ -2,19 +2,24 @@ package com.donation.controller.post;
 
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.config.ConstConfig;
+import com.donation.domain.embed.Write;
+import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.donation.domain.enums.Category.ETC;
+import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -56,8 +61,25 @@ class PostControllerTest {
                 .build();
     }
 
+    Post getPost() {
+        User user = userRepository.save(getUser());
+        return Post.builder()
+                .write(new Write("title", "content"))
+                .user(user)
+                .state(WAITING)
+                .category(ETC)
+                .amount(1)
+                .build();
+    }
+
+    @BeforeEach
+    void clear(){
+        postRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @Test
-    @DisplayName("포스트(컨트롤러) : 회원 가입")
+    @DisplayName("포스트(컨트롤러) : 포스트 작성")
     void save() throws Exception {
         //given
         PostSaveReqDto data = PostSaveReqDto.builder()
@@ -86,4 +108,20 @@ class PostControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("포스트(컨트롤러) : 단건 조회")
+    void get() throws Exception {
+        //given
+        Post post = postRepository.save(getPost());
+
+        //expect
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/post/{id}",post.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.postId").value(post.getId()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+    }
+
 }
