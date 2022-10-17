@@ -30,3 +30,11 @@ include::{snippets}/post-getOne/path-parameters.adoc[]
 === 응답
 include::{snippets}/post-getOne/http-response.adoc[]
 include::{snippets}/post-getOne/response-fields.adoc[]
+
+== 포스트 정보 수정
+=== 요청
+include::{snippets}/post-update/http-request.adoc[]
+include::{snippets}/post-update/path-parameters.adoc[]
+=== 응답
+include::{snippets}/post-update/http-response.adoc[]
+include::{snippets}/post-update/response-fields.adoc[]

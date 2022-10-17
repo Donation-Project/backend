@@ -1,6 +1,7 @@
 package com.donation.controller.post;
 
 import com.donation.common.request.post.PostSaveReqDto;
+import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
@@ -26,6 +27,7 @@ import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -56,7 +58,7 @@ public class PostControllerDocTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    void clear(){
+    void clear() {
         postRepository.deleteAll();
     }
 
@@ -99,7 +101,7 @@ public class PostControllerDocTest {
                 .build();
 
         // expected
-        mockMvc.perform(post("/api/post?id="+user.getId())
+        mockMvc.perform(post("/api/post?id=" + user.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
@@ -117,7 +119,7 @@ public class PostControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParameters(
-                                parameterWithName("id").description("유저 ID")
+                                parameterWithName("id").description("포스트 ID")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
@@ -146,7 +148,7 @@ public class PostControllerDocTest {
 
 
         // expected
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post/{id}",post.getId()))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post/{id}", post.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(status().isOk())
@@ -172,6 +174,43 @@ public class PostControllerDocTest {
                                 fieldWithPath("data.state").description("포스팅 상태"),
                                 fieldWithPath("data.postDetailImages").description("이미지"),
                                 fieldWithPath("data.favoriteCount").description("좋아요 갯수"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+
+                ));
+    }
+
+    @Test
+    @DisplayName("포스트(RestDocs) : 수정")
+    void update() throws Exception {
+        //given
+        Post post = postRepository.save(getPost());
+        PostUpdateReqDto request = PostUpdateReqDto.builder()
+                .title("수정제목1")
+                .content("수정내용1")
+                .category(post.getCategory())
+                .amount(post.getAmount())
+                .build();
+
+        mockMvc.perform(put("/api/post/{id}", post.getId())
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("post-update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("데이터"),
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
 
