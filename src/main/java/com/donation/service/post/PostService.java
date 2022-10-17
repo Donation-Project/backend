@@ -11,7 +11,6 @@ import com.donation.domain.enums.PostState;
 import com.donation.repository.post.PostRepository;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,6 @@ import static com.donation.domain.enums.PostState.DELETE;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
