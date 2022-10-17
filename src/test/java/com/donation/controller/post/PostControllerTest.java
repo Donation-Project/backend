@@ -10,6 +10,7 @@ import com.donation.domain.enums.Role;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static com.donation.domain.enums.Category.ETC;
+import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -179,6 +185,38 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("포스트(컨트롤러) : 리스트 조회")
+    void getList() throws  Exception{
+        //given
+        User user = userRepository.save(getUser());
+        List<Post> posts = IntStream.range(1, 31)
+                .mapToObj(i -> Post.builder()
+                        .write(new Write("title" + i, "content" + i))
+                        .amount(i)
+                        .state(APPROVAL)
+                        .user(user)
+                        .category(ETC)
+                        .build()
+                )
+                .collect(Collectors.toList());
+        postRepository.saveAll(posts);
+
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/post?page=0&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
+                .andExpect(jsonPath("$.data.content[0].postId").value(posts.get(0).getId()))
+                .andExpect(jsonPath("$.data.content[0].write.title").value(posts.get(0).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[0].write.content").value(posts.get(0).getWrite().getContent()))
+                .andExpect(jsonPath("$.data.content[9].postId").value(posts.get(9).getId()))
+                .andExpect(jsonPath("$.data.content[9].write.title").value(posts.get(9).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
     }
