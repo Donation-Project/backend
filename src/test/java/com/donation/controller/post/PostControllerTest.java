@@ -113,7 +113,6 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.data.write.title").value(data.getTitle()))
                 .andExpect(jsonPath("$.data.write.content").value(data.getContent()))
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andExpect(status().isCreated())
                 .andDo(print());
     }
 

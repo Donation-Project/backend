@@ -7,12 +7,20 @@
 :sectlinks:
 
 
-== 글 단건 조회
+== 유저 정보 단건 조회
 === 요청
 include::{snippets}/user-inquiry/http-request.adoc[]
 include::{snippets}/user-inquiry/path-parameters.adoc[]
 === 응답
 include::{snippets}/user-inquiry/http-response.adoc[]
 include::{snippets}/user-inquiry/response-fields.adoc[]
+
+== 포스팅 생성
+=== 요청
+include::{snippets}/post-save/http-request.adoc[]
+include::{snippets}/post-save/request-parameters.adoc[]
+=== 응답
+include::{snippets}/post-save/http-response.adoc[]
+include::{snippets}/post-save/response-fields.adoc[]
 
 
