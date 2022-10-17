@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.donation.domain.enums.PostState.APPROVAL;
+import static com.donation.domain.enums.PostState.COMPLETION;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -57,13 +60,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<?> getPostList(Pageable pageable){
-        Slice<PostListRespDto> list = postService.getList(pageable);
+        Slice<PostListRespDto> list = postService.getList(pageable, APPROVAL, COMPLETION);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
-
-//    @GetMapping("/deleteOption")
-//    public ResponseEntity<?> deleteOption(){
-//        postService.postStateIsDeleteAnd7DaysOver();
-//        return ResponseEntity.ok(CommonResponse.success());
-//    }
 }

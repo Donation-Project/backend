@@ -7,6 +7,7 @@ import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.domain.enums.PostState;
 import com.donation.repository.post.PostRepository;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,8 @@ public class PostService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public Slice<PostListRespDto> getList(Pageable pageable) {
-        return postRepository.findDetailPostAll(pageable);
+    public Slice<PostListRespDto> getList(Pageable pageable, PostState... states) {
+        return postRepository.findDetailPostAll(pageable, states);
     }
 
     public void postStateIsDeleteAnd7DaysOver(){
