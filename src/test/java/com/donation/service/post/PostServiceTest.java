@@ -8,6 +8,7 @@ import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,13 @@ public class PostServiceTest {
     private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    void clear(){
+        postRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
 
     User getUser() {
         String username = "username@naver.com";
@@ -92,4 +100,26 @@ public class PostServiceTest {
         assertThatThrownBy(() -> postService.findById(postId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    /**
+     *     public void delete(Long postId) {
+     *         Post post = postRepository.findById(postId)
+     *                 .orElseThrow(IllegalArgumentException::new);
+     *         postRepository.delete(post);
+     *     }
+     */
+    @Test
+    @DisplayName("포스트(서비스) : 삭제")
+    void delete(){
+        //given
+        Post post = postRepository.save(getPost());
+
+        //when
+        postService.delete(post.getId());
+
+        //then
+        assertThatThrownBy(() -> postService.findById(post.getId()))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
