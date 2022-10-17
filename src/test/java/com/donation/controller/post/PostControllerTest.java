@@ -168,12 +168,18 @@ class PostControllerTest {
 
     }
 
+    @Test
+    @DisplayName("포스트(컨트롤러) : 삭제")
+    void delete() throws Exception {
+        //given
+        Post post = postRepository.save(getPost());
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> delete(@PathVariable Long id){
-//        postService.delete(id);
-//        return  ResponseEntity.ok(CommonResponse.success());
-//    }
-//
-
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/post/{id}",post.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+    }
 }
