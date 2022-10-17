@@ -30,8 +30,6 @@ public class PostFindRespDto {
 
     private Integer favoriteCount;
 
-    private static boolean update = true;
-
     @QueryProjection
     public PostFindRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, int amount, Category category, PostState state) {
         this.postId = postId;
@@ -44,7 +42,7 @@ public class PostFindRespDto {
 
 
     @Builder
-    public PostFindRespDto(Long postId, UserRespDto userRespDto, Write write, int amount, Category category, PostState state, List<String> postDetailImages, Integer favoriteCount, boolean update) {
+    public PostFindRespDto(Long postId, UserRespDto userRespDto, Write write, int amount, Category category, PostState state, List<String> postDetailImages, Integer favoriteCount) {
         this.postId = postId;
         this.userRespDto = userRespDto;
         this.write = write;
@@ -53,10 +51,9 @@ public class PostFindRespDto {
         this.state = state;
         this.postDetailImages = postDetailImages;
         this.favoriteCount = favoriteCount;
-        PostFindRespDto.update = update;
     }
 
-    public static PostFindRespDto toDto(Post post, boolean update){
+    public static PostFindRespDto toDto(Post post){
         return PostFindRespDto.builder()
                 .postId(post.getId())
                 .userRespDto(new UserRespDto(post.getUser()))
@@ -65,7 +62,6 @@ public class PostFindRespDto {
                 .state(post.getState())
                 .postDetailImages(null)
                 .favoriteCount(null)
-                .update(update)
                 .build();
     }
 }

@@ -45,6 +45,7 @@ public class UserController {
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
+
     @GetMapping("/user/{id}")
     public ResponseEntity<?> get(@PathVariable Long id){
         UserRespDto userRespDto = new UserRespDto(userService.get(id));

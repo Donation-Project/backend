@@ -4,7 +4,7 @@ import com.donation.common.CommonResponse;
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.common.response.post.PostFindRespDto;
-import com.donation.common.response.post.PostRespDto;
+import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
@@ -24,33 +24,27 @@ import javax.validation.Valid;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<?> save(
             @RequestBody @Valid PostSaveReqDto postSaveReqDto,
-            @PathVariable("id") Long userid){
+            @RequestParam(name = "id") Long userId){
 
-        PostSaveRespDto post = postService.save(postSaveReqDto, userid);
+        PostSaveRespDto post = postService.save(postSaveReqDto, userId);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOnePost(@PathVariable Long id, @RequestParam(required = false) Long userId){
-        if (userId == null){
-            return new ResponseEntity<>(CommonResponse.success(postService.findById(id)), HttpStatus.OK);
-        }
-
-        log.info("==================");
-
-        PostFindRespDto post = postService.findById(id, userId);
+    public ResponseEntity<?> get(@PathVariable Long id){
+        PostFindRespDto post = postService.findById(id);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> contentUpdate(
+    public ResponseEntity<?> update(
             @RequestBody @Valid PostUpdateReqDto postUpdateReqDto,
             @PathVariable Long id){
 
-        postService.contentUpdate(postUpdateReqDto, id);
+        postService.update(postUpdateReqDto, id);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.OK);
     }
 
@@ -63,7 +57,13 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<?> getPostList(Pageable pageable){
-        Slice<PostRespDto> list = postService.getList(pageable);
+        Slice<PostListRespDto> list = postService.getList(pageable);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
+
+//    @GetMapping("/deleteOption")
+//    public ResponseEntity<?> deleteOption(){
+//        postService.postStateIsDeleteAnd7DaysOver();
+//        return ResponseEntity.ok(CommonResponse.success());
+//    }
 }

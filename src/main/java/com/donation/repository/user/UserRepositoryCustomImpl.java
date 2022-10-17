@@ -11,6 +11,7 @@ import org.springframework.data.domain.SliceImpl;
 import java.util.List;
 
 import static com.donation.domain.entites.QUser.user;
+import static com.donation.repository.utils.PagingUtils.hasNextPage;
 
 @RequiredArgsConstructor
 public class UserRepositoryCustomImpl implements UserRepositoryCustom{
@@ -34,14 +35,4 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
 
         return new SliceImpl<>(userRespDtos, pageable, hasNext);
     }
-
-    static boolean hasNextPage(List<?> content, Pageable pageable){
-        if (content.size() > pageable.getPageSize()){
-            content.remove(pageable.getPageSize());
-            return true;
-        }
-        return false;
-    }
-
-
 }

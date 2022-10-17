@@ -1,6 +1,7 @@
 package com.donation.domain.entites;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = PROTECTED)
 public class PostDetailImage extends BaseEntity{
     @Id @GeneratedValue(strategy = IDENTITY)
