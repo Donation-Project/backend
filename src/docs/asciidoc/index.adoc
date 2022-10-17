@@ -23,4 +23,10 @@ include::{snippets}/post-save/request-parameters.adoc[]
 include::{snippets}/post-save/http-response.adoc[]
 include::{snippets}/post-save/response-fields.adoc[]
 
-
+== 포스트 정보 단건 조회
+=== 요청
+include::{snippets}/post-getOne/http-request.adoc[]
+include::{snippets}/post-getOne/path-parameters.adoc[]
+=== 응답
+include::{snippets}/post-getOne/http-response.adoc[]
+include::{snippets}/post-getOne/response-fields.adoc[]
