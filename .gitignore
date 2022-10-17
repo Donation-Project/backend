@@ -17,6 +17,11 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+## config
+application.yml
+src/main/java/com/donation/init.java
+
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -25,6 +30,9 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+## config
+application.yml
 
 ### NetBeans ###
 /nbproject/private/

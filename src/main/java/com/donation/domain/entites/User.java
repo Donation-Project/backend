@@ -23,20 +23,33 @@ public class User extends BaseEntity {
     private String password;
     private String name;
 
-    private String provider;
-    private String providerId;
+    private String profileImage;
 
+    private String provider;
+
+    private String providerId;
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
     @Builder
-    public User(Long id, String username, String password, String name, String provider, String providerId, Role role) {
+    public User(Long id, String username, String password, String name, String profileImage, String provider, String providerId, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
+        this.profileImage = profileImage;
         this.provider = provider;
         this.providerId = providerId;
         this.role = role;
     }
+
+
+    public void passwordUpdate(String password){
+        this.password = password;
+    }
+    public void editProfile(String imageUrl){
+        this.profileImage = imageUrl;
+    }
+
 }
