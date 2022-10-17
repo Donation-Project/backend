@@ -31,6 +31,13 @@ include::{snippets}/post-getOne/path-parameters.adoc[]
 include::{snippets}/post-getOne/http-response.adoc[]
 include::{snippets}/post-getOne/response-fields.adoc[]
 
+== 포스트 정보 리스트 조회
+=== 요청
+include::{snippets}/post-getList/http-request.adoc[]
+=== 응답
+include::{snippets}/post-getList/http-response.adoc[]
+include::{snippets}/post-getList/response-fields.adoc[]
+
 == 포스트 정보 수정
 === 요청
 include::{snippets}/post-update/http-request.adoc[]
@@ -38,3 +45,11 @@ include::{snippets}/post-update/path-parameters.adoc[]
 === 응답
 include::{snippets}/post-update/http-response.adoc[]
 include::{snippets}/post-update/response-fields.adoc[]
+
+== 포스트 정보 삭제
+=== 요청
+include::{snippets}/post-delete/http-request.adoc[]
+include::{snippets}/post-delete/path-parameters.adoc[]
+=== 응답
+include::{snippets}/post-delete/http-response.adoc[]
+include::{snippets}/post-delete/response-fields.adoc[]

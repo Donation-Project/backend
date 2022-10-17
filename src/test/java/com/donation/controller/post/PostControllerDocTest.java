@@ -22,7 +22,12 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static com.donation.domain.enums.Category.ETC;
+import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -60,6 +65,7 @@ public class PostControllerDocTest {
     @BeforeEach
     void clear() {
         postRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     User getUser() {
@@ -217,4 +223,103 @@ public class PostControllerDocTest {
                 ));
     }
 
+    @Test
+    @DisplayName("포스트(RestDocs) : 삭제")
+    void delete() throws Exception {
+        //given
+        Post post = postRepository.save(getPost());
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/post/{id}", post.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("post-delete",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("데이터"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+
+                ));
+    }
+
+    @Test
+    @DisplayName("포스트(RestDocs) : 리스트 조회")
+    void getList() throws Exception {
+        //given
+        User user = userRepository.save(getUser());
+        List<Post> posts = IntStream.range(1, 31)
+                .mapToObj(i -> Post.builder()
+                        .write(new Write("title" + i, "content" + i))
+                        .amount(i)
+                        .state(APPROVAL)
+                        .user(user)
+                        .category(ETC)
+                        .build()
+                )
+                .collect(Collectors.toList());
+        postRepository.saveAll(posts);
+
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post?page=0&size=10"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.content[0].postId").value(posts.get(0).getId()))
+                .andExpect(jsonPath("$.data.content[0].write.title").value(posts.get(0).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[0].write.content").value(posts.get(0).getWrite().getContent()))
+                .andExpect(jsonPath("$.data.content[9].postId").value(posts.get(9).getId()))
+                .andExpect(jsonPath("$.data.content[9].write.title").value(posts.get(9).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("post-getList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.content[0].postId").description("포스팅 ID"),
+                                fieldWithPath("data.content[0].userRespDto.id").description("유저 아이디"),
+                                fieldWithPath("data.content[0].userRespDto.username").description("이메일"),
+                                fieldWithPath("data.content[0].userRespDto.name").description("이름"),
+                                fieldWithPath("data.content[0].userRespDto.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.content[0].write.title").description("제목"),
+                                fieldWithPath("data.content[0].write.content").description("제목"),
+                                fieldWithPath("data.content[0].amount").description("금액"),
+                                fieldWithPath("data.content[0].category").description("카테로리"),
+                                fieldWithPath("data.content[0].state").description("포스팅 상태"),
+                                fieldWithPath("data.content[0].postMainImage").description("메인 이미지"),
+
+                                fieldWithPath("data.pageable.sort.empty").description("페이징 정보"),
+                                fieldWithPath("data.pageable.sort.unsorted").description("페이징 정보"),
+                                fieldWithPath("data.pageable.sort.sorted").description("페이징 정보"),
+                                fieldWithPath("data.pageable.offset").description("페이징 정보"),
+                                fieldWithPath("data.pageable.pageSize").description("페이징 정보"),
+                                fieldWithPath("data.pageable.pageNumber").description("페이징 정보"),
+                                fieldWithPath("data.pageable.unpaged").description("페이징 정보"),
+                                fieldWithPath("data.pageable.paged").description("페이징 정보"),
+                                fieldWithPath("data.pageable.sort.empty").description("페이징 정보"),
+                                fieldWithPath("data.pageable.sort.unsorted").description("페이징 정보"),
+                                fieldWithPath("data.pageable.sort.sorted").description("페이징 정보"),
+                                fieldWithPath("data.sort.empty").description("정렬 정보"),
+                                fieldWithPath("data.sort.unsorted").description("정렬 정보"),
+                                fieldWithPath("data.sort.sorted").description("정렬 정보"),
+
+
+                                fieldWithPath("data.number").description("페이지 번호"),
+                                fieldWithPath("data.first").description("첫페이지 여부"),
+                                fieldWithPath("data.last").description("마지막페이지 여부"),
+                                fieldWithPath("data.numberOfElements").description("현제 페이지의 포스팅 갯수"),
+                                fieldWithPath("data.size").description("현제 페이지의 크기"),
+                                fieldWithPath("data.empty").description("빈값인지 체크"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+
+                        )
+
+                ));
+    }
 }
