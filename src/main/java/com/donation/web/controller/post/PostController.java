@@ -39,7 +39,7 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Long id){
         PostFindRespDto post = postService.findById(id);
-        return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.OK);
+        return ResponseEntity.ok(CommonResponse.success(post));
     }
 
     @PutMapping("/{id}")
@@ -48,14 +48,14 @@ public class PostController {
             @PathVariable Long id){
 
         postService.update(postUpdateReqDto, id);
-        return new ResponseEntity<>(CommonResponse.success(), HttpStatus.OK);
+        return ResponseEntity.ok(CommonResponse.success());
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         postService.delete(id);
-        return  ResponseEntity.ok(CommonResponse.success());
+        return ResponseEntity.ok(CommonResponse.success());
     }
 
     @GetMapping

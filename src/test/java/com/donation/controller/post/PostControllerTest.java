@@ -1,6 +1,7 @@
 package com.donation.controller.post;
 
 import com.donation.common.request.post.PostSaveReqDto;
+import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
@@ -22,6 +23,7 @@ import static com.donation.domain.enums.Category.ETC;
 import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -115,7 +117,7 @@ class PostControllerTest {
         //given
         Post post = postRepository.save(getPost());
 
-        //expect
+        //expected
         mockMvc.perform(MockMvcRequestBuilders.get("/api/post/{id}",post.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
@@ -123,5 +125,55 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("포스트(컨트롤러) : 단건조회 없는 포스트 예외발생")
+    void get_exception() throws Exception{
+        //given
+        Long postId = 1L;
+
+        //expected
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/post/{id}", postId))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error.errorCode").value("400"))
+                .andDo(print());
+    }
+
+
+    @Test
+    @DisplayName("포스트(컨트롤러) : 업데이트")
+    void update() throws Exception {
+        //given
+        Post post = postRepository.save(getPost());
+        PostUpdateReqDto dto = PostUpdateReqDto.builder()
+                .title("수정제목1")
+                .content("수정내용1")
+                .category(post.getCategory())
+                .amount(post.getAmount())
+                .build();
+        String request = objectMapper.writeValueAsString(dto);
+
+        // expected
+        mockMvc.perform(put("/api/post/{id}",post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(request)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+
+    }
+
+
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> delete(@PathVariable Long id){
+//        postService.delete(id);
+//        return  ResponseEntity.ok(CommonResponse.success());
+//    }
+//
 
 }
