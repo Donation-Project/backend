@@ -1,4 +1,4 @@
-package com.donation.web.controller.Admin;
+package com.donation.web.controller.admin;
 
 import com.donation.common.CommonResponse;
 import com.donation.common.response.post.PostListRespDto;
@@ -21,8 +21,8 @@ public class AdminController {
     private final PostService postService;
 
     @GetMapping("/{state}")
-    public ResponseEntity<?> getAdminPostList(@PathVariable PostState[] state,Pageable pageable) {
-        Slice<PostListRespDto> list = postService.getAdminPostList(pageable,state);
+    public ResponseEntity<?> getPostList(@PathVariable PostState[] state,Pageable pageable) {
+        Slice<PostListRespDto> list = postService.getList(pageable,state);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
