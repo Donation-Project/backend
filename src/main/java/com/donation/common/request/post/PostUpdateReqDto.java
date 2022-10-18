@@ -1,6 +1,7 @@
 package com.donation.common.request.post;
 
 import com.donation.domain.enums.Category;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -20,4 +21,11 @@ public class PostUpdateReqDto {
     @NotNull(message = "카테고리를 선택해주세요.")
     private Category category;
 
+    @Builder
+    public PostUpdateReqDto(String title, String content, Integer amount, Category category) {
+        this.title = title;
+        this.content = content;
+        this.amount = amount;
+        this.category = category;
+    }
 }

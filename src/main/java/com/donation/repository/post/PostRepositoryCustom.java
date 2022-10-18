@@ -17,7 +17,6 @@ public interface PostRepositoryCustom {
 
     public Slice<PostListRespDto> findDetailPostAll(Pageable pageable,PostState... postState);
 
-
     /**
      * 회원 아이디로 리스트 조회
      */

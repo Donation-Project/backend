@@ -2,7 +2,6 @@ package com.donation.web.handler;
 
 import com.donation.common.CommonResponse;
 import com.donation.common.ErrorResponse;
-import com.donation.exception.HighestLevelException;
 import com.donation.web.controller.post.PostController;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -18,13 +17,6 @@ import java.util.stream.Collectors;
 @RestControllerAdvice(basePackageClasses = PostController.class)
 public class PostControllerExceptionHandler {
 
-    @ExceptionHandler(HighestLevelException.class)
-    public ResponseEntity<?> bookSaveException(HighestLevelException e){
-        return new ResponseEntity<>(CommonResponse.fail(ErrorResponse.builder().errorCode(e.statusCode())
-                .errorMessage(e.getMessage()).build()), HttpStatus.BAD_REQUEST);
-    }
-
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
         Map<String, String> validation = e.getFieldErrors().stream()
@@ -35,7 +27,7 @@ public class PostControllerExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> IllegalArgumentExceptionHandler(IllegalArgumentException e){
-        return new ResponseEntity<>(CommonResponse.fail(ErrorResponse.builder().errorCode("404")
-                .errorMessage(e.getMessage()).build()),HttpStatus.OK);
+        return new ResponseEntity<>(CommonResponse.fail(ErrorResponse.builder().errorCode("400")
+                .errorMessage(e.getMessage()).build()),HttpStatus.BAD_REQUEST);
     }
 }

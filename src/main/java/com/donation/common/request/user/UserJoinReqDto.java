@@ -40,4 +40,6 @@ public class UserJoinReqDto {
         this.name = name;
         this.password = password;
     }
+
+
 }

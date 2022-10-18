@@ -1,8 +1,10 @@
 package com.donation.repository.post;
 
-import com.donation.common.response.post.*;
+import com.donation.common.response.post.PostFindRespDto;
+import com.donation.common.response.post.PostListRespDto;
+import com.donation.common.response.post.QPostFindRespDto;
+import com.donation.common.response.post.QPostListRespDto;
 import com.donation.domain.enums.PostState;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +17,6 @@ import java.util.Optional;
 import static com.donation.domain.entites.QPost.post;
 import static com.donation.domain.entites.QPostDetailImage.postDetailImage;
 import static com.donation.domain.entites.QUser.user;
-import static com.donation.domain.enums.PostState.DELETE;
-import static com.donation.domain.enums.PostState.WAITING;
 import static com.donation.repository.utils.PagingUtils.hasNextPage;
 
 @RequiredArgsConstructor
@@ -46,9 +46,9 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
 
-
     @Override
-    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable,PostState... postStates) {
+
+    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable, PostState... postStates) {
         List<PostListRespDto> content = queryFactory
                 .select(new QPostListRespDto(
                         post.id.as("postId"),
@@ -67,6 +67,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .leftJoin(post.postDetailImages, postDetailImage)
                 .where(
                        post.state.in(postStates)
+
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -105,5 +106,4 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
         return new SliceImpl<>(content, pageable, hasNext);
     }
-
 }
