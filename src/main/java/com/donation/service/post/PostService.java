@@ -43,10 +43,10 @@ public class PostService {
         post.update(updateReqDto);
     }
 
-    public void checkingPost(PostState postState, Long id){
+    public void confirm(PostState postState, Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
-        post.checkPost(postState);
+        post.confirm(postState);
     }
 
     public void delete(Long postId) {

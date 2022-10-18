@@ -66,7 +66,7 @@ public class Post extends BaseEntity {
         return this;
     }
 
-    public Post checkPost(PostState state) {
+    public Post confirm(PostState state) {
         this.state=state;
         return this;
     }
