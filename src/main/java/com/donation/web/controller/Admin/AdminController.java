@@ -21,17 +21,16 @@ public class AdminController {
     private final PostService postService;
 
     @GetMapping("/{state}")
-    public ResponseEntity<?> getAdminPostList(Pageable pageable, @PathVariable PostState... state) {
-        log.info(state[0].toString()+state[1].toString());
+    public ResponseEntity<?> getAdminPostList(@PathVariable PostState[] state,Pageable pageable) {
         Slice<PostListRespDto> list = postService.getAdminPostList(pageable,state);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<?> confirm(
             @RequestParam PostState postState,
             @PathVariable Long id){
-        postService.checkingPost(postState, id);
+        postService.confirm(postState, id);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.OK);
     }
 
