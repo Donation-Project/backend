@@ -21,7 +21,7 @@ public class AdminController {
     private final PostService postService;
 
     @GetMapping("/{state}")
-    public ResponseEntity<?> getPostList(Pageable pageable, @PathVariable PostState... state) {
+    public ResponseEntity<?> getAdminPostList(Pageable pageable, @PathVariable PostState... state) {
         log.info(state[0].toString()+state[1].toString());
         Slice<PostListRespDto> list = postService.getAdminPostList(pageable,state);
         return ResponseEntity.ok(CommonResponse.success(list));

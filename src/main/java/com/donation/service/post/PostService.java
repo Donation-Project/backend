@@ -65,8 +65,8 @@ public class PostService {
         return postRepository.findDetailPostAll(pageable, APPROVAL,COMPLETION);
     }
 
-    public Slice<PostListRespDto> getAdminPostList(Pageable pageable) {
-        return postRepository.findDetailPostAll(pageable, WAITING);
+    public Slice<PostListRespDto> getAdminPostList(Pageable pageable,PostState... state) {
+        return postRepository.findDetailPostAll(pageable, state);
     }
 
 
