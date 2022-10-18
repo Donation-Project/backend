@@ -7,6 +7,7 @@ import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.domain.enums.PostState;
 import com.donation.repository.post.PostRepository;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import static com.donation.domain.enums.PostState.DELETE;
+import static com.donation.domain.enums.PostState.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,12 @@ public class PostService {
         post.update(updateReqDto);
     }
 
+    public void checkingPost(PostState postState, Long id){
+        Post post = postRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+        post.checkPost(postState);
+    }
+
     public void delete(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(IllegalArgumentException::new);
@@ -55,8 +62,13 @@ public class PostService {
 
 
     public Slice<PostListRespDto> getList(Pageable pageable) {
-        return postRepository.findDetailPostAll(pageable);
+        return postRepository.findDetailPostAll(pageable, APPROVAL,COMPLETION);
     }
+
+    public Slice<PostListRespDto> getAdminPostList(Pageable pageable) {
+        return postRepository.findDetailPostAll(pageable, WAITING);
+    }
+
 
     public Slice<PostListRespDto> findAllUserId(Long userId, Pageable pageable){
         return postRepository.findAllUserId(userId, pageable);

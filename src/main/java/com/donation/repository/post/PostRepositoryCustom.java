@@ -2,6 +2,7 @@ package com.donation.repository.post;
 
 import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
+import com.donation.domain.enums.PostState;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -14,7 +15,7 @@ public interface PostRepositoryCustom {
      */
     Optional<PostFindRespDto> findDetailPostById(Long postId);
 
-    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable);
+    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable,PostState... postState);
 
 
     /**
