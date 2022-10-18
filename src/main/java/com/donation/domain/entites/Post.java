@@ -65,4 +65,9 @@ public class Post extends BaseEntity {
         this.amount = dto.getAmount();
         return this;
     }
+
+    public Post confirm(PostState state) {
+        this.state=state;
+        return this;
+    }
 }

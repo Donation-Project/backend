@@ -48,7 +48,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
 
     @Override
-    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable) {
+    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable,PostState... postStates) {
         List<PostListRespDto> content = queryFactory
                 .select(new QPostListRespDto(
                         post.id.as("postId"),
@@ -66,8 +66,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .leftJoin(post.user, user)
                 .leftJoin(post.postDetailImages, postDetailImage)
                 .where(
-                        postStateNe(WAITING),
-                        postStateNe(DELETE)
+                       post.state.in(postStates)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -107,7 +106,4 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
-    private BooleanExpression postStateNe(PostState state){
-        return state != null ? post.state.ne(state) : null;
-    }
 }
