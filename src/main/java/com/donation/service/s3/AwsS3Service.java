@@ -50,6 +50,7 @@ public class AwsS3Service {
     public void delete(String imageUrl) {
         if (config.getBasicImageProfile().equals(imageUrl) || imageUrl.isEmpty())
             return;
-        amazonS3.deleteObject(bucket, imageUrl);
+        String[] image = imageUrl.split("/");
+        amazonS3.deleteObject(bucket, image[3]);
     }
 }
