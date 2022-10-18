@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import static com.donation.domain.enums.PostState.DELETE;
+import static com.donation.domain.enums.PostState.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +41,12 @@ public class PostService {
         post.update(updateReqDto);
     }
 
+    public void confirm(PostState postState, Long id){
+        Post post = postRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+        post.confirm(postState);
+    }
+
     public void delete(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(IllegalArgumentException::new);
@@ -54,6 +60,7 @@ public class PostService {
 
     public Slice<PostListRespDto> getList(Pageable pageable, PostState... states) {
         return postRepository.findDetailPostAll(pageable, states);
+
     }
 
     public void postStateIsDeleteAnd7DaysOver(){

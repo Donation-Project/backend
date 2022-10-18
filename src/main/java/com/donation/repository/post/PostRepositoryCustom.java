@@ -15,7 +15,7 @@ public interface PostRepositoryCustom {
      */
     Optional<PostFindRespDto> findDetailPostById(Long postId);
 
-    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable, PostState... postStates);
+    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable,PostState... postState);
 
     /**
      * 회원 아이디로 리스트 조회
