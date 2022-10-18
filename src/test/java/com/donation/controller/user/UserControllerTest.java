@@ -5,6 +5,7 @@ import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
 import com.donation.repository.user.UserRepository;
+import com.donation.service.s3.AwsS3Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -45,6 +48,11 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private EntityManager em;
+    @Autowired
+    private AwsS3Service awsS3Service;
 
     @BeforeEach
     void clear() {
@@ -183,7 +191,7 @@ class UserControllerTest {
         userRepository.save(user);
 
         // expected
-        mockMvc.perform(delete("/api/user/{postId}", user.getId() + 1L))
+        mockMvc.perform(delete("/api/user/{userId}", user.getId() + 1L))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))
                 .andExpect(jsonPath("$.data").isEmpty())
@@ -193,6 +201,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("회원(정보수정) : 프로필 변경")
     void update_profile() throws Exception {
         //given
@@ -215,5 +224,12 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
+
+        em.flush();
+        em.clear();
+
+        //S3 파일 삭제
+        User find = userRepository.findById(user.getId()).get();
+        awsS3Service.delete(find.getProfileImage());
     }
 }
