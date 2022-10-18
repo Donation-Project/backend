@@ -7,10 +7,10 @@ import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.domain.enums.PostState;
 import com.donation.repository.post.PostRepository;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ import static com.donation.domain.enums.PostState.DELETE;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
@@ -53,13 +52,8 @@ public class PostService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-
-    public Slice<PostListRespDto> getList(Pageable pageable) {
-        return postRepository.findDetailPostAll(pageable);
-    }
-
-    public Slice<PostListRespDto> findAllUserId(Long userId, Pageable pageable){
-        return postRepository.findAllUserId(userId, pageable);
+    public Slice<PostListRespDto> getList(Pageable pageable, PostState... states) {
+        return postRepository.findDetailPostAll(pageable, states);
     }
 
     public void postStateIsDeleteAnd7DaysOver(){

@@ -5,6 +5,7 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -24,20 +25,21 @@ public class PostSaveReqDto {
     @NotNull(message = "카테고리를 선택해주세요.")
     private Category category;
 
+    @Builder
+    public PostSaveReqDto(String title, String content, Integer amount, Category category) {
+        this.title = title;
+        this.content = content;
+        this.amount = amount;
+        this.category = category;
+    }
+
     public Post toPost(User user) {
         return Post.builder()
                 .user(user)
-                .write(toWrite())
+                .write(new Write(title, content))
                 .amount(amount)
                 .category(category)
                 .state(PostState.WAITING)
-                .build();
-    }
-
-    public Write toWrite(){
-        return Write.builder()
-                .title(title)
-                .content(content)
                 .build();
     }
 }

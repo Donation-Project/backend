@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.donation.domain.enums.PostState.APPROVAL;
+import static com.donation.domain.enums.PostState.COMPLETION;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -36,7 +39,7 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Long id){
         PostFindRespDto post = postService.findById(id);
-        return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.OK);
+        return ResponseEntity.ok(CommonResponse.success(post));
     }
 
     @PutMapping("/{id}")
@@ -45,25 +48,19 @@ public class PostController {
             @PathVariable Long id){
 
         postService.update(postUpdateReqDto, id);
-        return new ResponseEntity<>(CommonResponse.success(), HttpStatus.OK);
+        return ResponseEntity.ok(CommonResponse.success());
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         postService.delete(id);
-        return  ResponseEntity.ok(CommonResponse.success());
+        return ResponseEntity.ok(CommonResponse.success());
     }
 
     @GetMapping
     public ResponseEntity<?> getPostList(Pageable pageable){
-        Slice<PostListRespDto> list = postService.getList(pageable);
+        Slice<PostListRespDto> list = postService.getList(pageable, APPROVAL, COMPLETION);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
-
-//    @GetMapping("/deleteOption")
-//    public ResponseEntity<?> deleteOption(){
-//        postService.postStateIsDeleteAnd7DaysOver();
-//        return ResponseEntity.ok(CommonResponse.success());
-//    }
 }
