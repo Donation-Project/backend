@@ -6,6 +6,12 @@
 :toclevels: 2
 :sectlinks:
 
+= User API
+== 유저 생성
+include::{snippets}/user-join/http-request.adoc[]
+=== 응답
+include::{snippets}/user-join/http-response.adoc[]
+include::{snippets}/user-join/response-fields.adoc[]
 
 == 유저 정보 단건 조회
 === 요청
@@ -15,6 +21,26 @@ include::{snippets}/user-inquiry/path-parameters.adoc[]
 include::{snippets}/user-inquiry/http-response.adoc[]
 include::{snippets}/user-inquiry/response-fields.adoc[]
 
+== 유저 정보 리스트 조회
+=== 요청
+include::{snippets}/user-getList/http-request.adoc[]
+=== 응답
+include::{snippets}/user-getList/http-response.adoc[]
+
+== 유저 프로필 사진 업데이트
+include::{snippets}/user-profileImage/http-request.adoc[]
+=== 응답
+include::{snippets}/user-profileImage/http-response.adoc[]
+
+== 유저 정보 삭제
+=== 요청
+include::{snippets}/user-delete/http-request.adoc[]
+=== 응답
+include::{snippets}/user-delete/http-response.adoc[]
+
+
+
+= POST API
 == 포스팅 생성
 === 요청
 include::{snippets}/post-save/http-request.adoc[]
@@ -36,7 +62,6 @@ include::{snippets}/post-getOne/response-fields.adoc[]
 include::{snippets}/post-getList/http-request.adoc[]
 === 응답
 include::{snippets}/post-getList/http-response.adoc[]
-include::{snippets}/post-getList/response-fields.adoc[]
 
 == 포스트 정보 수정
 === 요청
