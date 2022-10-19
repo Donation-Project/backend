@@ -2,11 +2,9 @@ package com.donation.common.response.post;
 
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.embed.Write;
-import com.donation.domain.entites.Post;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
@@ -40,28 +38,8 @@ public class PostFindRespDto {
         this.state = state;
     }
 
-
-    @Builder
-    public PostFindRespDto(Long postId, UserRespDto userRespDto, Write write, int amount, Category category, PostState state, List<String> postDetailImages, Integer favoriteCount) {
-        this.postId = postId;
-        this.userRespDto = userRespDto;
-        this.write = write;
-        this.amount = amount;
-        this.category = category;
-        this.state = state;
+    public PostFindRespDto addPostDetailImages(List<String> postDetailImages){
         this.postDetailImages = postDetailImages;
-        this.favoriteCount = favoriteCount;
-    }
-
-    public static PostFindRespDto toDto(Post post){
-        return PostFindRespDto.builder()
-                .postId(post.getId())
-                .userRespDto(new UserRespDto(post.getUser()))
-                .write(new Write(post))
-                .amount(post.getAmount())
-                .state(post.getState())
-                .postDetailImages(null)
-                .favoriteCount(null)
-                .build();
+        return this;
     }
 }
