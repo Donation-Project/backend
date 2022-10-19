@@ -29,12 +29,12 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .select(new QPostFindRespDto(
                         post.id.as("postId"),
                         user.id.as("userId"),
-                        user.username.as("username"),
-                        user.name.as("name"),
-                        user.profileImage.as("profileImage"),
-                        post.write.as("write"),
+                        user.username,
+                        user.name,
+                        user.profileImage,
+                        post.write,
                         post.amount,
-                        post.category.as("category"),
+                        post.category,
                         post.state.as("postState")
                 ))
                 .from(post)
@@ -45,9 +45,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .stream().findAny();
     }
 
-
     @Override
-
     public Slice<PostListRespDto> findDetailPostAll(Pageable pageable, PostState... postStates) {
         List<PostListRespDto> content = queryFactory
                 .select(new QPostListRespDto(
