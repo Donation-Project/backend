@@ -1,6 +1,7 @@
 package com.donation.domain.entites;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
+@Getter
 public class Donation extends BaseEntity{
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "donationId")
