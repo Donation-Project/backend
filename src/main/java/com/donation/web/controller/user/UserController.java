@@ -4,6 +4,7 @@ import com.donation.common.CommonResponse;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
+import com.donation.domain.entites.User;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserLoginReqDto userLoginReqDto){
-        userService.login(userLoginReqDto);
-        return ResponseEntity.ok(CommonResponse.success());
+        User user = userService.login(userLoginReqDto);
+        return ResponseEntity.ok(CommonResponse.success(user.getId()));
     }
 
     @GetMapping("/user")
