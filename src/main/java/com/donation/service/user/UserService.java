@@ -48,12 +48,10 @@ public class UserService {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-
     @Transactional(readOnly = true)
     public Slice<UserRespDto> getList(Pageable pageable){
         return userRepository.findPageableAll(pageable);
     }
-
 
     public void delete(Long id){
         User user = userRepository.findById(id)
