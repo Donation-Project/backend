@@ -17,9 +17,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -28,8 +30,7 @@ import static com.donation.domain.enums.Category.ETC;
 import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,28 +91,27 @@ class PostControllerTest {
     @DisplayName("포스트(컨트롤러) : 포스트 작성")
     void save() throws Exception {
         //given
-        PostSaveReqDto data = PostSaveReqDto.builder()
+        PostSaveReqDto dto = PostSaveReqDto.builder()
                 .title("title")
                 .content("content")
                 .amount(1)
                 .category(ETC)
                 .build();
-
-        String request = objectMapper.writeValueAsString(data);
         User user = userRepository.save(getUser());
+        String dtoJson = objectMapper.writeValueAsString(dto);
+        MockMultipartFile request = new MockMultipartFile("data", "data", "application/json", dtoJson.getBytes(StandardCharsets.UTF_8));
 
         // expected
-        mockMvc.perform(post("/api/post?id="+user.getId())
-                        .contentType(APPLICATION_JSON)
-                        .content(request)
+        mockMvc.perform(multipart("/api/post?id="+user.getId())
+                        .file(request)
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.userRespDto.username").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.userRespDto.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.userRespDto.profileImage").value(user.getProfileImage()))
-                .andExpect(jsonPath("$.data.write.title").value(data.getTitle()))
-                .andExpect(jsonPath("$.data.write.content").value(data.getContent()))
+                .andExpect(jsonPath("$.data.write.title").value(dto.getTitle()))
+                .andExpect(jsonPath("$.data.write.content").value(dto.getContent()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
     }

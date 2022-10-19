@@ -3,6 +3,7 @@ package com.donation.common.response.post;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
+import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
@@ -10,23 +11,16 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class PostSaveRespDto {
-
     private Long postId;
-
     private UserRespDto userRespDto;
-
     private Write write;
-
     private int amount;
-
     private Category category;
-
     private PostState state;
-
-    //이미지 정보 추가 기입
     private List<String> postDetailImages;
 
     @Builder
@@ -47,6 +41,11 @@ public class PostSaveRespDto {
                 .write(new Write(post))
                 .amount(post.getAmount())
                 .state(post.getState())
+                .postDetailImages(
+                        post.getPostDetailImages().stream()
+                        .map(PostDetailImage::getImagePath)
+                        .collect(Collectors.toList())
+                )
                 .build();
     }
 }

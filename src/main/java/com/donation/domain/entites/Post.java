@@ -41,20 +41,23 @@ public class Post extends BaseEntity {
     @Enumerated(STRING)
     private PostState state;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<PostDetailImage> postDetailImages = new ArrayList<>();
 
     @Builder
-    public Post(Long id, User user, Write write, int amount, Category category, PostState state, List<PostDetailImage> postDetailImages) {
+    public Post(Long id, User user, Write write, int amount, Category category, PostState state) {
         this.id = id;
         this.user = user;
         this.write = write;
         this.amount = amount;
         this.category = category;
         this.state = state;
-        this.postDetailImages = postDetailImages;
     }
 
+    public void addPostImage(PostDetailImage postDetailImage){
+        postDetailImage.setPost(this);
+        this.getPostDetailImages().add(postDetailImage);
+    }
 
     public Post update(PostUpdateReqDto dto) {
         this.write = Write.builder()

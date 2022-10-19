@@ -37,8 +37,8 @@ public class UserService {
         return user.getId();
     }
 
-    public void login(UserLoginReqDto userLoginReqDto){
-        userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
+    public User login(UserLoginReqDto userLoginReqDto){
+        return userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
                 .orElseThrow(NoSuchElementException::new);
     }
 
@@ -48,12 +48,10 @@ public class UserService {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-
     @Transactional(readOnly = true)
     public Slice<UserRespDto> getList(Pageable pageable){
         return userRepository.findPageableAll(pageable);
     }
-
 
     public void delete(Long id){
         User user = userRepository.findById(id)
