@@ -14,8 +14,10 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.COMPLETION;
@@ -29,10 +31,12 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<?> save(
-            @RequestBody @Valid PostSaveReqDto postSaveReqDto,
-            @RequestParam(name = "id") Long userId){
+            @RequestParam(name = "id") Long userId,
+            @RequestPart(value = "data") @Valid PostSaveReqDto postSaveReqDto,
+            @RequestPart(value = "images",required = false)List<MultipartFile> image
+            ){
 
-        PostSaveRespDto post = postService.save(postSaveReqDto, userId);
+        PostSaveRespDto post = postService.save(postSaveReqDto,image, userId);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.CREATED);
     }
 
@@ -46,7 +50,6 @@ public class PostController {
     public ResponseEntity<?> update(
             @RequestBody @Valid PostUpdateReqDto postUpdateReqDto,
             @PathVariable Long id){
-
         postService.update(postUpdateReqDto, id);
         return ResponseEntity.ok(CommonResponse.success());
     }

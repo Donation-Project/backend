@@ -33,6 +33,7 @@ public class AwsS3Service {
         ObjectMetadata objMeta = new ObjectMetadata();
         try {
             objMeta.setContentLength(multipartFile.getInputStream().available());
+            objMeta.setContentType(multipartFile.getContentType());
             amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
         } catch (IOException e) {
             throw new FileUploadFailedException();
