@@ -37,8 +37,8 @@ public class UserService {
         return user.getId();
     }
 
-    public void login(UserLoginReqDto userLoginReqDto){
-        userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
+    public User login(UserLoginReqDto userLoginReqDto){
+        return userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
                 .orElseThrow(NoSuchElementException::new);
     }
 
