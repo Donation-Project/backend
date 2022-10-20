@@ -13,6 +13,13 @@ include::{snippets}/user-join/http-request.adoc[]
 include::{snippets}/user-join/http-response.adoc[]
 include::{snippets}/user-join/response-fields.adoc[]
 
+== 유저 로그인
+include::{snippets}/user-login/http-request.adoc[]
+=== 응답
+include::{snippets}/user-login/http-response.adoc[]
+include::{snippets}/user-login/response-fields.adoc[]
+
+
 == 유저 정보 단건 조회
 === 요청
 include::{snippets}/user-inquiry/http-request.adoc[]
