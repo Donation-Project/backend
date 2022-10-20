@@ -26,7 +26,7 @@ public class PostFindRespDto {
     //이미지 정보 추가 기입
     private List<String> postDetailImages;
 
-    private Integer favoriteCount;
+    private Long favoriteCount;
 
     @QueryProjection
     public PostFindRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, int amount, Category category, PostState state) {
@@ -38,8 +38,11 @@ public class PostFindRespDto {
         this.state = state;
     }
 
-    public PostFindRespDto addPostDetailImages(List<String> postDetailImages){
+    public void setPostDetailImages(List<String> postDetailImages){
         this.postDetailImages = postDetailImages;
-        return this;
+    }
+
+    public void setFavoriteCount(Long favoriteCount){
+        this.favoriteCount = favoriteCount;
     }
 }

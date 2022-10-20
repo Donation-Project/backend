@@ -1,6 +1,7 @@
 package com.donation.controller.user;
 
 import com.donation.common.request.user.UserJoinReqDto;
+import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
@@ -93,6 +94,28 @@ class UserControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원(RestDocs) : 로그인")
+    void login() throws Exception {
+        //given
+        User user = userRepository.save(getUser());
+        UserLoginReqDto request = UserLoginReqDto.builder()
+                .email(user.getUsername())
+                .password(user.getPassword())
+                .build();
+
+        // expected
+        mockMvc.perform(post("/api/login")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").value(user.getId()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
     }

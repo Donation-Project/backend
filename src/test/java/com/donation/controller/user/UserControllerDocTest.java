@@ -2,6 +2,7 @@ package com.donation.controller.user;
 
 
 import com.donation.common.request.user.UserJoinReqDto;
+import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
@@ -115,6 +116,36 @@ public class UserControllerDocTest {
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data").description("데이터"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("회원(RestDocs) : 로그인")
+    void login() throws Exception {
+        //given
+        User user = userRepository.save(getUser());
+        UserLoginReqDto request = UserLoginReqDto.builder()
+                .email(user.getUsername())
+                .password(user.getPassword())
+                .build();
+
+        // expected
+        mockMvc.perform(post("/api/login")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").value(user.getId()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("user-login",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("유저 ID"),
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
                 ));
