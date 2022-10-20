@@ -3,6 +3,7 @@ package com.donation.controller.donation;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.embed.Write;
+import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
@@ -12,6 +13,7 @@ import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.donation.DonationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +22,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import static com.donation.domain.enums.Category.ETC;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,7 +116,7 @@ class DonationControllerTest {
     void saveError() throws Exception {
         //given
         User sponsor = getSponsor();
-        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(),null,10.1f);
+        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), null, 10.1f);
         String request = objectMapper.writeValueAsString(data);
 
         //expected
@@ -123,6 +130,37 @@ class DonationControllerTest {
                 .andExpect(jsonPath("$.error.errorCode").value("400"))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("후원(컨트롤러) : 내후원 조회")
+    void findByUserId() throws Exception {
+        //given
+        Post post = getPost();
+        User sponsor = getSponsor();
+        List<Donation> donations = IntStream.range(1, 31)
+                .mapToObj(i -> Donation.builder()
+                        .user(sponsor)
+                        .post(post)
+                        .amount(10.1f + i)
+                        .build()
+                ).collect(Collectors.toList());
+        donationRepository.saveAll(donations);
+
+
+        //expected
+        mockMvc.perform(get("/api/donation/"+sponsor.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data[0].title").value(post.getWrite().getTitle()))
+                .andExpect(jsonPath("$.data[0].amount").value(11.1f))
+                .andExpect(jsonPath("$.data[9].title").value(post.getWrite().getTitle()))
+                .andExpect(jsonPath("$.data[9].amount").value(20.1f))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+
+    }
+
+
 
 
 }
