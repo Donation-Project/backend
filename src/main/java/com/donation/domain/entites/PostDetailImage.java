@@ -31,6 +31,12 @@ public class PostDetailImage extends BaseEntity{
         this.imagePath = imagePath;
     }
 
+    public static PostDetailImage of(String imagePath){
+        return PostDetailImage.builder()
+                .imagePath(imagePath)
+                .build();
+    }
+
     public void setPost(Post post) {
         this.post = post;
     }
