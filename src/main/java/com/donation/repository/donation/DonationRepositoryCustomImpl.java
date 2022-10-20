@@ -1,18 +1,24 @@
 package com.donation.repository.donation;
 
+import com.donation.common.request.donation.DonationFilterDto;
+import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
+import com.donation.common.response.donation.QDonationFindByFilterRespDto;
 import com.donation.common.response.donation.QDonationFindRespDto;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 
 import java.util.List;
 
 import static com.donation.domain.entites.QDonation.donation;
 import static com.donation.domain.entites.QPost.post;
-import static com.donation.domain.entites.QPostDetailImage.postDetailImage;
+import static com.donation.repository.utils.PagingUtils.hasNextPage;
 
 @RequiredArgsConstructor
 public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
@@ -41,5 +47,55 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                         donation.user.id.eq(id)
                 )
                 .fetch();
+    }
+
+
+
+    @Override
+    public Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterDto donationFilterDto) {
+        List<DonationFindByFilterRespDto> content = queryFactory
+                .select(new QDonationFindByFilterRespDto(
+                                donation.id,
+                                post.write.title,
+                                donation.amount,
+                                donation.user.name,
+                                donation.post.user.name,
+                                donation.createAt,
+                                ExpressionUtils.as(
+                                        JPAExpressions
+                                                .select(donation.amount.sum())
+                                                .from(donation)
+                                                .groupBy(donation.post.id),
+                                        "total"),
+                                post.category
+                        )
+                )
+                .from(donation)
+                .leftJoin(donation.post, post)
+                .where(
+                        categoryEq(donationFilterDto),
+                        usernameEq(donationFilterDto)
+                ).offset(pageable.getOffset())
+
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
+
+        boolean hasNext =hasNextPage(content, pageable);
+
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+    private static BooleanExpression usernameEq(DonationFilterDto donationFilterDto) {
+        if(donationFilterDto.getUsername()==null){
+            return null;
+        }
+        return donation.user.name.eq(donationFilterDto.getUsername());
+    }
+
+    private static BooleanExpression categoryEq(DonationFilterDto donationFilterDto) {
+        if(donationFilterDto.getCategory()==null){
+            return null;
+        }
+        return post.category.eq(donationFilterDto.getCategory());
     }
 }
