@@ -104,5 +104,25 @@ class DonationControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("후원(컨트롤러) : 후원 하기_예외발생")
+    void saveError() throws Exception {
+        //given
+        User sponsor = getSponsor();
+        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(),null,10.1f);
+        String request = objectMapper.writeValueAsString(data);
+
+        //expected
+        mockMvc.perform(post("/api/donation")
+                        .contentType(APPLICATION_JSON)
+                        .content(request)
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error.errorCode").value("400"))
+                .andDo(print());
+    }
+
 
 }

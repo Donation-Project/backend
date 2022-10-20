@@ -18,9 +18,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import static com.donation.domain.enums.Category.ETC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class DonationServiceTest {
@@ -70,25 +72,22 @@ class DonationServiceTest {
         return userRepository.save(sponsor);
     }
 
-
     @Test
-    @DisplayName("후원(서비스) : 생성")
+    @DisplayName("후원(서비스) :  후원하기_예외발생")
     void save(){
         //given
         Post post = getPost();
         User sponsor = getSponsor();
-
-        DonationSaveReqDto request = new DonationSaveReqDto(sponsor.getId(),post.getId(),10.1f);
-
+        DonationSaveReqDto donationWithoutPost = new DonationSaveReqDto(sponsor.getId(),null,10.1f);
+        DonationSaveReqDto donationWithoutUser = new DonationSaveReqDto(null,post.getId(),10.1f);
+        DonationSaveReqDto donation = new DonationSaveReqDto(sponsor.getId(),post.getId(),10.1f);
+        donationService.save(donation);
         //when
-        Long donationId = donationService.save(request);
+        assertThatThrownBy(() ->  donationService.save(donationWithoutPost))
+                .isInstanceOf(InvalidDataAccessApiUsageException.class);
 
-        //then
-        Donation donation = donationRepository.findById(donationId)
-                .orElseThrow(IllegalArgumentException::new);
-
-        assertThat(donation.getPost().getId()).isEqualTo(post.getId());
-        assertThat(donation.getUser().getId()).isEqualTo(sponsor.getId());
+        assertThatThrownBy(() ->  donationService.save(donationWithoutUser))
+                .isInstanceOf(InvalidDataAccessApiUsageException.class);
     }
 
 
