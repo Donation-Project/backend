@@ -1,15 +1,8 @@
 package com.donation.repository.donation;
 
-import com.donation.common.response.post.PostFindRespDto;
-import com.donation.common.response.post.PostListRespDto;
-import com.donation.domain.enums.PostState;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-
-import java.util.Optional;
-
+import com.donation.common.response.donation.DonationFindRespDto;
+import java.util.List;
 public interface DonationRepositoryCustom {
 
-
-
+    List<DonationFindRespDto> findAllByUserId(Long id);
 }
