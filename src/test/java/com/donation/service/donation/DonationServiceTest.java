@@ -1,7 +1,9 @@
 package com.donation.service.donation;
 
+import com.donation.common.request.donation.DonationFilterDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 
+import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Donation;
@@ -21,6 +23,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -113,6 +118,30 @@ class DonationServiceTest {
         assertThat(donations.get(0).getPost().getWrite().getTitle()).isEqualTo(donationFindRespDtos.get(0).getTitle());
         assertThat(donations.get(0).getAmount()).isEqualTo(donationFindRespDtos.get(0).getAmount());
 
+    }
+
+    @Test
+    @DisplayName("후원(서비스) :  아이디, 카테고리로 모든후원조회")
+    void getList(){
+        //given
+        Post post = getPost();
+        User sponsor = getSponsor();
+        List<Donation> donations = IntStream.range(1, 31)
+                .mapToObj(i ->  Donation.builder()
+                        .user(sponsor)
+                        .post(post)
+                        .amount(10.1f+i)
+                        .build()
+                ).collect(Collectors.toList());
+        donationRepository.saveAll(donations);
+        DonationFilterDto donationFilterDto = DonationFilterDto.builder().build();
+        Pageable pageable = PageRequest.of(0, 10);
+        Slice<DonationFindByFilterRespDto> donationList = donationService.getList(pageable, donationFilterDto);
+        assertThat(donationList.getSize()).isEqualTo(10);
+        assertThat(donationList.getNumberOfElements()).isEqualTo(10);
+        assertThat(donationList.getContent().get(0).getTitle()).isEqualTo(donations.get(0).getPost().getWrite().getTitle());
+        assertThat(donationList.getContent().get(0).getAmount()).isEqualTo(donations.get(0).getAmount());
+        
     }
 
 
