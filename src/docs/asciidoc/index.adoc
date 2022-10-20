@@ -93,3 +93,27 @@ include::{snippets}/admin-confirm/response-fields.adoc[]
 include::{snippets}/admin-getList/http-request.adoc[]
 === 응답
 include::{snippets}/admin-getList/http-response.adoc[]
+
+= Favorite API
+== 좋아요 요청 및 취소
+=== 요청
+include::{snippets}/favorite-save/http-request.adoc[]
+include::{snippets}/favorite-save/request-parameters.adoc[]
+=== 응답
+include::{snippets}/favorite-save/http-response.adoc[]
+include::{snippets}/favorite-save/response-fields.adoc[]
+
+== 좋아요를 한 유저 정보 List
+=== 요청
+include::{snippets}/favorite-list/http-request.adoc[]
+include::{snippets}/favorite-list/request-parameters.adoc[]
+=== 응답
+include::{snippets}/favorite-list/http-response.adoc[]
+
+== 좋아요 포스트 아이디로 삭제
+=== 요청
+include::{snippets}/favorite-delete/http-request.adoc[]
+include::{snippets}/favorite-delete/request-parameters.adoc[]
+=== 응답
+include::{snippets}/favorite-delete/http-response.adoc[]
+include::{snippets}/favorite-delete/response-fields.adoc[]
