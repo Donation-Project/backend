@@ -2,11 +2,13 @@ package com.donation.service.donation;
 
 import com.donation.common.request.donation.DonationSaveReqDto;
 
+import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 
+import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import com.donation.domain.enums.Role;
 import com.donation.repository.donation.DonationRepository;
@@ -19,6 +21,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.donation.domain.enums.Category.ETC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -88,6 +94,25 @@ class DonationServiceTest {
 
         assertThatThrownBy(() ->  donationService.save(donationWithoutUser))
                 .isInstanceOf(InvalidDataAccessApiUsageException.class);
+    }
+    @Test
+    @DisplayName("후원(서비스) :  내후원 내역조회")
+    void get(){
+        //given
+        Post post = getPost();
+        User sponsor = getSponsor();
+        List<Donation> donations = IntStream.range(1, 31)
+                .mapToObj(i ->  Donation.builder()
+                                .user(sponsor)
+                                .post(post)
+                                .amount(10.1f+i)
+                                .build()
+                ).collect(Collectors.toList());
+        donationRepository.saveAll(donations);
+        List<DonationFindRespDto> donationFindRespDtos = donationService.findById(sponsor.getId());
+        assertThat(donations.get(0).getPost().getWrite().getTitle()).isEqualTo(donationFindRespDtos.get(0).getTitle());
+        assertThat(donations.get(0).getAmount()).isEqualTo(donationFindRespDtos.get(0).getAmount());
+
     }
 
 
