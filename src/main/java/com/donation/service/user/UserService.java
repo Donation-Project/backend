@@ -1,12 +1,12 @@
 package com.donation.service.user;
 
-import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
+import com.donation.common.response.user.UserRespDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
-import com.donation.exception.user.EmailDuplicateException;
 import com.donation.exception.NoSuchElementException;
+import com.donation.exception.user.EmailDuplicateException;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @description 회원 정보 CRUD 서비스
@@ -37,23 +39,26 @@ public class UserService {
         return user.getId();
     }
 
-    public void login(UserLoginReqDto userLoginReqDto){
-        userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
+    public User login(UserLoginReqDto userLoginReqDto){
+        return userRepository.findByUsernameAndPassword(userLoginReqDto.getEmail(), userLoginReqDto.getPassword())
                 .orElseThrow(NoSuchElementException::new);
     }
 
     @Transactional(readOnly = true)
-    public User get(Long id){
+    public User getUser(Long id){
         return userRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }
-
 
     @Transactional(readOnly = true)
     public Slice<UserRespDto> getList(Pageable pageable){
         return userRepository.findPageableAll(pageable);
     }
 
+    @Transactional(readOnly = true)
+    public List<User> getListIdIn(List<Long> id){
+        return userRepository.findAllByIdIn(id);
+    }
 
     public void delete(Long id){
         User user = userRepository.findById(id)
