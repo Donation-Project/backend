@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class DonationFindByFilterRespDto {
 
     private Long donateId;
+    private Long postId;
     private String title;
     private float amount;
     private String sponsor;
@@ -21,8 +22,9 @@ public class DonationFindByFilterRespDto {
 
     @Builder
     @QueryProjection
-    public DonationFindByFilterRespDto(Long donateId, String title, float amount, String sponsor, String beneficiary, LocalDateTime localDateTime, float total, Category category) {
+    public DonationFindByFilterRespDto(Long donateId,Long postId, String title, float amount, String sponsor, String beneficiary, LocalDateTime localDateTime, float total, Category category) {
         this.donateId = donateId;
+        this.postId = postId;
         this.title = title;
         this.amount = amount;
         this.sponsor = sponsor;

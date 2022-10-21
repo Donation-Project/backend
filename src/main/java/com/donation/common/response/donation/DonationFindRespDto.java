@@ -16,17 +16,18 @@ public class DonationFindRespDto {
     private String title;
     private float amount;
     private float total;
-
+    private Long postId;
     private Category category;
     private LocalDateTime localDateTime;
 
 
     @Builder
     @QueryProjection
-    public DonationFindRespDto(String title, float amount, float total, Category category, LocalDateTime localDateTime) {
+    public DonationFindRespDto(String title, float amount, float total,Long postId, Category category, LocalDateTime localDateTime) {
         this.title = title;
         this.amount = amount;
         this.total = total;
+        this.postId=postId;
         this.category = category;
         this.localDateTime = localDateTime;
     }

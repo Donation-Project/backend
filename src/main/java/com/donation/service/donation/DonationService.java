@@ -42,8 +42,6 @@ public class DonationService {
         return donationRepository.findAllByUserId(userId);
     }
     public Slice<DonationFindByFilterRespDto> getList(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
-        if (donationFilterReqDto == null)
-            donationFilterReqDto = DonationFilterReqDto.builder().build();
         return donationRepository.findAllByFilter(pageable, donationFilterReqDto);
 
     }

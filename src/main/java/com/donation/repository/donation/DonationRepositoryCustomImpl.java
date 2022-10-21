@@ -38,6 +38,7 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                                                 .where(donation.user.id.eq(id))
                                                 .groupBy(donation.post.id),
                                         "total"),
+                                post.id,
                                 post.category,
                                 donation.createAt
                         )
@@ -51,12 +52,12 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
     }
 
 
-
     @Override
     public Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
         List<DonationFindByFilterRespDto> content = queryFactory
                 .select(new QDonationFindByFilterRespDto(
                                 donation.id,
+                                post.id,
                                 post.write.title,
                                 donation.amount,
                                 donation.user.name,
@@ -65,8 +66,7 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                                 ExpressionUtils.as(
                                         JPAExpressions
                                                 .select(donation.amount.sum())
-                                                .from(donation)
-                                                .groupBy(donation.post.id),
+                                                .from(donation),
                                         "total"),
                                 post.category
                         )
@@ -80,19 +80,19 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        boolean hasNext =hasNextPage(content, pageable);
+        boolean hasNext = hasNextPage(content, pageable);
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
     private static BooleanExpression usernameEq(String username) {
-        if(username == null){
+        if (username == null) {
             return null;
         }
         return donation.user.name.eq(username);
     }
 
     private static BooleanExpression categoryEq(Category category) {
-        if(category == null){
+        if (category == null) {
             return null;
         }
         return post.category.eq(category);

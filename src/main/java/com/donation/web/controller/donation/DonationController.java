@@ -5,6 +5,7 @@ import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
+import com.donation.domain.enums.Category;
 import com.donation.service.donation.DonationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,10 @@ public class DonationController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getList(Pageable pageable,@RequestParam(required = false) DonationFilterReqDto donationFilterReqDto) {
-        Slice<DonationFindByFilterRespDto> list = donationService.getList(pageable, donationFilterReqDto);
+    public ResponseEntity<?> getList(Pageable pageable,
+                                     @RequestParam(required = false)String username,
+                                     @RequestParam(required = false)Category category) {
+        Slice<DonationFindByFilterRespDto> list = donationService.getList(pageable, new DonationFilterReqDto(username,category));
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
