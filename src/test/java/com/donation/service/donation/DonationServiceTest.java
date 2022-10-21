@@ -1,6 +1,6 @@
 package com.donation.service.donation;
 
-import com.donation.common.request.donation.DonationFilterDto;
+import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
@@ -10,7 +10,6 @@ import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 
-import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import com.donation.domain.enums.Role;
 import com.donation.repository.donation.DonationRepository;
@@ -134,9 +133,9 @@ class DonationServiceTest {
                         .build()
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
-        DonationFilterDto donationFilterDto = DonationFilterDto.builder().build();
+        DonationFilterReqDto donationFilterReqDto = DonationFilterReqDto.builder().build();
         Pageable pageable = PageRequest.of(0, 10);
-        Slice<DonationFindByFilterRespDto> donationList = donationService.getList(pageable, donationFilterDto);
+        Slice<DonationFindByFilterRespDto> donationList = donationService.getList(pageable, donationFilterReqDto);
         assertThat(donationList.getSize()).isEqualTo(10);
         assertThat(donationList.getNumberOfElements()).isEqualTo(10);
         assertThat(donationList.getContent().get(0).getTitle()).isEqualTo(donations.get(0).getPost().getWrite().getTitle());

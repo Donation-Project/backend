@@ -1,10 +1,11 @@
 package com.donation.repository.donation;
 
-import com.donation.common.request.donation.DonationFilterDto;
+import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.common.response.donation.QDonationFindByFilterRespDto;
 import com.donation.common.response.donation.QDonationFindRespDto;
+import com.donation.domain.enums.Category;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -52,7 +53,7 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
 
 
     @Override
-    public Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterDto donationFilterDto) {
+    public Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
         List<DonationFindByFilterRespDto> content = queryFactory
                 .select(new QDonationFindByFilterRespDto(
                                 donation.id,
@@ -73,29 +74,27 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                 .from(donation)
                 .leftJoin(donation.post, post)
                 .where(
-                        categoryEq(donationFilterDto),
-                        usernameEq(donationFilterDto)
+                        categoryEq(donationFilterReqDto.getCategory()),
+                        usernameEq(donationFilterReqDto.getUsername())
                 ).offset(pageable.getOffset())
-
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
         boolean hasNext =hasNextPage(content, pageable);
-
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
-    private static BooleanExpression usernameEq(DonationFilterDto donationFilterDto) {
-        if(donationFilterDto.getUsername()==null){
+    private static BooleanExpression usernameEq(String username) {
+        if(username == null){
             return null;
         }
-        return donation.user.name.eq(donationFilterDto.getUsername());
+        return donation.user.name.eq(username);
     }
 
-    private static BooleanExpression categoryEq(DonationFilterDto donationFilterDto) {
-        if(donationFilterDto.getCategory()==null){
+    private static BooleanExpression categoryEq(Category category) {
+        if(category == null){
             return null;
         }
-        return post.category.eq(donationFilterDto.getCategory());
+        return post.category.eq(category);
     }
 }

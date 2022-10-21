@@ -1,6 +1,6 @@
 package com.donation.service.donation;
 
-import com.donation.common.request.donation.DonationFilterDto;
+import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
@@ -41,8 +41,10 @@ public class DonationService {
     public  List<DonationFindRespDto> findById(Long userId) {
         return donationRepository.findAllByUserId(userId);
     }
-    public Slice<DonationFindByFilterRespDto> getList(Pageable pageable, DonationFilterDto donationFilterDto) {
-        return donationRepository.findAllByFilter(pageable,donationFilterDto);
+    public Slice<DonationFindByFilterRespDto> getList(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
+        if (donationFilterReqDto == null)
+            donationFilterReqDto = DonationFilterReqDto.builder().build();
+        return donationRepository.findAllByFilter(pageable, donationFilterReqDto);
 
     }
 

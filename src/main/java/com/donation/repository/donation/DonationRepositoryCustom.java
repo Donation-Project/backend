@@ -1,6 +1,6 @@
 package com.donation.repository.donation;
 
-import com.donation.common.request.donation.DonationFilterDto;
+import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +11,6 @@ public interface DonationRepositoryCustom {
 
     List<DonationFindRespDto> findAllByUserId(Long id);
 
-    Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterDto donationFilterDto);
+    Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterReqDto donationFilterReqDto);
 
     }
