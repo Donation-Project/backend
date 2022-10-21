@@ -1,11 +1,13 @@
 package com.donation.controller.donation;
 
+import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.config.ConstConfig;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import com.donation.domain.enums.Role;
 import com.donation.repository.donation.DonationRepository;
@@ -29,8 +31,7 @@ import java.util.stream.IntStream;
 import static com.donation.domain.enums.Category.ETC;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -155,6 +156,42 @@ class DonationControllerTest {
                 .andExpect(jsonPath("$.data[0].amount").value(11.1f))
                 .andExpect(jsonPath("$.data[9].title").value(post.getWrite().getTitle()))
                 .andExpect(jsonPath("$.data[9].amount").value(20.1f))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+
+    }
+
+    @Test
+    @DisplayName("후원(컨트롤러) : 전체 조회")
+    void findAllByFilter() throws Exception {
+        //given
+        Post post = getPost();
+        User sponsor = getSponsor();
+        List<Donation> donations = IntStream.range(1, 31)
+                .mapToObj(i -> Donation.builder()
+                        .user(sponsor)
+                        .post(post)
+                        .amount(10.1f + i)
+                        .build()
+                ).collect(Collectors.toList());
+        donationRepository.saveAll(donations);
+
+        DonationFilterReqDto dto=new DonationFilterReqDto(null, ETC);
+
+        String request = objectMapper.writeValueAsString(dto);
+
+
+        //expected
+        mockMvc.perform(get("/api/donation")
+                        .contentType(APPLICATION_JSON)
+                        .content(request))
+
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.content[0].title").value(post.getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[0].amount").value(11.1f))
+                .andExpect(jsonPath("$.data.content[3].title").value(post.getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[3].amount").value(14.1f))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
 
