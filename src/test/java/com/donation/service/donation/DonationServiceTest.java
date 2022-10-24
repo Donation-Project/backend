@@ -16,6 +16,7 @@ import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class DonationServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach
+    @AfterEach
     void clear(){
         donationRepository.deleteAll();
         postRepository.deleteAll();

@@ -9,6 +9,7 @@ import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ class UserControllerTest {
     @Autowired
     private AwsS3Service awsS3Service;
 
-    @BeforeEach
+    @AfterEach
     void clear() {
         userRepository.deleteAll();
     }
