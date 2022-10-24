@@ -10,9 +10,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class PostSaveReqDto {
+
     @NotBlank(message = "제목이 없습니다.")
     private String title;
 
@@ -24,6 +27,8 @@ public class PostSaveReqDto {
 
     @NotNull(message = "카테고리를 선택해주세요.")
     private Category category;
+
+    List<String> images = new ArrayList<>();
 
     @Builder
     public PostSaveReqDto(String title, String content, Integer amount, Category category) {
