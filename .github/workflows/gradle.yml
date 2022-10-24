@@ -38,7 +38,7 @@ jobs:
         
       # gradle build
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew bootJar -x test
     
       # Spring 어플리케이션 Docker Image 빌드
       - name: Build Docker Image For Spring
