@@ -17,11 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,7 +28,8 @@ import static com.donation.domain.enums.Category.ETC;
 import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.WAITING;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -98,12 +97,11 @@ class PostControllerTest {
                 .category(ETC)
                 .build();
         User user = userRepository.save(getUser());
-        String dtoJson = objectMapper.writeValueAsString(dto);
-        MockMultipartFile request = new MockMultipartFile("data", "data", "application/json", dtoJson.getBytes(StandardCharsets.UTF_8));
 
         // expected
-        mockMvc.perform(multipart("/api/post?id="+user.getId())
-                        .file(request)
+        mockMvc.perform(post("/api/post/{id}", user.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
