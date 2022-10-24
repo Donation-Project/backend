@@ -1,0 +1,5 @@
+*.html linguist-vendored
+*.snippet linguist-vendored
+*.ts linguist-vendored
+*.js linguist-vendored
+*.java linguist-vendored=false

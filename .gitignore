@@ -18,7 +18,8 @@ bin/
 !**/src/test/**/bin/
 
 ## config
-application.yml
+application-database.yml
+application-s3.yml
 src/main/java/com/donation/init.java
 
 
@@ -30,9 +31,6 @@ src/main/java/com/donation/init.java
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
-## config
-application.yml
 
 ### NetBeans ###
 /nbproject/private/
