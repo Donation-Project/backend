@@ -911,8 +911,8 @@ Content-Length: 1816
         "unsorted" : true
       },
       "offset" : 0,
-      "pageNumber" : 0,
       "pageSize" : 10,
+      "pageNumber" : 0,
       "unpaged" : false,
       "paged" : true
     },
@@ -1027,40 +1027,20 @@ Content-Length: 61
 <h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post?id=51 HTTP/1.1
-Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/51 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 110
 Host: api.springdocs.com
 
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=id
-
-51
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=data; filename=data
-Content-Type: application/json
-
-{"title":"title","content":"content","amount":1,"category":"ETC"}
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+{
+  "title" : "title",
+  "content" : "content",
+  "amount" : 1,
+  "category" : "ETC",
+  "images" : [ ]
+}</code></pre>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">포스트 ID</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="_응답_7"><a class="link" href="#_응답_7">응답</a></h3>
@@ -1213,7 +1193,7 @@ Host: api.springdocs.com</code></pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포스트 ID</p></td>
 </tr>
 </tbody>
 </table>
@@ -1550,8 +1530,8 @@ Content-Length: 5177
         "unsorted" : true
       },
       "offset" : 0,
-      "pageNumber" : 0,
       "pageSize" : 10,
+      "pageNumber" : 0,
       "unpaged" : false,
       "paged" : true
     },
@@ -2056,8 +2036,8 @@ Content-Length: 5184
         "unsorted" : true
       },
       "offset" : 0,
-      "pageNumber" : 0,
       "pageSize" : 10,
+      "pageNumber" : 0,
       "unpaged" : false,
       "paged" : true
     },
