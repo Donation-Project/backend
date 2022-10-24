@@ -7,6 +7,7 @@ import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.service.post.PostService;
+import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +15,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.COMPLETION;
@@ -28,15 +27,14 @@ import static com.donation.domain.enums.PostState.COMPLETION;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
+    private final AwsS3Service awsS3Service;
 
-    @PostMapping
+    @PostMapping("/{id}")
     public ResponseEntity<?> save(
-            @RequestParam(name = "id") Long userId,
-            @RequestPart(value = "data") @Valid PostSaveReqDto postSaveReqDto,
-            @RequestPart(value = "images",required = false)List<MultipartFile> image
-            ){
-
-        PostSaveRespDto post = postService.save(postSaveReqDto,image, userId);
+            @PathVariable Long id,
+            @RequestBody @Valid PostSaveReqDto postSaveReqDto
+    ){
+        PostSaveRespDto post = postService.save(postSaveReqDto, id);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.CREATED);
     }
 

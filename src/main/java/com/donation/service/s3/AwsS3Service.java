@@ -2,6 +2,7 @@ package com.donation.service.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.donation.config.ConstConfig;
 import com.donation.exception.s3.EmptyFileException;
 import com.donation.exception.s3.FileUploadFailedException;
@@ -10,13 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
 
 /**
+ * @author 정우진
  * @description AWS S3 이미지 서비스
- * @author  정우진
  */
 @RequiredArgsConstructor
 @Service
@@ -41,6 +43,23 @@ public class AwsS3Service {
 
         return amazonS3.getUrl(bucket, s3FileName).toString();
     }
+
+
+    public String upload(byte[] image) {
+        ObjectMetadata objMeta = new ObjectMetadata();
+        String s3FileName = UUID.randomUUID().toString();
+
+        try {
+            objMeta.setContentLength(image.length);
+            objMeta.setContentType("image/png");
+            objMeta.setCacheControl("public, max-age=31536000");
+            amazonS3.putObject(new PutObjectRequest(bucket, s3FileName, new ByteArrayInputStream(image), objMeta));
+        } catch (Exception e) {
+            throw new FileUploadFailedException();
+        }
+        return amazonS3.getUrl(bucket, s3FileName).toString();
+    }
+
 
     private void validateFileExists(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {

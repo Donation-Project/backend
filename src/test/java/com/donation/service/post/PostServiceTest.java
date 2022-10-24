@@ -77,7 +77,7 @@ public class PostServiceTest {
         User user = userRepository.save(getUser());
 
         //when
-        PostSaveRespDto savePost = postService.save(request, null,user.getId());
+        PostSaveRespDto savePost = postService.save(request,user.getId());
 
         //then
         assertThat(savePost.getWrite().getTitle()).isEqualTo("title");

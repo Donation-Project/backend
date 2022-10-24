@@ -18,12 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,8 +35,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -108,11 +106,10 @@ public class PostControllerDocTest {
                 .category(ETC)
                 .build();
 
-        String dtoJson = objectMapper.writeValueAsString(dto);
-        MockMultipartFile request = new MockMultipartFile("data", "data", "application/json", dtoJson.getBytes(StandardCharsets.UTF_8));
         // expected
-        mockMvc.perform(multipart("/api/post?id=" + user.getId())
-                        .file(request)
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/post/{id}", user.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -126,8 +123,8 @@ public class PostControllerDocTest {
                 .andDo(document("post-save",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("id").description("포스트 ID")
+                        pathParameters(
+                                parameterWithName("id").description("유저 ID")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
@@ -166,7 +163,7 @@ public class PostControllerDocTest {
                 .andDo(document("post-getOne",
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("id").description("유저 ID")
+                                parameterWithName("id").description("포스트 ID")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
