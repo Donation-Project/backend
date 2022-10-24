@@ -12,7 +12,7 @@
 |백엔드|백엔드|백엔드|백엔드|
 |:-:|:-:|:-:|:-:|
 |<img src="https://user-images.githubusercontent.com/106054507/194209563-bb6bfc05-e188-43a2-a673-b6e2f26eaf38.png" width="150">|<img src="https://user-images.githubusercontent.com/106054507/194209702-74e70e3b-2b3a-47a0-be45-2dc326593ce3.png" width="150">|<img src="https://user-images.githubusercontent.com/106054507/194209823-b70d76b8-6d9e-4181-80f3-0cc34fa8cfe0.png" width="150">|<img src="https://user-images.githubusercontent.com/106054507/194209890-ed1ff17f-7146-49f4-b347-f2a5eb81876d.png" width="150">|
-|[우진](https://github.com/WooJinDeve)|[원진](https://github.com/jangwon3828)|[태용](https://github.com/GauelF)|[민건](https://github.com/mine702)|
+|[우진](https://github.com/WooJinDeve)|[원진](https://github.com/jangwon3828)|[태용](https://github.com/HoodRyan)|[민건](https://github.com/mine702)|
 
 </div>
 
