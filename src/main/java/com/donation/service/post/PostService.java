@@ -20,11 +20,10 @@ import org.springframework.data.domain.Slice;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.List;
 
 import static com.donation.domain.enums.PostState.DELETE;
@@ -45,25 +44,26 @@ public class PostService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, List<MultipartFile> images, Long userId) {
+    public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
         User user = userService.getUser(userId);
-        Post post = postRepository.save(postSaveValidation(postSaveReqDto, images, user));
+        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImages(), user));
         return PostSaveRespDto.toDto(post, user);
     }
 
-    private Post postSaveValidation(PostSaveReqDto postSaveReqDto, List<MultipartFile> images, User user) {
+    private Post postSaveValidation(PostSaveReqDto postSaveReqDto, List<String> images, User user) {
         Post post = postSaveReqDto.toPost(user);
-        if (images != null)
+        if (!images.isEmpty())
             addPostDetailImage(images, post);
         return post;
     }
 
-    private void addPostDetailImage(List<MultipartFile> images, Post post) {
-        for (MultipartFile image : images) {
-            if (!StringUtils.hasText(image.getOriginalFilename())) {
+    private void addPostDetailImage(List<String> images, Post post) {
+        for (String image : images) {
+            if (image.isEmpty())
                 continue;
-            }
-            post.addPostImage(PostDetailImage.of(awsS3Service.upload(image)));
+
+            byte[] imageDecode = Base64.getMimeDecoder().decode(image.substring(image.indexOf(",") + 1));
+            post.addPostImage(PostDetailImage.of(awsS3Service.upload(imageDecode)));
         }
     }
 
