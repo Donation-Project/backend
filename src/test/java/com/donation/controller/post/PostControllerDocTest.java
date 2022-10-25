@@ -2,12 +2,12 @@ package com.donation.controller.post;
 
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
-import com.donation.config.ConstConfig;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,9 +54,6 @@ public class PostControllerDocTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ConstConfig config;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -238,6 +235,34 @@ public class PostControllerDocTest {
                 .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(document("post-getList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    @DisplayName("포스트(RestDocs) : 자신의 포스트 전체 조회")
+    void getMyPostList() throws Exception{
+        //given
+        User user = userRepository.save(createUser());
+        List<Post> posts = IntStream.range(1, 11)
+                .mapToObj(i -> createPost(user, "title" + i, "content"+i))
+                .collect(Collectors.toList());
+        postRepository.saveAll(posts);
+
+        // expected
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post/{id}/my-page?page=0&size=10",user.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
+                .andExpect(jsonPath("$.data.content[0].postId").value(posts.get(0).getId()))
+                .andExpect(jsonPath("$.data.content[0].write.title").value(posts.get(0).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[0].write.content").value(posts.get(0).getWrite().getContent()))
+                .andExpect(jsonPath("$.data.content[9].postId").value(posts.get(9).getId()))
+                .andExpect(jsonPath("$.data.content[9].write.title").value(posts.get(9).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("post-getMyPostList",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));

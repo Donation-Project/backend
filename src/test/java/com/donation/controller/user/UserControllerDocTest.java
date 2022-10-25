@@ -3,9 +3,7 @@ package com.donation.controller.user;
 
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,9 +60,6 @@ public class UserControllerDocTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ConstConfig config;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
@@ -78,21 +73,6 @@ public class UserControllerDocTest {
         userRepository.deleteAll();
     }
 
-
-    User getUser() {
-        String username = "username@naver.com";
-        String name = "정우진";
-        String password = "1234";
-        Role role = Role.USER;
-
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .profileImage(config.getBasicImageProfile())
-                .role(role)
-                .build();
-    }
 
     @Test
     @DisplayName("회원(RestDocs) : 회원 가입")
