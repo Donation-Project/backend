@@ -641,12 +641,12 @@ Content-Length: 61
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/login HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 62
+Content-Length: 56
 Host: api.springdocs.com
 
 {
-  "email" : "username@naver.com",
-  "password" : "1234"
+  "email" : "username",
+  "password" : "passowrd"
 }</code></pre>
 </div>
 </div>
@@ -666,11 +666,11 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 59
+Content-Length: 60
 
 {
   "success" : true,
-  "data" : 88,
+  "data" : 114,
   "error" : null
 }</code></pre>
 </div>
@@ -716,7 +716,7 @@ Content-Length: 59
 <h3 id="_요청"><a class="link" href="#_요청">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/56 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/82 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -756,15 +756,15 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 244
+Content-Length: 184
 
 {
   "success" : true,
   "data" : {
-    "id" : 56,
-    "username" : "username@naver.com",
-    "name" : "정우진",
-    "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+    "id" : 82,
+    "username" : "username",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
   },
   "error" : null
 }</code></pre>
@@ -847,61 +847,61 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 1816
+Content-Length: 1965
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "id" : 58,
-      "username" : "username@naver.com1",
-      "name" : "name1",
-      "profileImage" : null
+      "id" : 84,
+      "username" : "username1",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 59,
-      "username" : "username@naver.com2",
-      "name" : "name2",
-      "profileImage" : null
+      "id" : 85,
+      "username" : "username2",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 60,
-      "username" : "username@naver.com3",
-      "name" : "name3",
-      "profileImage" : null
+      "id" : 86,
+      "username" : "username3",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 61,
-      "username" : "username@naver.com4",
-      "name" : "name4",
-      "profileImage" : null
+      "id" : 87,
+      "username" : "username4",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 62,
-      "username" : "username@naver.com5",
-      "name" : "name5",
-      "profileImage" : null
+      "id" : 88,
+      "username" : "username5",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 63,
-      "username" : "username@naver.com6",
-      "name" : "name6",
-      "profileImage" : null
+      "id" : 89,
+      "username" : "username6",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 64,
-      "username" : "username@naver.com7",
-      "name" : "name7",
-      "profileImage" : null
+      "id" : 90,
+      "username" : "username7",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 65,
-      "username" : "username@naver.com8",
-      "name" : "name8",
-      "profileImage" : null
+      "id" : 91,
+      "username" : "username8",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 66,
-      "username" : "username@naver.com9",
-      "name" : "name9",
-      "profileImage" : null
+      "id" : 92,
+      "username" : "username9",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 67,
-      "username" : "username@naver.com10",
-      "name" : "name10",
-      "profileImage" : null
+      "id" : 93,
+      "username" : "username10",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     } ],
     "pageable" : {
       "sort" : {
@@ -912,8 +912,8 @@ Content-Length: 1816
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -939,7 +939,7 @@ Content-Length: 1816
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/54/profile HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/80/profile HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Host: api.springdocs.com
 
@@ -985,7 +985,7 @@ Content-Length: 61
 <h3 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/55 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/81 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1026,7 +1026,7 @@ Content-Length: 61
 <h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/53 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/76 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 110
 Host: api.springdocs.com
@@ -1041,7 +1041,7 @@ Host: api.springdocs.com
 </div>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::C:\Users\wkd38\OneDrive\Desktop\1025\dev\build\generated-snippets/post-save/request-parameters.adoc[]
+<p>Unresolved directive in index.adoc - include::C:\Users\User\Desktop\back\build\generated-snippets/post-save/request-parameters.adoc[]
 === 응답</p>
 </div>
 <div class="listingblock">
@@ -1058,17 +1058,17 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 483
+Content-Length: 422
 
 {
   "success" : true,
   "data" : {
-    "postId" : 104,
+    "postId" : 76,
     "userRespDto" : {
-      "id" : 53,
-      "username" : "username@naver.com",
-      "name" : "정우진",
-      "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+      "id" : 76,
+      "username" : "username",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     },
     "write" : {
       "title" : "title",
@@ -1174,7 +1174,7 @@ Content-Length: 483
 <h3 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/103 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/75 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1214,25 +1214,25 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 510
+Content-Length: 451
 
 {
   "success" : true,
   "data" : {
-    "postId" : 103,
+    "postId" : 75,
     "userRespDto" : {
-      "id" : 52,
-      "username" : "username@naver.com",
-      "name" : "정우진",
-      "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+      "id" : 75,
+      "username" : "username",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image"
     },
     "write" : {
       "title" : "title",
       "content" : "content"
     },
-    "amount" : 1,
+    "amount" : 12,
     "category" : "ETC",
-    "state" : "WAITING",
+    "state" : "APPROVAL",
     "postDetailImages" : [ ],
     "favoriteCount" : 0
   },
@@ -1357,168 +1357,168 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 5177
+Content-Length: 4586
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "postId" : 73,
+      "postId" : 45,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title1",
         "content" : "content1"
       },
-      "amount" : 1,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 74,
+      "postId" : 46,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title2",
         "content" : "content2"
       },
-      "amount" : 2,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 75,
+      "postId" : 47,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title3",
         "content" : "content3"
       },
-      "amount" : 3,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 76,
+      "postId" : 48,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title4",
         "content" : "content4"
       },
-      "amount" : 4,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 77,
+      "postId" : 49,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title5",
         "content" : "content5"
       },
-      "amount" : 5,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 78,
+      "postId" : 50,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title6",
         "content" : "content6"
       },
-      "amount" : 6,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 79,
+      "postId" : 51,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title7",
         "content" : "content7"
       },
-      "amount" : 7,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 80,
+      "postId" : 52,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title8",
         "content" : "content8"
       },
-      "amount" : 8,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 81,
+      "postId" : 53,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title9",
         "content" : "content9"
       },
-      "amount" : 9,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 82,
+      "postId" : 54,
       "userRespDto" : {
-        "id" : 51,
-        "username" : "username@naver.com",
-        "name" : "정우진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : 74,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
       },
       "write" : {
         "title" : "title10",
         "content" : "content10"
       },
-      "amount" : 10,
+      "amount" : 12,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
@@ -1532,8 +1532,8 @@ Content-Length: 5177
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -1561,15 +1561,15 @@ Content-Length: 5177
 <h3 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/72 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/44 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 105
 Host: api.springdocs.com
 
 {
-  "title" : "수정제목1",
-  "content" : "수정내용1",
+  "title" : "수정 제목",
+  "content" : "수정 내용",
   "amount" : 1,
   "category" : "ETC"
 }</code></pre>
@@ -1661,7 +1661,7 @@ Content-Length: 61
 <h3 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/71 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/43 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -2038,8 +2038,8 @@ Content-Length: 5184
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -2072,7 +2072,7 @@ Content-Length: 5184
 Host: api.springdocs.com
 Content-Type: application/x-www-form-urlencoded
 
-postId=66&amp;userId=15</code></pre>
+postId=38&amp;userId=40</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2164,7 +2164,7 @@ Content-Length: 61
 <h3 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=65 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=37 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -2203,60 +2203,160 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 1206
+Content-Length: 3980
 
 {
   "success" : true,
   "data" : [ {
-    "id" : 5,
-    "username" : "username1@naver.com",
-    "name" : "name1",
-    "profileImage" : null
-  }, {
-    "id" : 6,
-    "username" : "username2@naver.com",
-    "name" : "name2",
-    "profileImage" : null
-  }, {
-    "id" : 7,
-    "username" : "username3@naver.com",
-    "name" : "name3",
-    "profileImage" : null
-  }, {
-    "id" : 8,
-    "username" : "username4@naver.com",
-    "name" : "name4",
-    "profileImage" : null
-  }, {
-    "id" : 9,
-    "username" : "username5@naver.com",
-    "name" : "name5",
-    "profileImage" : null
-  }, {
     "id" : 10,
-    "username" : "username6@naver.com",
-    "name" : "name6",
-    "profileImage" : null
+    "username" : "username1",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
   }, {
     "id" : 11,
-    "username" : "username7@naver.com",
-    "name" : "name7",
-    "profileImage" : null
+    "username" : "username2",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
   }, {
     "id" : 12,
-    "username" : "username8@naver.com",
-    "name" : "name8",
-    "profileImage" : null
+    "username" : "username3",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
   }, {
     "id" : 13,
-    "username" : "username9@naver.com",
-    "name" : "name9",
-    "profileImage" : null
+    "username" : "username4",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
   }, {
     "id" : 14,
-    "username" : "username10@naver.com",
-    "name" : "name10",
-    "profileImage" : null
+    "username" : "username5",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 15,
+    "username" : "username6",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 16,
+    "username" : "username7",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 17,
+    "username" : "username8",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 18,
+    "username" : "username9",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 19,
+    "username" : "username10",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 20,
+    "username" : "username11",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 21,
+    "username" : "username12",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 22,
+    "username" : "username13",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 23,
+    "username" : "username14",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 24,
+    "username" : "username15",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 25,
+    "username" : "username16",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 26,
+    "username" : "username17",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 27,
+    "username" : "username18",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 28,
+    "username" : "username19",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 29,
+    "username" : "username20",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 30,
+    "username" : "username21",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 31,
+    "username" : "username22",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 32,
+    "username" : "username23",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 33,
+    "username" : "username24",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 34,
+    "username" : "username25",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 35,
+    "username" : "username26",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 36,
+    "username" : "username27",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 37,
+    "username" : "username28",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 38,
+    "username" : "username29",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
+  }, {
+    "id" : 39,
+    "username" : "username30",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image"
   } ],
   "error" : null
 }</code></pre>
@@ -2272,7 +2372,7 @@ Content-Length: 1206
 <h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=64 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=36 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -2358,7 +2458,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-25 13:56:26 +0900
+Last updated 2022-10-24 20:12:52 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
