@@ -3,6 +3,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id 'java'
+	id 'jacoco'
+}
+
+jacoco {
+	toolVersion = "0.8.7"
 }
 
 group = 'com'
@@ -74,12 +79,62 @@ dependencies {
 tasks.named('test') {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
 }
 
 asciidoctor {
 	inputs.dir snippetsDir
 	configurations 'asciidoctorExt'
 	dependsOn test
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html.enabled true
+	}
+
+	finalizedBy 'jacocoTestCoverageVerification'
+
+	dependsOn test
+
+	def Qdomains = []
+	for (qPattern in "QA".."QZ") {  // qPattern = "*.QA","*.QB","*.QC", ... "*.QZ"
+		Qdomains.add("com/donation/**/" + qPattern + "*.*")
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					"com/donation/*.*",
+					"com/donation/common/**/*.*",
+					"com/donation/config/*.*",
+					"com/donation/config/**/*.*",
+					"com/donation/exception/*.*",
+					"com/donation/exception/**/*.*",
+			] + Qdomains)
+		}))
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = false
+			element = 'BUNDLE'
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.60
+			}
+
+			excludes = []
+		}
+	}
+
+	finalizedBy 'asciidoctor'
 }
 
 bootJar {
