@@ -28,7 +28,7 @@ public class FavoriteService {
             return;
         }
         favoriteRedisRepository.save(postId, userId);
-        favoriteRepository.save(Favorites.of(userService.getUser(userId), postService.getPost(postId)));
+        favoriteRepository.save(Favorites.of(userService.findById(userId), postService.findById(postId)));
     }
 
     private void cancel(Long postId, Long userId){

@@ -109,7 +109,7 @@ public class PostServiceTest {
         Long postId = 1L;
 
         //when
-        assertThatThrownBy(() -> postService.findById(postId))
+        assertThatThrownBy(() -> postService.findDetailById(postId))
                 .isInstanceOf(DonationNotFoundException.class);
     }
 
@@ -124,7 +124,7 @@ public class PostServiceTest {
         postService.delete(post.getId());
 
         //then
-        assertThatThrownBy(() -> postService.findById(post.getId()))
+        assertThatThrownBy(() -> postService.findDetailById(post.getId()))
                 .isInstanceOf(DonationNotFoundException.class);
     }
 
@@ -135,7 +135,7 @@ public class PostServiceTest {
         Post post = postRepository.save(getPost());
 
         //when
-        PostFindRespDto findRespDto = postService.findById(post.getId());
+        PostFindRespDto findRespDto = postService.findDetailById(post.getId());
 
         //then
         assertThat(findRespDto.getPostId()).isEqualTo(post.getId());

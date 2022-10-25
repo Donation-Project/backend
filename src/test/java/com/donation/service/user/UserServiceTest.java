@@ -52,7 +52,7 @@ class UserServiceTest {
         Long id = userService.join(userDto);
 
         //then
-        UserRespDto userRespDto = new UserRespDto(userService.getUser(id));
+        UserRespDto userRespDto = new UserRespDto(userService.findById(id));
         assertThat(userRespDto.getUsername()).isEqualTo(userDto.getEmail());
         assertThat(userRespDto.getName()).isEqualTo(userDto.getName());
     }
@@ -110,7 +110,7 @@ class UserServiceTest {
                 .build();
         Long id = userService.join(userDto);
         //when
-        UserRespDto dto = new UserRespDto(userService.getUser(id));
+        UserRespDto dto = new UserRespDto(userService.findById(id));
 
         //then
         assertThat(dto.getUsername()).isEqualTo(userDto.getEmail());
@@ -123,7 +123,7 @@ class UserServiceTest {
         //given
         Long id = 100L;
         //then
-        assertThatThrownBy(() -> userService.getUser(id))
+        assertThatThrownBy(() -> userService.findById(id))
                 .isInstanceOf(DonationException.class);
     }
 
@@ -142,7 +142,7 @@ class UserServiceTest {
         userService.delete(id);
 
         //then
-        assertThatThrownBy(() -> userService.getUser(id))
+        assertThatThrownBy(() -> userService.findById(id))
                 .isInstanceOf(DonationException.class);
     }
 }

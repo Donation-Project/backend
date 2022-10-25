@@ -8,6 +8,7 @@ import com.donation.domain.entites.Donation;
 import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
+import com.donation.service.post.PostService;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,15 +25,14 @@ public class DonationService {
 
     private final UserService userService;
 
-    private final PostRepository postRepository;
+    private final PostService postService;
 
     private final DonationRepository donationRepository;
 
     public void save(DonationSaveReqDto donationSaveReqDto) {
         Donation donation = Donation.builder()
-                .user(userService.getUser(donationSaveReqDto.getUserId()))
-                .post(postRepository.findById(donationSaveReqDto.getPostId())
-                        .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다.")))
+                .user(userService.findById(donationSaveReqDto.getUserId()))
+                .post(postService.findById(donationSaveReqDto.getPostId()))
                 .amount(10.1f)
                 .build();
         donationRepository.save(donation);

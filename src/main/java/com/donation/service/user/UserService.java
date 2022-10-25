@@ -45,7 +45,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUser(Long id){
+    public User findById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new DonationNotFoundException("회원을 찾을수 없습니다."));
     }
@@ -61,15 +61,13 @@ public class UserService {
     }
 
     public void delete(Long id){
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new DonationNotFoundException("회원을 찾을수 없습니다."));
+        User user = findById(id);
         awsS3Service.delete(user.getProfileImage());
         userRepository.delete(user);
     }
 
     public void editProfile(Long id, MultipartFile multipartFile){
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new DonationNotFoundException("회원을 찾을수 없습니다."));
+        User user = findById(id);
         user.editProfile(awsS3Service.upload(multipartFile));
     }
 }

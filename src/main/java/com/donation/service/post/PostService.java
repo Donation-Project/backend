@@ -40,13 +40,13 @@ public class PostService {
     private final UserService userService;
     private final AwsS3Service awsS3Service;
 
-    public Post getPost(Long postId) {
+    public Post findById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
     }
 
     public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
-        User user = userService.getUser(userId);
+        User user = userService.findById(userId);
         Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImages(), user));
         return PostSaveRespDto.toDto(post, user);
     }
@@ -69,22 +69,18 @@ public class PostService {
     }
 
     public void update(PostUpdateReqDto updateReqDto, Long id) {
-        getPost(id).update(updateReqDto);
+        findById(id).update(updateReqDto);
     }
 
     public void confirm(PostState postState, Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
-        post.confirm(postState);
+        findById(id).confirm(postState);
     }
 
     public void delete(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
-        postRepository.delete(post);
+        postRepository.delete(findById(postId));
     }
 
-    public PostFindRespDto findById(Long postId) {
+    public PostFindRespDto findDetailById(Long postId) {
         return validateWithDto(postId);
     }
 
