@@ -5,10 +5,8 @@ import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
-import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
 import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
@@ -25,8 +23,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.Category.ETC;
-import static com.donation.domain.enums.PostState.WAITING;
+import static com.donation.domain.enums.PostState.APPROVAL;
+import static com.donation.testutil.TestDtoDataFactory.createPostSaveReqDto;
+import static com.donation.testutil.TestDtoDataFactory.createPostUpdateReqDto;
+import static com.donation.testutil.TestEntityDataFactory.createPost;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -36,7 +37,6 @@ public class PostServiceTest {
 
     @Autowired
     private PostService postService;
-
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -48,34 +48,12 @@ public class PostServiceTest {
         userRepository.deleteAll();
     }
 
-
-    User getUser() {
-        String username = "username@naver.com";
-        String name = "정우진";
-        String password = "1234";
-        Role role = Role.USER;
-
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .role(role)
-                .build();
-    }
-
-    Post getPost() {
-        PostSaveReqDto request = new PostSaveReqDto("title", "content", 1, ETC);
-        User user = userRepository.save(getUser());
-        return postRepository.save(request.toPost(user));
-    }
-
-
     @Test
     @DisplayName("포스트(서비스) : 생성")
     void save(){
         //given
-        PostSaveReqDto request = new PostSaveReqDto("title", "content", 1, ETC);
-        User user = userRepository.save(getUser());
+        PostSaveReqDto request = createPostSaveReqDto("title", "content");
+        User user = userRepository.save(createUser());
 
         //when
         PostSaveRespDto savePost = postService.save(request,user.getId());
@@ -89,16 +67,16 @@ public class PostServiceTest {
     @DisplayName("포스트(서비스) : 업데이트")
     void update(){
         //given
-        Post post = postRepository.save(getPost());
-        PostUpdateReqDto updateReqDto = new PostUpdateReqDto("title1", "content1", 1, ETC);
+        Post post = postRepository.save(createPost("title","content"));
+        PostUpdateReqDto updateReqDto = createPostUpdateReqDto("update", "update");
 
         //when
         postService.update(updateReqDto, post.getId());
 
         //then
         Post findPost = postRepository.findById(post.getId()).get();
-        assertThat(findPost.getWrite().getTitle()).isEqualTo("title1");
-        assertThat(findPost.getWrite().getContent()).isEqualTo("content1");
+        assertThat(findPost.getWrite().getTitle()).isEqualTo(updateReqDto.getTitle());
+        assertThat(findPost.getWrite().getContent()).isEqualTo(updateReqDto.getContent());
     }
 
 
@@ -118,7 +96,7 @@ public class PostServiceTest {
     @DisplayName("포스트(서비스) : 삭제")
     void delete(){
         //given
-        Post post = postRepository.save(getPost());
+        Post post = postRepository.save(createPost());
 
         //when
         postService.delete(post.getId());
@@ -132,7 +110,7 @@ public class PostServiceTest {
     @DisplayName("포스트(서비스) : 단건조회")
     void findById(){
         //given
-        Post post = postRepository.save(getPost());
+        Post post = postRepository.save(createPost());
 
         //when
         PostFindRespDto findRespDto = postService.findDetailById(post.getId());
@@ -148,19 +126,13 @@ public class PostServiceTest {
     void getList(){
         //given
         List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> Post.builder()
-                        .write(new Write("title" + i, "content" + i))
-                        .amount(i)
-                        .state(WAITING)
-                        .category(ETC)
-                        .build()
-                )
+                .mapToObj(i -> createPost("title" + i, "content" + i))
                 .collect(Collectors.toList());
         postRepository.saveAll(posts);
 
         //when
         Pageable pageable = PageRequest.of(0, 10);
-        Slice<PostListRespDto> postList = postService.getList(pageable, WAITING);
+        Slice<PostListRespDto> postList = postService.getList(pageable, APPROVAL);
 
         //then
         assertThat(postList.getSize()).isEqualTo(10);
