@@ -10,6 +10,7 @@ import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
 
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.favorite.FavoriteRepository;
 
 import com.donation.repository.post.PostRepository;
@@ -50,7 +51,7 @@ public class PostService {
     public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
 
         User user = userService.findById(userId);
-        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImages(), user));
+        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImage(), user));
 
         return PostSaveRespDto.toDto(post, user);
     }
