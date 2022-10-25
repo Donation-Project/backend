@@ -99,6 +99,10 @@ public class PostService {
 
     }
 
+    public Slice<PostListRespDto> getMyPostList(Long id, Pageable pageable){
+        return postRepository.findAllUserId(id, pageable);
+    }
+
     @Scheduled(cron = "0 0 0 * * *")
     public void postStateIsDeleteAnd7DaysOver() {
         LocalDateTime localDateTime = LocalDateTime
