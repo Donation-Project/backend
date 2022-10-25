@@ -40,7 +40,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Long id){
-        PostFindRespDto post = postService.findById(id);
+        PostFindRespDto post = postService.findDetailById(id);
         return ResponseEntity.ok(CommonResponse.success(post));
     }
 

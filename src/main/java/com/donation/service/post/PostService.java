@@ -9,7 +9,9 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
+
 import com.donation.repository.favorite.FavoriteRepository;
+
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.postdetailimage.PostDetailImageRepository;
 import com.donation.service.s3.AwsS3Service;
@@ -40,14 +42,16 @@ public class PostService {
     private final UserService userService;
     private final AwsS3Service awsS3Service;
 
-    public Post getPost(Long postId) {
+    public Post findById(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
     }
 
     public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
-        User user = userService.getUser(userId);
-        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImage(), user));
+
+        User user = userService.findById(userId);
+        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImages(), user));
+
         return PostSaveRespDto.toDto(post, user);
     }
 
@@ -64,28 +68,24 @@ public class PostService {
     }
 
     public void update(PostUpdateReqDto updateReqDto, Long id) {
-        getPost(id).update(updateReqDto);
+        findById(id).update(updateReqDto);
     }
 
     public void confirm(PostState postState, Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
-        post.confirm(postState);
+        findById(id).confirm(postState);
     }
 
     public void delete(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
-        postRepository.delete(post);
+        postRepository.delete(findById(postId));
     }
 
-    public PostFindRespDto findById(Long postId) {
+    public PostFindRespDto findDetailById(Long postId) {
         return validateWithDto(postId);
     }
 
     private PostFindRespDto validateWithDto(Long postId){
         PostFindRespDto findPostDto = postRepository.findDetailPostById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
         List<String> imagePath = postDetailImageRepository.findImagePath(findPostDto.getPostId());
         Long count = favoriteRepository.countFavoritesByPost_Id(postId);
         findPostDto.setPostDetailImages(imagePath);

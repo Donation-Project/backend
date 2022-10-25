@@ -28,12 +28,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -142,8 +145,8 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("400"))
-                .andExpect(jsonPath("$.error.errorMessage").value("중복된 이메일이 있습니다"))
+                .andExpect(jsonPath("$.error.errorCode").value("UNAUTHORIZED"))
+                .andExpect(jsonPath("$.error.errorMessage").value(String.format("이미 존재하는 이메일 입니다.(%s)",request.getEmail())))
                 .andDo(print());
     }
 
@@ -203,7 +206,7 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("400"))
+                .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
                 .andDo(print());
     }
 
@@ -219,8 +222,8 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("400"))
-                .andExpect(jsonPath("$.error.errorMessage").value("존재하지 않는 정보입니다."))
+                .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
+                .andExpect(jsonPath("$.error.errorMessage").value("회원을 찾을수 없습니다."))
                 .andDo(print());
     }
 

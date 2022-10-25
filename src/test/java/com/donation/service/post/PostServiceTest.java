@@ -9,6 +9,7 @@ import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -108,8 +109,8 @@ public class PostServiceTest {
         Long postId = 1L;
 
         //when
-        assertThatThrownBy(() -> postService.findById(postId))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> postService.findDetailById(postId))
+                .isInstanceOf(DonationNotFoundException.class);
     }
 
 
@@ -123,8 +124,8 @@ public class PostServiceTest {
         postService.delete(post.getId());
 
         //then
-        assertThatThrownBy(() -> postService.findById(post.getId()))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> postService.findDetailById(post.getId()))
+                .isInstanceOf(DonationNotFoundException.class);
     }
 
     @Test
@@ -134,7 +135,7 @@ public class PostServiceTest {
         Post post = postRepository.save(getPost());
 
         //when
-        PostFindRespDto findRespDto = postService.findById(post.getId());
+        PostFindRespDto findRespDto = postService.findDetailById(post.getId());
 
         //then
         assertThat(findRespDto.getPostId()).isEqualTo(post.getId());
