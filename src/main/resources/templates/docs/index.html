@@ -487,30 +487,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_포스팅_생성">포스팅 생성</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_4">요청</a></li>
+<li><a href="#_응답_7">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_단건_조회">포스트 정보 단건 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_5">요청</a></li>
-<li><a href="#_응답_7">응답</a></li>
+<li><a href="#_응답_8">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_리스트_조회">포스트 정보 리스트 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_6">요청</a></li>
-<li><a href="#_응답_8">응답</a></li>
+<li><a href="#_응답_9">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_수정">포스트 정보 수정</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_7">요청</a></li>
-<li><a href="#_응답_9">응답</a></li>
+<li><a href="#_응답_10">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_삭제">포스트 정보 삭제</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_8">요청</a></li>
-<li><a href="#_응답_10">응답</a></li>
+<li><a href="#_응답_11">응답</a></li>
+</ul>
+</li>
+<li><a href="#_자신이_작성한_포스트_조회">자신이 작성한 포스트 조회</a>
+<ul class="sectlevel2">
+<li><a href="#_요청_9">요청</a></li>
+<li><a href="#_응답_12">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -519,14 +526,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_포스트_권한_변경">포스트 권한 변경</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_9">요청</a></li>
-<li><a href="#_응답_11">응답</a></li>
+<li><a href="#_요청_10">요청</a></li>
+<li><a href="#_응답_13">응답</a></li>
 </ul>
 </li>
 <li><a href="#_어드민_리스트_요청">어드민 : 리스트 요청</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_10">요청</a></li>
-<li><a href="#_응답_12">응답</a></li>
+<li><a href="#_요청_11">요청</a></li>
+<li><a href="#_응답_14">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -535,20 +542,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_좋아요_요청_및_취소">좋아요 요청 및 취소</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_11">요청</a></li>
-<li><a href="#_응답_13">응답</a></li>
+<li><a href="#_요청_12">요청</a></li>
+<li><a href="#_응답_15">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요를_한_유저_정보_list">좋아요를 한 유저 정보 List</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_12">요청</a></li>
-<li><a href="#_응답_14">응답</a></li>
+<li><a href="#_요청_13">요청</a></li>
+<li><a href="#_응답_16">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_13">요청</a></li>
-<li><a href="#_응답_15">응답</a></li>
+<li><a href="#_요청_14">요청</a></li>
+<li><a href="#_응답_17">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -670,7 +677,7 @@ Content-Length: 60
 
 {
   "success" : true,
-  "data" : 114,
+  "data" : 116,
   "error" : null
 }</code></pre>
 </div>
@@ -716,7 +723,7 @@ Content-Length: 60
 <h3 id="_요청"><a class="link" href="#_요청">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/82 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/84 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -761,7 +768,7 @@ Content-Length: 184
 {
   "success" : true,
   "data" : {
-    "id" : 82,
+    "id" : 84,
     "username" : "username",
     "name" : "name",
     "profileImage" : "https://localhost:8080/image"
@@ -853,52 +860,52 @@ Content-Length: 1965
   "success" : true,
   "data" : {
     "content" : [ {
-      "id" : 84,
+      "id" : 86,
       "username" : "username1",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 85,
+      "id" : 87,
       "username" : "username2",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 86,
+      "id" : 88,
       "username" : "username3",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 87,
+      "id" : 89,
       "username" : "username4",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 88,
+      "id" : 90,
       "username" : "username5",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 89,
+      "id" : 91,
       "username" : "username6",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 90,
+      "id" : 92,
       "username" : "username7",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 91,
+      "id" : 93,
       "username" : "username8",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 92,
+      "id" : 94,
       "username" : "username9",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
     }, {
-      "id" : 93,
+      "id" : 95,
       "username" : "username10",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image"
@@ -912,8 +919,8 @@ Content-Length: 1965
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -939,7 +946,7 @@ Content-Length: 1965
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/80/profile HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/82/profile HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Host: api.springdocs.com
 
@@ -985,7 +992,7 @@ Content-Length: 61
 <h3 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/81 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/83 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1040,10 +1047,9 @@ Host: api.springdocs.com
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::C:\Users\User\Desktop\back\build\generated-snippets/post-save/request-parameters.adoc[]
-=== 응답</p>
 </div>
+<div class="sect2">
+<h3 id="_응답_7"><a class="link" href="#_응답_7">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -1199,7 +1205,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_7"><a class="link" href="#_응답_7">응답</a></h3>
+<h3 id="_응답_8"><a class="link" href="#_응답_8">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1342,7 +1348,7 @@ Host: api.springdocs.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_응답_8"><a class="link" href="#_응답_8">응답</a></h3>
+<h3 id="_응답_9"><a class="link" href="#_응답_9">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1532,8 +1538,8 @@ Content-Length: 4586
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -1596,7 +1602,7 @@ Host: api.springdocs.com
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_9"><a class="link" href="#_응답_9">응답</a></h3>
+<h3 id="_응답_10"><a class="link" href="#_응답_10">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1686,7 +1692,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_10"><a class="link" href="#_응답_10">응답</a></h3>
+<h3 id="_응답_11"><a class="link" href="#_응답_11">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1744,12 +1750,237 @@ Content-Length: 61
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_자신이_작성한_포스트_조회"><a class="link" href="#_자신이_작성한_포스트_조회">자신이 작성한 포스트 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/77/my-page?page=0&amp;size=10 HTTP/1.1
+Host: api.springdocs.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_응답_12"><a class="link" href="#_응답_12">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 4585
+
+{
+  "success" : true,
+  "data" : {
+    "content" : [ {
+      "postId" : 77,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title1",
+        "content" : "content1"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 78,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title2",
+        "content" : "content2"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 79,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title3",
+        "content" : "content3"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 80,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title4",
+        "content" : "content4"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 81,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title5",
+        "content" : "content5"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 82,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title6",
+        "content" : "content6"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 83,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title7",
+        "content" : "content7"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 84,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title8",
+        "content" : "content8"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 85,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title9",
+        "content" : "content9"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 86,
+      "userRespDto" : {
+        "id" : 77,
+        "username" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image"
+      },
+      "write" : {
+        "title" : "title10",
+        "content" : "content10"
+      },
+      "amount" : 12,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    } ],
+    "pageable" : {
+      "sort" : {
+        "empty" : true,
+        "sorted" : false,
+        "unsorted" : true
+      },
+      "offset" : 0,
+      "pageNumber" : 0,
+      "pageSize" : 10,
+      "paged" : true,
+      "unpaged" : false
+    },
+    "size" : 10,
+    "number" : 0,
+    "sort" : {
+      "empty" : true,
+      "sorted" : false,
+      "unsorted" : true
+    },
+    "first" : true,
+    "last" : true,
+    "numberOfElements" : 10,
+    "empty" : false
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <h1 id="_admin_api" class="sect0"><a class="link" href="#_admin_api">Admin API</a></h1>
 <div class="sect1">
 <h2 id="_포스트_권한_변경"><a class="link" href="#_포스트_권한_변경">포스트 권한 변경</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h3>
+<h3 id="_요청_10"><a class="link" href="#_요청_10">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/admin/31?postState=APPROVAL HTTP/1.1
@@ -1777,7 +2008,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_11"><a class="link" href="#_응답_11">응답</a></h3>
+<h3 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1839,7 +2070,7 @@ Content-Length: 61
 <h2 id="_어드민_리스트_요청"><a class="link" href="#_어드민_리스트_요청">어드민 : 리스트 요청</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_10"><a class="link" href="#_요청_10">요청</a></h3>
+<h3 id="_요청_11"><a class="link" href="#_요청_11">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/admin/APPROVAL?page=0&amp;size=10 HTTP/1.1
@@ -1848,7 +2079,7 @@ Host: api.springdocs.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_응답_12"><a class="link" href="#_응답_12">응답</a></h3>
+<h3 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2038,8 +2269,8 @@ Content-Length: 5184
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -2065,7 +2296,7 @@ Content-Length: 5184
 <h2 id="_좋아요_요청_및_취소"><a class="link" href="#_좋아요_요청_및_취소">좋아요 요청 및 취소</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_11"><a class="link" href="#_요청_11">요청</a></h3>
+<h3 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/favorite HTTP/1.1
@@ -2099,7 +2330,7 @@ postId=38&amp;userId=40</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h3>
+<h3 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2161,7 +2392,7 @@ Content-Length: 61
 <h2 id="_좋아요를_한_유저_정보_list"><a class="link" href="#_좋아요를_한_유저_정보_list">좋아요를 한 유저 정보 List</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h3>
+<h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=37 HTTP/1.1
@@ -2188,7 +2419,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h3>
+<h3 id="_응답_16"><a class="link" href="#_응답_16">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2369,7 +2600,7 @@ Content-Length: 3980
 <h2 id="_좋아요_포스트_아이디로_삭제"><a class="link" href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
+<h3 id="_요청_14"><a class="link" href="#_요청_14">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=36 HTTP/1.1
@@ -2396,7 +2627,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h3>
+<h3 id="_응답_17"><a class="link" href="#_응답_17">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2458,7 +2689,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-24 20:12:52 +0900
+Last updated 2022-10-25 20:18:30 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
