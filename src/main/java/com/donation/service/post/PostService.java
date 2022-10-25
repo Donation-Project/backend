@@ -9,6 +9,7 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.favorite.FavoriteRedisRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.postdetailimage.PostDetailImageRepository;
@@ -41,7 +42,7 @@ public class PostService {
 
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
     }
 
     public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
@@ -73,13 +74,13 @@ public class PostService {
 
     public void confirm(PostState postState, Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
         post.confirm(postState);
     }
 
     public void delete(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
         postRepository.delete(post);
     }
 
@@ -89,7 +90,7 @@ public class PostService {
 
     private PostFindRespDto validateWithDto(Long postId){
         PostFindRespDto findPostDto = postRepository.findDetailPostById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
         List<String> imagePath = postDetailImageRepository.findImagePath(findPostDto.getPostId());
         Long count = favoriteRedisRepository.count(postId);
         findPostDto.setPostDetailImages(imagePath);

@@ -4,8 +4,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.donation.config.ConstConfig;
-import com.donation.exception.s3.EmptyFileException;
-import com.donation.exception.s3.FileUploadFailedException;
+import com.donation.exception.DonationIOException;
+import com.donation.exception.DonationNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class AwsS3Service {
             objMeta.setContentType(multipartFile.getContentType());
             amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
         } catch (IOException e) {
-            throw new FileUploadFailedException();
+            throw new DonationIOException(String.format("업로드를 실패했습니다.(%s)"));
         }
 
         return amazonS3.getUrl(bucket, s3FileName).toString();
@@ -55,7 +56,7 @@ public class AwsS3Service {
             objMeta.setCacheControl("public, max-age=31536000");
             amazonS3.putObject(new PutObjectRequest(bucket, s3FileName, new ByteArrayInputStream(image), objMeta));
         } catch (Exception e) {
-            throw new FileUploadFailedException();
+            throw new DonationIOException(String.format("업로드를 실패했습니다.(%s)"));
         }
         return amazonS3.getUrl(bucket, s3FileName).toString();
     }
@@ -63,7 +64,7 @@ public class AwsS3Service {
 
     private void validateFileExists(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
-            throw new EmptyFileException();
+            throw new DonationNotFoundException("파일이 존재하지 않습니다.");
         }
     }
 

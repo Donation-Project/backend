@@ -5,6 +5,7 @@ import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.domain.entites.Donation;
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.service.user.UserService;
@@ -31,7 +32,7 @@ public class DonationService {
         Donation donation = Donation.builder()
                 .user(userService.getUser(donationSaveReqDto.getUserId()))
                 .post(postRepository.findById(donationSaveReqDto.getPostId())
-                        .orElseThrow(IllegalArgumentException::new))
+                        .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다.")))
                 .amount(10.1f)
                 .build();
         donationRepository.save(donation);

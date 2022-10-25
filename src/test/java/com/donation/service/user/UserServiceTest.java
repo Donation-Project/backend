@@ -3,8 +3,8 @@ package com.donation.service.user;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.domain.entites.User;
-import com.donation.exception.user.EmailDuplicateException;
-import com.donation.exception.NoSuchElementException;
+
+import com.donation.exception.DonationException;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -72,7 +72,7 @@ class UserServiceTest {
 
         //then
         assertThatThrownBy(() -> userService.join(userDto))
-                .isInstanceOf(EmailDuplicateException.class);
+                .isInstanceOf(DonationException.class);
     }
 
     @Test
@@ -124,7 +124,7 @@ class UserServiceTest {
         Long id = 100L;
         //then
         assertThatThrownBy(() -> userService.getUser(id))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(DonationException.class);
     }
 
     @Test
@@ -143,6 +143,6 @@ class UserServiceTest {
 
         //then
         assertThatThrownBy(() -> userService.getUser(id))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(DonationException.class);
     }
 }
