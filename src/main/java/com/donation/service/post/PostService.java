@@ -46,25 +46,20 @@ public class PostService {
 
     public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
         User user = userService.getUser(userId);
-        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImages(), user));
+        Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImage(), user));
         return PostSaveRespDto.toDto(post, user);
     }
 
-    private Post postSaveValidation(PostSaveReqDto postSaveReqDto, List<String> images, User user) {
+    private Post postSaveValidation(PostSaveReqDto postSaveReqDto, String image, User user) {
         Post post = postSaveReqDto.toPost(user);
-        if (!images.isEmpty())
-            addPostDetailImage(images, post);
+        if (!(image == null))
+            addPostDetailImage(image, post);
         return post;
     }
 
-    private void addPostDetailImage(List<String> images, Post post) {
-        for (String image : images) {
-            if (image.isEmpty())
-                continue;
-
-            byte[] imageDecode = Base64.getMimeDecoder().decode(image.substring(image.indexOf(",") + 1));
-            post.addPostImage(PostDetailImage.of(awsS3Service.upload(imageDecode)));
-        }
+    private void addPostDetailImage(String image, Post post) {
+        byte[] imageDecode = Base64.getMimeDecoder().decode(image.substring(image.indexOf(",") + 1));
+        post.addPostImage(PostDetailImage.of(awsS3Service.upload(imageDecode)));
     }
 
     public void update(PostUpdateReqDto updateReqDto, Long id) {
