@@ -27,6 +27,7 @@ import java.util.stream.IntStream;
 import static com.donation.domain.enums.Category.ETC;
 import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.WAITING;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -140,7 +141,7 @@ class PostControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("400"))
+                .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
                 .andDo(print());
     }
 
