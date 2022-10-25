@@ -12,7 +12,6 @@ import com.donation.domain.enums.Role;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.donation.domain.enums.Category.ETC;
-import static com.donation.domain.enums.PostState.*;
+import static com.donation.domain.enums.PostState.WAITING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -128,20 +127,20 @@ public class PostServiceTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-//    @Test
-//    @DisplayName("포스트(서비스) : 단건조회")
-//    void findById(){
-//        //given
-//        Post post = postRepository.save(getPost());
-//
-//        //when
-//        PostFindRespDto findRespDto = postService.findById(post.getId());
-//
-//        //then
-//        assertThat(findRespDto.getPostId()).isEqualTo(post.getId());
-//        assertThat(findRespDto.getWrite().getTitle()).isEqualTo(post.getWrite().getTitle());
-//        assertThat(findRespDto.getAmount()).isEqualTo(post.getAmount());
-//    }
+    @Test
+    @DisplayName("포스트(서비스) : 단건조회")
+    void findById(){
+        //given
+        Post post = postRepository.save(getPost());
+
+        //when
+        PostFindRespDto findRespDto = postService.findById(post.getId());
+
+        //then
+        assertThat(findRespDto.getPostId()).isEqualTo(post.getId());
+        assertThat(findRespDto.getWrite().getTitle()).isEqualTo(post.getWrite().getTitle());
+        assertThat(findRespDto.getAmount()).isEqualTo(post.getAmount());
+    }
 
     @Test
     @DisplayName("포스트(서비스) : 전체 조회")

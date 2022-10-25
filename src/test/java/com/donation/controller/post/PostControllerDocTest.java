@@ -11,7 +11,6 @@ import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -146,45 +145,45 @@ public class PostControllerDocTest {
                 ));
     }
 
-//    @Test
-//    @DisplayName("포스트(RestDocs) : 단건 조회")
-//    void get() throws Exception {
-//        //given
-//        Post post = postRepository.save(getPost());
-//
-//
-//        // expected
-//        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post/{id}", post.getId()))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.success").value("true"))
-//                .andExpect(jsonPath("$.data.postId").value(post.getId()))
-//                .andExpect(jsonPath("$.error").isEmpty())
-//                .andDo(document("post-getOne",
-//                        preprocessResponse(prettyPrint()),
-//                        pathParameters(
-//                                parameterWithName("id").description("포스트 ID")
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("success").description("성공 여부"),
-//                                fieldWithPath("data.postId").description("포스팅 ID"),
-//                                fieldWithPath("data.userRespDto.id").description("유저 아이디"),
-//                                fieldWithPath("data.userRespDto.username").description("이메일"),
-//                                fieldWithPath("data.userRespDto.name").description("이름"),
-//                                fieldWithPath("data.userRespDto.profileImage").description("회원 프로필 이미지"),
-//                                fieldWithPath("data.write.title").description("제목"),
-//                                fieldWithPath("data.write.content").description("제목"),
-//                                fieldWithPath("data.amount").description("금액"),
-//                                fieldWithPath("data.category").description("카테로리"),
-//                                fieldWithPath("data.state").description("포스팅 상태"),
-//                                fieldWithPath("data.postDetailImages").description("이미지"),
-//                                fieldWithPath("data.favoriteCount").description("좋아요 갯수"),
-//                                fieldWithPath("error").description("에러 발생시 오류 반환")
-//                        )
-//
-//                ));
-//    }
+    @Test
+    @DisplayName("포스트(RestDocs) : 단건 조회")
+    void get() throws Exception {
+        //given
+        Post post = postRepository.save(getPost());
+
+
+        // expected
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post/{id}", post.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.postId").value(post.getId()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("post-getOne",
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.postId").description("포스팅 ID"),
+                                fieldWithPath("data.userRespDto.id").description("유저 아이디"),
+                                fieldWithPath("data.userRespDto.username").description("이메일"),
+                                fieldWithPath("data.userRespDto.name").description("이름"),
+                                fieldWithPath("data.userRespDto.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.write.title").description("제목"),
+                                fieldWithPath("data.write.content").description("제목"),
+                                fieldWithPath("data.amount").description("금액"),
+                                fieldWithPath("data.category").description("카테로리"),
+                                fieldWithPath("data.state").description("포스팅 상태"),
+                                fieldWithPath("data.postDetailImages").description("이미지"),
+                                fieldWithPath("data.favoriteCount").description("좋아요 갯수"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+
+                ));
+    }
 
     @Test
     @DisplayName("포스트(RestDocs) : 수정")

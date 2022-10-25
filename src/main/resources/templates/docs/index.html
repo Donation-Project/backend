@@ -487,31 +487,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_포스팅_생성">포스팅 생성</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_4">요청</a></li>
-<li><a href="#_응답_7">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_단건_조회">포스트 정보 단건 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_5">요청</a></li>
-<li><a href="#_응답_8">응답</a></li>
+<li><a href="#_응답_7">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_리스트_조회">포스트 정보 리스트 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_6">요청</a></li>
-<li><a href="#_응답_9">응답</a></li>
+<li><a href="#_응답_8">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_수정">포스트 정보 수정</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_7">요청</a></li>
-<li><a href="#_응답_10">응답</a></li>
+<li><a href="#_응답_9">응답</a></li>
 </ul>
 </li>
 <li><a href="#_포스트_정보_삭제">포스트 정보 삭제</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_8">요청</a></li>
-<li><a href="#_응답_11">응답</a></li>
+<li><a href="#_응답_10">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -521,13 +520,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_포스트_권한_변경">포스트 권한 변경</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_9">요청</a></li>
-<li><a href="#_응답_12">응답</a></li>
+<li><a href="#_응답_11">응답</a></li>
 </ul>
 </li>
 <li><a href="#_어드민_리스트_요청">어드민 : 리스트 요청</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_10">요청</a></li>
-<li><a href="#_응답_13">응답</a></li>
+<li><a href="#_응답_12">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -537,19 +536,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_좋아요_요청_및_취소">좋아요 요청 및 취소</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_11">요청</a></li>
-<li><a href="#_응답_14">응답</a></li>
+<li><a href="#_응답_13">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요를_한_유저_정보_list">좋아요를 한 유저 정보 List</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_12">요청</a></li>
-<li><a href="#_응답_15">응답</a></li>
+<li><a href="#_응답_14">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_13">요청</a></li>
-<li><a href="#_응답_16">응답</a></li>
+<li><a href="#_응답_15">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -671,7 +670,7 @@ Content-Length: 59
 
 {
   "success" : true,
-  "data" : 91,
+  "data" : 98,
   "error" : null
 }</code></pre>
 </div>
@@ -717,7 +716,7 @@ Content-Length: 59
 <h3 id="_요청"><a class="link" href="#_요청">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/59 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/66 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -762,7 +761,7 @@ Content-Length: 244
 {
   "success" : true,
   "data" : {
-    "id" : 59,
+    "id" : 66,
     "username" : "username@naver.com",
     "name" : "정우진",
     "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -854,52 +853,52 @@ Content-Length: 1816
   "success" : true,
   "data" : {
     "content" : [ {
-      "id" : 61,
+      "id" : 68,
       "username" : "username@naver.com1",
       "name" : "name1",
       "profileImage" : null
     }, {
-      "id" : 62,
+      "id" : 69,
       "username" : "username@naver.com2",
       "name" : "name2",
       "profileImage" : null
     }, {
-      "id" : 63,
+      "id" : 70,
       "username" : "username@naver.com3",
       "name" : "name3",
       "profileImage" : null
     }, {
-      "id" : 64,
+      "id" : 71,
       "username" : "username@naver.com4",
       "name" : "name4",
       "profileImage" : null
     }, {
-      "id" : 65,
+      "id" : 72,
       "username" : "username@naver.com5",
       "name" : "name5",
       "profileImage" : null
     }, {
-      "id" : 66,
+      "id" : 73,
       "username" : "username@naver.com6",
       "name" : "name6",
       "profileImage" : null
     }, {
-      "id" : 67,
+      "id" : 74,
       "username" : "username@naver.com7",
       "name" : "name7",
       "profileImage" : null
     }, {
-      "id" : 68,
+      "id" : 75,
       "username" : "username@naver.com8",
       "name" : "name8",
       "profileImage" : null
     }, {
-      "id" : 69,
+      "id" : 76,
       "username" : "username@naver.com9",
       "name" : "name9",
       "profileImage" : null
     }, {
-      "id" : 70,
+      "id" : 77,
       "username" : "username@naver.com10",
       "name" : "name10",
       "profileImage" : null
@@ -913,8 +912,8 @@ Content-Length: 1816
       "offset" : 0,
       "pageSize" : 10,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -940,7 +939,7 @@ Content-Length: 1816
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/57/profile HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/64/profile HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Host: api.springdocs.com
 
@@ -986,7 +985,7 @@ Content-Length: 61
 <h3 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/58 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/65 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1027,7 +1026,7 @@ Content-Length: 61
 <h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/51 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/58 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 110
 Host: api.springdocs.com
@@ -1041,9 +1040,10 @@ Host: api.springdocs.com
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::C:\Users\User\Desktop\back\build\generated-snippets/post-save/request-parameters.adoc[]
+=== 응답</p>
 </div>
-<div class="sect2">
-<h3 id="_응답_7"><a class="link" href="#_응답_7">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -1063,9 +1063,9 @@ Content-Length: 482
 {
   "success" : true,
   "data" : {
-    "postId" : 73,
+    "postId" : 76,
     "userRespDto" : {
-      "id" : 51,
+      "id" : 58,
       "username" : "username@naver.com",
       "name" : "정우진",
       "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1174,7 +1174,7 @@ Content-Length: 482
 <h3 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/72 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/75 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1199,7 +1199,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_8"><a class="link" href="#_응답_8">응답</a></h3>
+<h3 id="_응답_7"><a class="link" href="#_응답_7">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1219,9 +1219,9 @@ Content-Length: 509
 {
   "success" : true,
   "data" : {
-    "postId" : 72,
+    "postId" : 75,
     "userRespDto" : {
-      "id" : 50,
+      "id" : 57,
       "username" : "username@naver.com",
       "name" : "정우진",
       "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1342,7 +1342,7 @@ Host: api.springdocs.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_응답_9"><a class="link" href="#_응답_9">응답</a></h3>
+<h3 id="_응답_8"><a class="link" href="#_응답_8">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1363,9 +1363,9 @@ Content-Length: 5177
   "success" : true,
   "data" : {
     "content" : [ {
-      "postId" : 42,
+      "postId" : 45,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1379,9 +1379,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 43,
+      "postId" : 46,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1395,9 +1395,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 44,
+      "postId" : 47,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1411,9 +1411,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 45,
+      "postId" : 48,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1427,9 +1427,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 46,
+      "postId" : 49,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1443,9 +1443,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 47,
+      "postId" : 50,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1459,9 +1459,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 48,
+      "postId" : 51,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1475,9 +1475,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 49,
+      "postId" : 52,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1491,9 +1491,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 50,
+      "postId" : 53,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1507,9 +1507,9 @@ Content-Length: 5177
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 51,
+      "postId" : 54,
       "userRespDto" : {
-        "id" : 49,
+        "id" : 56,
         "username" : "username@naver.com",
         "name" : "정우진",
         "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
@@ -1532,8 +1532,8 @@ Content-Length: 5177
       "offset" : 0,
       "pageSize" : 10,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -1561,7 +1561,7 @@ Content-Length: 5177
 <h3 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/41 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/44 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 105
@@ -1596,7 +1596,7 @@ Host: api.springdocs.com
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_10"><a class="link" href="#_응답_10">응답</a></h3>
+<h3 id="_응답_9"><a class="link" href="#_응답_9">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1661,7 +1661,7 @@ Content-Length: 61
 <h3 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/40 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/43 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1686,7 +1686,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_11"><a class="link" href="#_응답_11">응답</a></h3>
+<h3 id="_응답_10"><a class="link" href="#_응답_10">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1777,7 +1777,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_12"><a class="link" href="#_응답_12">응답</a></h3>
+<h3 id="_응답_11"><a class="link" href="#_응답_11">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1848,7 +1848,7 @@ Host: api.springdocs.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h3>
+<h3 id="_응답_12"><a class="link" href="#_응답_12">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2038,8 +2038,8 @@ Content-Length: 5184
       "offset" : 0,
       "pageSize" : 10,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -2072,7 +2072,7 @@ Content-Length: 5184
 Host: api.springdocs.com
 Content-Type: application/x-www-form-urlencoded
 
-postId=35&amp;userId=13</code></pre>
+postId=38&amp;userId=20</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2099,7 +2099,7 @@ postId=35&amp;userId=13</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h3>
+<h3 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2164,7 +2164,115 @@ Content-Length: 61
 <h3 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=34 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=37 HTTP/1.1
+Host: api.springdocs.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포스팅 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 1211
+
+{
+  "success" : true,
+  "data" : [ {
+    "id" : 10,
+    "username" : "username1@naver.com",
+    "name" : "name1",
+    "profileImage" : null
+  }, {
+    "id" : 11,
+    "username" : "username2@naver.com",
+    "name" : "name2",
+    "profileImage" : null
+  }, {
+    "id" : 12,
+    "username" : "username3@naver.com",
+    "name" : "name3",
+    "profileImage" : null
+  }, {
+    "id" : 13,
+    "username" : "username4@naver.com",
+    "name" : "name4",
+    "profileImage" : null
+  }, {
+    "id" : 14,
+    "username" : "username5@naver.com",
+    "name" : "name5",
+    "profileImage" : null
+  }, {
+    "id" : 15,
+    "username" : "username6@naver.com",
+    "name" : "name6",
+    "profileImage" : null
+  }, {
+    "id" : 16,
+    "username" : "username7@naver.com",
+    "name" : "name7",
+    "profileImage" : null
+  }, {
+    "id" : 17,
+    "username" : "username8@naver.com",
+    "name" : "name8",
+    "profileImage" : null
+  }, {
+    "id" : 18,
+    "username" : "username9@naver.com",
+    "name" : "name9",
+    "profileImage" : null
+  }, {
+    "id" : 19,
+    "username" : "username10@naver.com",
+    "name" : "name10",
+    "profileImage" : null
+  } ],
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_좋아요_포스트_아이디로_삭제"><a class="link" href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=36 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -2189,114 +2297,6 @@ Host: api.springdocs.com</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 1204
-
-{
-  "success" : true,
-  "data" : [ {
-    "id" : 3,
-    "username" : "username1@naver.com",
-    "name" : "name1",
-    "profileImage" : null
-  }, {
-    "id" : 4,
-    "username" : "username2@naver.com",
-    "name" : "name2",
-    "profileImage" : null
-  }, {
-    "id" : 5,
-    "username" : "username3@naver.com",
-    "name" : "name3",
-    "profileImage" : null
-  }, {
-    "id" : 6,
-    "username" : "username4@naver.com",
-    "name" : "name4",
-    "profileImage" : null
-  }, {
-    "id" : 7,
-    "username" : "username5@naver.com",
-    "name" : "name5",
-    "profileImage" : null
-  }, {
-    "id" : 8,
-    "username" : "username6@naver.com",
-    "name" : "name6",
-    "profileImage" : null
-  }, {
-    "id" : 9,
-    "username" : "username7@naver.com",
-    "name" : "name7",
-    "profileImage" : null
-  }, {
-    "id" : 10,
-    "username" : "username8@naver.com",
-    "name" : "name8",
-    "profileImage" : null
-  }, {
-    "id" : 11,
-    "username" : "username9@naver.com",
-    "name" : "name9",
-    "profileImage" : null
-  }, {
-    "id" : 12,
-    "username" : "username10@naver.com",
-    "name" : "name10",
-    "profileImage" : null
-  } ],
-  "error" : null
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_좋아요_포스트_아이디로_삭제"><a class="link" href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=33 HTTP/1.1
-Host: api.springdocs.com</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">포스팅 ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_응답_16"><a class="link" href="#_응답_16">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2358,7 +2358,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-20 20:15:19 +0900
+Last updated 2022-10-24 20:12:52 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
