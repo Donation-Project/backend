@@ -60,8 +60,8 @@ class FavoriteServiceTest {
         favoriteService.saveAndCancel(postId, userId);
 
         //then
-        Boolean isPresent = favoriteService.findById(postId, userId);
-        assertThat(isPresent).isTrue();
+        Favorites findFavorite = favoriteService.findById(postId, userId);
+        assertThat((findFavorite != null)).isTrue();
 
         //clear
         favoriteService.deletePostId(postId);
@@ -80,8 +80,8 @@ class FavoriteServiceTest {
         favoriteService.saveAndCancel(postId, userId);
 
         //then
-        Boolean isPresent = favoriteService.findById(postId, userId);
-        assertThat(isPresent).isFalse();
+        Favorites findFavorite = favoriteService.findById(postId, userId);
+        assertThat((findFavorite != null)).isFalse();
 
         //clear
         favoriteService.deletePostId(postId);

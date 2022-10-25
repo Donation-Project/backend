@@ -9,8 +9,9 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
-import com.donation.exception.DonationNotFoundException;
-import com.donation.repository.favorite.FavoriteRedisRepository;
+
+import com.donation.repository.favorite.FavoriteRepository;
+
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.postdetailimage.PostDetailImageRepository;
 import com.donation.service.s3.AwsS3Service;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -36,7 +38,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final PostDetailImageRepository postDetailImageRepository;
-    private final FavoriteRedisRepository favoriteRedisRepository;
+    private final FavoriteRepository favoriteRepository;
     private final UserService userService;
     private final AwsS3Service awsS3Service;
 
@@ -55,7 +57,7 @@ public class PostService {
 
     private Post postSaveValidation(PostSaveReqDto postSaveReqDto, String image, User user) {
         Post post = postSaveReqDto.toPost(user);
-        if (!(image == null))
+        if (StringUtils.hasText(image))
             addPostDetailImage(image, post);
         return post;
     }
@@ -85,7 +87,7 @@ public class PostService {
         PostFindRespDto findPostDto = postRepository.findDetailPostById(postId)
                 .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
         List<String> imagePath = postDetailImageRepository.findImagePath(findPostDto.getPostId());
-        Long count = favoriteRedisRepository.count(postId);
+        Long count = favoriteRepository.countFavoritesByPost_Id(postId);
         findPostDto.setPostDetailImages(imagePath);
         findPostDto.setFavoriteCount(count);
         return findPostDto;
