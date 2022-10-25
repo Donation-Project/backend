@@ -2,15 +2,12 @@ package com.donation.controller.user;
 
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +25,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static com.donation.testutil.TestDtoDataFactory.createUserJoinReqDto;
+import static com.donation.testutil.TestDtoDataFactory.createUserLoginReqDto;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,12 +42,8 @@ class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ConstConfig config;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -64,36 +58,16 @@ class UserControllerTest {
         userRepository.deleteAll();
     }
 
-    User getUser() {
-        String username = "username@naver.com";
-        String name = "정우진";
-        String password = "1234";
-        Role role = Role.USER;
-
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .profileImage(config.getBasicImageProfile())
-                .role(role)
-                .build();
-    }
-
     @Test
     @DisplayName("회원(컨트롤러) : 회원 가입")
     void join() throws Exception {
         //given
-        UserJoinReqDto request = UserJoinReqDto.builder()
-                .email("user@naver.com")
-                .name("name")
-                .password("password")
-                .build();
-        String json = objectMapper.writeValueAsString(request);
+        UserJoinReqDto request = createUserJoinReqDto();
 
         // expected
         mockMvc.perform(post("/api/join")
                         .contentType(APPLICATION_JSON)
-                        .content(json)
+                        .content(objectMapper.writeValueAsString(request))
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
@@ -106,11 +80,8 @@ class UserControllerTest {
     @DisplayName("회원(RestDocs) : 로그인")
     void login() throws Exception {
         //given
-        User user = userRepository.save(getUser());
-        UserLoginReqDto request = UserLoginReqDto.builder()
-                .email(user.getUsername())
-                .password(user.getPassword())
-                .build();
+        User user = userRepository.save(createUser());
+        UserLoginReqDto request = createUserLoginReqDto(user.getUsername(), user.getPassword());
 
         // expected
         mockMvc.perform(post("/api/login")
@@ -128,19 +99,13 @@ class UserControllerTest {
     @DisplayName("회원(컨트롤러) : 중복된 이메일 회원 가입")
     void join_exception() throws Exception {
         //given
-        UserJoinReqDto request = UserJoinReqDto.builder()
-                .email("user@naver.com")
-                .name("name")
-                .password("password")
-                .build();
-
+        UserJoinReqDto request = createUserJoinReqDto();
         userRepository.save(request.toUser(null));
-        String json = objectMapper.writeValueAsString(request);
 
         // expected
         mockMvc.perform(post("/api/join")
                         .contentType(APPLICATION_JSON)
-                        .content(json)
+                        .content(objectMapper.writeValueAsString(request))
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))
@@ -155,12 +120,7 @@ class UserControllerTest {
     void list() throws Exception {
         //given
         List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> User.builder()
-                        .username("username@naver.com" + i)
-                        .name("name" + i)
-                        .password("password" + i)
-                        .build()
-                )
+                .mapToObj(i -> createUser("username" + i))
                 .collect(Collectors.toList());
         userRepository.saveAll(users);
 
@@ -179,7 +139,7 @@ class UserControllerTest {
     @DisplayName("회원(컨트롤러) : 단건 조회")
     void get() throws Exception {
         //given
-        User user = getUser();
+        User user = createUser();
         userRepository.save(user);
 
         // expected
@@ -198,7 +158,7 @@ class UserControllerTest {
     @DisplayName("회원(컨트롤러) : 단건 조회 없는 회원 조회")
     void get_exception() throws Exception {
         //given
-        User user = getUser();
+        User user = createUser();
         userRepository.save(user);
 
         // expected
@@ -214,7 +174,7 @@ class UserControllerTest {
     @DisplayName("회원(컨트롤러) : 회원 삭제")
     void delete_exception() throws Exception {
         //given
-        User user = getUser();
+        User user = createUser();
         userRepository.save(user);
 
         // expected
@@ -232,7 +192,7 @@ class UserControllerTest {
     @DisplayName("회원(정보수정) : 프로필 변경")
     void update_profile() throws Exception {
         //given
-        User user = getUser();
+        User user = createUser();
         userRepository.save(user);
 
         MultipartFile profile = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());

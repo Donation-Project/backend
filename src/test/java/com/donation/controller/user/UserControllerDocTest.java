@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.donation.testutil.TestDtoDataFactory.createUserJoinReqDto;
+import static com.donation.testutil.TestDtoDataFactory.createUserLoginReqDto;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -95,11 +98,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(RestDocs) : 회원 가입")
     void join() throws Exception {
         //given
-        UserJoinReqDto request = UserJoinReqDto.builder()
-                .email("user@naver.com")
-                .name("name")
-                .password("password")
-                .build();
+        UserJoinReqDto request = createUserJoinReqDto();
 
         // expected
         mockMvc.perform(post("/api/join")
@@ -125,11 +124,8 @@ public class UserControllerDocTest {
     @DisplayName("회원(RestDocs) : 로그인")
     void login() throws Exception {
         //given
-        User user = userRepository.save(getUser());
-        UserLoginReqDto request = UserLoginReqDto.builder()
-                .email(user.getUsername())
-                .password(user.getPassword())
-                .build();
+        User user = userRepository.save(createUser());
+        UserLoginReqDto request = createUserLoginReqDto(user.getUsername(), user.getPassword());
 
         // expected
         mockMvc.perform(post("/api/login")
@@ -155,8 +151,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(RestDocs) : 단건 조회")
     void get() throws Exception {
         //given
-        User user = getUser();
-        userRepository.save(user);
+        User user = userRepository.save(createUser());
 
         // expected
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user/{id}", user.getId()))
@@ -190,12 +185,7 @@ public class UserControllerDocTest {
     void list() throws Exception {
         //given
         List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> User.builder()
-                        .username("username@naver.com" + i)
-                        .name("name" + i)
-                        .password("password" + i)
-                        .build()
-                )
+                .mapToObj(i -> createUser("username" + i))
                 .collect(Collectors.toList());
         userRepository.saveAll(users);
 
@@ -217,8 +207,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(컨트롤러) : 회원 삭제")
     void delete() throws Exception {
         //given
-        User user = getUser();
-        userRepository.save(user);
+        User user = userRepository.save(createUser());
 
         // expected
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/{userId}", user.getId()))
@@ -237,8 +226,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(정보수정) : 프로필 변경")
     void update_profile() throws Exception {
         //given
-        User user = getUser();
-        userRepository.save(user);
+        User user = userRepository.save(createUser());
 
         MultipartFile profile = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());
 
