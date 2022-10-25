@@ -45,7 +45,10 @@
 ## 
 
 ### 프로젝트 아키텍쳐 🏛
-- 추가
+- **CI/CD**
+<div align=center> 
+<img width="619" alt="cicd" src="https://user-images.githubusercontent.com/106054507/197660025-c7385431-1300-450d-bc75-8c4a2db4b557.PNG">
+</div>
 
 ### 데이터 베이스 설계 🖼 
 
