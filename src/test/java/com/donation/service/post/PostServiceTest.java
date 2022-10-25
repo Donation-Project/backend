@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
@@ -43,20 +42,20 @@ public class PostServiceTest {
     private UserRepository userRepository;
 
     @AfterEach
-    void clear(){
+    void clear() {
         postRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Test
     @DisplayName("포스트(서비스) : 생성")
-    void save(){
+    void save() {
         //given
         PostSaveReqDto request = createPostSaveReqDto("title", "content");
         User user = userRepository.save(createUser());
 
         //when
-        PostSaveRespDto savePost = postService.save(request,user.getId());
+        PostSaveRespDto savePost = postService.save(request, user.getId());
 
         //then
         assertThat(savePost.getWrite().getTitle()).isEqualTo("title");
@@ -65,9 +64,9 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("포스트(서비스) : 업데이트")
-    void update(){
+    void update() {
         //given
-        Post post = postRepository.save(createPost("title","content"));
+        Post post = postRepository.save(createPost("title", "content"));
         PostUpdateReqDto updateReqDto = createPostUpdateReqDto("update", "update");
 
         //when
@@ -82,7 +81,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("포스트(서비스) : 업데이트_예외발생")
-    void update_exception(){
+    void update_exception() {
         //given
         Long postId = 1L;
 
@@ -94,7 +93,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("포스트(서비스) : 삭제")
-    void delete(){
+    void delete() {
         //given
         Post post = postRepository.save(createPost());
 
@@ -108,7 +107,7 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("포스트(서비스) : 단건조회")
-    void findById(){
+    void findById() {
         //given
         Post post = postRepository.save(createPost());
 
@@ -122,22 +121,43 @@ public class PostServiceTest {
     }
 
     @Test
-    @DisplayName("포스트(서비스) : 전체 조회")
-    void getList(){
+    @DisplayName("포스트(서비스) : 존재하지 않는 포스트 조회시 예외 발생")
+    void findById_Exception() {
         //given
+        Long id = 1000L;
+
+        //when
+        assertThatThrownBy(() -> postService.findById(id))
+                .isInstanceOf(DonationNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("포스트(서비스) : 전체 조회")
+    void getList() {
+        //given
+        User user = userRepository.save(createUser());
         List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> createPost("title" + i, "content" + i))
+                .mapToObj(i -> createPost(user,"title" + i, "content" + i))
                 .collect(Collectors.toList());
         postRepository.saveAll(posts);
 
         //when
-        Pageable pageable = PageRequest.of(0, 10);
-        Slice<PostListRespDto> postList = postService.getList(pageable, APPROVAL);
+        Slice<PostListRespDto> postList = postService.getList(PageRequest.of(0, 10), APPROVAL);
 
         //then
         assertThat(postList.getSize()).isEqualTo(10);
         assertThat(postList.getNumberOfElements()).isEqualTo(10);
         assertThat(postList.getContent().get(0).getWrite().getTitle()).isEqualTo(posts.get(0).getWrite().getTitle());
         assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
+    }
+
+    @Test
+    @DisplayName("포스트(서비스) : 상태가 Delete이면서 기간이 7일이상 지난 포스트 자동삭제")
+    void postStateIsDeleteAnd7DaysOver() {
+        //given
+        postRepository.save(createPost());
+
+        //when
+        postService.postStateIsDeleteAnd7DaysOver();
     }
 }

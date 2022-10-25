@@ -148,13 +148,38 @@ class PostControllerTest {
     void getList() throws  Exception{
         //given
         User user = userRepository.save(createUser());
-        List<Post> posts = IntStream.range(1, 31)
+        List<Post> posts = IntStream.range(1, 11)
                 .mapToObj(i -> createPost(user, "title" + i, "content"+i))
                 .collect(Collectors.toList());
         postRepository.saveAll(posts);
 
         // expected
         mockMvc.perform(MockMvcRequestBuilders.get("/api/post?page=0&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
+                .andExpect(jsonPath("$.data.content[0].postId").value(posts.get(0).getId()))
+                .andExpect(jsonPath("$.data.content[0].write.title").value(posts.get(0).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[0].write.content").value(posts.get(0).getWrite().getContent()))
+                .andExpect(jsonPath("$.data.content[9].postId").value(posts.get(9).getId()))
+                .andExpect(jsonPath("$.data.content[9].write.title").value(posts.get(9).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("포스트(컨트롤러) : 자신의 포스트 전체 조회")
+    void getMyPostList() throws Exception{
+        //given
+        User user = userRepository.save(createUser());
+        List<Post> posts = IntStream.range(1, 11)
+                .mapToObj(i -> createPost(user, "title" + i, "content"+i))
+                .collect(Collectors.toList());
+        postRepository.saveAll(posts);
+
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/post/{id}/my-page?page=0&size=10",user.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
