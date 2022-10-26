@@ -31,9 +31,10 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private String metamask;
 
     @Builder
-    public User(Long id, String username, String password, String name, String profileImage, String provider, String providerId, Role role) {
+    public User(Long id, String username, String password, String name, String profileImage, String provider, String providerId, Role role, String metamask) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -42,8 +43,8 @@ public class User extends BaseEntity {
         this.provider = provider;
         this.providerId = providerId;
         this.role = role;
+        this.metamask = metamask;
     }
-
 
     public void passwordUpdate(String password){
         this.password = password;
