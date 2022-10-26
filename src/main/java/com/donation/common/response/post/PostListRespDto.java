@@ -28,7 +28,7 @@ public class PostListRespDto {
     @QueryProjection
     public PostListRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, float amount, Category category, PostState state, String postMainImage) {
         this.postId = postId;
-        this.userRespDto = new UserRespDto(userId, username, name, profileImage);
+        this.userRespDto = new UserRespDto(userId, username, name, profileImage ,null);
         this.write = write;
         this.amount = amount;
         this.category = category;

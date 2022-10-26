@@ -32,6 +32,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                         user.username,
                         user.name,
                         user.profileImage,
+                        user.metamask,
                         post.write,
                         post.amount,
                         post.category,

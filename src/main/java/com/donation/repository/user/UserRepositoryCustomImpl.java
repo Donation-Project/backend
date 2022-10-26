@@ -25,7 +25,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
                         user.id.as("userId"),
                         user.username,
                         user.name,
-                        user.profileImage
+                        user.profileImage,
+                        user.metamask
                 )).from(user)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
