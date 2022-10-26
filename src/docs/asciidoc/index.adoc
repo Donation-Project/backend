@@ -1,4 +1,4 @@
-= Spring Blog Project
+= Donation Project
 :doctype: book
 :icon: font
 :source-highlighter: highlightjs
@@ -51,7 +51,6 @@ include::{snippets}/user-delete/http-response.adoc[]
 == 포스팅 생성
 === 요청
 include::{snippets}/post-save/http-request.adoc[]
-include::{snippets}/post-save/request-parameters.adoc[]
 === 응답
 include::{snippets}/post-save/http-response.adoc[]
 include::{snippets}/post-save/response-fields.adoc[]
@@ -85,6 +84,34 @@ include::{snippets}/post-delete/path-parameters.adoc[]
 === 응답
 include::{snippets}/post-delete/http-response.adoc[]
 include::{snippets}/post-delete/response-fields.adoc[]
+
+== 자신이 작성한 포스트 조회
+=== 요청
+include::{snippets}/post-getMyPostList/http-request.adoc[]
+=== 응답
+include::{snippets}/post-getMyPostList/http-response.adoc[]
+
+= Donation API
+== 기부 내역 저장
+=== 요청
+include::{snippets}/donation-save/http-request.adoc[]
+=== 응답
+include::{snippets}/donation-save/http-response.adoc[]
+include::{snippets}/donation-save/response-fields.adoc[]
+
+== 기부 내역 전체 조회
+=== 요청
+include::{snippets}/donation-getList/http-request.adoc[]
+=== 응답
+include::{snippets}/donation-getList/http-response.adoc[]
+
+== 회원의 기부 내역 전체 조회
+=== 요청
+include::{snippets}/donation-getUserList/http-request.adoc[]
+include::{snippets}/donation-getUserList/path-parameters.adoc[]
+=== 응답
+include::{snippets}/donation-getUserList/http-response.adoc[]
+
 
 = Admin API
 == 포스트 권한 변경

@@ -1,14 +1,10 @@
 package com.donation.controller.admin;
 
-import com.donation.config.ConstConfig;
-import com.donation.domain.embed.Write;
+
 import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
-import com.donation.domain.enums.Category;
-import com.donation.domain.enums.PostState;
-import com.donation.domain.enums.Role;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,9 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.Category.ETC;
-import static com.donation.domain.enums.PostState.APPROVAL;
 import static com.donation.domain.enums.PostState.WAITING;
+import static com.donation.testutil.TestEntityDataFactory.createPost;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -50,38 +45,9 @@ class AdminControllerDocTest {
     private UserRepository userRepository;
     @Autowired
     private PostRepository postRepository;
-    @Autowired
-    private ConstConfig config;
-    User getUser() {
-        String username = "username1@naver.com";
-        String name = "장원진";
-        String password = "1234";
-        Role role = Role.USER;
 
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .profileImage(config.getBasicImageProfile())
-                .role(role)
-                .build();
-    }
-
-    Post getPost() {
-        User user = getUser();
-        userRepository.save(user);
-
-        return Post.builder()
-                .user(user)
-                .write(new Write("title","content"))
-                .amount(10)
-                .category(Category.ETC)
-                .state(PostState.WAITING)
-                .build();
-    }
-
-    @BeforeEach
-    void init() {
+    @AfterEach
+    void clear() {
         postRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -90,7 +56,7 @@ class AdminControllerDocTest {
     @DisplayName("관리자(RestDocs) : 대기글 수락 및 삭제 ")
     void confirm() throws Exception {
         //given
-        Post save = postRepository.save(getPost());
+        Post save = postRepository.save(createPost("title","content"));
 
         //expected
         mockMvc.perform(post("/api/admin/{id}?postState=APPROVAL", save.getId()))
@@ -118,30 +84,18 @@ class AdminControllerDocTest {
     @DisplayName("관리자(RestDocs) : 리스트 조회")
     void getList() throws Exception {
         //given
-        User user = userRepository.save(getUser());
         List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> Post.builder()
-                        .write(new Write("title" + i, "content" + i))
-                        .amount(i)
-                        .state(i % 2 == 1? APPROVAL: WAITING)
-                        .user(user)
-                        .category(ETC)
-                        .build()
-                )
+                .mapToObj(i -> createPost("title" + i, "content"+i))
                 .collect(Collectors.toList());
         postRepository.saveAll(posts);
-
-
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/{state}?page=0&size=10", APPROVAL))
+        // expected
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/{state}?page=0&size=10", WAITING))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content[0].postId").value(posts.get(0).getId()))
                 .andExpect(jsonPath("$.data.content[0].write.title").value(posts.get(0).getWrite().getTitle()))
                 .andExpect(jsonPath("$.data.content[0].write.content").value(posts.get(0).getWrite().getContent()))
-//                .andExpect(jsonPath("$.data.content[9].postId").value(posts.get(9).getId()))
-//                .andExpect(jsonPath("$.data.content[9].write.title").value(posts.get(9).getWrite().getTitle()))
-//                .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(document("admin-getList",
                         preprocessRequest(prettyPrint()),

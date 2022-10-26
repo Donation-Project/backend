@@ -44,6 +44,7 @@ public class PostController {
         return ResponseEntity.ok(CommonResponse.success(post));
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
             @RequestBody @Valid PostUpdateReqDto postUpdateReqDto,
@@ -62,6 +63,12 @@ public class PostController {
     @GetMapping
     public ResponseEntity<?> getPostList(Pageable pageable){
         Slice<PostListRespDto> list = postService.getList(pageable, APPROVAL, COMPLETION);
+        return ResponseEntity.ok(CommonResponse.success(list));
+    }
+
+    @GetMapping("/{id}/my-page")
+    public ResponseEntity<?> getMyPostList(@PathVariable Long id, Pageable pageable) {
+        Slice<PostListRespDto> list = postService.getMyPostList(id, pageable);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 }

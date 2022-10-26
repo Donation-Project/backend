@@ -33,7 +33,7 @@ public class Post extends BaseEntity {
     @Embedded
     private Write write;
 
-    private int amount;
+    private float amount;
 
     @Enumerated(STRING)
     private Category category;
@@ -45,7 +45,7 @@ public class Post extends BaseEntity {
     private List<PostDetailImage> postDetailImages = new ArrayList<>();
 
     @Builder
-    public Post(Long id, User user, Write write, int amount, Category category, PostState state) {
+    public Post(Long id, User user, Write write, float amount, Category category, PostState state) {
         this.id = id;
         this.user = user;
         this.write = write;

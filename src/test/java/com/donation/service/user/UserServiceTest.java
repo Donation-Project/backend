@@ -1,9 +1,8 @@
 package com.donation.service.user;
 
-import com.donation.common.response.user.UserRespDto;
 import com.donation.common.request.user.UserJoinReqDto;
+import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.User;
-
 import com.donation.exception.DonationException;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -12,13 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.donation.testutil.TestDtoDataFactory.createUserJoinReqDto;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -31,8 +31,6 @@ class UserServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-
-
     @AfterEach
     void clear(){
         userRepository.deleteAll();
@@ -42,18 +40,14 @@ class UserServiceTest {
     @DisplayName("회원(서비스) : 회원 가입")
     void join(){
         //given
-        UserJoinReqDto userDto = UserJoinReqDto.builder()
-                .email("woojin@naver.com")
-                .name("woojin")
-                .password("password")
-                .build();
+        UserJoinReqDto userDto = createUserJoinReqDto();
 
         //when
         Long id = userService.join(userDto);
 
         //then
         UserRespDto userRespDto = new UserRespDto(userService.findById(id));
-        assertThat(userRespDto.getUsername()).isEqualTo(userDto.getEmail());
+        assertThat(userRespDto.getEmail()).isEqualTo(userDto.getEmail());
         assertThat(userRespDto.getName()).isEqualTo(userDto.getName());
     }
 
@@ -61,11 +55,7 @@ class UserServiceTest {
     @DisplayName("회원(서비스) : 회원가입 중복된 이메일")
     void join_duplicate_email(){
         //given
-        UserJoinReqDto userDto = UserJoinReqDto.builder()
-                .email("woojin@naver.com")
-                .name("woojin")
-                .password("password")
-                .build();
+        UserJoinReqDto userDto = createUserJoinReqDto();
 
         //when
         Long id = userService.join(userDto);
@@ -80,18 +70,12 @@ class UserServiceTest {
     void getList(){
         //given
         List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> User.builder()
-                        .username("username" + i + "@naver.com")
-                        .name("name" + i)
-                        .password("password" + i)
-                        .build()
-                )
+                .mapToObj(i -> createUser("username" + i))
                 .collect(Collectors.toList());
         userRepository.saveAll(users);
 
-        Pageable pageable = PageRequest.of(0, 10);
         //when
-        Slice<UserRespDto> userList = userService.getList(pageable);
+        Slice<UserRespDto> userList = userService.getList(PageRequest.of(0, 10));
 
         //then
         assertThat(userList.getSize()).isEqualTo(10);
@@ -103,18 +87,14 @@ class UserServiceTest {
     @DisplayName("회원(서비스) : 단건 조회")
     void get() {
         //given
-        UserJoinReqDto userDto = UserJoinReqDto.builder()
-                .email("woojin@naver.com")
-                .name("woojin")
-                .password("password")
-                .build();
-        Long id = userService.join(userDto);
+        User user = userRepository.save(createUser());
+
         //when
-        UserRespDto dto = new UserRespDto(userService.findById(id));
+        UserRespDto dto = new UserRespDto(userService.findById(user.getId()));
 
         //then
-        assertThat(dto.getUsername()).isEqualTo(userDto.getEmail());
-        assertThat(dto.getName()).isEqualTo(userDto.getName());
+        assertThat(dto.getEmail()).isEqualTo(user.getUsername());
+        assertThat(dto.getName()).isEqualTo(user.getName());
     }
 
     @Test
@@ -131,18 +111,13 @@ class UserServiceTest {
     @DisplayName("회원(서비스) : 회원 삭제")
     void delete(){
         //given
-        UserJoinReqDto userDto = UserJoinReqDto.builder()
-                .email("woojin@naver.com")
-                .name("woojin")
-                .password("password")
-                .build();
-        Long id = userService.join(userDto);
+        User user = userRepository.save(createUser());
 
         //when
-        userService.delete(id);
+        userService.delete(user.getId());
 
         //then
-        assertThatThrownBy(() -> userService.findById(id))
+        assertThatThrownBy(() -> userService.findById(user.getId()))
                 .isInstanceOf(DonationException.class);
     }
 }

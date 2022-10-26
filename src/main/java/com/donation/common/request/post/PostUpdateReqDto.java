@@ -16,13 +16,13 @@ public class PostUpdateReqDto {
     private String content;
 
     @NotNull(message = "후원량이 없습니다.")
-    private Integer amount;
+    private float amount;
 
     @NotNull(message = "카테고리를 선택해주세요.")
     private Category category;
 
     @Builder
-    public PostUpdateReqDto(String title, String content, Integer amount, Category category) {
+    public PostUpdateReqDto(String title, String content, float amount, Category category) {
         this.title = title;
         this.content = content;
         this.amount = amount;

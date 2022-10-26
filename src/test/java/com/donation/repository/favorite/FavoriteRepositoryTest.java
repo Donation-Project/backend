@@ -1,8 +1,5 @@
 package com.donation.repository.favorite;
 
-import com.donation.domain.entites.Favorites;
-import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.LongStream;
 
+import static com.donation.testutil.TestEntityDataFactory.createPost;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -23,6 +22,8 @@ class FavoriteRepositoryTest {
 
     @Autowired
     private FavoriteRedisRepository favoriteRedisRepository;
+
+
     @Autowired
     private FavoriteRepository favoriteRepository;
     @Autowired
@@ -30,48 +31,27 @@ class FavoriteRepositoryTest {
     @Autowired
     private PostRepository postRepository;
 
-
-    Favorites getFavorite(){
-        User user = User.builder().build();
-        userRepository.save(user);
-
-        Post post = Post.builder()
-                .user(user)
-                .build();
-        postRepository.save(post);
-
-        return Favorites.builder()
-                .user(user)
-                .post(post)
-                .build();
-    }
-
     @AfterEach
     void clear(){
-        userRepository.deleteAll();
-        postRepository.deleteAll();
         favoriteRepository.deleteAll();
+        postRepository.deleteAll();
+        userRepository.deleteAll();
     }
-
 
     @Test
     @DisplayName("좋아요(레퍼지토리) : 저장")
     void save(){
         //given
-        Favorites favorite = getFavorite();
-        Long postId = favorite.getPost().getId();
-        Long userId = favorite.getUser().getId();
+        Long userId = userRepository.save(createUser()).getId();
+        Long postId = postRepository.save(createPost()).getId();
 
         //when
         favoriteRedisRepository.save(postId, userId);
-        favoriteRepository.save(favorite);
 
         favoriteRedisRepository.getSetOperations().getOperations().exec();
 
         //then
-        Favorites findFavorite = favoriteRepository.findById(favorite.getId()).get();
         Boolean isPresent = favoriteRedisRepository.findById(postId, userId);
-        assertThat(findFavorite.getId()).isEqualTo(favorite.getId());
         assertThat(isPresent).isTrue();
 
         //clear

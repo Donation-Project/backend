@@ -2,28 +2,34 @@ package com.donation.common.response.user;
 
 import com.donation.domain.entites.User;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
 
 
 @Getter
 public class UserRespDto {
     private Long id;
-    private String username;
+    private String email;
     private String name;
     private String profileImage;
+    private String metamask;
 
+
+    @Builder
     @QueryProjection
-    public UserRespDto(Long id, String username, String name, String profileImage) {
+    public UserRespDto(Long id, String username, String name, String profileImage, String metamask) {
         this.id = id;
-        this.username = username;
+        this.email = username;
         this.name = name;
         this.profileImage = profileImage;
+        this.metamask = metamask;
     }
 
-    public UserRespDto(User user){
+    public UserRespDto(User user) {
         this.id = user.getId();
-        this.username = user.getUsername();
+        this.email = user.getUsername();
         this.name = user.getName();
         this.profileImage = user.getProfileImage();
+        this.metamask = user.getMetamask();
     }
 }

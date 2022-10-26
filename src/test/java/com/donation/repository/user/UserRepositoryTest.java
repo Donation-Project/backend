@@ -1,7 +1,7 @@
 package com.donation.repository.user;
 
 import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
+import com.donation.testutil.TestEntityDataFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,28 +23,12 @@ class UserRepositoryTest {
         userRepository.deleteAll();
     }
 
-    static User getUser() {
-        String username = "username@naver.com";
-        String name = "정우진";
-        String password = "1234";
-        Role role = Role.USER;
-
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .role(role)
-                .build();
-    }
-
-
     @Test
     @DisplayName("회원 : 로그인(이메일, 패스워드) 조회")
     void login(){
         //given
-        User user = getUser();
+        User user = TestEntityDataFactory.createUser();
         userRepository.save(user);
-
         String email = user.getUsername();
         String password = user.getPassword();
 

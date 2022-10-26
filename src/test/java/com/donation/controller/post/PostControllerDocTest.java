@@ -2,14 +2,12 @@ package com.donation.controller.post;
 
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
-import com.donation.config.ConstConfig;
-import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +24,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.Category.ETC;
-import static com.donation.domain.enums.PostState.APPROVAL;
-import static com.donation.domain.enums.PostState.WAITING;
+import static com.donation.testutil.TestDtoDataFactory.createPostSaveReqDto;
+import static com.donation.testutil.TestDtoDataFactory.createPostUpdateReqDto;
+import static com.donation.testutil.TestEntityDataFactory.createPost;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
@@ -57,9 +56,6 @@ public class PostControllerDocTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ConstConfig config;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @AfterEach
@@ -68,43 +64,12 @@ public class PostControllerDocTest {
         userRepository.deleteAll();
     }
 
-    User getUser() {
-        String username = "username@naver.com";
-        String name = "정우진";
-        String password = "1234";
-        Role role = Role.USER;
-
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .role(role)
-                .profileImage(config.getBasicImageProfile())
-                .build();
-    }
-
-    Post getPost() {
-        User user = userRepository.save(getUser());
-        return Post.builder()
-                .write(new Write("title", "content"))
-                .user(user)
-                .state(WAITING)
-                .category(ETC)
-                .amount(1)
-                .build();
-    }
-
     @Test
     @DisplayName("포스트(RestDocs) : 생성")
     void save() throws Exception {
         //given
-        User user = userRepository.save(getUser());
-        PostSaveReqDto dto = PostSaveReqDto.builder()
-                .title("title")
-                .content("content")
-                .amount(1)
-                .category(ETC)
-                .build();
+        PostSaveReqDto dto = createPostSaveReqDto("title", "content");
+        User user = userRepository.save(createUser());
 
         // expected
         mockMvc.perform(RestDocumentationRequestBuilders.post("/api/post/{id}", user.getId())
@@ -114,7 +79,7 @@ public class PostControllerDocTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.userRespDto.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.userRespDto.email").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.userRespDto.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.userRespDto.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.data.write.title").value(dto.getTitle()))
@@ -130,9 +95,10 @@ public class PostControllerDocTest {
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.postId").description("포스팅 ID"),
                                 fieldWithPath("data.userRespDto.id").description("유저 아이디"),
-                                fieldWithPath("data.userRespDto.username").description("이메일"),
+                                fieldWithPath("data.userRespDto.email").description("이메일"),
                                 fieldWithPath("data.userRespDto.name").description("이름"),
                                 fieldWithPath("data.userRespDto.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.userRespDto.metamask").description("회원 메타마스크 주소"),
                                 fieldWithPath("data.write.title").description("제목"),
                                 fieldWithPath("data.write.content").description("제목"),
                                 fieldWithPath("data.amount").description("금액"),
@@ -149,7 +115,8 @@ public class PostControllerDocTest {
     @DisplayName("포스트(RestDocs) : 단건 조회")
     void get() throws Exception {
         //given
-        Post post = postRepository.save(getPost());
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
 
 
         // expected
@@ -169,9 +136,10 @@ public class PostControllerDocTest {
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.postId").description("포스팅 ID"),
                                 fieldWithPath("data.userRespDto.id").description("유저 아이디"),
-                                fieldWithPath("data.userRespDto.username").description("이메일"),
+                                fieldWithPath("data.userRespDto.email").description("이메일"),
                                 fieldWithPath("data.userRespDto.name").description("이름"),
                                 fieldWithPath("data.userRespDto.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.userRespDto.metamask").description("회원 메타마스크 주소"),
                                 fieldWithPath("data.write.title").description("제목"),
                                 fieldWithPath("data.write.content").description("제목"),
                                 fieldWithPath("data.amount").description("금액"),
@@ -189,14 +157,10 @@ public class PostControllerDocTest {
     @DisplayName("포스트(RestDocs) : 수정")
     void update() throws Exception {
         //given
-        Post post = postRepository.save(getPost());
-        PostUpdateReqDto request = PostUpdateReqDto.builder()
-                .title("수정제목1")
-                .content("수정내용1")
-                .category(post.getCategory())
-                .amount(post.getAmount())
-                .build();
+        Post post = postRepository.save(createPost());
+        PostUpdateReqDto request = createPostUpdateReqDto("수정 제목", "수정 내용");
 
+        // expected
         mockMvc.perform(put("/api/post/{id}", post.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
@@ -226,7 +190,9 @@ public class PostControllerDocTest {
     @DisplayName("포스트(RestDocs) : 삭제")
     void delete() throws Exception {
         //given
-        Post post = postRepository.save(getPost());
+        Post post = postRepository.save(createPost());
+
+        // expected
         mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/post/{id}", post.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -252,19 +218,13 @@ public class PostControllerDocTest {
     @DisplayName("포스트(RestDocs) : 리스트 조회")
     void getList() throws Exception {
         //given
-        User user = userRepository.save(getUser());
+        User user = userRepository.save(createUser());
         List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> Post.builder()
-                        .write(new Write("title" + i, "content" + i))
-                        .amount(i)
-                        .state(APPROVAL)
-                        .user(user)
-                        .category(ETC)
-                        .build()
-                )
+                .mapToObj(i -> createPost(user, "title" + i, "content"+i))
                 .collect(Collectors.toList());
         postRepository.saveAll(posts);
 
+        // expected
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post?page=0&size=10"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -277,6 +237,34 @@ public class PostControllerDocTest {
                 .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(document("post-getList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    @DisplayName("포스트(RestDocs) : 자신의 포스트 전체 조회")
+    void getMyPostList() throws Exception{
+        //given
+        User user = userRepository.save(createUser());
+        List<Post> posts = IntStream.range(1, 11)
+                .mapToObj(i -> createPost(user, "title" + i, "content"+i))
+                .collect(Collectors.toList());
+        postRepository.saveAll(posts);
+
+        // expected
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/post/{id}/my-page?page=0&size=10",user.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
+                .andExpect(jsonPath("$.data.content[0].postId").value(posts.get(0).getId()))
+                .andExpect(jsonPath("$.data.content[0].write.title").value(posts.get(0).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[0].write.content").value(posts.get(0).getWrite().getContent()))
+                .andExpect(jsonPath("$.data.content[9].postId").value(posts.get(9).getId()))
+                .andExpect(jsonPath("$.data.content[9].write.title").value(posts.get(9).getWrite().getTitle()))
+                .andExpect(jsonPath("$.data.content[9].write.content").value(posts.get(9).getWrite().getContent()))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("post-getMyPostList",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));

@@ -23,6 +23,9 @@ public class UserJoinReqDto {
     @NotBlank
     private String password;
 
+    @NotBlank
+    private String metamask;
+
 
     public User toUser(String imageUrl){
         return User.builder()
@@ -31,15 +34,15 @@ public class UserJoinReqDto {
                 .password(this.password)
                 .profileImage(imageUrl)
                 .role(Role.USER)
+                .metamask(this.metamask)
                 .build();
     }
 
     @Builder
-    public UserJoinReqDto(String email, String name, String password) {
+    public UserJoinReqDto(String email, String name, String password, String metamask) {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.metamask = metamask;
     }
-
-
 }

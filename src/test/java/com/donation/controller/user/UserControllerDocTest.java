@@ -3,9 +3,7 @@ package com.donation.controller.user;
 
 import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +30,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.donation.testutil.TestDtoDataFactory.createUserJoinReqDto;
+import static com.donation.testutil.TestDtoDataFactory.createUserLoginReqDto;
+import static com.donation.testutil.TestEntityDataFactory.createUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -59,9 +60,6 @@ public class UserControllerDocTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ConstConfig config;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
@@ -76,30 +74,11 @@ public class UserControllerDocTest {
     }
 
 
-    User getUser() {
-        String username = "username@naver.com";
-        String name = "정우진";
-        String password = "1234";
-        Role role = Role.USER;
-
-        return User.builder()
-                .username(username)
-                .name(name)
-                .password(password)
-                .profileImage(config.getBasicImageProfile())
-                .role(role)
-                .build();
-    }
-
     @Test
     @DisplayName("회원(RestDocs) : 회원 가입")
     void join() throws Exception {
         //given
-        UserJoinReqDto request = UserJoinReqDto.builder()
-                .email("user@naver.com")
-                .name("name")
-                .password("password")
-                .build();
+        UserJoinReqDto request = createUserJoinReqDto();
 
         // expected
         mockMvc.perform(post("/api/join")
@@ -125,11 +104,8 @@ public class UserControllerDocTest {
     @DisplayName("회원(RestDocs) : 로그인")
     void login() throws Exception {
         //given
-        User user = userRepository.save(getUser());
-        UserLoginReqDto request = UserLoginReqDto.builder()
-                .email(user.getUsername())
-                .password(user.getPassword())
-                .build();
+        User user = userRepository.save(createUser());
+        UserLoginReqDto request = createUserLoginReqDto(user.getUsername(), user.getPassword());
 
         // expected
         mockMvc.perform(post("/api/login")
@@ -155,8 +131,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(RestDocs) : 단건 조회")
     void get() throws Exception {
         //given
-        User user = getUser();
-        userRepository.save(user);
+        User user = userRepository.save(createUser());
 
         // expected
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user/{id}", user.getId()))
@@ -164,7 +139,7 @@ public class UserControllerDocTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.id").value(user.getId()))
-                .andExpect(jsonPath("$.data.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.email").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.error").isEmpty())
@@ -176,9 +151,10 @@ public class UserControllerDocTest {
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.id").description("유저 ID"),
-                                fieldWithPath("data.username").description("이메일"),
+                                fieldWithPath("data.email").description("이메일"),
                                 fieldWithPath("data.name").description("이름"),
                                 fieldWithPath("data.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.metamask").description("메타마스크 주소"),
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
 
@@ -190,12 +166,7 @@ public class UserControllerDocTest {
     void list() throws Exception {
         //given
         List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> User.builder()
-                        .username("username@naver.com" + i)
-                        .name("name" + i)
-                        .password("password" + i)
-                        .build()
-                )
+                .mapToObj(i -> createUser("username" + i))
                 .collect(Collectors.toList());
         userRepository.saveAll(users);
 
@@ -204,7 +175,7 @@ public class UserControllerDocTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
-                .andExpect(jsonPath("$.data.content[0].username").value(users.get(0).getUsername()))
+                .andExpect(jsonPath("$.data.content[0].email").value(users.get(0).getUsername()))
                 .andExpect(jsonPath("$.data.content[0].name").value(users.get(0).getName()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(document("user-getList",
@@ -217,8 +188,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(컨트롤러) : 회원 삭제")
     void delete() throws Exception {
         //given
-        User user = getUser();
-        userRepository.save(user);
+        User user = userRepository.save(createUser());
 
         // expected
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/user/{userId}", user.getId()))
@@ -237,8 +207,7 @@ public class UserControllerDocTest {
     @DisplayName("회원(정보수정) : 프로필 변경")
     void update_profile() throws Exception {
         //given
-        User user = getUser();
-        userRepository.save(user);
+        User user = userRepository.save(createUser());
 
         MultipartFile profile = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());
 
