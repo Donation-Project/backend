@@ -42,7 +42,7 @@ public class PostSaveReqDto {
                 .write(new Write(title, content))
                 .amount(amount)
                 .category(category)
-                .state(PostState.WAITING)
+                .state(PostState.APPROVAL)
                 .build();
     }
 }

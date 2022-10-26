@@ -2,11 +2,6 @@ spring:
   profiles:
     include: database, s3
 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
   data:
     web:
       pageable:

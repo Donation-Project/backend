@@ -7,7 +7,6 @@ import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.service.post.PostService;
-import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ import static com.donation.domain.enums.PostState.COMPLETION;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
-    private final AwsS3Service awsS3Service;
 
     @PostMapping("/{id}")
     public ResponseEntity<?> save(

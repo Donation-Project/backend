@@ -108,6 +108,6 @@ public class PostService {
         LocalDateTime localDateTime = LocalDateTime
                 .now()
                 .minus(7, ChronoUnit.DAYS);
-        postRepository.deleteAll(postRepository.findAllByUpdateAdLessThanEqualAndState(localDateTime, DELETE));
+        postRepository.deleteAll(postRepository.findAllByUpdateAtLessThanEqualAndState(localDateTime, DELETE));
     }
 }
