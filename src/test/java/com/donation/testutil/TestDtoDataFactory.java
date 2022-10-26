@@ -6,6 +6,7 @@ import com.donation.common.request.user.UserJoinReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
 
 import static com.donation.domain.enums.Category.ETC;
+import static com.donation.testutil.TestEntityDataFactory.metamask;
 
 public class TestDtoDataFactory {
 
@@ -14,6 +15,7 @@ public class TestDtoDataFactory {
                 .email("user@naver.com")
                 .name("name")
                 .password("password")
+                .metamask(metamask)
                 .build();
     }
 

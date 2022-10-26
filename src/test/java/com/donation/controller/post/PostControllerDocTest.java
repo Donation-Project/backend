@@ -79,7 +79,7 @@ public class PostControllerDocTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.userRespDto.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.userRespDto.email").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.userRespDto.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.userRespDto.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.data.write.title").value(dto.getTitle()))
@@ -95,9 +95,10 @@ public class PostControllerDocTest {
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.postId").description("포스팅 ID"),
                                 fieldWithPath("data.userRespDto.id").description("유저 아이디"),
-                                fieldWithPath("data.userRespDto.username").description("이메일"),
+                                fieldWithPath("data.userRespDto.email").description("이메일"),
                                 fieldWithPath("data.userRespDto.name").description("이름"),
                                 fieldWithPath("data.userRespDto.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.userRespDto.metamask").description("회원 메타마스크 주소"),
                                 fieldWithPath("data.write.title").description("제목"),
                                 fieldWithPath("data.write.content").description("제목"),
                                 fieldWithPath("data.amount").description("금액"),
@@ -135,9 +136,10 @@ public class PostControllerDocTest {
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.postId").description("포스팅 ID"),
                                 fieldWithPath("data.userRespDto.id").description("유저 아이디"),
-                                fieldWithPath("data.userRespDto.username").description("이메일"),
+                                fieldWithPath("data.userRespDto.email").description("이메일"),
                                 fieldWithPath("data.userRespDto.name").description("이름"),
                                 fieldWithPath("data.userRespDto.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.userRespDto.metamask").description("회원 메타마스크 주소"),
                                 fieldWithPath("data.write.title").description("제목"),
                                 fieldWithPath("data.write.content").description("제목"),
                                 fieldWithPath("data.amount").description("금액"),

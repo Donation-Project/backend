@@ -10,7 +10,6 @@ import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +35,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,7 +63,7 @@ class DonationControllerDocTest {
     }
 
     @Test
-    @DisplayName("후원(컨트롤러) : 후원 하기")
+    @DisplayName("후원(RestDocs) : 후원 하기")
     void save() throws Exception {
         //given
         User user = userRepository.save(createUser("beneficiary"));
@@ -83,7 +81,7 @@ class DonationControllerDocTest {
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(document("Donation-save",
+                .andDo(document("donation-save",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -96,27 +94,7 @@ class DonationControllerDocTest {
     }
 
     @Test
-    @DisplayName("후원(컨트롤러) : 후원 하기_예외발생")
-    void saveError() throws Exception {
-        //given
-        User sponsor = userRepository.save(createUser("sponsor"));
-        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), null, 10.1f);
-        String request = objectMapper.writeValueAsString(data);
-
-        //expected
-        mockMvc.perform(post("/api/donation")
-                        .contentType(APPLICATION_JSON)
-                        .content(request)
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value("false"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("BAD_REQUEST"))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("후원(컨트롤러) : 내후원 조회")
+    @DisplayName("후원(RestDocs) : 내후원 조회")
     void findByUserId() throws Exception {
         //given
         User user = userRepository.save(createUser("beneficiary"));
@@ -129,7 +107,7 @@ class DonationControllerDocTest {
 
 
         //expected
-        mockMvc.perform(get("/api/donation/"+sponsor.getId()))
+        mockMvc.perform(get("/api/donation/{id}",sponsor.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data[0].title").value(post.getWrite().getTitle()))
@@ -137,32 +115,33 @@ class DonationControllerDocTest {
                 .andExpect(jsonPath("$.data[9].title").value(post.getWrite().getTitle()))
                 .andExpect(jsonPath("$.data[9].amount").value(20.1f))
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(document("Donation-getUserList",
+                .andDo(document("donation-getUserList",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("유저 ID")
+                        )
                 ));
 
     }
 
     @Test
-    @DisplayName("후원(컨트롤러) : 전체 조회")
+    @DisplayName("후원(RestDocs) : 전체 조회")
     void findAllByFilter() throws Exception {
         //given
         User user = userRepository.save(createUser("beneficiary"));
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
-        List<Donation> donations = IntStream.range(1, 31)
+        List<Donation> donations = IntStream.range(1, 21)
                 .mapToObj(i -> createDonation(sponsor,post,10.1f+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
+        DonationFilterReqDto request = new DonationFilterReqDto(null, ETC);
 
-        DonationFilterReqDto dto=new DonationFilterReqDto(null, ETC);
-
-        String request = objectMapper.writeValueAsString(dto);
         //expected
         mockMvc.perform(get("/api/donation")
                         .contentType(APPLICATION_JSON)
-                        .content(request))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content[0].title").value(post.getWrite().getTitle()))
@@ -170,7 +149,7 @@ class DonationControllerDocTest {
                 .andExpect(jsonPath("$.data.content[3].title").value(post.getWrite().getTitle()))
                 .andExpect(jsonPath("$.data.content[3].amount").value(14.1f))
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(document("Donation-getList",
+                .andDo(document("donation-getList",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));

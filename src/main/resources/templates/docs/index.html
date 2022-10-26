@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Spring Blog Project</title>
+<title>Donation Project</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Spring Blog Project</h1>
+<h1>Donation Project</h1>
 <div class="details">
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
 </div>
@@ -522,18 +522,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_admin_api">Admin API</a>
+<li><a href="#_donation_api">Donation API</a>
 <ul class="sectlevel1">
-<li><a href="#_포스트_권한_변경">포스트 권한 변경</a>
+<li><a href="#_기부_내역_저장">기부 내역 저장</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_10">요청</a></li>
 <li><a href="#_응답_13">응답</a></li>
 </ul>
 </li>
-<li><a href="#_어드민_리스트_요청">어드민 : 리스트 요청</a>
+<li><a href="#_기부_내역_전체_조회">기부 내역 전체 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_요청_11">요청</a></li>
 <li><a href="#_응답_14">응답</a></li>
+</ul>
+</li>
+<li><a href="#_회원의_기부_내역_전체_조회">회원의 기부 내역 전체 조회</a>
+<ul class="sectlevel2">
+<li><a href="#_요청_12">요청</a></li>
+<li><a href="#_응답_15">응답</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_admin_api">Admin API</a>
+<ul class="sectlevel1">
+<li><a href="#_포스트_권한_변경">포스트 권한 변경</a>
+<ul class="sectlevel2">
+<li><a href="#_요청_13">요청</a></li>
+<li><a href="#_응답_16">응답</a></li>
+</ul>
+</li>
+<li><a href="#_어드민_리스트_요청">어드민 : 리스트 요청</a>
+<ul class="sectlevel2">
+<li><a href="#_요청_14">요청</a></li>
+<li><a href="#_응답_17">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -542,20 +564,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_좋아요_요청_및_취소">좋아요 요청 및 취소</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_12">요청</a></li>
-<li><a href="#_응답_15">응답</a></li>
+<li><a href="#_요청_15">요청</a></li>
+<li><a href="#_응답_18">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요를_한_유저_정보_list">좋아요를 한 유저 정보 List</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_13">요청</a></li>
-<li><a href="#_응답_16">응답</a></li>
+<li><a href="#_요청_16">요청</a></li>
+<li><a href="#_응답_19">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a>
 <ul class="sectlevel2">
-<li><a href="#_요청_14">요청</a></li>
-<li><a href="#_응답_17">응답</a></li>
+<li><a href="#_요청_17">요청</a></li>
+<li><a href="#_응답_20">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -572,13 +594,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/join HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 82
+Content-Length: 123
 Host: api.springdocs.com
 
 {
   "email" : "user@naver.com",
   "name" : "name",
-  "password" : "password"
+  "password" : "password",
+  "metamask" : "https://metamasek.com"
 }</code></pre>
 </div>
 </div>
@@ -677,7 +700,7 @@ Content-Length: 60
 
 {
   "success" : true,
-  "data" : 116,
+  "data" : 122,
   "error" : null
 }</code></pre>
 </div>
@@ -723,7 +746,7 @@ Content-Length: 60
 <h3 id="_요청"><a class="link" href="#_요청">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/84 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/90 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -763,15 +786,16 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 184
+Content-Length: 224
 
 {
   "success" : true,
   "data" : {
-    "id" : 84,
-    "username" : "username",
+    "id" : 90,
+    "email" : "username",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   },
   "error" : null
 }</code></pre>
@@ -802,7 +826,7 @@ Content-Length: 184
 <td class="tableblock halign-left valign-top"><p class="tableblock">유저 ID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 </tr>
@@ -815,6 +839,11 @@ Content-Length: 184
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.profileImage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">회원 프로필 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.metamask</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메타마스크 주소</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
@@ -854,61 +883,71 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 1965
+Content-Length: 2387
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "id" : 86,
-      "username" : "username1",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
-    }, {
-      "id" : 87,
-      "username" : "username2",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
-    }, {
-      "id" : 88,
-      "username" : "username3",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
-    }, {
-      "id" : 89,
-      "username" : "username4",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
-    }, {
-      "id" : 90,
-      "username" : "username5",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
-    }, {
-      "id" : 91,
-      "username" : "username6",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
-    }, {
       "id" : 92,
-      "username" : "username7",
+      "email" : "username1",
       "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
     }, {
       "id" : 93,
-      "username" : "username8",
+      "email" : "username2",
       "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
     }, {
       "id" : 94,
-      "username" : "username9",
+      "email" : "username3",
       "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
     }, {
       "id" : 95,
-      "username" : "username10",
+      "email" : "username4",
       "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
+    }, {
+      "id" : 96,
+      "email" : "username5",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
+    }, {
+      "id" : 97,
+      "email" : "username6",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
+    }, {
+      "id" : 98,
+      "email" : "username7",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
+    }, {
+      "id" : 99,
+      "email" : "username8",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
+    }, {
+      "id" : 100,
+      "email" : "username9",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
+    }, {
+      "id" : 101,
+      "email" : "username10",
+      "name" : "name",
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
     } ],
     "pageable" : {
       "sort" : {
@@ -919,8 +958,8 @@ Content-Length: 1965
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -929,9 +968,9 @@ Content-Length: 1965
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : false,
-    "numberOfElements" : 10,
     "empty" : false
   },
   "error" : null
@@ -946,7 +985,7 @@ Content-Length: 1965
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/82/profile HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/88/profile HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Host: api.springdocs.com
 
@@ -992,7 +1031,7 @@ Content-Length: 61
 <h3 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/83 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/89 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1033,15 +1072,15 @@ Content-Length: 61
 <h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/76 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/82 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 110
+Content-Length: 112
 Host: api.springdocs.com
 
 {
   "title" : "title",
   "content" : "content",
-  "amount" : 1,
+  "amount" : 1.0,
   "category" : "ETC",
   "image" : null
 }</code></pre>
@@ -1064,23 +1103,24 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 422
+Content-Length: 466
 
 {
   "success" : true,
   "data" : {
-    "postId" : 76,
+    "postId" : 79,
     "userRespDto" : {
-      "id" : 76,
-      "username" : "username",
+      "id" : 82,
+      "email" : "username",
       "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
     },
     "write" : {
       "title" : "title",
       "content" : "content"
     },
-    "amount" : 1,
+    "amount" : 1.0,
     "category" : null,
     "state" : "WAITING",
     "postDetailImages" : [ ]
@@ -1119,7 +1159,7 @@ Content-Length: 422
 <td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 </tr>
@@ -1132,6 +1172,11 @@ Content-Length: 422
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.profileImage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">회원 프로필 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.metamask</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 메타마스크 주소</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.write.title</code></p></td>
@@ -1180,7 +1225,7 @@ Content-Length: 422
 <h3 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/75 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/78 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1220,23 +1265,24 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 451
+Content-Length: 495
 
 {
   "success" : true,
   "data" : {
-    "postId" : 75,
+    "postId" : 78,
     "userRespDto" : {
-      "id" : 75,
-      "username" : "username",
+      "id" : 81,
+      "email" : "username",
       "name" : "name",
-      "profileImage" : "https://localhost:8080/image"
+      "profileImage" : "https://localhost:8080/image",
+      "metamask" : "https://metamasek.com"
     },
     "write" : {
       "title" : "title",
       "content" : "content"
     },
-    "amount" : 12,
+    "amount" : 12.0,
     "category" : "ETC",
     "state" : "APPROVAL",
     "postDetailImages" : [ ],
@@ -1276,7 +1322,7 @@ Content-Length: 451
 <td class="tableblock halign-left valign-top"><p class="tableblock">유저 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 </tr>
@@ -1289,6 +1335,11 @@ Content-Length: 451
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.profileImage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">회원 프로필 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userRespDto.metamask</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 메타마스크 주소</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.write.title</code></p></td>
@@ -1363,168 +1414,178 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 4586
+Content-Length: 4856
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "postId" : 45,
+      "postId" : 48,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
         "title" : "title1",
         "content" : "content1"
       },
-      "amount" : 12,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 46,
-      "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
-      },
-      "write" : {
-        "title" : "title2",
-        "content" : "content2"
-      },
-      "amount" : 12,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 47,
-      "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
-      },
-      "write" : {
-        "title" : "title3",
-        "content" : "content3"
-      },
-      "amount" : 12,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 48,
-      "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
-      },
-      "write" : {
-        "title" : "title4",
-        "content" : "content4"
-      },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 49,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title5",
-        "content" : "content5"
+        "title" : "title2",
+        "content" : "content2"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 50,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title6",
-        "content" : "content6"
+        "title" : "title3",
+        "content" : "content3"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 51,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title7",
-        "content" : "content7"
+        "title" : "title4",
+        "content" : "content4"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 52,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title8",
-        "content" : "content8"
+        "title" : "title5",
+        "content" : "content5"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 53,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title9",
-        "content" : "content9"
+        "title" : "title6",
+        "content" : "content6"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 54,
       "userRespDto" : {
-        "id" : 74,
-        "username" : "username",
+        "id" : 80,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title7",
+        "content" : "content7"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 55,
+      "userRespDto" : {
+        "id" : 80,
+        "email" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title8",
+        "content" : "content8"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 56,
+      "userRespDto" : {
+        "id" : 80,
+        "email" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title9",
+        "content" : "content9"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 57,
+      "userRespDto" : {
+        "id" : 80,
+        "email" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
         "title" : "title10",
         "content" : "content10"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
@@ -1538,8 +1599,8 @@ Content-Length: 4586
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -1548,9 +1609,9 @@ Content-Length: 4586
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : false,
-    "numberOfElements" : 10,
     "empty" : false
   },
   "error" : null
@@ -1567,16 +1628,16 @@ Content-Length: 4586
 <h3 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/44 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/47 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 105
+Content-Length: 107
 Host: api.springdocs.com
 
 {
   "title" : "수정 제목",
   "content" : "수정 내용",
-  "amount" : 1,
+  "amount" : 1.0,
   "category" : "ETC"
 }</code></pre>
 </div>
@@ -1667,7 +1728,7 @@ Content-Length: 61
 <h3 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/43 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/46 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1757,7 +1818,7 @@ Content-Length: 61
 <h3 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/77/my-page?page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/83/my-page?page=0&amp;size=10 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1778,168 +1839,178 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 4585
+Content-Length: 4855
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "postId" : 77,
+      "postId" : 80,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
         "title" : "title1",
         "content" : "content1"
       },
-      "amount" : 12,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 78,
-      "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
-      },
-      "write" : {
-        "title" : "title2",
-        "content" : "content2"
-      },
-      "amount" : 12,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 79,
-      "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
-      },
-      "write" : {
-        "title" : "title3",
-        "content" : "content3"
-      },
-      "amount" : 12,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 80,
-      "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
-      },
-      "write" : {
-        "title" : "title4",
-        "content" : "content4"
-      },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 81,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title5",
-        "content" : "content5"
+        "title" : "title2",
+        "content" : "content2"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 82,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title6",
-        "content" : "content6"
+        "title" : "title3",
+        "content" : "content3"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 83,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title7",
-        "content" : "content7"
+        "title" : "title4",
+        "content" : "content4"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 84,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title8",
-        "content" : "content8"
+        "title" : "title5",
+        "content" : "content5"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 85,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
-        "title" : "title9",
-        "content" : "content9"
+        "title" : "title6",
+        "content" : "content6"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
       "postId" : 86,
       "userRespDto" : {
-        "id" : 77,
-        "username" : "username",
+        "id" : 83,
+        "email" : "username",
         "name" : "name",
-        "profileImage" : "https://localhost:8080/image"
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title7",
+        "content" : "content7"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 87,
+      "userRespDto" : {
+        "id" : 83,
+        "email" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title8",
+        "content" : "content8"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 88,
+      "userRespDto" : {
+        "id" : 83,
+        "email" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title9",
+        "content" : "content9"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 89,
+      "userRespDto" : {
+        "id" : 83,
+        "email" : "username",
+        "name" : "name",
+        "profileImage" : "https://localhost:8080/image",
+        "metamask" : null
       },
       "write" : {
         "title" : "title10",
         "content" : "content10"
       },
-      "amount" : 12,
+      "amount" : 12.0,
       "category" : "ETC",
       "state" : "APPROVAL",
       "postMainImage" : null
@@ -1953,8 +2024,8 @@ Content-Length: 4585
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -1963,9 +2034,633 @@ Content-Length: 4585
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : true,
-    "numberOfElements" : 10,
+    "empty" : false
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_donation_api" class="sect0"><a class="link" href="#_donation_api">Donation API</a></h1>
+<div class="sect1">
+<h2 id="_기부_내역_저장"><a class="link" href="#_기부_내역_저장">기부 내역 저장</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_10"><a class="link" href="#_요청_10">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/donation HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 58
+Host: api.springdocs.com
+
+{
+  "userId" : 4,
+  "postId" : 33,
+  "amount" : 10.1
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 61
+
+{
+  "success" : true,
+  "data" : null,
+  "error" : null
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러 발생시 오류 반환</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_기부_내역_전체_조회"><a class="link" href="#_기부_내역_전체_조회">기부 내역 전체 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_11"><a class="link" href="#_요청_11">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 48
+Host: api.springdocs.com
+
+{
+  "username" : null,
+  "category" : "ETC"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 5932
+
+{
+  "success" : true,
+  "data" : {
+    "content" : [ {
+      "donateId" : 1,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 11.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.411423",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 2,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 12.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.417925",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 3,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 13.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.419957",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 4,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 14.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.422226",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 5,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 15.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.42453",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 6,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 16.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.426338",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 7,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 17.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.428435",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 8,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 18.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.430595",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 9,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 19.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.432381",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 10,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 20.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.433902",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 11,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 21.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.434897",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 12,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 22.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.43644",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 13,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 23.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.437565",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 14,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 24.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.438564",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 15,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 25.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.440449",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 16,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 26.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.442695",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 17,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 27.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.445766",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 18,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 28.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.447325",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 19,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 29.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.450634",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 20,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 30.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.453167",
+      "total" : 412.0,
+      "category" : "ETC"
+    } ],
+    "pageable" : {
+      "sort" : {
+        "empty" : true,
+        "sorted" : false,
+        "unsorted" : true
+      },
+      "offset" : 0,
+      "pageNumber" : 0,
+      "pageSize" : 20,
+      "unpaged" : false,
+      "paged" : true
+    },
+    "size" : 20,
+    "number" : 0,
+    "sort" : {
+      "empty" : true,
+      "sorted" : false,
+      "unsorted" : true
+    },
+    "numberOfElements" : 20,
+    "first" : true,
+    "last" : true,
+    "empty" : false
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_회원의_기부_내역_전체_조회"><a class="link" href="#_회원의_기부_내역_전체_조회">회원의 기부 내역 전체 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 48
+Host: api.springdocs.com
+
+{
+  "username" : null,
+  "category" : "ETC"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Content-Length: 5932
+
+{
+  "success" : true,
+  "data" : {
+    "content" : [ {
+      "donateId" : 1,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 11.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.411423",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 2,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 12.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.417925",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 3,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 13.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.419957",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 4,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 14.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.422226",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 5,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 15.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.42453",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 6,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 16.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.426338",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 7,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 17.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.428435",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 8,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 18.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.430595",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 9,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 19.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.432381",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 10,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 20.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.433902",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 11,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 21.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.434897",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 12,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 22.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.43644",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 13,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 23.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.437565",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 14,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 24.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.438564",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 15,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 25.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.440449",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 16,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 26.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.442695",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 17,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 27.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.445766",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 18,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 28.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.447325",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 19,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 29.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.450634",
+      "total" : 412.0,
+      "category" : "ETC"
+    }, {
+      "donateId" : 20,
+      "postId" : 32,
+      "title" : "title",
+      "amount" : 30.1,
+      "sponsor" : "name",
+      "beneficiary" : "name",
+      "localDateTime" : "2022-10-26T11:51:36.453167",
+      "total" : 412.0,
+      "category" : "ETC"
+    } ],
+    "pageable" : {
+      "sort" : {
+        "empty" : true,
+        "sorted" : false,
+        "unsorted" : true
+      },
+      "offset" : 0,
+      "pageNumber" : 0,
+      "pageSize" : 20,
+      "unpaged" : false,
+      "paged" : true
+    },
+    "size" : 20,
+    "number" : 0,
+    "sort" : {
+      "empty" : true,
+      "sorted" : false,
+      "unsorted" : true
+    },
+    "numberOfElements" : 20,
+    "first" : true,
+    "last" : true,
     "empty" : false
   },
   "error" : null
@@ -1980,7 +2675,7 @@ Content-Length: 4585
 <h2 id="_포스트_권한_변경"><a class="link" href="#_포스트_권한_변경">포스트 권한 변경</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_10"><a class="link" href="#_요청_10">요청</a></h3>
+<h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/admin/31?postState=APPROVAL HTTP/1.1
@@ -2008,7 +2703,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h3>
+<h3 id="_응답_16"><a class="link" href="#_응답_16">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2070,16 +2765,16 @@ Content-Length: 61
 <h2 id="_어드민_리스트_요청"><a class="link" href="#_어드민_리스트_요청">어드민 : 리스트 요청</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_11"><a class="link" href="#_요청_11">요청</a></h3>
+<h3 id="_요청_14"><a class="link" href="#_요청_14">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/admin/APPROVAL?page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/admin/WAITING?page=0&amp;size=10 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h3>
+<h3 id="_응답_17"><a class="link" href="#_응답_17">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2094,7 +2789,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 5184
+Content-Length: 4517
 
 {
   "success" : true,
@@ -2102,162 +2797,172 @@ Content-Length: 5184
     "content" : [ {
       "postId" : 1,
       "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
       },
       "write" : {
         "title" : "title1",
         "content" : "content1"
       },
-      "amount" : 1,
+      "amount" : 12.0,
       "category" : "ETC",
-      "state" : "APPROVAL",
+      "state" : "WAITING",
+      "postMainImage" : null
+    }, {
+      "postId" : 2,
+      "userRespDto" : {
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title2",
+        "content" : "content2"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "WAITING",
       "postMainImage" : null
     }, {
       "postId" : 3,
       "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
       },
       "write" : {
         "title" : "title3",
         "content" : "content3"
       },
-      "amount" : 3,
+      "amount" : 12.0,
       "category" : "ETC",
-      "state" : "APPROVAL",
+      "state" : "WAITING",
+      "postMainImage" : null
+    }, {
+      "postId" : 4,
+      "userRespDto" : {
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title4",
+        "content" : "content4"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "WAITING",
       "postMainImage" : null
     }, {
       "postId" : 5,
       "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
       },
       "write" : {
         "title" : "title5",
         "content" : "content5"
       },
-      "amount" : 5,
+      "amount" : 12.0,
       "category" : "ETC",
-      "state" : "APPROVAL",
+      "state" : "WAITING",
+      "postMainImage" : null
+    }, {
+      "postId" : 6,
+      "userRespDto" : {
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title6",
+        "content" : "content6"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "WAITING",
       "postMainImage" : null
     }, {
       "postId" : 7,
       "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
       },
       "write" : {
         "title" : "title7",
         "content" : "content7"
       },
-      "amount" : 7,
+      "amount" : 12.0,
       "category" : "ETC",
-      "state" : "APPROVAL",
+      "state" : "WAITING",
+      "postMainImage" : null
+    }, {
+      "postId" : 8,
+      "userRespDto" : {
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title8",
+        "content" : "content8"
+      },
+      "amount" : 12.0,
+      "category" : "ETC",
+      "state" : "WAITING",
       "postMainImage" : null
     }, {
       "postId" : 9,
       "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
       },
       "write" : {
         "title" : "title9",
         "content" : "content9"
       },
-      "amount" : 9,
+      "amount" : 12.0,
       "category" : "ETC",
-      "state" : "APPROVAL",
+      "state" : "WAITING",
       "postMainImage" : null
     }, {
-      "postId" : 11,
+      "postId" : 10,
       "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
+        "id" : null,
+        "email" : null,
+        "name" : null,
+        "profileImage" : null,
+        "metamask" : null
       },
       "write" : {
-        "title" : "title11",
-        "content" : "content11"
+        "title" : "title10",
+        "content" : "content10"
       },
-      "amount" : 11,
+      "amount" : 12.0,
       "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 13,
-      "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
-      },
-      "write" : {
-        "title" : "title13",
-        "content" : "content13"
-      },
-      "amount" : 13,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 15,
-      "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
-      },
-      "write" : {
-        "title" : "title15",
-        "content" : "content15"
-      },
-      "amount" : 15,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 17,
-      "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
-      },
-      "write" : {
-        "title" : "title17",
-        "content" : "content17"
-      },
-      "amount" : 17,
-      "category" : "ETC",
-      "state" : "APPROVAL",
-      "postMainImage" : null
-    }, {
-      "postId" : 19,
-      "userRespDto" : {
-        "id" : 1,
-        "username" : "username1@naver.com",
-        "name" : "장원진",
-        "profileImage" : "https://bit-donation-app.s3.ap-northeast-2.amazonaws.com/basicprofile.PNG"
-      },
-      "write" : {
-        "title" : "title19",
-        "content" : "content19"
-      },
-      "amount" : 19,
-      "category" : "ETC",
-      "state" : "APPROVAL",
+      "state" : "WAITING",
       "postMainImage" : null
     } ],
     "pageable" : {
@@ -2269,8 +2974,8 @@ Content-Length: 5184
       "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
+      "unpaged" : false,
+      "paged" : true
     },
     "size" : 10,
     "number" : 0,
@@ -2279,9 +2984,9 @@ Content-Length: 5184
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : false,
-    "numberOfElements" : 10,
     "empty" : false
   },
   "error" : null
@@ -2296,14 +3001,14 @@ Content-Length: 5184
 <h2 id="_좋아요_요청_및_취소"><a class="link" href="#_좋아요_요청_및_취소">좋아요 요청 및 취소</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h3>
+<h3 id="_요청_15"><a class="link" href="#_요청_15">요청</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/favorite HTTP/1.1
 Host: api.springdocs.com
 Content-Type: application/x-www-form-urlencoded
 
-postId=38&amp;userId=40</code></pre>
+postId=41&amp;userId=46</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2330,7 +3035,7 @@ postId=38&amp;userId=40</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h3>
+<h3 id="_응답_18"><a class="link" href="#_응답_18">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2392,10 +3097,10 @@ Content-Length: 61
 <h2 id="_좋아요를_한_유저_정보_list"><a class="link" href="#_좋아요를_한_유저_정보_list">좋아요를 한 유저 정보 List</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h3>
+<h3 id="_요청_16"><a class="link" href="#_요청_16">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=37 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=40 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -2419,7 +3124,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_16"><a class="link" href="#_응답_16">응답</a></h3>
+<h3 id="_응답_19"><a class="link" href="#_응답_19">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2434,160 +3139,190 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 3980
+Content-Length: 5180
 
 {
   "success" : true,
   "data" : [ {
-    "id" : 10,
-    "username" : "username1",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
-  }, {
-    "id" : 11,
-    "username" : "username2",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
-  }, {
-    "id" : 12,
-    "username" : "username3",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
-  }, {
-    "id" : 13,
-    "username" : "username4",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
-  }, {
-    "id" : 14,
-    "username" : "username5",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
-  }, {
-    "id" : 15,
-    "username" : "username6",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
-  }, {
     "id" : 16,
-    "username" : "username7",
+    "email" : "username1",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 17,
-    "username" : "username8",
+    "email" : "username2",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 18,
-    "username" : "username9",
+    "email" : "username3",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 19,
-    "username" : "username10",
+    "email" : "username4",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 20,
-    "username" : "username11",
+    "email" : "username5",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 21,
-    "username" : "username12",
+    "email" : "username6",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 22,
-    "username" : "username13",
+    "email" : "username7",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 23,
-    "username" : "username14",
+    "email" : "username8",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 24,
-    "username" : "username15",
+    "email" : "username9",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 25,
-    "username" : "username16",
+    "email" : "username10",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 26,
-    "username" : "username17",
+    "email" : "username11",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 27,
-    "username" : "username18",
+    "email" : "username12",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 28,
-    "username" : "username19",
+    "email" : "username13",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 29,
-    "username" : "username20",
+    "email" : "username14",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 30,
-    "username" : "username21",
+    "email" : "username15",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 31,
-    "username" : "username22",
+    "email" : "username16",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 32,
-    "username" : "username23",
+    "email" : "username17",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 33,
-    "username" : "username24",
+    "email" : "username18",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 34,
-    "username" : "username25",
+    "email" : "username19",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 35,
-    "username" : "username26",
+    "email" : "username20",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 36,
-    "username" : "username27",
+    "email" : "username21",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 37,
-    "username" : "username28",
+    "email" : "username22",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 38,
-    "username" : "username29",
+    "email" : "username23",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   }, {
     "id" : 39,
-    "username" : "username30",
+    "email" : "username24",
     "name" : "name",
-    "profileImage" : "https://localhost:8080/image"
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
+  }, {
+    "id" : 40,
+    "email" : "username25",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
+  }, {
+    "id" : 41,
+    "email" : "username26",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
+  }, {
+    "id" : 42,
+    "email" : "username27",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
+  }, {
+    "id" : 43,
+    "email" : "username28",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
+  }, {
+    "id" : 44,
+    "email" : "username29",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
+  }, {
+    "id" : 45,
+    "email" : "username30",
+    "name" : "name",
+    "profileImage" : "https://localhost:8080/image",
+    "metamask" : "https://metamasek.com"
   } ],
   "error" : null
 }</code></pre>
@@ -2600,10 +3335,10 @@ Content-Length: 3980
 <h2 id="_좋아요_포스트_아이디로_삭제"><a class="link" href="#_좋아요_포스트_아이디로_삭제">좋아요 포스트 아이디로 삭제</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_요청_14"><a class="link" href="#_요청_14">요청</a></h3>
+<h3 id="_요청_17"><a class="link" href="#_요청_17">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=36 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=39 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -2627,7 +3362,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_응답_17"><a class="link" href="#_응답_17">응답</a></h3>
+<h3 id="_응답_20"><a class="link" href="#_응답_20">응답</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2689,7 +3424,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-25 20:18:30 +0900
+Last updated 2022-10-26 11:50:20 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

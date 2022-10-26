@@ -139,7 +139,7 @@ public class UserControllerDocTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.id").value(user.getId()))
-                .andExpect(jsonPath("$.data.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.email").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.error").isEmpty())
@@ -151,9 +151,10 @@ public class UserControllerDocTest {
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.id").description("유저 ID"),
-                                fieldWithPath("data.username").description("이메일"),
+                                fieldWithPath("data.email").description("이메일"),
                                 fieldWithPath("data.name").description("이름"),
                                 fieldWithPath("data.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.metamask").description("메타마스크 주소"),
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
 
@@ -174,7 +175,7 @@ public class UserControllerDocTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
-                .andExpect(jsonPath("$.data.content[0].username").value(users.get(0).getUsername()))
+                .andExpect(jsonPath("$.data.content[0].email").value(users.get(0).getUsername()))
                 .andExpect(jsonPath("$.data.content[0].name").value(users.get(0).getName()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(document("user-getList",

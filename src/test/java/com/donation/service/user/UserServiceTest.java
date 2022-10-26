@@ -47,7 +47,7 @@ class UserServiceTest {
 
         //then
         UserRespDto userRespDto = new UserRespDto(userService.findById(id));
-        assertThat(userRespDto.getUsername()).isEqualTo(userDto.getEmail());
+        assertThat(userRespDto.getEmail()).isEqualTo(userDto.getEmail());
         assertThat(userRespDto.getName()).isEqualTo(userDto.getName());
     }
 
@@ -93,7 +93,7 @@ class UserServiceTest {
         UserRespDto dto = new UserRespDto(userService.findById(user.getId()));
 
         //then
-        assertThat(dto.getUsername()).isEqualTo(user.getUsername());
+        assertThat(dto.getEmail()).isEqualTo(user.getUsername());
         assertThat(dto.getName()).isEqualTo(user.getName());
     }
 

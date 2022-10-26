@@ -129,7 +129,7 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
-                .andExpect(jsonPath("$.data.content[0].username").value(users.get(0).getUsername()))
+                .andExpect(jsonPath("$.data.content[0].email").value(users.get(0).getUsername()))
                 .andExpect(jsonPath("$.data.content[0].name").value(users.get(0).getName()))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
@@ -147,7 +147,7 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.id").value(user.getId()))
-                .andExpect(jsonPath("$.data.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.email").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.error").isEmpty())

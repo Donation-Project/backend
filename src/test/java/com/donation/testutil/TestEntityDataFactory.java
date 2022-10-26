@@ -14,6 +14,7 @@ import static com.donation.domain.enums.PostState.WAITING;
 public class TestEntityDataFactory {
 
     static String imagePath = "https://localhost:8080/image";
+    static String metamask = "https://metamasek.com";
 
     public static User createUser() {
         return User.builder()
@@ -24,6 +25,7 @@ public class TestEntityDataFactory {
                 .profileImage(imagePath)
                 .provider("provider")
                 .providerId("providerId")
+                .metamask(metamask)
                 .build();
     }
 
@@ -36,6 +38,7 @@ public class TestEntityDataFactory {
                 .profileImage(imagePath)
                 .provider("provider")
                 .providerId("providerId")
+                .metamask(metamask)
                 .build();
     }
 
@@ -49,6 +52,7 @@ public class TestEntityDataFactory {
                 .profileImage(imagePath)
                 .provider("provider")
                 .providerId("providerId")
+                .metamask(metamask)
                 .build();
     }
 

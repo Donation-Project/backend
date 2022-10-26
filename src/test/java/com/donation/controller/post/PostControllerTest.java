@@ -67,7 +67,7 @@ class PostControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.userRespDto.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.userRespDto.email").value(user.getUsername()))
                 .andExpect(jsonPath("$.data.userRespDto.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.userRespDto.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.data.write.title").value(dto.getTitle()))
