@@ -1,6 +1,7 @@
 package com.donation.testutil;
 
 import com.donation.domain.embed.Write;
+import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
@@ -8,6 +9,7 @@ import com.donation.domain.enums.Role;
 
 import static com.donation.domain.enums.Category.ETC;
 import static com.donation.domain.enums.PostState.APPROVAL;
+import static com.donation.domain.enums.PostState.WAITING;
 
 public class TestEntityDataFactory {
 
@@ -73,7 +75,7 @@ public class TestEntityDataFactory {
         return Post.builder()
                 .write(new Write(title, content))
                 .amount(12)
-                .state(APPROVAL)
+                .state(WAITING)
                 .category(ETC)
                 .build();
     }
@@ -92,4 +94,11 @@ public class TestEntityDataFactory {
         return Favorites.of(user, post);
     }
 
+    public static Donation createDonation(User user, Post post, float amount){
+        return  Donation.builder()
+                .user(user)
+                .post(post)
+                .amount(amount)
+                .build();
+    }
 }

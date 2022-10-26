@@ -2,20 +2,14 @@ package com.donation.service.donation;
 
 import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
-
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
-import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
-
-import com.donation.domain.enums.PostState;
-import com.donation.domain.enums.Role;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.Category.ETC;
+import static com.donation.testutil.TestEntityDataFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -54,41 +48,13 @@ class DonationServiceTest {
 
     }
 
-    User getUser() {
-        User user = User.builder()
-                .username("username@naver.com")
-                .name("장원진")
-                .password("1234")
-                .role(Role.USER)
-                .build();
-        return userRepository.save(user);
-    }
-    Post getPost() {
-        Post post = Post.builder()
-                .user(getUser())
-                .write(new Write("title", "content"))
-                .amount(10)
-                .category(ETC)
-                .state(PostState.WAITING)
-                .build();
-        return postRepository.save(post);
-    }
-    private User getSponsor() {
-        User sponsor = User.builder()
-                .username("username1@naver.com")
-                .name("장원진1")
-                .password("12341")
-                .role(Role.USER)
-                .build();
-        return userRepository.save(sponsor);
-    }
-
     @Test
     @DisplayName("후원(서비스) :  후원하기_예외발생")
     void save(){
         //given
-        Post post = getPost();
-        User sponsor = getSponsor();
+        User user = userRepository.save(createUser("beneficiary"));
+        Post post = postRepository.save(createPost(user));
+        User sponsor = userRepository.save(createUser("sponsor"));
         DonationSaveReqDto donationWithoutPost = new DonationSaveReqDto(sponsor.getId(),null,10.1f);
         DonationSaveReqDto donationWithoutUser = new DonationSaveReqDto(null,post.getId(),10.1f);
         DonationSaveReqDto donation = new DonationSaveReqDto(sponsor.getId(),post.getId(),10.1f);
@@ -104,14 +70,11 @@ class DonationServiceTest {
     @DisplayName("후원(서비스) :  내후원 내역조회")
     void get(){
         //given
-        Post post = getPost();
-        User sponsor = getSponsor();
+        User user = userRepository.save(createUser("beneficiary"));
+        Post post = postRepository.save(createPost(user));
+        User sponsor = userRepository.save(createUser("sponsor"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i ->  Donation.builder()
-                                .user(sponsor)
-                                .post(post)
-                                .amount(10.1f+i)
-                                .build()
+                .mapToObj(i ->createDonation(sponsor,post,10.1f+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
         List<DonationFindRespDto> donationFindRespDtos = donationService.findById(sponsor.getId());
@@ -124,14 +87,11 @@ class DonationServiceTest {
     @DisplayName("후원(서비스) :  아이디, 카테고리로 모든후원조회")
     void getList(){
         //given
-        Post post = getPost();
-        User sponsor = getSponsor();
+        User user = userRepository.save(createUser("beneficiary"));
+        Post post = postRepository.save(createPost(user));
+        User sponsor = userRepository.save(createUser("sponsor"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i ->  Donation.builder()
-                        .user(sponsor)
-                        .post(post)
-                        .amount(10.1f+i)
-                        .build()
+                .mapToObj(i ->createDonation(sponsor,post,10.1f+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
         DonationFilterReqDto donationFilterReqDto = DonationFilterReqDto.builder().build();
