@@ -15,7 +15,7 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 public class Favorites extends BaseEntity{
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "favoriesId")
+    @Column(name = "favorite_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

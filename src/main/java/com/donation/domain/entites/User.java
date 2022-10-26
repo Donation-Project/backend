@@ -22,15 +22,11 @@ public class User extends BaseEntity {
     private String username;
     private String password;
     private String name;
-
     private String profileImage;
-
     private String provider;
-
     private String providerId;
     @Enumerated(EnumType.STRING)
     private Role role;
-
     private String metamask;
 
     @Builder

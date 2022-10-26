@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 
 @Embeddable
 @Getter
@@ -13,6 +14,7 @@ import javax.persistence.Embeddable;
 public class Write {
     private String title;
 
+    @Lob
     private String content;
 
     @Builder

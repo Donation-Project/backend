@@ -21,12 +21,12 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "inquirtId")
     private Inquiry inquiry;
 
-    private Write title;
+    private Write write;
 
     @Builder
-    public Answer(Long id, Inquiry inquiry, Write title) {
+    public Answer(Long id, Inquiry inquiry, Write write) {
         this.id = id;
         this.inquiry = inquiry;
-        this.title = title;
+        this.write = write;
     }
 }
