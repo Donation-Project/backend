@@ -17,7 +17,7 @@ public class PostFindRespDto {
 
     private Write write;
 
-    private int amount;
+    private float amount;
 
     private Category category;
 
@@ -29,7 +29,7 @@ public class PostFindRespDto {
     private Long favoriteCount;
 
     @QueryProjection
-    public PostFindRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, int amount, Category category, PostState state) {
+    public PostFindRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, float amount, Category category, PostState state) {
         this.postId = postId;
         this.userRespDto = new UserRespDto(userId, username, name, profileImage);
         this.write = write;

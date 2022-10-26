@@ -18,13 +18,13 @@ public class PostSaveRespDto {
     private Long postId;
     private UserRespDto userRespDto;
     private Write write;
-    private int amount;
+    private float amount;
     private Category category;
     private PostState state;
     private List<String> postDetailImages;
 
     @Builder
-    public PostSaveRespDto(Long postId, UserRespDto userRespDto, Write write, int amount, Category category, PostState state, List<String> postDetailImages) {
+    public PostSaveRespDto(Long postId, UserRespDto userRespDto, Write write, float amount, Category category, PostState state, List<String> postDetailImages) {
         this.postId = postId;
         this.userRespDto = userRespDto;
         this.write = write;
