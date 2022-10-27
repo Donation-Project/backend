@@ -14,11 +14,11 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class Answer extends BaseEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "answerId")
+    @Column(name = "answer_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "inquirtId")
+    @JoinColumn(name = "inquiry_id")
     private Inquiry inquiry;
 
     private Write write;

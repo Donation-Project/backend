@@ -15,11 +15,11 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class PostDetailImage extends BaseEntity{
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "postDetailId")
+    @Column(name = "post_detail_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     private String imagePath;
