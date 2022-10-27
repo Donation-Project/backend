@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ## config
-application-database.yml
+application-prod.yml
 application-s3.yml
 src/main/java/com/donation/init.java
 

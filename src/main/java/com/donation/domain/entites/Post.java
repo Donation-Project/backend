@@ -23,11 +23,11 @@ import static lombok.AccessLevel.PROTECTED;
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "post_Id")
+    @Column(name = "post_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Embedded

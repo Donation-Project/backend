@@ -14,15 +14,15 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class Reviews extends BaseEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "reviewId")
+    @Column(name = "review_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     private Write write;

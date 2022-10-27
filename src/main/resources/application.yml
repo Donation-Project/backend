@@ -1,9 +1,11 @@
 spring:
   profiles:
-    include: database, s3
+    include: s3
+    active: local
 
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-        default-page-size: 20
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod

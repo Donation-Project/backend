@@ -1,6 +1,5 @@
 package com.donation.domain.entites;
 
-import com.donation.common.response.donation.DonationFindRespDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -16,15 +15,15 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class Donation extends BaseEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "donationId")
+    @Column(name = "donation_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     private float amount;

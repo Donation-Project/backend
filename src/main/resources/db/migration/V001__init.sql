@@ -68,7 +68,7 @@ CREATE TABLE if not exists favorites
 CREATE TABLE if not exists donation
 (
     donation_id bigint PRIMARY KEY AUTO_INCREMENT,
-    users_id    bigint,
+    user_id    bigint,
     post_id     bigint,
     amount      float,
     create_at   timestamp,
@@ -78,7 +78,7 @@ CREATE TABLE if not exists donation
 CREATE TABLE if not exists reviews
 (
     reviews_id bigint PRIMARY KEY AUTO_INCREMENT,
-    users_id   bigint,
+    user_id   bigint,
     post_id    bigint,
     title      varchar(255),
     content    longtext,
@@ -105,13 +105,13 @@ ALTER TABLE favorites
     ADD FOREIGN KEY (post_id) REFERENCES post (post_id);
 
 ALTER TABLE donation
-    ADD FOREIGN KEY (users_id) REFERENCES users (user_id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
 
 ALTER TABLE donation
     ADD FOREIGN KEY (post_id) REFERENCES post (post_id);
 
 ALTER TABLE reviews
-    ADD FOREIGN KEY (users_id) REFERENCES users (user_id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
 
 ALTER TABLE reviews
     ADD FOREIGN KEY (post_id) REFERENCES post (post_id);
