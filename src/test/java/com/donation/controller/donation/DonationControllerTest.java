@@ -56,9 +56,9 @@ class DonationControllerTest {
     @DisplayName("후원(컨트롤러) : 후원 하기")
     void save() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), post.getId(), "10.1");
         String request = objectMapper.writeValueAsString(data);
 
@@ -78,7 +78,7 @@ class DonationControllerTest {
     @DisplayName("후원(컨트롤러) : 후원 하기_예외발생")
     void saveError() throws Exception {
         //given
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), null, "10.1");
         String request = objectMapper.writeValueAsString(data);
 
@@ -98,9 +98,9 @@ class DonationControllerTest {
     @DisplayName("후원(컨트롤러) : 내후원 조회")
     void findByUserId() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         List<Donation> donations = IntStream.range(1, 31)
                 .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
@@ -124,9 +124,9 @@ class DonationControllerTest {
     @DisplayName("후원(컨트롤러) : 전체 조회")
     void findAllByFilter() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         List<Donation> donations = IntStream.range(1, 31)
                 .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());

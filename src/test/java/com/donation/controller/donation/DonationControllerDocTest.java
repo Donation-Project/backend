@@ -66,9 +66,9 @@ class DonationControllerDocTest {
     @DisplayName("후원(RestDocs) : 후원 하기")
     void save() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), post.getId(), "10.1");
         String request = objectMapper.writeValueAsString(data);
 
@@ -97,9 +97,9 @@ class DonationControllerDocTest {
     @DisplayName("후원(RestDocs) : 내후원 조회")
     void findByUserId() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         List<Donation> donations = IntStream.range(1, 31)
                 .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
@@ -129,9 +129,9 @@ class DonationControllerDocTest {
     @DisplayName("후원(RestDocs) : 전체 조회")
     void findAllByFilter() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@emali.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@emali.com"));
         List<Donation> donations = IntStream.range(1, 21)
                 .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());

@@ -6,10 +6,7 @@ import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.domain.entites.Donation;
 import com.donation.repository.donation.DonationRepository;
-<<<<<<< HEAD
 import com.donation.repository.user.UserRepository;
-=======
->>>>>>> bf05c1c1ae01812c4cc835ed9ab49973c99b11c3
 import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

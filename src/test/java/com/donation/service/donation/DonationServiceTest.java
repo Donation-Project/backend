@@ -50,9 +50,9 @@ class DonationServiceTest {
     @DisplayName("후원(서비스) :  후원하기_예외발생")
     void save(){
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         DonationSaveReqDto donationWithoutPost = new DonationSaveReqDto(sponsor.getId(),null,"10.1");
         DonationSaveReqDto donationWithoutUser = new DonationSaveReqDto(null,post.getId(),"10.1");
         DonationSaveReqDto donation = new DonationSaveReqDto(sponsor.getId(),post.getId(),"10.1");
@@ -68,9 +68,9 @@ class DonationServiceTest {
     @DisplayName("후원(서비스) :  내후원 내역조회")
     void get(){
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         List<Donation> donations = IntStream.range(1, 31)
                 .mapToObj(i ->createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
@@ -85,9 +85,9 @@ class DonationServiceTest {
     @DisplayName("후원(서비스) :  아이디, 카테고리로 모든후원조회")
     void getList(){
         //given
-        User user = userRepository.save(createUser("beneficiary"));
+        User user = userRepository.save(createUser("beneficiary@email.com"));
         Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor"));
+        User sponsor = userRepository.save(createUser("sponsor@email.com"));
         List<Donation> donations = IntStream.range(1, 31)
                 .mapToObj(i ->createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
