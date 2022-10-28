@@ -1,13 +1,15 @@
 package com.donation.service.user;
 
+import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.exception.DonationDuplicateException;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.donation.common.UserFixtures.유저_회원가입_DTO;
+import static com.donation.common.UserFixtures.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -34,5 +36,29 @@ public class AuthServiceTest extends ServiceTest {
         assertThatThrownBy(() -> authService.save(유저_회원가입_DTO))
                 .isInstanceOf(DonationDuplicateException.class)
                 .hasMessage("이미 존재하는 이메일입니다.");
+    }
+
+
+    @Test
+    @DisplayName("유저 로그인 성공")
+    void 유저_로그인_성공(){
+        //given
+        authService.save(유저_회원가입_DTO);
+
+        //when & then
+        assertDoesNotThrow(() -> authService.login(유저_로그인_DTO));
+    }
+
+    @Test
+    @DisplayName("다른 패스워드로 로그인 요청시 예외 발생")
+    void 다른_패스워드로_로그인_요청시_예외_발생(){
+        //given
+        userRepository.save(createUser());
+        UserLoginReqDto 예외발생요청 = new UserLoginReqDto(일반_사용자_이메일, "다른패스워드");
+
+        //given & when & then
+        assertThatThrownBy(() -> authService.login(예외발생요청))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("패스워드가 일치하지 않습니다.");
     }
 }

@@ -37,7 +37,7 @@ public class AuthService {
 
     public User validateLogin(UserLoginReqDto userLoginReqDto) {
         User user = userRepository.getByEmail(userLoginReqDto.getEmail());
-        if(passwordEncoder.matches(user.getPassword(), userLoginReqDto.getPassword())){
+        if(passwordEncoder.matches(userLoginReqDto.getPassword(), user.getPassword())){
             return user;
         }
         throw new DonationInvalidateException("패스워드가 일치하지 않습니다.");

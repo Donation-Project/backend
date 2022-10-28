@@ -33,6 +33,15 @@ class UserRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @DisplayName("회원번호 검증시 회원이 존재하면 예외가 발생하지 않는다.")
+    void 회원번호_검증시_회원이_존재하면_예외가_발생하지_않는다(){
+        //given
+        Long id = userRepository.save(createUser()).getId();
+
+        Assertions.assertDoesNotThrow(() -> userRepository.validateExistsById(id));
+    }
+
+    @Test
     @DisplayName("존재하지 않는 회원번호로 검증시 예외를 던진다")
     void 존재하지_않는_회원번호로_검증시_예외를_던진다(){
         //given
