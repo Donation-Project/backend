@@ -24,17 +24,17 @@ import static lombok.AccessLevel.PROTECTED;
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "post_Id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Embedded
     private Write write;
 
-    private float amount;
+    private String amount;
 
     @Enumerated(STRING)
     private Category category;
@@ -46,7 +46,7 @@ public class Post extends BaseEntity {
     private List<PostDetailImage> postDetailImages = new ArrayList<>();
 
     @Builder
-    public Post(Long id, User user, Write write, float amount, Category category, PostState state) {
+    public Post(Long id, User user, Write write, String amount, Category category, PostState state) {
         this.id = id;
         this.user = user;
         this.write = write;

@@ -13,16 +13,16 @@ public class DonationFindByFilterRespDto {
     private Long donateId;
     private Long postId;
     private String title;
-    private float amount;
+    private String amount;
     private String sponsor;
     private String beneficiary;
     private LocalDateTime localDateTime;
-    private float total;
+    private String total;
     private Category category;
 
     @Builder
     @QueryProjection
-    public DonationFindByFilterRespDto(Long donateId,Long postId, String title, float amount, String sponsor, String beneficiary, LocalDateTime localDateTime, float total, Category category) {
+    public DonationFindByFilterRespDto(Long donateId, Long postId, String title, String amount, String sponsor, String beneficiary, LocalDateTime localDateTime, Category category) {
         this.donateId = donateId;
         this.postId = postId;
         this.title = title;
@@ -30,7 +30,10 @@ public class DonationFindByFilterRespDto {
         this.sponsor = sponsor;
         this.beneficiary = beneficiary;
         this.localDateTime = localDateTime;
-        this.total = total;
         this.category = category;
+    }
+
+    public void setTotal(float total){
+        this.total =String.valueOf(total);
     }
 }

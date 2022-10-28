@@ -59,7 +59,7 @@ public class TestEntityDataFactory {
     public static Post createPost(){
         return Post.builder()
                 .write(new Write("title", "content"))
-                .amount(12)
+                .amount("12")
                 .state(APPROVAL)
                 .category(ETC)
                 .build();
@@ -69,7 +69,7 @@ public class TestEntityDataFactory {
         return Post.builder()
                 .user(user)
                 .write(new Write("title", "content"))
-                .amount(12)
+                .amount("12")
                 .state(APPROVAL)
                 .category(ETC)
                 .build();
@@ -78,7 +78,7 @@ public class TestEntityDataFactory {
     public static Post createPost(String title, String content){
         return Post.builder()
                 .write(new Write(title, content))
-                .amount(12)
+                .amount("12")
                 .state(WAITING)
                 .category(ETC)
                 .build();
@@ -88,7 +88,7 @@ public class TestEntityDataFactory {
         return Post.builder()
                 .user(user)
                 .write(new Write(title, content))
-                .amount(12)
+                .amount("12")
                 .state(APPROVAL)
                 .category(ETC)
                 .build();
@@ -98,7 +98,7 @@ public class TestEntityDataFactory {
         return Favorites.of(user, post);
     }
 
-    public static Donation createDonation(User user, Post post, float amount){
+    public static Donation createDonation(User user, Post post, String amount){
         return  Donation.builder()
                 .user(user)
                 .post(post)

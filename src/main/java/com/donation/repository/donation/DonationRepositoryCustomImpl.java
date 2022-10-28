@@ -6,9 +6,7 @@ import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.common.response.donation.QDonationFindByFilterRespDto;
 import com.donation.common.response.donation.QDonationFindRespDto;
 import com.donation.domain.enums.Category;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +29,6 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                 .select(new QDonationFindRespDto(
                                 post.write.title,
                                 donation.amount,
-                                ExpressionUtils.as(
-                                        JPAExpressions
-                                                .select(donation.amount.sum())
-                                                .from(donation)
-                                                .where(donation.user.id.eq(id)),
-                                        "total"),
                                 post.id,
                                 post.category,
                                 donation.createAt
@@ -62,11 +54,6 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                                 donation.user.name,
                                 donation.post.user.name,
                                 donation.createAt,
-                                ExpressionUtils.as(
-                                        JPAExpressions
-                                                .select(donation.amount.sum())
-                                                .from(donation),
-                                        "total"),
                                 post.category
                         )
                 )

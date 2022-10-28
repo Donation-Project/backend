@@ -12,7 +12,7 @@ public class TestDtoDataFactory {
         return PostSaveReqDto.builder()
                 .title(title)
                 .content(content)
-                .amount(1)
+                .amount("1")
                 .category(ETC)
                 .build();
     }
@@ -21,7 +21,7 @@ public class TestDtoDataFactory {
         return PostUpdateReqDto.builder()
                 .title(title)
                 .content(content)
-                .amount(1)
+                .amount("1")
                 .category(ETC)
                 .build();
     }

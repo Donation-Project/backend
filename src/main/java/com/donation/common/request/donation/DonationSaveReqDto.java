@@ -19,10 +19,10 @@ public class DonationSaveReqDto {
     @NotNull(message = "후원량이 없습니다.")
     @Max(value = 10000)
     @Min(value = 0)
-    private float amount;
+    private String amount;
 
     @Builder
-    public DonationSaveReqDto(Long userId, Long postId, float amount) {
+    public DonationSaveReqDto(Long userId, Long postId, String amount) {
         this.userId = userId;
         this.postId = postId;
         this.amount = amount;
