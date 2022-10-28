@@ -1,222 +1,172 @@
 package com.donation.controller.user;
 
-import com.donation.common.request.user.UserJoinReqDto;
-import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.domain.entites.User;
-import com.donation.repository.user.UserRepository;
-import com.donation.service.s3.AwsS3Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterEach;
+import com.donation.common.UserFixtures;
+import com.donation.common.response.user.UserRespDto;
+import com.donation.common.utils.ControllerTest;
+import com.donation.repository.utils.PageCustom;
+import com.donation.service.user.AuthService;
+import com.donation.service.user.UserService;
+import com.donation.web.controller.user.UserController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
-import static com.donation.testutil.TestDtoDataFactory.createUserJoinReqDto;
-import static com.donation.testutil.TestDtoDataFactory.createUserLoginReqDto;
-import static com.donation.testutil.TestEntityDataFactory.createUser;
+import static com.donation.common.UserFixtures.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@AutoConfigureMockMvc
-@SpringBootTest
-class UserControllerTest {
+@WebMvcTest(UserController.class)
+class UserControllerTest extends ControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private UserRepository userRepository;
+    @MockBean
+    private AuthService authService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @MockBean
+    private UserService userService;
 
-    @Autowired
-    private EntityManager em;
-    @Autowired
-    private AwsS3Service awsS3Service;
-
-    @AfterEach
-    void clear() {
-        userRepository.deleteAll();
-    }
 
     @Test
-    @DisplayName("회원(컨트롤러) : 회원 가입")
-    void join() throws Exception {
+    @DisplayName("회원가입 요청 성공")
+    void 회원가입_요청_성공() throws Exception {
         //given
-        UserJoinReqDto request = createUserJoinReqDto();
+        Long id = authService.save(유저_회원가입_DTO);
+        given(authService.save(유저_회원가입_DTO)).willReturn(id);
 
         // expected
-        mockMvc.perform(post("/api/join")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/join")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
+                        .content(objectMapper.writeValueAsString(유저_회원가입_DTO))
+
                 )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+                .andDo(document("user-join",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     @Test
-    @DisplayName("회원(RestDocs) : 로그인")
-    void login() throws Exception {
+    @DisplayName("로그인 요청 성공")
+    void 로그인_요청_성공() throws Exception {
         //given
-        User user = userRepository.save(createUser());
-        UserLoginReqDto request = createUserLoginReqDto(user.getUsername(), user.getPassword());
+        Long id = authService.save(유저_회원가입_DTO);
+        given(authService.login(유저_로그인_DTO)).willReturn(createUser(id));
 
         // expected
-        mockMvc.perform(post("/api/login")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
+                        .content(objectMapper.writeValueAsString(유저_로그인_DTO))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data").value(user.getId()))
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+                .andDo(document("user-login",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("유저 ID"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+                ));
     }
 
     @Test
-    @DisplayName("회원(컨트롤러) : 중복된 이메일 회원 가입")
-    void join_exception() throws Exception {
+    @DisplayName("회원의 ID를 통한 회원단건조회 요청 성공")
+    void 회원의_ID를_통한_회원단건조회_요청_성공() throws Exception {
         //given
-        UserJoinReqDto request = createUserJoinReqDto();
-        userRepository.save(request.toUser(null));
+        Long id = 1L;
+        given(userService.findById(id)).willReturn(일반_반환_데이터(id));
 
         // expected
-        mockMvc.perform(post("/api/join")
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value("false"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("UNAUTHORIZED"))
-                .andExpect(jsonPath("$.error.errorMessage").value(String.format("이미 존재하는 이메일 입니다.(%s)",request.getEmail())))
-                .andDo(print());
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user/{id}", id))
+                .andExpect(status().isOk())
+                .andDo(document("user-inquiry",
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("유저 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.id").description("유저 ID"),
+                                fieldWithPath("data.email").description("이메일"),
+                                fieldWithPath("data.name").description("이름"),
+                                fieldWithPath("data.profileImage").description("회원 프로필 이미지"),
+                                fieldWithPath("data.metamask").description("메타마스크 주소"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+                ));
     }
 
     @Test
-    @DisplayName("회원(컨트롤러) : 리스트 조회")
-    void list() throws Exception {
+    @DisplayName("회원 리스트 조회시 10개씩 페이징되어 조회된다.")
+    void 회원_리스트_조회시_10개씩_페이징되어_조회된다() throws Exception{
         //given
-        List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> createUser("username" + i))
+        List<UserRespDto> contet = LongStream.range(1, 11)
+                .mapToObj(UserFixtures::일반_반환_데이터)
                 .collect(Collectors.toList());
-        userRepository.saveAll(users);
+        PageCustom<UserRespDto> response = new PageCustom<>(PageableExecutionUtils.getPage(contet, PageRequest.of(0, 10), () -> 20L));
+        given(userService.getList(any())).willReturn(response);
 
         // expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/user?page=0&size=10"))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user?page=0&size=10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))
-                .andExpect(jsonPath("$.data.content[0].email").value(users.get(0).getUsername()))
-                .andExpect(jsonPath("$.data.content[0].name").value(users.get(0).getName()))
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+                .andDo(document("user-getList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     @Test
-    @DisplayName("회원(컨트롤러) : 단건 조회")
-    void get() throws Exception {
+    @DisplayName("회원의 ID를 통한 회원삭제 요청 성공")
+    void 회원의_ID를_통한_회원삭제_요청_성공() throws Exception {
         //given
-        User user = createUser();
-        userRepository.save(user);
+        Long id = 1L;
+        willDoNothing().given(userService).delete(id);
 
         // expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/{postId}", user.getId()))
+        mockMvc.perform(delete("/api/user/{id}", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.id").value(user.getId()))
-                .andExpect(jsonPath("$.data.email").value(user.getUsername()))
-                .andExpect(jsonPath("$.data.name").value(user.getName()))
-                .andExpect(jsonPath("$.data.profileImage").value(user.getProfileImage()))
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+                .andDo(document("user-delete",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     @Test
-    @DisplayName("회원(컨트롤러) : 단건 조회 없는 회원 조회")
-    void get_exception() throws Exception {
+    @DisplayName("회원 프로필 수정 요청 성공")
+    void 회원_프로필_수정_요청_성공() throws Exception {
         //given
-        User user = createUser();
-        userRepository.save(user);
+        Long id = 1L;
+        willDoNothing().given(userService).updateProfile(id, 유저_프로필_업데이트_DTO);
 
-        // expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/{postId}", user.getId() + 1L))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value("false"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("회원(컨트롤러) : 회원 삭제")
-    void delete_exception() throws Exception {
-        //given
-        User user = createUser();
-        userRepository.save(user);
-
-        // expected
-        mockMvc.perform(delete("/api/user/{userId}", user.getId() + 1L))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value("false"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
-                .andExpect(jsonPath("$.error.errorMessage").value("회원을 찾을수 없습니다."))
-                .andDo(print());
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("회원(정보수정) : 프로필 변경")
-    void update_profile() throws Exception {
-        //given
-        User user = createUser();
-        userRepository.save(user);
-
-        MultipartFile profile = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());
-
-        // expected
-        mockMvc.perform(multipart("/api/user/{postId}/profile", user.getId())
-                        .file("profile", profile.getBytes())
-                        .with(requestPostProcessor -> {
-                            requestPostProcessor.setMethod("PUT");
-                            return requestPostProcessor;
-                        })
-                        .contentType(MULTIPART_FORM_DATA)
-                )
+        //expected
+        mockMvc.perform(put("/api/user/{id}/profile", id)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유저_프로필_업데이트_DTO)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
-
-        em.flush();
-        em.clear();
-
-        //S3 파일 삭제
-        User find = userRepository.findById(user.getId()).get();
-        awsS3Service.delete(find.getProfileImage());
+                .andDo(document("user-profileImage",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 }

@@ -1,4 +1,4 @@
-package com.donation.testutil;
+package com.donation.common;
 
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Donation;
@@ -18,7 +18,7 @@ public class TestEntityDataFactory {
 
     public static User createUser() {
         return User.builder()
-                .username("username")
+                .email("username@naver.com")
                 .password("passowrd")
                 .name("name")
                 .role(Role.USER)
@@ -31,7 +31,7 @@ public class TestEntityDataFactory {
 
     public static User createUser(String username) {
         return User.builder()
-                .username(username)
+                .email(username)
                 .password("passowrd")
                 .name("name")
                 .role(Role.USER)
@@ -45,7 +45,7 @@ public class TestEntityDataFactory {
     public static User createUser(Long id) {
         return User.builder()
                 .id(id)
-                .username("username")
+                .email("username@naver.com")
                 .password("passowrd")
                 .name("name")
                 .role(Role.USER)

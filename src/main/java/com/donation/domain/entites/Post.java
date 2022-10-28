@@ -17,6 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+@Table(name="post")
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @Getter

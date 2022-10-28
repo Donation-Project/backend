@@ -11,7 +11,6 @@ import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.testutil.TestEntityDataFactory.*;
+import static com.donation.common.TestEntityDataFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -45,7 +44,6 @@ class DonationServiceTest {
         donationRepository.deleteAll();
         postRepository.deleteAll();
         userRepository.deleteAll();
-
     }
 
     @Test

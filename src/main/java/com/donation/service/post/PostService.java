@@ -9,14 +9,12 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
-
 import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.favorite.FavoriteRepository;
-
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.postdetailimage.PostDetailImageRepository;
+import com.donation.repository.user.UserRepository;
 import com.donation.service.s3.AwsS3Service;
-import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -27,7 +25,6 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
 import java.util.List;
 
 import static com.donation.domain.enums.PostState.DELETE;
@@ -40,7 +37,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostDetailImageRepository postDetailImageRepository;
     private final FavoriteRepository favoriteRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
 
     public Post findById(Long postId) {
@@ -49,23 +46,16 @@ public class PostService {
     }
 
     public PostSaveRespDto save(PostSaveReqDto postSaveReqDto, Long userId) {
-
-        User user = userService.findById(userId);
+        User user = userRepository.getById(userId);
         Post post = postRepository.save(postSaveValidation(postSaveReqDto, postSaveReqDto.getImage(), user));
-
         return PostSaveRespDto.toDto(post, user);
     }
 
     private Post postSaveValidation(PostSaveReqDto postSaveReqDto, String image, User user) {
         Post post = postSaveReqDto.toPost(user);
         if (StringUtils.hasText(image))
-            addPostDetailImage(image, post);
+            post.addPostImage(PostDetailImage.of(awsS3Service.upload(image)));
         return post;
-    }
-
-    private void addPostDetailImage(String image, Post post) {
-        byte[] imageDecode = Base64.getMimeDecoder().decode(image.substring(image.indexOf(",") + 1));
-        post.addPostImage(PostDetailImage.of(awsS3Service.upload(imageDecode)));
     }
 
     public void update(PostUpdateReqDto updateReqDto, Long id) {

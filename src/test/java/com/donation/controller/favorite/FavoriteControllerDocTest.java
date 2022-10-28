@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.testutil.TestEntityDataFactory.createPost;
-import static com.donation.testutil.TestEntityDataFactory.createUser;
+import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.TestEntityDataFactory.createUser;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;

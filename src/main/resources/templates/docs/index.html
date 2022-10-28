@@ -593,15 +593,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/join HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 123
-Host: api.springdocs.com
+Content-Type: application/json
+Content-Length: 134
+Host: localhost:8080
 
 {
-  "email" : "user@naver.com",
-  "name" : "name",
-  "password" : "password",
-  "metamask" : "https://metamasek.com"
+  "email" : "default@email.com",
+  "name" : "dafault",
+  "password" : "default",
+  "metamask" : "https://dafaultmetamask.com"
 }</code></pre>
 </div>
 </div>
@@ -613,54 +613,9 @@ Host: api.springdocs.com
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 61
-
-{
-  "success" : true,
-  "data" : null,
-  "error" : null
-}</code></pre>
+Location: /api/user/0</code></pre>
 </div>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">에러 발생시 오류 반환</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
@@ -670,13 +625,13 @@ Content-Length: 61
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/login HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 56
-Host: api.springdocs.com
+Content-Type: application/json
+Content-Length: 64
+Host: localhost:8080
 
 {
-  "email" : "username",
-  "password" : "passowrd"
+  "email" : "default@email.com",
+  "password" : "default"
 }</code></pre>
 </div>
 </div>
@@ -689,18 +644,11 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 60
+Content-Length: 58
 
 {
   "success" : true,
-  "data" : 122,
+  "data" : 0,
   "error" : null
 }</code></pre>
 </div>
@@ -746,8 +694,8 @@ Content-Length: 60
 <h3 id="_요청"><a class="link" href="#_요청">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/90 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user/1 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -779,23 +727,16 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 224
+Content-Length: 266
 
 {
   "success" : true,
   "data" : {
-    "id" : 90,
-    "email" : "username",
-    "name" : "name",
-    "profileImage" : "https://localhost:8080/image",
-    "metamask" : "https://metamasek.com"
+    "id" : 1,
+    "email" : "default@email.com",
+    "name" : "dafault",
+    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+    "metamask" : "https://dafaultmetamask.com"
   },
   "error" : null
 }</code></pre>
@@ -863,7 +804,7 @@ Content-Length: 224
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/user?page=0&amp;size=10 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -876,102 +817,80 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 2387
+Content-Length: 2485
 
 {
   "success" : true,
   "data" : {
+    "page" : {
+      "pageNum" : 1,
+      "pageElement" : 10,
+      "totalPages" : 2,
+      "totalElement" : 20,
+      "first" : true,
+      "last" : false
+    },
     "content" : [ {
-      "id" : 92,
-      "email" : "username1",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 1,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 93,
-      "email" : "username2",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 2,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 94,
-      "email" : "username3",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 3,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 95,
-      "email" : "username4",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 4,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 96,
-      "email" : "username5",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 5,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 97,
-      "email" : "username6",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 6,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 98,
-      "email" : "username7",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 7,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 99,
-      "email" : "username8",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 8,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 100,
-      "email" : "username9",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 9,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     }, {
-      "id" : 101,
-      "email" : "username10",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
-    } ],
-    "pageable" : {
-      "sort" : {
-        "empty" : true,
-        "sorted" : false,
-        "unsorted" : true
-      },
-      "offset" : 0,
-      "pageSize" : 10,
-      "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
-    },
-    "size" : 10,
-    "number" : 0,
-    "sort" : {
-      "empty" : true,
-      "sorted" : false,
-      "unsorted" : true
-    },
-    "first" : true,
-    "last" : false,
-    "numberOfElements" : 10,
-    "empty" : false
+      "id" : 10,
+      "email" : "default@email.com",
+      "name" : "dafault",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
+    } ]
   },
   "error" : null
 }</code></pre>
@@ -985,15 +904,14 @@ Content-Length: 2387
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/88/profile HTTP/1.1
-Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Host: api.springdocs.com
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/user/1/profile HTTP/1.1
+Content-Type: application/json
+Content-Length: 90
+Host: localhost:8080
 
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=profile
-
-test1
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+{
+  "profileImage" : "data:image/gif;base64,R0lGODlh9AE1AfcAAAEREwgdGCkNDSckHAQXJAgY,"
+}</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -1005,13 +923,6 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
 Content-Length: 61
 
 {
@@ -1031,8 +942,8 @@ Content-Length: 61
 <h3 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/89 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/user/1 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1045,13 +956,6 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
 Content-Length: 61
 
 {
@@ -1072,7 +976,7 @@ Content-Length: 61
 <h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/82 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 112
 Host: api.springdocs.com
@@ -1103,15 +1007,15 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 467
+Content-Length: 476
 
 {
   "success" : true,
   "data" : {
-    "postId" : 79,
+    "postId" : 71,
     "userRespDto" : {
-      "id" : 82,
-      "email" : "username",
+      "id" : 9,
+      "email" : "username@naver.com",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image",
       "metamask" : "https://metamasek.com"
@@ -1225,7 +1129,7 @@ Content-Length: 467
 <h3 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/78 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/70 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1265,15 +1169,15 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 495
+Content-Length: 504
 
 {
   "success" : true,
   "data" : {
-    "postId" : 78,
+    "postId" : 70,
     "userRespDto" : {
-      "id" : 81,
-      "email" : "username",
+      "id" : 8,
+      "email" : "username@naver.com",
       "name" : "name",
       "profileImage" : "https://localhost:8080/image",
       "metamask" : "https://metamasek.com"
@@ -1414,16 +1318,16 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 4856
+Content-Length: 4946
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "postId" : 48,
+      "postId" : 40,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1437,10 +1341,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 49,
+      "postId" : 41,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1454,10 +1358,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 50,
+      "postId" : 42,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1471,10 +1375,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 51,
+      "postId" : 43,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1488,10 +1392,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 52,
+      "postId" : 44,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1505,10 +1409,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 53,
+      "postId" : 45,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1522,10 +1426,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 54,
+      "postId" : 46,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1539,10 +1443,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 55,
+      "postId" : 47,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1556,10 +1460,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 56,
+      "postId" : 48,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1573,10 +1477,10 @@ Content-Length: 4856
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 57,
+      "postId" : 49,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username",
+        "id" : 7,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1597,10 +1501,10 @@ Content-Length: 4856
         "unsorted" : true
       },
       "offset" : 0,
-      "pageSize" : 10,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "pageSize" : 10,
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -1609,9 +1513,9 @@ Content-Length: 4856
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : false,
-    "numberOfElements" : 10,
     "empty" : false
   },
   "error" : null
@@ -1628,7 +1532,7 @@ Content-Length: 4856
 <h3 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/47 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/39 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 107
@@ -1728,7 +1632,7 @@ Content-Length: 61
 <h3 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/46 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/38 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1818,7 +1722,7 @@ Content-Length: 61
 <h3 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/83/my-page?page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/10/my-page?page=0&amp;size=10 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -1839,16 +1743,16 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 4855
+Content-Length: 4955
 
 {
   "success" : true,
   "data" : {
     "content" : [ {
-      "postId" : 80,
+      "postId" : 72,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1862,10 +1766,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 81,
+      "postId" : 73,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1879,10 +1783,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 82,
+      "postId" : 74,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1896,10 +1800,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 83,
+      "postId" : 75,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1913,10 +1817,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 84,
+      "postId" : 76,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1930,10 +1834,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 85,
+      "postId" : 77,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1947,10 +1851,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 86,
+      "postId" : 78,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1964,10 +1868,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 87,
+      "postId" : 79,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1981,10 +1885,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 88,
+      "postId" : 80,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -1998,10 +1902,10 @@ Content-Length: 4855
       "state" : "APPROVAL",
       "postMainImage" : null
     }, {
-      "postId" : 89,
+      "postId" : 81,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username",
+        "id" : 10,
+        "email" : "username@naver.com",
         "name" : "name",
         "profileImage" : "https://localhost:8080/image",
         "metamask" : null
@@ -2022,10 +1926,10 @@ Content-Length: 4855
         "unsorted" : true
       },
       "offset" : 0,
-      "pageSize" : 10,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "pageSize" : 10,
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -2034,9 +1938,9 @@ Content-Length: 4855
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : true,
-    "numberOfElements" : 10,
     "empty" : false
   },
   "error" : null
@@ -2161,7 +2065,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 5933
+Content-Length: 5931
 
 {
   "success" : true,
@@ -2173,7 +2077,7 @@ Content-Length: 5933
       "amount" : 11.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.070847",
+      "localDateTime" : "2022-10-28T14:25:23.26124",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2183,7 +2087,7 @@ Content-Length: 5933
       "amount" : 12.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.083063",
+      "localDateTime" : "2022-10-28T14:25:23.269948",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2193,7 +2097,7 @@ Content-Length: 5933
       "amount" : 13.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.086062",
+      "localDateTime" : "2022-10-28T14:25:23.272325",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2203,7 +2107,7 @@ Content-Length: 5933
       "amount" : 14.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.088062",
+      "localDateTime" : "2022-10-28T14:25:23.274274",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2213,7 +2117,7 @@ Content-Length: 5933
       "amount" : 15.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.090365",
+      "localDateTime" : "2022-10-28T14:25:23.276284",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2223,7 +2127,7 @@ Content-Length: 5933
       "amount" : 16.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.091563",
+      "localDateTime" : "2022-10-28T14:25:23.278372",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2233,7 +2137,7 @@ Content-Length: 5933
       "amount" : 17.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.093561",
+      "localDateTime" : "2022-10-28T14:25:23.281931",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2243,7 +2147,7 @@ Content-Length: 5933
       "amount" : 18.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.095563",
+      "localDateTime" : "2022-10-28T14:25:23.285554",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2253,7 +2157,7 @@ Content-Length: 5933
       "amount" : 19.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.098562",
+      "localDateTime" : "2022-10-28T14:25:23.28875",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2263,7 +2167,7 @@ Content-Length: 5933
       "amount" : 20.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.10056",
+      "localDateTime" : "2022-10-28T14:25:23.290856",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2273,7 +2177,7 @@ Content-Length: 5933
       "amount" : 21.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.102561",
+      "localDateTime" : "2022-10-28T14:25:23.292873",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2283,7 +2187,7 @@ Content-Length: 5933
       "amount" : 22.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.103561",
+      "localDateTime" : "2022-10-28T14:25:23.304326",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2293,7 +2197,7 @@ Content-Length: 5933
       "amount" : 23.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.104561",
+      "localDateTime" : "2022-10-28T14:25:23.311026",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2303,7 +2207,7 @@ Content-Length: 5933
       "amount" : 24.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.105689",
+      "localDateTime" : "2022-10-28T14:25:23.313009",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2313,7 +2217,7 @@ Content-Length: 5933
       "amount" : 25.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.106747",
+      "localDateTime" : "2022-10-28T14:25:23.31411",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2323,7 +2227,7 @@ Content-Length: 5933
       "amount" : 26.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.108745",
+      "localDateTime" : "2022-10-28T14:25:23.315608",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2333,7 +2237,7 @@ Content-Length: 5933
       "amount" : 27.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.109747",
+      "localDateTime" : "2022-10-28T14:25:23.319239",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2343,7 +2247,7 @@ Content-Length: 5933
       "amount" : 28.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.110747",
+      "localDateTime" : "2022-10-28T14:25:23.321135",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2353,7 +2257,7 @@ Content-Length: 5933
       "amount" : 29.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.111747",
+      "localDateTime" : "2022-10-28T14:25:23.322137",
       "total" : 412.0,
       "category" : "ETC"
     }, {
@@ -2363,7 +2267,7 @@ Content-Length: 5933
       "amount" : 30.1,
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-26T15:21:47.111747",
+      "localDateTime" : "2022-10-28T14:25:23.324157",
       "total" : 412.0,
       "category" : "ETC"
     } ],
@@ -2374,10 +2278,10 @@ Content-Length: 5933
         "unsorted" : true
       },
       "offset" : 0,
-      "pageSize" : 20,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "pageSize" : 20,
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 20,
     "number" : 0,
@@ -2386,9 +2290,9 @@ Content-Length: 5933
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 20,
     "first" : true,
     "last" : true,
-    "numberOfElements" : 20,
     "empty" : false
   },
   "error" : null
@@ -2445,7 +2349,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 5247
+Content-Length: 5249
 
 {
   "success" : true,
@@ -2455,210 +2359,210 @@ Content-Length: 5247
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.428174"
+    "localDateTime" : "2022-10-28T14:25:23.795529"
   }, {
     "title" : "title",
     "amount" : 12.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.429175"
+    "localDateTime" : "2022-10-28T14:25:23.796894"
   }, {
     "title" : "title",
     "amount" : 13.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.430175"
+    "localDateTime" : "2022-10-28T14:25:23.797893"
   }, {
     "title" : "title",
     "amount" : 14.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.431175"
+    "localDateTime" : "2022-10-28T14:25:23.798896"
   }, {
     "title" : "title",
     "amount" : 15.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.431175"
+    "localDateTime" : "2022-10-28T14:25:23.798896"
   }, {
     "title" : "title",
     "amount" : 16.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.432174"
+    "localDateTime" : "2022-10-28T14:25:23.799895"
   }, {
     "title" : "title",
     "amount" : 17.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.432174"
+    "localDateTime" : "2022-10-28T14:25:23.800897"
   }, {
     "title" : "title",
     "amount" : 18.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.433179"
+    "localDateTime" : "2022-10-28T14:25:23.801893"
   }, {
     "title" : "title",
     "amount" : 19.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.43418"
+    "localDateTime" : "2022-10-28T14:25:23.802897"
   }, {
     "title" : "title",
     "amount" : 20.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.43418"
+    "localDateTime" : "2022-10-28T14:25:23.804894"
   }, {
     "title" : "title",
     "amount" : 21.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.435175"
+    "localDateTime" : "2022-10-28T14:25:23.805899"
   }, {
     "title" : "title",
     "amount" : 22.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.435175"
+    "localDateTime" : "2022-10-28T14:25:23.806894"
   }, {
     "title" : "title",
     "amount" : 23.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.436177"
+    "localDateTime" : "2022-10-28T14:25:23.810192"
   }, {
     "title" : "title",
     "amount" : 24.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.437181"
+    "localDateTime" : "2022-10-28T14:25:23.811586"
   }, {
     "title" : "title",
     "amount" : 25.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.438177"
+    "localDateTime" : "2022-10-28T14:25:23.812587"
   }, {
     "title" : "title",
     "amount" : 26.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.439176"
+    "localDateTime" : "2022-10-28T14:25:23.813587"
   }, {
     "title" : "title",
     "amount" : 27.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.440175"
+    "localDateTime" : "2022-10-28T14:25:23.814586"
   }, {
     "title" : "title",
     "amount" : 28.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.440175"
+    "localDateTime" : "2022-10-28T14:25:23.815638"
   }, {
     "title" : "title",
     "amount" : 29.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.441193"
+    "localDateTime" : "2022-10-28T14:25:23.816673"
   }, {
     "title" : "title",
     "amount" : 30.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.441193"
+    "localDateTime" : "2022-10-28T14:25:23.817675"
   }, {
     "title" : "title",
     "amount" : 31.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.442175"
+    "localDateTime" : "2022-10-28T14:25:23.819674"
   }, {
     "title" : "title",
     "amount" : 32.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.443177"
+    "localDateTime" : "2022-10-28T14:25:23.820693"
   }, {
     "title" : "title",
     "amount" : 33.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.443177"
+    "localDateTime" : "2022-10-28T14:25:23.821672"
   }, {
     "title" : "title",
     "amount" : 34.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.444176"
+    "localDateTime" : "2022-10-28T14:25:23.822672"
   }, {
     "title" : "title",
     "amount" : 35.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.444176"
+    "localDateTime" : "2022-10-28T14:25:23.824677"
   }, {
     "title" : "title",
     "amount" : 36.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.445174"
+    "localDateTime" : "2022-10-28T14:25:23.825673"
   }, {
     "title" : "title",
     "amount" : 37.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.445174"
+    "localDateTime" : "2022-10-28T14:25:23.827674"
   }, {
     "title" : "title",
     "amount" : 38.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.446175"
+    "localDateTime" : "2022-10-28T14:25:23.828673"
   }, {
     "title" : "title",
     "amount" : 39.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.446175"
+    "localDateTime" : "2022-10-28T14:25:23.829674"
   }, {
     "title" : "title",
     "amount" : 40.1,
     "total" : 768.0,
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-26T15:21:47.447176"
+    "localDateTime" : "2022-10-28T14:25:23.831674"
   } ],
   "error" : null
 }</code></pre>
@@ -2969,10 +2873,10 @@ Content-Length: 4517
         "unsorted" : true
       },
       "offset" : 0,
-      "pageSize" : 10,
       "pageNumber" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "pageSize" : 10,
+      "paged" : true,
+      "unpaged" : false
     },
     "size" : 10,
     "number" : 0,
@@ -2981,9 +2885,9 @@ Content-Length: 4517
       "sorted" : false,
       "unsorted" : true
     },
+    "numberOfElements" : 10,
     "first" : true,
     "last" : false,
-    "numberOfElements" : 10,
     "empty" : false
   },
   "error" : null
@@ -3005,7 +2909,7 @@ Content-Length: 4517
 Host: api.springdocs.com
 Content-Type: application/x-www-form-urlencoded
 
-postId=41&amp;userId=46</code></pre>
+postId=34&amp;userId=3</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3335,7 +3239,7 @@ Content-Length: 5180
 <h3 id="_요청_17"><a class="link" href="#_요청_17">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=39 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/favorite?postId=33 HTTP/1.1
 Host: api.springdocs.com</code></pre>
 </div>
 </div>
@@ -3421,7 +3325,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-26 12:15:02 +0900
+Last updated 2022-10-28 18:34:45 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

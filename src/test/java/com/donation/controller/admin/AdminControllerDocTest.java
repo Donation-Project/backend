@@ -5,7 +5,6 @@ import com.donation.domain.entites.Post;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.donation.domain.enums.PostState.WAITING;
-import static com.donation.testutil.TestEntityDataFactory.createPost;
+import static com.donation.common.TestEntityDataFactory.createPost;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;

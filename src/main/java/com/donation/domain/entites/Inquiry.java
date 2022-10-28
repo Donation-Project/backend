@@ -12,6 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+@Table(name = "inquiry")
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 public class Inquiry extends BaseEntity{

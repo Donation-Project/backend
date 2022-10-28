@@ -5,14 +5,14 @@ import com.donation.domain.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Getter @Setter
-@Slf4j
-public class UserJoinReqDto {
+@Getter
+@Setter
+public class UserSaveReqDto {
+
     @Email
     @NotBlank
     private String email;
@@ -29,7 +29,7 @@ public class UserJoinReqDto {
 
     public User toUser(String imageUrl){
         return User.builder()
-                .username(this.email)
+                .email(this.email)
                 .name(this.name)
                 .password(this.password)
                 .profileImage(imageUrl)
@@ -39,7 +39,7 @@ public class UserJoinReqDto {
     }
 
     @Builder
-    public UserJoinReqDto(String email, String name, String password, String metamask) {
+    public UserSaveReqDto(String email, String name, String password, String metamask) {
         this.email = email;
         this.name = name;
         this.password = password;

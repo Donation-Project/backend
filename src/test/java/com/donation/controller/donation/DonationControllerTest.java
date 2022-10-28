@@ -10,7 +10,6 @@ import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.donation.domain.enums.Category.ETC;
-import static com.donation.testutil.TestEntityDataFactory.*;
+import static com.donation.common.TestEntityDataFactory.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

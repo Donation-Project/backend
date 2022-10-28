@@ -29,7 +29,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .select(new QPostFindRespDto(
                         post.id.as("postId"),
                         user.id.as("userId"),
-                        user.username,
+                        user.email,
                         user.name,
                         user.profileImage,
                         user.metamask,
@@ -52,12 +52,12 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .select(new QPostListRespDto(
                         post.id.as("postId"),
                         user.id.as("userId"),
-                        user.username.as("username"),
-                        user.name.as("name"),
-                        user.profileImage.as("profileImage"),
-                        post.write.as("write"),
+                        user.email,
+                        user.name,
+                        user.profileImage,
+                        post.write,
                         post.amount,
-                        post.category.as("category"),
+                        post.category,
                         post.state.as("postState"),
                         postDetailImage.imagePath.as("postMainImage")
                 ))
@@ -83,12 +83,12 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .select(new QPostListRespDto(
                         post.id.as("postId"),
                         user.id.as("userId"),
-                        user.username.as("username"),
-                        user.name.as("name"),
-                        user.profileImage.as("profileImage"),
-                        post.write.as("write"),
+                        user.email,
+                        user.name,
+                        user.profileImage,
+                        post.write,
                         post.amount,
-                        post.category.as("category"),
+                        post.category,
                         post.state.as("postState"),
                         postDetailImage.imagePath.as("postMainImage")
                 ))

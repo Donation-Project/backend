@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.donation.domain.enums.Category.ETC;
-import static com.donation.testutil.TestEntityDataFactory.*;
+import static com.donation.common.TestEntityDataFactory.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
