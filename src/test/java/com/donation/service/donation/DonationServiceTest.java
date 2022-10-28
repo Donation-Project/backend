@@ -11,7 +11,6 @@ import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +54,9 @@ class DonationServiceTest {
         User user = userRepository.save(createUser("beneficiary"));
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
-        DonationSaveReqDto donationWithoutPost = new DonationSaveReqDto(sponsor.getId(),null,10.1f);
-        DonationSaveReqDto donationWithoutUser = new DonationSaveReqDto(null,post.getId(),10.1f);
-        DonationSaveReqDto donation = new DonationSaveReqDto(sponsor.getId(),post.getId(),10.1f);
+        DonationSaveReqDto donationWithoutPost = new DonationSaveReqDto(sponsor.getId(),null,"10.1");
+        DonationSaveReqDto donationWithoutUser = new DonationSaveReqDto(null,post.getId(),"10.1");
+        DonationSaveReqDto donation = new DonationSaveReqDto(sponsor.getId(),post.getId(),"10.1");
         donationService.save(donation);
         //when
         assertThatThrownBy(() ->  donationService.save(donationWithoutPost))
@@ -74,7 +73,7 @@ class DonationServiceTest {
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i ->createDonation(sponsor,post,10.1f+i)
+                .mapToObj(i ->createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
         List<DonationFindRespDto> donationFindRespDtos = donationService.findById(sponsor.getId());
@@ -91,7 +90,7 @@ class DonationServiceTest {
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i ->createDonation(sponsor,post,10.1f+i)
+                .mapToObj(i ->createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
         DonationFilterReqDto donationFilterReqDto = DonationFilterReqDto.builder().build();
