@@ -10,6 +10,8 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post,Long>, PostRepositoryCustom {
 
     List<Post> findAllByUpdateAtLessThanEqualAndState(LocalDateTime updateAd, PostState state);
+
+
 }
 
 

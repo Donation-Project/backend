@@ -1,6 +1,7 @@
 package com.donation.controller.favorite;
 
 
+import com.donation.common.UserFixtures;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.repository.favorite.FavoriteRepository;
@@ -17,11 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.donation.testutil.TestEntityDataFactory.createPost;
-import static com.donation.testutil.TestEntityDataFactory.createUser;
+import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.TestEntityDataFactory.createUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -89,10 +88,7 @@ public class FavoriteControllerTest {
     @DisplayName("좋아요(컨트롤러) : 전체 조회")
     void list() throws Exception{
         //given
-        List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> createUser("username" + i))
-                .collect(Collectors.toList());
-        userRepository.saveAll(users);
+        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteService.saveAndCancel(post.getId(), u.getId()));
 

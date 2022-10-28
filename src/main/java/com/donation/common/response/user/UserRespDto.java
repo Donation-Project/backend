@@ -17,9 +17,9 @@ public class UserRespDto {
 
     @Builder
     @QueryProjection
-    public UserRespDto(Long id, String username, String name, String profileImage, String metamask) {
+    public UserRespDto(Long id, String email, String name, String profileImage, String metamask) {
         this.id = id;
-        this.email = username;
+        this.email = email;
         this.name = name;
         this.profileImage = profileImage;
         this.metamask = metamask;
@@ -27,9 +27,10 @@ public class UserRespDto {
 
     public UserRespDto(User user) {
         this.id = user.getId();
-        this.email = user.getUsername();
+        this.email = user.getEmail();
         this.name = user.getName();
         this.profileImage = user.getProfileImage();
         this.metamask = user.getMetamask();
     }
+
 }

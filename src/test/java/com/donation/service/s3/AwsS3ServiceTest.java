@@ -1,16 +1,15 @@
 package com.donation.service.s3;
 
+import com.donation.exception.DonationNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Base64;
-
+import static com.donation.common.UserFixtures.새로운_이미지;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.util.StringUtils.hasText;
 
 @SpringBootTest
@@ -20,13 +19,13 @@ class AwsS3ServiceTest {
     private AwsS3Service awsS3Service;
 
     @Test
-    @DisplayName("S3(서비스) : MultiPartFile 업로드")
-    void multiPartFile_Upload(){
+    @DisplayName("Base64로 인코딩된 이미지 업로드 성공")
+    void Base64로_인코딩된_이미지_업로드_성공(){
         //given
-        MultipartFile file = new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes());
+        String image = 새로운_이미지;
 
         //when
-        String imagePath = awsS3Service.upload(file);
+        String imagePath = awsS3Service.upload(image);
 
         //then
         assertThat(hasText(imagePath)).isTrue();
@@ -36,29 +35,24 @@ class AwsS3ServiceTest {
     }
 
     @Test
-    @DisplayName("S3(서비스) : Base64 업로드")
-    void Base64_Upload(){
+    @DisplayName("Base64로 인코딩된 이미지가 없을 경우 예외를 던진다.")
+    void Base64로_인코딩된_이미지가_없을_경우_예외를_던진다(){
         //given
-        String image = "Base64ImagesEncoding";
-        byte[] imageDecode = Base64.getMimeDecoder().decode(image.substring(image.indexOf(",") + 1));
+        String image = "";
 
-        //when
-        String imagePath = awsS3Service.upload(imageDecode);
-
-        //then
-        assertThat(hasText(imagePath)).isTrue();
-
-        //clear
-        awsS3Service.delete(imagePath);
+        //when & then
+        assertThatThrownBy(() -> awsS3Service.upload(image))
+                .isInstanceOf(DonationNotFoundException.class)
+                .hasMessage("파일이 존재하지 않습니다.");
     }
 
     @Test
-    @DisplayName("S3(서비스) : 이미지 경로가 비어있으면 삭제로직을 실행하지 않음")
-    void nonDelete(){
+    @DisplayName("이미지 경로가 비어있으면 삭제로직을 실행하지 않는다.")
+    void 이미지_경로가_비어있으면_삭제로직을_실행하지_않는다(){
         //given
         String imagePath = "";
 
         //when
-        awsS3Service.delete(imagePath);
+        Assertions.assertDoesNotThrow(() -> awsS3Service.delete(imagePath));
     }
 }

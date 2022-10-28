@@ -10,6 +10,7 @@ import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
+@Table(name = "favorites")
 @Getter
 @Entity
 @NoArgsConstructor(access = PROTECTED)

@@ -34,7 +34,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
 
-        Optional<User> userOptional = userRepository.findByUsername(oAuth2UserInfo.getEmail());
+        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user = userOptional.orElseGet(() -> registerNewUser(oAuth2UserInfo));
 
         return new PrincipalDetails(user, oAuth2User.getAttributes());
@@ -52,7 +52,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
                 .provider(oAuth2UserInfo.getProvider())
                 .providerId(oAuth2UserInfo.getProviderId())
                 .name(oAuth2UserInfo.getName())
-                .username(oAuth2UserInfo.getEmail())
+                .email(oAuth2UserInfo.getEmail())
                 .role(Role.USER)
                 .build();
 

@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.donation.domain.enums.PostState.APPROVAL;
-import static com.donation.testutil.TestDtoDataFactory.createPostSaveReqDto;
-import static com.donation.testutil.TestDtoDataFactory.createPostUpdateReqDto;
-import static com.donation.testutil.TestEntityDataFactory.createPost;
-import static com.donation.testutil.TestEntityDataFactory.createUser;
+import static com.donation.common.TestDtoDataFactory.createPostSaveReqDto;
+import static com.donation.common.TestDtoDataFactory.createPostUpdateReqDto;
+import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.TestEntityDataFactory.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

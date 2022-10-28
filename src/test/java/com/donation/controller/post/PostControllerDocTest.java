@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.testutil.TestDtoDataFactory.createPostSaveReqDto;
-import static com.donation.testutil.TestDtoDataFactory.createPostUpdateReqDto;
-import static com.donation.testutil.TestEntityDataFactory.createPost;
-import static com.donation.testutil.TestEntityDataFactory.createUser;
+import static com.donation.common.TestDtoDataFactory.createPostSaveReqDto;
+import static com.donation.common.TestDtoDataFactory.createPostUpdateReqDto;
+import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.TestEntityDataFactory.createUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
@@ -79,7 +79,7 @@ public class PostControllerDocTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.userRespDto.email").value(user.getUsername()))
+                .andExpect(jsonPath("$.data.userRespDto.email").value(user.getEmail()))
                 .andExpect(jsonPath("$.data.userRespDto.name").value(user.getName()))
                 .andExpect(jsonPath("$.data.userRespDto.profileImage").value(user.getProfileImage()))
                 .andExpect(jsonPath("$.data.write.title").value(dto.getTitle()))

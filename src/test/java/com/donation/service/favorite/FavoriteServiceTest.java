@@ -1,5 +1,6 @@
 package com.donation.service.favorite;
 
+import com.donation.common.UserFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
@@ -14,11 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.donation.testutil.TestEntityDataFactory.createPost;
-import static com.donation.testutil.TestEntityDataFactory.createUser;
+import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.TestEntityDataFactory.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -76,10 +75,7 @@ class FavoriteServiceTest {
     @DisplayName("좋아요(서비스) : 리스트 조회")
     void getList() {
         //given
-        List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> createUser("username" + i))
-                .collect(Collectors.toList());
-        userRepository.saveAll(users);
+        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteService.saveAndCancel(post.getId(), u.getId()));
 
@@ -96,10 +92,7 @@ class FavoriteServiceTest {
     @DisplayName("좋아요(서비스) : count 조회")
     void count() {
         //given
-        List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> createUser("username" + i))
-                .collect(Collectors.toList());
-        userRepository.saveAll(users);
+        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteService.saveAndCancel(post.getId(), u.getId()));
 
@@ -115,10 +108,7 @@ class FavoriteServiceTest {
     @DisplayName("좋아요(서비스) : 포스팅 전체 좋아요 삭제")
     void delete() {
         //given
-        List<User> users = IntStream.range(1, 31)
-                .mapToObj(i -> createUser("username" + i))
-                .collect(Collectors.toList());
-        userRepository.saveAll(users);
+        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteService.saveAndCancel(post.getId(), u.getId()));
 
