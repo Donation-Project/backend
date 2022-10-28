@@ -15,21 +15,21 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class Donation extends BaseEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "donation_id")
+    @Column(name = "donationId")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
-    private float amount;
+    private String amount;
 
     @Builder
-    public Donation(Long id, User user, Post post,float amount) {
+    public Donation(Long id, User user, Post post,String amount) {
         this.id = id;
         this.user = user;
         this.post = post;

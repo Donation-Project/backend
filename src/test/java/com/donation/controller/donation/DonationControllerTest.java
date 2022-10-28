@@ -10,7 +10,6 @@ import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,7 @@ class DonationControllerTest {
         User user = userRepository.save(createUser("beneficiary"));
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
-        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), post.getId(), 10.1f);
+        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), post.getId(), "10.1");
         String request = objectMapper.writeValueAsString(data);
 
         //expected
@@ -80,7 +79,7 @@ class DonationControllerTest {
     void saveError() throws Exception {
         //given
         User sponsor = userRepository.save(createUser("sponsor"));
-        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), null, 10.1f);
+        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), null, "10.1");
         String request = objectMapper.writeValueAsString(data);
 
         //expected
@@ -103,7 +102,7 @@ class DonationControllerTest {
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i -> createDonation(sponsor,post,10.1f+i)
+                .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
 
@@ -113,9 +112,9 @@ class DonationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data[0].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data[0].amount").value(11.1f))
+                .andExpect(jsonPath("$.data[0].amount").value("10.11"))
                 .andExpect(jsonPath("$.data[9].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data[9].amount").value(20.1f))
+                .andExpect(jsonPath("$.data[9].amount").value("10.110"))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
 
@@ -129,7 +128,7 @@ class DonationControllerTest {
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i -> createDonation(sponsor,post,10.1f+i)
+                .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
 
@@ -146,9 +145,9 @@ class DonationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content[0].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data.content[0].amount").value(11.1f))
+                .andExpect(jsonPath("$.data.content[0].amount").value("10.11"))
                 .andExpect(jsonPath("$.data.content[3].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data.content[3].amount").value(14.1f))
+                .andExpect(jsonPath("$.data.content[3].amount").value("10.14"))
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(print());
 
