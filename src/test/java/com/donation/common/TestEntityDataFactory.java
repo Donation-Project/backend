@@ -2,7 +2,6 @@ package com.donation.common;
 
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Donation;
-import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.Role;
@@ -94,9 +93,6 @@ public class TestEntityDataFactory {
                 .build();
     }
 
-    public static Favorites createFavorites(User user, Post post) {
-        return Favorites.of(user, post);
-    }
 
     public static Donation createDonation(User user, Post post, String amount){
         return  Donation.builder()
