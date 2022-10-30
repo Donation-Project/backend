@@ -1,6 +1,5 @@
 package com.donation.domain.embed;
 
-import com.donation.domain.entites.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +21,4 @@ public class Write {
         this.title = title;
         this.content = content;
     }
-
-    public Write(Post post){
-        this.title = post.getWrite().getTitle();
-        this.content = post.getWrite().getContent();
-    }
-
 }

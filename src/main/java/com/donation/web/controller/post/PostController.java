@@ -6,11 +6,11 @@ import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
+import com.donation.repository.utils.PageCustom;
 import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +32,13 @@ public class PostController {
             @PathVariable Long id,
             @RequestBody @Valid PostSaveReqDto postSaveReqDto
     ){
-        PostSaveRespDto post = postService.save(postSaveReqDto, id);
+        PostSaveRespDto post = postService.createPost(postSaveReqDto, id);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Long id){
-        PostFindRespDto post = postService.findDetailById(id);
+        PostFindRespDto post = postService.findById(id);
         return ResponseEntity.ok(CommonResponse.success(post));
     }
 
@@ -60,13 +60,13 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<?> getPostList(Pageable pageable){
-        Slice<PostListRespDto> list = postService.getList(pageable, APPROVAL, COMPLETION);
+        PageCustom<PostListRespDto> list = postService.getList(pageable, APPROVAL, COMPLETION);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
     @GetMapping("/{id}/my-page")
     public ResponseEntity<?> getMyPostList(@PathVariable Long id, Pageable pageable) {
-        Slice<PostListRespDto> list = postService.getMyPostList(id, pageable);
+        PageCustom<PostListRespDto> list = postService.getUserIdList(id, pageable);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 }

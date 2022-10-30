@@ -1,28 +1,13 @@
 package com.donation.repository.post;
 
-import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.domain.enums.PostState;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface PostRepositoryCustom {
+    List<PostListRespDto> getPageDtoAll(Pageable pageable,PostState... postState);
 
-    /**
-     * 단건 조회
-     */
-    Optional<PostFindRespDto> findDetailPostById(Long postId);
-
-    public Slice<PostListRespDto> findDetailPostAll(Pageable pageable,PostState... postState);
-
-    /**
-     * 회원 아이디로 리스트 조회
-     */
-    public Slice<PostListRespDto> findAllUserId(Long userId, Pageable pageable);
-
-
-//    public Slice<PostListRespDto> findSearchList(PostSearchReqDto postSearchReqDto, Pageable pageable);
-
+    List<PostListRespDto> getUserIdPageDtoList(Long userId, Pageable pageable);
 }

@@ -3,9 +3,8 @@ package com.donation.service.favorite;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.Favorites;
 import com.donation.repository.favorite.FavoriteRepository;
+import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
-import com.donation.service.post.PostService;
-import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
-    private final PostService postService;
+    private final PostRepository postRepository;
 
     public void saveAndCancel(Long postId, Long userId){
         if(findById(postId, userId) != null){
@@ -27,8 +26,7 @@ public class FavoriteService {
             return;
         }
 
-        favoriteRepository.save(Favorites.of(userRepository.getById(userId), postService.findById(postId)));
-
+        favoriteRepository.save(Favorites.of(userRepository.getById(userId), postRepository.getById(postId)));
     }
 
     private void cancel(Long postId, Long userId){
@@ -39,7 +37,7 @@ public class FavoriteService {
     public List<UserRespDto> findAll(Long postId){
         List<Long> userId = favoriteRepository.findUserIdByPostId(postId);
         return userRepository.findAllByIdIn(userId).stream()
-                .map(UserRespDto::new)
+                .map(UserRespDto::of)
                 .collect(Collectors.toList());
     }
 

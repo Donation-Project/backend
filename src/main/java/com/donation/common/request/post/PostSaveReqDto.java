@@ -29,11 +29,12 @@ public class PostSaveReqDto {
     String image;
 
     @Builder
-    public PostSaveReqDto(String title, String content, String amount, Category category) {
+    public PostSaveReqDto(String title, String content, String amount, Category category, String image) {
         this.title = title;
         this.content = content;
         this.amount = amount;
         this.category = category;
+        this.image = image;
     }
 
     public Post toPost(User user) {

@@ -23,7 +23,7 @@ public class UserService {
     private final AwsS3Service awsS3Service;
 
     public UserRespDto findById(Long id){
-        return new UserRespDto(userRepository.getById(id));
+        return UserRespDto.of(userRepository.getById(id));
     }
 
     @Transactional

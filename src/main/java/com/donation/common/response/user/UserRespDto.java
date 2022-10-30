@@ -25,12 +25,14 @@ public class UserRespDto {
         this.metamask = metamask;
     }
 
-    public UserRespDto(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.profileImage = user.getProfileImage();
-        this.metamask = user.getMetamask();
+    public static UserRespDto of(User user) {
+        return UserRespDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .profileImage(user.getProfileImage())
+                .metamask(user.getMetamask())
+                .build();
     }
 
 }

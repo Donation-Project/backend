@@ -6,8 +6,8 @@ import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.domain.entites.Donation;
 import com.donation.repository.donation.DonationRepository;
+import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
-import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -23,14 +23,14 @@ public class DonationService {
 
     private final UserRepository userRepository;
 
-    private final PostService postService;
+    private final PostRepository postRepository;
 
     private final DonationRepository donationRepository;
 
     public void save(DonationSaveReqDto donationSaveReqDto) {
         Donation donation = Donation.builder()
                 .user(userRepository.getById(donationSaveReqDto.getUserId()))
-                .post(postService.findById(donationSaveReqDto.getPostId()))
+                .post(postRepository.getById(donationSaveReqDto.getPostId()))
                 .amount("10.1")
                 .build();
         donationRepository.save(donation);

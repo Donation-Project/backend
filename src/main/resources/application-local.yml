@@ -23,10 +23,12 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
+        default_batch_fetch_size: 1000
         dialect: org.hibernate.dialect.MySQL5Dialect
         show_sql: true
         format_sql: true
         use_sql_comment: false
+
 
   flyway:
     enabled: true
