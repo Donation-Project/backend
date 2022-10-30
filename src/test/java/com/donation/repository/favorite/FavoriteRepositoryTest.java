@@ -1,29 +1,28 @@
 package com.donation.repository.favorite;
 
+import com.donation.common.FavoriteFixtures;
+import com.donation.common.UserFixtures;
+import com.donation.common.utils.RepositoryTest;
+import com.donation.domain.entites.Favorites;
+import com.donation.domain.entites.Post;
+import com.donation.domain.entites.User;
+import com.donation.exception.DonationDuplicateException;
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.LongStream;
 
+import static com.donation.common.FavoriteFixtures.createFavorites;
 import static com.donation.common.TestEntityDataFactory.createPost;
 import static com.donation.common.TestEntityDataFactory.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Transactional
-@SpringBootTest
-class FavoriteRepositoryTest {
-
-    @Autowired
-    private FavoriteRedisRepository favoriteRedisRepository;
-
-
+class FavoriteRepositoryTest extends RepositoryTest {
     @Autowired
     private FavoriteRepository favoriteRepository;
     @Autowired
@@ -31,70 +30,61 @@ class FavoriteRepositoryTest {
     @Autowired
     private PostRepository postRepository;
 
-    @AfterEach
-    void clear(){
-        favoriteRepository.deleteAll();
-        postRepository.deleteAll();
-        userRepository.deleteAll();
+    @Test
+    @DisplayName("좋아요 저장 요청 성공")
+    void 좋아요_저장_요청_성공(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost());
+
+        //when
+        Favorites actual = favoriteRepository.save(FavoriteFixtures.createFavorites(user, post));
+
+        //then
+        assertThat(favoriteRepository.existsById(actual.getId())).isTrue();
     }
 
     @Test
-    @DisplayName("좋아요(레퍼지토리) : 저장")
-    void save(){
+    @DisplayName("이미 좋아요 버튼을 눌렀으면 예외를 던진다.")
+    void 이미_좋아요_버튼을_눌렀으면_예외를_던진다(){
         //given
-        Long userId = userRepository.save(createUser()).getId();
-        Long postId = postRepository.save(createPost()).getId();
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost());
 
         //when
-        favoriteRedisRepository.save(postId, userId);
-
-        favoriteRedisRepository.getSetOperations().getOperations().exec();
+        favoriteRepository.save(FavoriteFixtures.createFavorites(user, post));
 
         //then
-        Boolean isPresent = favoriteRedisRepository.findById(postId, userId);
-        assertThat(isPresent).isTrue();
-
-        //clear
-        favoriteRedisRepository.deleteAll(postId);
+        assertThatThrownBy(() -> favoriteRepository.validateExistsByPostIdAndUserId(post.getId(), user.getId()))
+                .isInstanceOf(DonationDuplicateException.class)
+                .hasMessage("이미 좋아요를 누른 회원입니다.");
     }
 
     @Test
-    @DisplayName("좋아요(레퍼지토리) : 전체 조회")
-    void get(){
+    @DisplayName("존재하지 않는 좋아요 정보로 조회시 예외를 던진다.")
+    void 존재하지않는_좋아요_정보로_조회시_예외를_던진다(){
         //given
-        Long postId = 1L;
-        LongStream.range(0, 30L)
-                .forEach(i -> favoriteRedisRepository.save(postId, i));
+        Long userId = 0L;
+        Long postId = 0L;
 
-        favoriteRedisRepository.getSetOperations().getOperations().exec();
-
-        //when
-        List<Long> findAll = favoriteRedisRepository.findAll(postId);
-
-        //then
-        assertThat(findAll.size()).isEqualTo(30);
-
-        //clear
-        favoriteRedisRepository.deleteAll(postId);
+        //when & then
+        assertThatThrownBy(() -> favoriteRepository.getByPostIdAndUserId(postId, userId))
+                .isInstanceOf(DonationNotFoundException.class)
+                .hasMessage("존재하지 않는 정보입니다.");
     }
 
     @Test
-    @DisplayName("좋아요(레퍼지토리) : count")
-    void count(){
+    @DisplayName("게시물번호로 저장된 좋아요 정보를 모두 삭제한다.")
+    void 게시물번호로_저장된_좋아요_정보를_모두_삭제한다(){
         //given
-        Long postId = 1L;
+        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 11));
+        Post post = postRepository.save(createPost(users.get(0)));
+        users.forEach(u -> favoriteRepository.save(createFavorites(u, post)));
 
         //when
-        LongStream.range(0, 30L)
-                .forEach(i -> favoriteRedisRepository.save(postId, i));
-
-        favoriteRedisRepository.getSetOperations().getOperations().exec();
+        favoriteRepository.deleteAllByPostId(post.getId());
 
         //then
-        Long count = favoriteRedisRepository.count(postId);
-        assertThat(count).isEqualTo(30);
-
-        //clear
-        favoriteRedisRepository.deleteAll(postId);
+        assertThat(favoriteRepository.count()).isEqualTo(0);
     }
 }
