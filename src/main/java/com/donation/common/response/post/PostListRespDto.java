@@ -5,6 +5,7 @@ import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -24,6 +25,7 @@ public class PostListRespDto {
 
     private String postMainImage;
 
+    @Builder
     @QueryProjection
     public PostListRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, String amount, Category category, PostState state, String postMainImage) {
         this.postId = postId;

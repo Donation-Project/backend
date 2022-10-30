@@ -2,6 +2,10 @@ package com.donation.common;
 
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
+import com.donation.common.response.post.PostFindRespDto;
+import com.donation.common.response.post.PostListRespDto;
+import com.donation.common.response.post.PostSaveRespDto;
+import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
@@ -12,7 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.donation.common.UserFixtures.*;
+import static com.donation.common.UserFixtures.createUser;
+import static com.donation.common.UserFixtures.새로운_이미지;
 
 public class PostFixtures {
 
@@ -32,6 +37,47 @@ public class PostFixtures {
                 .amount(일반_게시물_기부금)
                 .category(일반_게시물_카테고리)
                 .image(새로운_이미지)
+                .build();
+    }
+    public static PostSaveRespDto 게시물_생성_응답(){
+        return PostSaveRespDto.builder()
+                .postId(1L)
+                .userRespDto(UserRespDto.of(createUser(1L)))
+                .amount(일반_게시물_기부금)
+                .write(일반_게시물_게시글)
+                .postDetailImages(List.of(일반_게시물_이미지_주소))
+                .state(일반_게시물_상태)
+                .category(일반_게시물_카테고리)
+                .build();
+    }
+
+    /* 게시물 단건조회 응답*/
+    public static PostFindRespDto 게시물_단건조회_응답(){
+        return PostFindRespDto.builder()
+                .postId(1L)
+                .userRespDto(UserRespDto.of(createUser(1L)))
+                .amount(일반_게시물_기부금)
+                .write(일반_게시물_게시글)
+                .postDetailImages(List.of(일반_게시물_이미지_주소))
+                .state(일반_게시물_상태)
+                .category(일반_게시물_카테고리)
+                .favoriteCount(120)
+                .build();
+    }
+
+    /*게시물 전체조회 응답*/
+    public static PostListRespDto 게시물_전체조회_응답(Long id, User user){
+        return PostListRespDto.builder()
+                .postId(id)
+                .userId(user.getId())
+                .username(user.getEmail())
+                .name(user.getName())
+                .profileImage(user.getProfileImage())
+                .amount(일반_게시물_기부금)
+                .write(new Write(일반_게시물_제목 + id, 일반_게시물_내용 + id))
+                .state(일반_게시물_상태)
+                .category(일반_게시물_카테고리)
+                .postMainImage(일반_게시물_이미지_주소 + "/" + id)
                 .build();
     }
 
