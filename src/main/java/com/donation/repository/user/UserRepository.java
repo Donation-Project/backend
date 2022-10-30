@@ -39,7 +39,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         }
     }
     default PageCustom<UserRespDto> getPageDtoList(Pageable pageable){
-        List<UserRespDto> content = findAll(pageable).stream().map(UserRespDto::new).collect(Collectors.toList());
+        List<UserRespDto> content = findAll(pageable).stream().map(UserRespDto::of).collect(Collectors.toList());
         return new PageCustom<>(PageableExecutionUtils.getPage(content, pageable, this::count));
     }
 }

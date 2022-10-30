@@ -37,7 +37,7 @@ public class FavoriteService {
     public List<UserRespDto> findAll(Long postId){
         List<Long> userId = favoriteRepository.findUserIdByPostId(postId);
         return userRepository.findAllByIdIn(userId).stream()
-                .map(UserRespDto::new)
+                .map(UserRespDto::of)
                 .collect(Collectors.toList());
     }
 
