@@ -12,12 +12,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post,Long>, PostRepositoryCustom {
     boolean existsById(final Long id);
     @EntityGraph(attributePaths = {"user","postDetailImages", "favorites"})
-    Optional<Post> findDetailById(Long id);
+    Post findDetailById(Long id);
 
     long countByUserId(Long user_id);
 

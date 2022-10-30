@@ -9,7 +9,6 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
-import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
@@ -41,9 +40,8 @@ public class PostService {
     }
 
     public PostFindRespDto findById(Long postId) {
-        Post post = postRepository.findDetailById(postId)
-                .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
-        return PostFindRespDto.of(post);
+        postRepository.validateExistsById(postId);
+        return PostFindRespDto.of(postRepository.findDetailById(postId));
     }
 
     public void update(PostUpdateReqDto updateReqDto, Long id) {
