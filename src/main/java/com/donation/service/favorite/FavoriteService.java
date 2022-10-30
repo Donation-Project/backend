@@ -1,5 +1,6 @@
 package com.donation.service.favorite;
 
+import com.donation.common.request.favorites.LikeSaveAndCancelReqDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.Favorites;
 import com.donation.repository.favorite.FavoriteRepository;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.donation.domain.entites.Favorites.of;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -20,19 +23,16 @@ public class FavoriteService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public void saveAndCancel(Long postId, Long userId){
-        if(findById(postId, userId) != null){
-            cancel(postId, userId);
-            return;
-        }
-
-        favoriteRepository.save(Favorites.of(userRepository.getById(userId), postRepository.getById(postId)));
+    public void save(LikeSaveAndCancelReqDto likeSaveAndCancelReqDto){
+        favoriteRepository.validateExistsByPostIdAndUserId(likeSaveAndCancelReqDto.getPostId(), likeSaveAndCancelReqDto.getUserId());
+        postRepository.getById(likeSaveAndCancelReqDto.getPostId())
+                .addFavorite(of(userRepository.getById(likeSaveAndCancelReqDto.getUserId())));
     }
 
-    private void cancel(Long postId, Long userId){
-        favoriteRepository.deleteByPost_IdAndUser_Id(postId,userId);
+    public void cancel(LikeSaveAndCancelReqDto likeSaveAndCancelReqDto){
+        Favorites favorites = favoriteRepository.getByPostIdAndUserId(likeSaveAndCancelReqDto.getPostId(), likeSaveAndCancelReqDto.getUserId());
+        favoriteRepository.delete(favorites);
     }
-
 
     public List<UserRespDto> findAll(Long postId){
         List<Long> userId = favoriteRepository.findUserIdByPostId(postId);
@@ -41,16 +41,7 @@ public class FavoriteService {
                 .collect(Collectors.toList());
     }
 
-    public Long count(Long postId){
-        return favoriteRepository.countFavoritesByPost_Id(postId);
-    }
-
     public void deletePostId(Long postId){
-        favoriteRepository.deleteAllByPost_Id(postId);
-    }
-
-    public Favorites findById(Long postId, Long userId){
-        return favoriteRepository.findByPost_IdAndUser_Id(postId, userId)
-                .orElse(null);
+        favoriteRepository.deleteAllByPostId(postId);
     }
 }

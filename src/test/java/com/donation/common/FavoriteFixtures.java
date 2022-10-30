@@ -5,12 +5,6 @@ import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
-import static com.donation.common.TestEntityDataFactory.createUser;
-
 public class FavoriteFixtures {
     public static Long 포스트_아이디 = 1L;
     public static Long 회원_아이디 = 1L;
@@ -31,11 +25,4 @@ public class FavoriteFixtures {
                 .post(post)
                 .build();
     }
-
-    public static List<Favorites> createFavoritesList(int startNum, int lastNum, Post post){
-        return LongStream.range(startNum, lastNum)
-                .mapToObj(i -> createFavorites(createUser(i), post))
-                .collect(Collectors.toList());
-    }
-
 }
