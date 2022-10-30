@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
@@ -24,13 +26,11 @@ import static lombok.AccessLevel.PROTECTED;
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "post_Id")
+    @Column(name = "post_id")
     private Long id;
-
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
-
     @Embedded
     private Write write;
 
@@ -42,8 +42,13 @@ public class Post extends BaseEntity {
     @Enumerated(STRING)
     private PostState state;
 
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostDetailImage> postDetailImages = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<Favorites> favorites = new HashSet<>();
 
     @Builder
     public Post(Long id, User user, Write write, String amount, Category category, PostState state) {
@@ -60,11 +65,13 @@ public class Post extends BaseEntity {
         this.getPostDetailImages().add(postDetailImage);
     }
 
-    public Post update(PostUpdateReqDto dto) {
-        this.write = Write.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .build();
+    public void addFavorite(Favorites favorites){
+        favorites.setPost(this);
+        this.getFavorites().add(favorites);
+    }
+
+    public Post changePost(PostUpdateReqDto dto) {
+        this.write = dto.getWrite();
         this.category = dto.getCategory();
         this.amount = dto.getAmount();
         return this;

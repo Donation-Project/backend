@@ -1,38 +1,31 @@
 package com.donation.service.post;
 
-import com.donation.common.request.post.PostSaveReqDto;
-import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.common.response.post.PostFindRespDto;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.response.post.PostSaveRespDto;
+import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.donation.repository.utils.PageCustom;
+import com.donation.service.s3.AwsS3Service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.PostState.APPROVAL;
-import static com.donation.common.TestDtoDataFactory.createPostSaveReqDto;
-import static com.donation.common.TestDtoDataFactory.createPostUpdateReqDto;
-import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.PostFixtures.*;
 import static com.donation.common.TestEntityDataFactory.createUser;
+import static com.donation.domain.enums.PostState.APPROVAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-
-@SpringBootTest
-public class PostServiceTest {
+public class PostServiceTest extends ServiceTest {
 
     @Autowired
     private PostService postService;
@@ -40,124 +33,124 @@ public class PostServiceTest {
     private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AwsS3Service awsS3Service;
 
-    @AfterEach
-    void clear() {
-        postRepository.deleteAll();
-        userRepository.deleteAll();
+    @Test
+    @DisplayName("게시물 작성 성공")
+    void 게시물_작성_성공() {
+        //given
+        Long id = userRepository.save(createUser()).getId();
+
+        //when
+        PostSaveRespDto actual = postService.createPost(게시물_생성_DTO(), id);
+
+        //then
+        assertAll(() ->{
+            assertThat(actual.getWrite().getTitle()).isEqualTo(일반_게시물_제목);
+            assertThat(actual.getWrite().getContent()).isEqualTo(일반_게시물_내용);
+            assertThat(actual.getAmount()).isEqualTo(일반_게시물_기부금);
+        });
+
+        //clear
+        actual.getPostDetailImages().forEach(image -> awsS3Service.delete(image));
     }
 
     @Test
-    @DisplayName("포스트(서비스) : 생성")
-    void save() {
+    @DisplayName("게시물 내용 업데이트 성공")
+    void 게시물_내용_업데이트_성공() {
         //given
-        PostSaveReqDto request = createPostSaveReqDto("title", "content");
+        Long id = postRepository.save(createPost()).getId();
+
+        //when
+        postService.update(게시물_수정_DTO(), id);
+        Post actual = postRepository.findById(id).get();
+
+        //then
+        assertAll(() ->{
+            assertThat(actual.getWrite().getTitle()).isEqualTo(게시물_수정_제목);
+            assertThat(actual.getWrite().getContent()).isEqualTo(게시물_수정_내용);
+            assertThat(actual.getCategory()).isEqualTo(게시물_수정_카테고리);
+            assertThat(actual.getAmount()).isEqualTo(게시물_수정_기부금);
+        });
+    }
+
+    @Test
+    @DisplayName("존재하는 않는 게시물번호로 단건조회시 예외를 던진다.")
+    void 존재하는_않는_게시물번호로_단건조회시_예외를_던진다() {
+        //given
+        Long id = 0L;
+
+        //when
+        assertThatThrownBy(() -> postRepository.getById(id))
+                .isInstanceOf(DonationNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("존재하는 게시물번호를 통해 게시물 단건조회 성공")
+    void 존재하는_게시물번호를_통해_게시물_단건조회_성공() {
+        //given
         User user = userRepository.save(createUser());
+        Long id = postRepository.save(createPost(user)).getId();
 
         //when
-        PostSaveRespDto savePost = postService.save(request, user.getId());
+        PostFindRespDto findRespDto = postService.findById(id);
 
         //then
-        assertThat(savePost.getWrite().getTitle()).isEqualTo("title");
-        assertThat(savePost.getWrite().getContent()).isEqualTo("content");
+        assertThat(findRespDto.getPostId()).isEqualTo(id);
     }
 
+
     @Test
-    @DisplayName("포스트(서비스) : 업데이트")
-    void update() {
+    @DisplayName("게시물 번호를 통해 게시물을 삭제한다")
+    void 게시물_번호를_통해_게시물을_삭제한다() {
         //given
-        Post post = postRepository.save(createPost("title", "content"));
-        PostUpdateReqDto updateReqDto = createPostUpdateReqDto("update", "update");
+        Long id = postRepository.save(createPost()).getId();
 
         //when
-        postService.update(updateReqDto, post.getId());
+        postService.delete(id);
 
         //then
-        Post findPost = postRepository.findById(post.getId()).get();
-        assertThat(findPost.getWrite().getTitle()).isEqualTo(updateReqDto.getTitle());
-        assertThat(findPost.getWrite().getContent()).isEqualTo(updateReqDto.getContent());
-    }
-
-
-    @Test
-    @DisplayName("포스트(서비스) : 업데이트_예외발생")
-    void update_exception() {
-        //given
-        Long postId = 1L;
-
-        //when
-        assertThatThrownBy(() -> postService.findDetailById(postId))
-                .isInstanceOf(DonationNotFoundException.class);
-    }
-
-
-    @Test
-    @DisplayName("포스트(서비스) : 삭제")
-    void delete() {
-        //given
-        Post post = postRepository.save(createPost());
-
-        //when
-        postService.delete(post.getId());
-
-        //then
-        assertThatThrownBy(() -> postService.findDetailById(post.getId()))
-                .isInstanceOf(DonationNotFoundException.class);
-    }
-
-    @Test
-    @DisplayName("포스트(서비스) : 단건조회")
-    void findById() {
-        //given
-        Post post = postRepository.save(createPost());
-
-        //when
-        PostFindRespDto findRespDto = postService.findDetailById(post.getId());
-
-        //then
-        assertThat(findRespDto.getPostId()).isEqualTo(post.getId());
-        assertThat(findRespDto.getWrite().getTitle()).isEqualTo(post.getWrite().getTitle());
-        assertThat(findRespDto.getAmount()).isEqualTo(post.getAmount());
-    }
-
-    @Test
-    @DisplayName("포스트(서비스) : 존재하지 않는 포스트 조회시 예외 발생")
-    void findById_Exception() {
-        //given
-        Long id = 1000L;
-
-        //when
         assertThatThrownBy(() -> postService.findById(id))
                 .isInstanceOf(DonationNotFoundException.class);
     }
 
     @Test
-    @DisplayName("포스트(서비스) : 전체 조회")
-    void getList() {
+    @DisplayName("회원번호를 통해 게시물을 페이징으로 조회한다.")
+    void 회원번호를_통해_게시물을_페이징으로_조회한다() {
         //given
         User user = userRepository.save(createUser());
-        List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> createPost(user,"title" + i, "content" + i))
-                .collect(Collectors.toList());
-        postRepository.saveAll(posts);
+        List<Post> posts = postRepository.saveAll(creatPostList(1, 11, user));
 
         //when
-        Slice<PostListRespDto> postList = postService.getList(PageRequest.of(0, 10), APPROVAL);
+        PageCustom<PostListRespDto> postList = postService.getUserIdList(user.getId(), PageRequest.of(0, 10));
 
         //then
-        assertThat(postList.getSize()).isEqualTo(10);
-        assertThat(postList.getNumberOfElements()).isEqualTo(10);
-        assertThat(postList.getContent().get(0).getWrite().getTitle()).isEqualTo(posts.get(0).getWrite().getTitle());
-        assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
+        assertAll(() -> {
+            assertThat(postList.getContent().size()).isEqualTo(10);
+            assertThat(postList.getPage().getPageElement()).isEqualTo(10);
+            assertThat(postList.getContent().get(0).getWrite().getTitle()).isEqualTo(posts.get(0).getWrite().getTitle());
+            assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
+        });
     }
 
     @Test
-    @DisplayName("포스트(서비스) : 상태가 Delete이면서 기간이 7일이상 지난 포스트 자동삭제")
-    void postStateIsDeleteAnd7DaysOver() {
+    @DisplayName("게시물 상태정보를 통해 게시물을 페이징으로 조회한다.")
+    void 게시물_상태정보를_통해_게시물을_페이징으로_조회한다(){
         //given
-        postRepository.save(createPost());
+        User user = userRepository.save(createUser());
+        List<Post> posts = postRepository.saveAll(creatPostList(1, 11, user));
 
         //when
-        postService.postStateIsDeleteAnd7DaysOver();
+        PageCustom<PostListRespDto> postList = postService.getList(PageRequest.of(0, 10), APPROVAL);
+
+        //then
+        assertAll(() -> {
+            assertThat(postList.getContent().size()).isEqualTo(10);
+            assertThat(postList.getPage().getPageElement()).isEqualTo(10);
+            assertThat(postList.getContent().get(0).getWrite().getTitle()).isEqualTo(posts.get(0).getWrite().getTitle());
+            assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
+            assertThat(postList.getContent().get(0).getState()).isEqualTo(APPROVAL);
+        });
     }
 }

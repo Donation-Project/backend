@@ -26,5 +26,4 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(serializer);
         return redisTemplate;
     }
-
 }

@@ -976,17 +976,17 @@ Content-Length: 61
 <h3 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/82 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 112
-Host: api.springdocs.com
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/1 HTTP/1.1
+Content-Type: application/json
+Content-Length: 206
+Host: localhost:8080
 
 {
-  "title" : "title",
-  "content" : "content",
-  "amount" : "1",
+  "title" : "일반 게시물 제목",
+  "content" : "일반 게시물 내용",
+  "amount" : "100",
   "category" : "ETC",
-  "image" : null
+  "image" : "dwqdqwwd/d/wq/d/qw/d/wqdwqdqw/d/wq/d/q/d/d/qw/d/q/wdqdqwqwd/"
 }</code></pre>
 </div>
 </div>
@@ -1000,34 +1000,27 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 477
+Content-Length: 610
 
 {
   "success" : true,
   "data" : {
-    "postId" : 79,
+    "postId" : 1,
     "userRespDto" : {
-      "id" : 82,
-      "email" : "username@naver.com",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 1,
+      "email" : "default@email.com",
+      "name" : "일반 사용자",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     },
     "write" : {
-      "title" : "title",
-      "content" : "content"
+      "title" : "일반 게시물 제목",
+      "content" : "일반 게시물 내용"
     },
-    "amount" : "1",
-    "category" : null,
+    "amount" : "100",
+    "category" : "ETC",
     "state" : "APPROVAL",
-    "postDetailImages" : [ ]
+    "postDetailImages" : [ "https://avatars.githubusercontent.com/u/106054507?v=4" ]
   },
   "error" : null
 }</code></pre>
@@ -1099,7 +1092,7 @@ Content-Length: 477
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테로리</p></td>
 </tr>
 <tr>
@@ -1129,8 +1122,8 @@ Content-Length: 477
 <h3 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/78 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/1 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1162,35 +1155,28 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 505
+Content-Length: 638
 
 {
   "success" : true,
   "data" : {
-    "postId" : 78,
+    "postId" : 1,
     "userRespDto" : {
-      "id" : 81,
-      "email" : "username@naver.com",
-      "name" : "name",
-      "profileImage" : "https://localhost:8080/image",
-      "metamask" : "https://metamasek.com"
+      "id" : 1,
+      "email" : "default@email.com",
+      "name" : "일반 사용자",
+      "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+      "metamask" : "https://dafaultmetamask.com"
     },
     "write" : {
-      "title" : "title",
-      "content" : "content"
+      "title" : "일반 게시물 제목",
+      "content" : "일반 게시물 내용"
     },
-    "amount" : "12",
+    "amount" : "100",
     "category" : "ETC",
     "state" : "APPROVAL",
-    "postDetailImages" : [ ],
-    "favoriteCount" : 0
+    "postDetailImages" : [ "https://avatars.githubusercontent.com/u/106054507?v=4" ],
+    "favoriteCount" : 120
   },
   "error" : null
 }</code></pre>
@@ -1298,7 +1284,7 @@ Content-Length: 505
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post?page=0&amp;size=10 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1311,212 +1297,190 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 4956
+Content-Length: 5869
 
 {
   "success" : true,
   "data" : {
+    "page" : {
+      "pageNum" : 1,
+      "pageElement" : 10,
+      "totalPages" : 2,
+      "totalElement" : 20,
+      "first" : true,
+      "last" : false
+    },
     "content" : [ {
-      "postId" : 48,
+      "postId" : 1,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title1",
-        "content" : "content1"
+        "title" : "일반 게시물 제목1",
+        "content" : "일반 게시물 내용1"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
     }, {
-      "postId" : 49,
+      "postId" : 2,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 2,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title2",
-        "content" : "content2"
+        "title" : "일반 게시물 제목2",
+        "content" : "일반 게시물 내용2"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
     }, {
-      "postId" : 50,
+      "postId" : 3,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 3,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title3",
-        "content" : "content3"
+        "title" : "일반 게시물 제목3",
+        "content" : "일반 게시물 내용3"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
     }, {
-      "postId" : 51,
+      "postId" : 4,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 4,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title4",
-        "content" : "content4"
+        "title" : "일반 게시물 제목4",
+        "content" : "일반 게시물 내용4"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
     }, {
-      "postId" : 52,
+      "postId" : 5,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 5,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title5",
-        "content" : "content5"
+        "title" : "일반 게시물 제목5",
+        "content" : "일반 게시물 내용5"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
     }, {
-      "postId" : 53,
+      "postId" : 6,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 6,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title6",
-        "content" : "content6"
+        "title" : "일반 게시물 제목6",
+        "content" : "일반 게시물 내용6"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
     }, {
-      "postId" : 54,
+      "postId" : 7,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 7,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title7",
-        "content" : "content7"
+        "title" : "일반 게시물 제목7",
+        "content" : "일반 게시물 내용7"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
     }, {
-      "postId" : 55,
+      "postId" : 8,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 8,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title8",
-        "content" : "content8"
+        "title" : "일반 게시물 제목8",
+        "content" : "일반 게시물 내용8"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
     }, {
-      "postId" : 56,
+      "postId" : 9,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 9,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title9",
-        "content" : "content9"
+        "title" : "일반 게시물 제목9",
+        "content" : "일반 게시물 내용9"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
     }, {
-      "postId" : 57,
+      "postId" : 10,
       "userRespDto" : {
-        "id" : 80,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 10,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title10",
-        "content" : "content10"
+        "title" : "일반 게시물 제목10",
+        "content" : "일반 게시물 내용10"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
-    } ],
-    "pageable" : {
-      "sort" : {
-        "empty" : true,
-        "sorted" : false,
-        "unsorted" : true
-      },
-      "offset" : 0,
-      "pageNumber" : 0,
-      "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
-    },
-    "size" : 10,
-    "number" : 0,
-    "sort" : {
-      "empty" : true,
-      "sorted" : false,
-      "unsorted" : true
-    },
-    "numberOfElements" : 10,
-    "first" : true,
-    "last" : false,
-    "empty" : false
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
+    } ]
   },
   "error" : null
 }</code></pre>
@@ -1532,17 +1496,20 @@ Content-Length: 4956
 <h3 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/47 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Accept: application/json
-Content-Length: 107
-Host: api.springdocs.com
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/post/1 HTTP/1.1
+Content-Type: application/json
+Content-Length: 241
+Host: localhost:8080
 
 {
-  "title" : "수정 제목",
-  "content" : "수정 내용",
-  "amount" : "1",
-  "category" : "ETC"
+  "title" : "게시물 수정 제목",
+  "content" : "게시물 수정 내용",
+  "amount" : "150",
+  "category" : "병원비",
+  "write" : {
+    "title" : "게시물 수정 제목",
+    "content" : "게시물 수정 내용"
+  }
 }</code></pre>
 </div>
 </div>
@@ -1575,13 +1542,6 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
 Content-Length: 61
 
 {
@@ -1632,8 +1592,8 @@ Content-Length: 61
 <h3 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/46 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/post/1 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1665,13 +1625,6 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
 Content-Length: 61
 
 {
@@ -1722,8 +1675,8 @@ Content-Length: 61
 <h3 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/83/my-page?page=0&amp;size=10 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/1/my-page?page=0&amp;size=10 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1736,212 +1689,190 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 4955
+Content-Length: 5868
 
 {
   "success" : true,
   "data" : {
+    "page" : {
+      "pageNum" : 1,
+      "pageElement" : 10,
+      "totalPages" : 2,
+      "totalElement" : 20,
+      "first" : true,
+      "last" : false
+    },
     "content" : [ {
-      "postId" : 80,
+      "postId" : 1,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title1",
-        "content" : "content1"
+        "title" : "일반 게시물 제목1",
+        "content" : "일반 게시물 내용1"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
     }, {
-      "postId" : 81,
+      "postId" : 2,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title2",
-        "content" : "content2"
+        "title" : "일반 게시물 제목2",
+        "content" : "일반 게시물 내용2"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
     }, {
-      "postId" : 82,
+      "postId" : 3,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title3",
-        "content" : "content3"
+        "title" : "일반 게시물 제목3",
+        "content" : "일반 게시물 내용3"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
     }, {
-      "postId" : 83,
+      "postId" : 4,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title4",
-        "content" : "content4"
+        "title" : "일반 게시물 제목4",
+        "content" : "일반 게시물 내용4"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
     }, {
-      "postId" : 84,
+      "postId" : 5,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title5",
-        "content" : "content5"
+        "title" : "일반 게시물 제목5",
+        "content" : "일반 게시물 내용5"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
     }, {
-      "postId" : 85,
+      "postId" : 6,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title6",
-        "content" : "content6"
+        "title" : "일반 게시물 제목6",
+        "content" : "일반 게시물 내용6"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
     }, {
-      "postId" : 86,
+      "postId" : 7,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title7",
-        "content" : "content7"
+        "title" : "일반 게시물 제목7",
+        "content" : "일반 게시물 내용7"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
     }, {
-      "postId" : 87,
+      "postId" : 8,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title8",
-        "content" : "content8"
+        "title" : "일반 게시물 제목8",
+        "content" : "일반 게시물 내용8"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
     }, {
-      "postId" : 88,
+      "postId" : 9,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title9",
-        "content" : "content9"
+        "title" : "일반 게시물 제목9",
+        "content" : "일반 게시물 내용9"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
     }, {
-      "postId" : 89,
+      "postId" : 10,
       "userRespDto" : {
-        "id" : 83,
-        "email" : "username@naver.com",
-        "name" : "name",
-        "profileImage" : "https://localhost:8080/image",
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
         "metamask" : null
       },
       "write" : {
-        "title" : "title10",
-        "content" : "content10"
+        "title" : "일반 게시물 제목10",
+        "content" : "일반 게시물 내용10"
       },
-      "amount" : "12",
+      "amount" : "100",
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : null
-    } ],
-    "pageable" : {
-      "sort" : {
-        "empty" : true,
-        "sorted" : false,
-        "unsorted" : true
-      },
-      "offset" : 0,
-      "pageNumber" : 0,
-      "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
-    },
-    "size" : 10,
-    "number" : 0,
-    "sort" : {
-      "empty" : true,
-      "sorted" : false,
-      "unsorted" : true
-    },
-    "numberOfElements" : 10,
-    "first" : true,
-    "last" : true,
-    "empty" : false
+      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
+    } ]
   },
   "error" : null
 }</code></pre>
@@ -2065,7 +1996,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 6084
+Content-Length: 6083
 
 {
   "success" : true,
@@ -2077,7 +2008,7 @@ Content-Length: 6084
       "amount" : "10.11",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.273691",
+      "localDateTime" : "2022-10-30T18:46:27.782701",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2087,7 +2018,7 @@ Content-Length: 6084
       "amount" : "10.12",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.277883",
+      "localDateTime" : "2022-10-30T18:46:27.7877",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2097,7 +2028,7 @@ Content-Length: 6084
       "amount" : "10.13",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.278882",
+      "localDateTime" : "2022-10-30T18:46:27.789701",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2107,7 +2038,7 @@ Content-Length: 6084
       "amount" : "10.14",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.279882",
+      "localDateTime" : "2022-10-30T18:46:27.790702",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2117,7 +2048,7 @@ Content-Length: 6084
       "amount" : "10.15",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.279882",
+      "localDateTime" : "2022-10-30T18:46:27.791702",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2127,7 +2058,7 @@ Content-Length: 6084
       "amount" : "10.16",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.280884",
+      "localDateTime" : "2022-10-30T18:46:27.792702",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2137,7 +2068,7 @@ Content-Length: 6084
       "amount" : "10.17",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.281883",
+      "localDateTime" : "2022-10-30T18:46:27.793703",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2147,7 +2078,7 @@ Content-Length: 6084
       "amount" : "10.18",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.282883",
+      "localDateTime" : "2022-10-30T18:46:27.794702",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2157,7 +2088,7 @@ Content-Length: 6084
       "amount" : "10.19",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.283883",
+      "localDateTime" : "2022-10-30T18:46:27.796851",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2167,7 +2098,7 @@ Content-Length: 6084
       "amount" : "10.110",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.283883",
+      "localDateTime" : "2022-10-30T18:46:27.798936",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2177,7 +2108,7 @@ Content-Length: 6084
       "amount" : "10.111",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.28488",
+      "localDateTime" : "2022-10-30T18:46:27.799935",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2187,7 +2118,7 @@ Content-Length: 6084
       "amount" : "10.112",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.285881",
+      "localDateTime" : "2022-10-30T18:46:27.800935",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2197,7 +2128,7 @@ Content-Length: 6084
       "amount" : "10.113",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.285881",
+      "localDateTime" : "2022-10-30T18:46:27.802937",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2207,7 +2138,7 @@ Content-Length: 6084
       "amount" : "10.114",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.286882",
+      "localDateTime" : "2022-10-30T18:46:27.803936",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2217,7 +2148,7 @@ Content-Length: 6084
       "amount" : "10.115",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.287879",
+      "localDateTime" : "2022-10-30T18:46:27.804937",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2227,7 +2158,7 @@ Content-Length: 6084
       "amount" : "10.116",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.288882",
+      "localDateTime" : "2022-10-30T18:46:27.805935",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2237,7 +2168,7 @@ Content-Length: 6084
       "amount" : "10.117",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.288882",
+      "localDateTime" : "2022-10-30T18:46:27.806935",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2247,7 +2178,7 @@ Content-Length: 6084
       "amount" : "10.118",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.289881",
+      "localDateTime" : "2022-10-30T18:46:27.808937",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2257,7 +2188,7 @@ Content-Length: 6084
       "amount" : "10.119",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.289881",
+      "localDateTime" : "2022-10-30T18:46:27.809937",
       "total" : "202.615",
       "category" : "ETC"
     }, {
@@ -2267,7 +2198,7 @@ Content-Length: 6084
       "amount" : "10.120",
       "sponsor" : "name",
       "beneficiary" : "name",
-      "localDateTime" : "2022-10-28T21:14:08.290966",
+      "localDateTime" : "2022-10-30T18:46:27.810936",
       "total" : "202.615",
       "category" : "ETC"
     } ],
@@ -2290,9 +2221,9 @@ Content-Length: 6084
       "sorted" : false,
       "unsorted" : true
     },
-    "numberOfElements" : 20,
     "first" : true,
     "last" : true,
+    "numberOfElements" : 20,
     "empty" : false
   },
   "error" : null
@@ -2359,210 +2290,210 @@ Content-Length: 5447
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.541447"
+    "localDateTime" : "2022-10-30T18:46:28.086976"
   }, {
     "title" : "title",
     "amount" : "10.12",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.542431"
+    "localDateTime" : "2022-10-30T18:46:28.088974"
   }, {
     "title" : "title",
     "amount" : "10.13",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.54343"
+    "localDateTime" : "2022-10-30T18:46:28.089974"
   }, {
     "title" : "title",
     "amount" : "10.14",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.54443"
+    "localDateTime" : "2022-10-30T18:46:28.090975"
   }, {
     "title" : "title",
     "amount" : "10.15",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.54443"
+    "localDateTime" : "2022-10-30T18:46:28.091973"
   }, {
     "title" : "title",
     "amount" : "10.16",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.545431"
+    "localDateTime" : "2022-10-30T18:46:28.092974"
   }, {
     "title" : "title",
     "amount" : "10.17",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.546431"
+    "localDateTime" : "2022-10-30T18:46:28.093974"
   }, {
     "title" : "title",
     "amount" : "10.18",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.546431"
+    "localDateTime" : "2022-10-30T18:46:28.094973"
   }, {
     "title" : "title",
     "amount" : "10.19",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.547455"
+    "localDateTime" : "2022-10-30T18:46:28.096453"
   }, {
     "title" : "title",
     "amount" : "10.110",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.547455"
+    "localDateTime" : "2022-10-30T18:46:28.09747"
   }, {
     "title" : "title",
     "amount" : "10.111",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.548566"
+    "localDateTime" : "2022-10-30T18:46:28.098469"
   }, {
     "title" : "title",
     "amount" : "10.112",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.548566"
+    "localDateTime" : "2022-10-30T18:46:28.099471"
   }, {
     "title" : "title",
     "amount" : "10.113",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.549776"
+    "localDateTime" : "2022-10-30T18:46:28.100475"
   }, {
     "title" : "title",
     "amount" : "10.114",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.549776"
+    "localDateTime" : "2022-10-30T18:46:28.101488"
   }, {
     "title" : "title",
     "amount" : "10.115",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.550775"
+    "localDateTime" : "2022-10-30T18:46:28.102469"
   }, {
     "title" : "title",
     "amount" : "10.116",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.551789"
+    "localDateTime" : "2022-10-30T18:46:28.103469"
   }, {
     "title" : "title",
     "amount" : "10.117",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.551789"
+    "localDateTime" : "2022-10-30T18:46:28.104472"
   }, {
     "title" : "title",
     "amount" : "10.118",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.552776"
+    "localDateTime" : "2022-10-30T18:46:28.104472"
   }, {
     "title" : "title",
     "amount" : "10.119",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.552776"
+    "localDateTime" : "2022-10-30T18:46:28.105473"
   }, {
     "title" : "title",
     "amount" : "10.120",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.553777"
+    "localDateTime" : "2022-10-30T18:46:28.106469"
   }, {
     "title" : "title",
     "amount" : "10.121",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.554778"
+    "localDateTime" : "2022-10-30T18:46:28.10747"
   }, {
     "title" : "title",
     "amount" : "10.122",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.554778"
+    "localDateTime" : "2022-10-30T18:46:28.108469"
   }, {
     "title" : "title",
     "amount" : "10.123",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.555776"
+    "localDateTime" : "2022-10-30T18:46:28.109469"
   }, {
     "title" : "title",
     "amount" : "10.124",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.556776"
+    "localDateTime" : "2022-10-30T18:46:28.109469"
   }, {
     "title" : "title",
     "amount" : "10.125",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.556776"
+    "localDateTime" : "2022-10-30T18:46:28.110469"
   }, {
     "title" : "title",
     "amount" : "10.126",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.557794"
+    "localDateTime" : "2022-10-30T18:46:28.111469"
   }, {
     "title" : "title",
     "amount" : "10.127",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.557794"
+    "localDateTime" : "2022-10-30T18:46:28.112469"
   }, {
     "title" : "title",
     "amount" : "10.128",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.558775"
+    "localDateTime" : "2022-10-30T18:46:28.112469"
   }, {
     "title" : "title",
     "amount" : "10.129",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.558775"
+    "localDateTime" : "2022-10-30T18:46:28.113496"
   }, {
     "title" : "title",
     "amount" : "10.130",
     "total" : "303.87",
     "postId" : 34,
     "category" : "ETC",
-    "localDateTime" : "2022-10-28T21:14:08.559791"
+    "localDateTime" : "2022-10-30T18:46:28.11447"
   } ],
   "error" : null
 }</code></pre>
@@ -2690,11 +2621,19 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: SAMEORIGIN
-Content-Length: 4517
+Content-Length: 4207
 
 {
   "success" : true,
   "data" : {
+    "page" : {
+      "pageNum" : 1,
+      "pageElement" : 10,
+      "totalPages" : 3,
+      "totalElement" : 30,
+      "first" : true,
+      "last" : false
+    },
     "content" : [ {
       "postId" : 1,
       "userRespDto" : {
@@ -2865,30 +2804,7 @@ Content-Length: 4517
       "category" : "ETC",
       "state" : "WAITING",
       "postMainImage" : null
-    } ],
-    "pageable" : {
-      "sort" : {
-        "empty" : true,
-        "sorted" : false,
-        "unsorted" : true
-      },
-      "offset" : 0,
-      "pageNumber" : 0,
-      "pageSize" : 10,
-      "paged" : true,
-      "unpaged" : false
-    },
-    "size" : 10,
-    "number" : 0,
-    "sort" : {
-      "empty" : true,
-      "sorted" : false,
-      "unsorted" : true
-    },
-    "numberOfElements" : 10,
-    "first" : true,
-    "last" : false,
-    "empty" : false
+    } ]
   },
   "error" : null
 }</code></pre>
@@ -2905,11 +2821,15 @@ Content-Length: 4517
 <h3 id="_요청_15"><a class="link" href="#_요청_15">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/favorite HTTP/1.1
-Host: api.springdocs.com
-Content-Type: application/x-www-form-urlencoded
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/favorite?type=SAVE HTTP/1.1
+Content-Type: application/json
+Content-Length: 37
+Host: localhost:8080
 
-postId=41&amp;userId=46</code></pre>
+{
+  "userId" : 1,
+  "postId" : 1
+}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2925,12 +2845,8 @@ postId=41&amp;userId=46</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>postId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">포스팅 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저장 또는 취소</p></td>
 </tr>
 </tbody>
 </table>
@@ -2944,13 +2860,6 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
 Content-Length: 61
 
 {
@@ -3001,8 +2910,8 @@ Content-Length: 61
 <h3 id="_요청_16"><a class="link" href="#_요청_16">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=40 HTTP/1.1
-Host: api.springdocs.com</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/favorite?postId=1 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3033,194 +2942,67 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-X-Frame-Options: SAMEORIGIN
-Content-Length: 6740
+Content-Length: 2260
 
 {
   "success" : true,
   "data" : [ {
-    "id" : 16,
-    "email" : "default1@email.com",
+    "id" : 1,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 17,
-    "email" : "default2@email.com",
+    "id" : 2,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 18,
-    "email" : "default3@email.com",
+    "id" : 3,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 19,
-    "email" : "default4@email.com",
+    "id" : 4,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 20,
-    "email" : "default5@email.com",
+    "id" : 5,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 21,
-    "email" : "default6@email.com",
+    "id" : 6,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 22,
-    "email" : "default7@email.com",
+    "id" : 7,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 23,
-    "email" : "default8@email.com",
+    "id" : 8,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 24,
-    "email" : "default9@email.com",
+    "id" : 9,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
   }, {
-    "id" : 25,
-    "email" : "default10@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 26,
-    "email" : "default11@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 27,
-    "email" : "default12@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 28,
-    "email" : "default13@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 29,
-    "email" : "default14@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 30,
-    "email" : "default15@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 31,
-    "email" : "default16@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 32,
-    "email" : "default17@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 33,
-    "email" : "default18@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 34,
-    "email" : "default19@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 35,
-    "email" : "default20@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 36,
-    "email" : "default21@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 37,
-    "email" : "default22@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 38,
-    "email" : "default23@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 39,
-    "email" : "default24@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 40,
-    "email" : "default25@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 41,
-    "email" : "default26@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 42,
-    "email" : "default27@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 43,
-    "email" : "default28@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 44,
-    "email" : "default29@email.com",
-    "name" : "일반 사용자",
-    "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
-    "metamask" : "https://dafaultmetamask.com"
-  }, {
-    "id" : 45,
-    "email" : "default30@email.com",
+    "id" : 10,
+    "email" : "default@email.com",
     "name" : "일반 사용자",
     "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
     "metamask" : "https://dafaultmetamask.com"
@@ -3325,7 +3107,7 @@ Content-Length: 61
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-10-28 20:04:55 +0900
+Last updated 2022-10-28 21:19:13 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

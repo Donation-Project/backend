@@ -2,14 +2,15 @@ package com.donation.domain;
 
 import com.donation.domain.entites.User;
 import com.donation.exception.DonationInvalidateException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.donation.common.UserFixtures.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.donation.common.UserFixtures.createUser;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class UserTest {
 
@@ -17,7 +18,7 @@ public class UserTest {
     @DisplayName("회원을 생성한다.")
     void 회원을_생성한다() {
         //given & when & then
-        Assertions.assertDoesNotThrow(() -> createUser());
+        assertDoesNotThrow(() -> createUser());
     }
 
     @ParameterizedTest

@@ -2,120 +2,139 @@ package com.donation.controller.favorite;
 
 
 import com.donation.common.UserFixtures;
-import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
-import com.donation.repository.favorite.FavoriteRepository;
-import com.donation.repository.post.PostRepository;
-import com.donation.repository.user.UserRepository;
+import com.donation.common.response.user.UserRespDto;
+import com.donation.common.utils.ControllerTest;
 import com.donation.service.favorite.FavoriteService;
-import org.junit.jupiter.api.AfterEach;
+import com.donation.web.controller.favortie.FavoriteController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
-import static com.donation.common.TestEntityDataFactory.createPost;
-import static com.donation.common.TestEntityDataFactory.createUser;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static com.donation.common.FavoriteFixtures.좋아요_DTO;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
-@SpringBootTest
-public class FavoriteControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
+@WebMvcTest(FavoriteController.class)
+public class FavoriteControllerTest extends ControllerTest {
+    @MockBean
     private FavoriteService favoriteService;
 
-    @Autowired
-    private FavoriteRepository favoriteRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PostRepository postRepository;
-
-
-    @AfterEach
-    void clear(){
-        favoriteRepository.deleteAll();
-        postRepository.deleteAll();
-        userRepository.deleteAll();
-    }
-
     @Test
-    @DisplayName("좋아요(컨트롤러) : 저장")
-    void save() throws Exception {
+    @DisplayName("좋아요 요청을 통한 저장")
+    void 좋아요_요청을_통한_저장() throws Exception {
         //given
-        Long userId = userRepository.save(createUser()).getId();
-        Long postId = postRepository.save(createPost()).getId();
+        willDoNothing().given(favoriteService).save(좋아요_DTO(1L, 1L));
 
         // expected
-        mockMvc.perform(post("/api/favorite?postId="+postId + "&userId=" + userId ))
+        mockMvc.perform(post("/api/favorite?type=SAVE")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+                .andDo(document("favorite-save",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("type").description("저장 또는 취소")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("데이터"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+                ));
     }
 
     @Test
-    @DisplayName("좋아요(컨트롤러) : 취소")
-    void cancel() throws Exception {
+    @DisplayName("좋아요 취소 요청 성공")
+    void 좋아요_취소_요청_성공() throws Exception {
         //given
-        Long userId = userRepository.save(createUser()).getId();
-        Long postId = postRepository.save(createPost()).getId();
+        willDoNothing().given(favoriteService).cancel(좋아요_DTO(1L, 1L));
 
-        favoriteService.saveAndCancel(postId, userId);
 
         // expected
-        mockMvc.perform(post("/api/favorite?postId="+postId + "&userId=" + userId ))
+        mockMvc.perform(post("/api/favorite?type=CANCEL")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
+                )                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error").isEmpty())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+                .andDo(document("favorite-cancel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("type").description("저장 또는 취소")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("데이터"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("좋아요 요청시 잘못된 정보를 통한 예외 발생")
+    void 좋아요_요청시_잘못된_정보를_통한_예외_발생() throws Exception{
+        //given
+        String 잘못된값 = "잘못된 값";
+
+        // expected
+        mockMvc.perform(post("/api/favorite?type=CANCEL")
+                        .param("type", 잘못된값)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
+                .andExpect(jsonPath("$.error.errorMessage").value("잘못된 정보입니다."));
     }
 
     @Test
     @DisplayName("좋아요(컨트롤러) : 전체 조회")
     void list() throws Exception{
         //given
-        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 31));
-        Post post = postRepository.save(createPost(users.get(0)));
-        users.forEach(u -> favoriteService.saveAndCancel(post.getId(), u.getId()));
+        List<UserRespDto> response = LongStream.range(1, 11)
+                .mapToObj(UserFixtures::일반_반환_데이터)
+                .collect(Collectors.toList());
+        given(favoriteService.findAll(1L)).willReturn(response);
 
         // expected
-        mockMvc.perform(get("/api/favorite?postId="+post.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data[0].id").value(users.get(0).getId()))
-                .andExpect(jsonPath("$.data[29].id").value(users.get(29).getId()))
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("좋아요(컨트롤러) : 포스트 아이디로 삭제 저장된 좋아요 전체 삭제")
-    void delete() throws Exception{
-        //given
-        Long userId = userRepository.save(createUser()).getId();
-        Long postId = postRepository.save(createPost()).getId();
-        favoriteService.saveAndCancel(postId, userId);
-
-        // expected
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/favorite?postId="+postId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
+        mockMvc.perform(get("/api/favorite")
+                        .param("postId", "1")
+                ).andExpect(status().isOk())
+                .andDo(document("favorite-list",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("postId").description("포스팅 ID")
+                        )
+                ));
     }
 }

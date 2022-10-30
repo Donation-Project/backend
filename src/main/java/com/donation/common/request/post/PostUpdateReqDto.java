@@ -1,5 +1,6 @@
 package com.donation.common.request.post;
 
+import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,12 @@ public class PostUpdateReqDto {
         this.content = content;
         this.amount = amount;
         this.category = category;
+    }
+
+    public Write getWrite(){
+        return Write.builder()
+                .title(title)
+                .content(content)
+                .build();
     }
 }
