@@ -25,7 +25,6 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 import static com.donation.domain.enums.PostState.DELETE;
 
@@ -59,11 +58,13 @@ public class PostService {
     }
 
     public void update(PostUpdateReqDto updateReqDto, Long id) {
-        findById(id).update(updateReqDto);
+        postRepository.getById(id)
+                .changePost(updateReqDto);
     }
 
     public void confirm(PostState postState, Long id) {
-        findById(id).confirm(postState);
+        postRepository.getById(id)
+                .confirm(postState);
     }
 
     public void delete(Long postId) {
@@ -77,10 +78,8 @@ public class PostService {
     private PostFindRespDto validateWithDto(Long postId){
         PostFindRespDto findPostDto = postRepository.findDetailPostById(postId)
                 .orElseThrow(() -> new DonationNotFoundException("포스트를 찾을수 없습니다."));
-        List<String> imagePath = postDetailImageRepository.findImagePath(findPostDto.getPostId());
-        Long count = favoriteRepository.countFavoritesByPost_Id(postId);
-        findPostDto.setPostDetailImages(imagePath);
-        findPostDto.setFavoriteCount(count);
+        findPostDto.setPostDetailImages(postDetailImageRepository.findImagePath(findPostDto.getPostId()));
+        findPostDto.setFavoriteCount(favoriteRepository.countFavoritesByPost_Id(postId));
         return findPostDto;
     }
 

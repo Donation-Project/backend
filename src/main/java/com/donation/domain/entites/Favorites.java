@@ -35,6 +35,10 @@ public class Favorites extends BaseEntity{
         this.post = post;
     }
 
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
     public static Favorites of(User user, Post post){
        return Favorites.builder()
                 .post(post)
