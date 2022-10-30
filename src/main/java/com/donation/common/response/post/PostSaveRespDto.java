@@ -34,13 +34,14 @@ public class PostSaveRespDto {
         this.postDetailImages = postDetailImages;
     }
 
-    public static PostSaveRespDto toDto(Post post, User user){
+    public static PostSaveRespDto of(Post post, User user){
         return PostSaveRespDto.builder()
                 .postId(post.getId())
-                .userRespDto(new UserRespDto(user))
-                .write(new Write(post))
+                .userRespDto(UserRespDto.of(user))
+                .write(post.getWrite())
                 .amount(post.getAmount())
                 .state(post.getState())
+                .category(post.getCategory())
                 .postDetailImages(
                         post.getPostDetailImages().stream()
                         .map(PostDetailImage::getImagePath)
