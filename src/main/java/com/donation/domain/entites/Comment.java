@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -55,5 +56,17 @@ public class Comment extends BaseEntity{
         Comment child = new Comment(user, post, message, parent);
         parent.getChildren().add(child);
         return child;
+    }
+
+    public void deleteChild(Comment reply) {
+        children.remove(reply);
+    }
+
+    public boolean isParent() {
+        return Objects.isNull(parent);
+    }
+
+    public boolean hasNoReply() {
+        return children.isEmpty();
     }
 }
