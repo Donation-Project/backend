@@ -39,4 +39,34 @@ public class CommentService {
         return commentRepository.save(child).getId();
     }
 
+    @Transactional
+    public void delete(Long commentId, Long userId){
+        Comment comment = commentRepository.getById(commentId);
+        comment.validateOwner(userId);
+        deleteDelegate(comment);
+    }
+
+    public void deleteDelegate(Comment comment){
+        if(comment.isParent()){
+            deleteParent(comment);
+        }
+        deleteChild(comment);
+    }
+    private void deleteParent(Comment comment) {
+        if (comment.hasNoReply()) {
+            commentRepository.delete(comment);
+            return;
+        }
+        comment.changePretendingToBeRemoved();
+    }
+
+    private void deleteChild(Comment comment) {
+        Comment parent = comment.getParent();
+        parent.deleteChild(comment);
+        commentRepository.delete(comment);
+
+        if (parent.hasNoReply() && parent.isSoftRemoved()) {
+            commentRepository.delete(parent);
+        }
+    }
 }

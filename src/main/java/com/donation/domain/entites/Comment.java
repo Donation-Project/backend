@@ -1,6 +1,7 @@
 package com.donation.domain.entites;
 
 import com.donation.domain.embed.Message;
+import com.donation.exception.DonationInvalidateException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,8 @@ public class Comment extends BaseEntity{
     @Embedded
     private Message message;
 
+    private boolean softRemoved;
+
     @Builder
     public Comment(User user, Post post, String message, Comment parent) {
         this.user = user;
@@ -59,6 +62,12 @@ public class Comment extends BaseEntity{
         return child;
     }
 
+    public void validateOwner(Long useId) {
+        if (!useId.equals(user.getId())) {
+            throw new DonationInvalidateException("댓글의 작성자만 삭제할 수 있습니다.");
+        }
+    }
+
     public void deleteChild(Comment reply) {
         children.remove(reply);
     }
@@ -69,5 +78,9 @@ public class Comment extends BaseEntity{
 
     public boolean hasNoReply() {
         return children.isEmpty();
+    }
+
+    public void changePretendingToBeRemoved() {
+        this.softRemoved = true;
     }
 }
