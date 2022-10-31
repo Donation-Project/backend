@@ -1,11 +1,14 @@
 package com.donation.service.comment;
 
 import com.donation.common.utils.ServiceTest;
+import com.donation.domain.entites.Comment;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.repository.comment.CommentRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +60,20 @@ public class CommentServiceTest extends ServiceTest {
         //then
         assertThat(commentRepository.existsById(actual)).isTrue();
     }
-//
-//    @Test
-//    @DisplayName("대댓글에 댓글을 추가적으로 작성할 경우 예외가 발생한다.")
-//    void
+
+    @Test
+    @DisplayName("대댓글에 댓글을 추가적으로 작성할 경우 예외가 발생한다.")
+    void 대댓글에_댓글을_추가적으로_작성할_경우_예외가_발생한다(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Comment comment = commentRepository.save(createParentComment(user, post));
+        Comment reply = commentRepository.save(createChildComment(user, post, comment));
+
+        //when & then
+        Assertions.assertThatThrownBy(() -> commentService.saveReply(reply.getId(), user.getId(), 댓글_생성_DTO(일반_대댓글)))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("대댓글에는 답글을 달 수 없습니다.");
+    }
 }
 

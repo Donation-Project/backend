@@ -4,17 +4,16 @@ import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
+import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,8 +27,8 @@ import static com.donation.common.TestEntityDataFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-class DonationServiceTest {
+
+class DonationServiceTest extends ServiceTest {
     @Autowired
     private DonationService donationService;
     @Autowired
@@ -39,12 +38,6 @@ class DonationServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @AfterEach
-    void clear(){
-        donationRepository.deleteAll();
-        postRepository.deleteAll();
-        userRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("후원(서비스) :  후원하기_예외발생")
