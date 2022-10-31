@@ -4,6 +4,7 @@ import com.donation.common.request.comment.CommentSaveReqDto;
 import com.donation.domain.entites.Comment;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.repository.comment.CommentRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
@@ -28,15 +29,14 @@ public class CommentService {
         return commentRepository.save(comment).getId();
     }
 
-//    @Transactional
-//    public Long saveReply(){
-//        Comment parent = commentRepository.getById(1L);
-//        User user = userRepository.getById(1L);
-//        if (!parent.isParent())
-//            throw new DonationInvalidateException("대댓글에는 답글을 달 수 없습니다.");
-//        Comment child = Comment.child(user, parent.getPost(), "", parent);
-//        return commentRepository.save(child).getId();
-//    }
-
+    @Transactional
+    public Long saveReply(final Long commentId, final Long userId, final CommentSaveReqDto commentSaveReqDto){
+        Comment parent = commentRepository.getById(commentId);
+        User user = userRepository.getById(userId);
+        if (!parent.isParent())
+            throw new DonationInvalidateException("대댓글에는 답글을 달 수 없습니다.");
+        Comment child = Comment.child(user, parent.getPost(), commentSaveReqDto.getMessage(), parent);
+        return commentRepository.save(child).getId();
+    }
 
 }
