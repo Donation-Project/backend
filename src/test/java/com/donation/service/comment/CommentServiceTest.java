@@ -75,5 +75,19 @@ public class CommentServiceTest extends ServiceTest {
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("대댓글에는 답글을 달 수 없습니다.");
     }
+
+    @Test
+    @DisplayName("댓글 작성자가 아닌 다른 사람이 삭제 요청시 예외를 던진다.")
+    void 댓글_작성자가_아닌_다른_사람이_삭제_요청시_예외를_던진다(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Comment comment = commentRepository.save(createParentComment(user, post));
+
+        //when & then
+        Assertions.assertThatThrownBy(() -> commentService.delete(comment.getId(), 0L))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("댓글의 작성자만 삭제할 수 있습니다.");
+    }
 }
 
