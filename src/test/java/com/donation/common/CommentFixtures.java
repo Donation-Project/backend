@@ -1,5 +1,6 @@
 package com.donation.common;
 
+import com.donation.common.request.comment.CommentSaveReqDto;
 import com.donation.domain.entites.Comment;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
@@ -14,6 +15,13 @@ import static com.donation.common.UserFixtures.createUser;
 public class CommentFixtures {
     public static String 일반_댓글 = "일반 댓글 입니다.";
     public static String 일반_대댓글 = "일반 대댓글 입니다.";
+
+    /* 댓글 생성 */
+    public static CommentSaveReqDto 댓글_생성_DTO(){
+        return CommentSaveReqDto.builder()
+                .message(일반_댓글)
+                .build();
+    }
 
     public static Comment createParentComment() {
         return Comment.parent(createUser(1L), createPost(1L), 일반_댓글);

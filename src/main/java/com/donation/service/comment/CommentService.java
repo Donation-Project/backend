@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommentService {
-
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
@@ -36,19 +35,22 @@ public class CommentService {
 
     @Transactional
     public Long saveReply(final Long commentId, final Long userId, final CommentSaveReqDto commentSaveReqDto){
+        Comment child = validateReplySave(commentId, userId, commentSaveReqDto);
+        return commentRepository.save(child).getId();
+    }
+
+    private Comment validateReplySave(final Long commentId, final Long userId, final CommentSaveReqDto commentSaveReqDto) {
         Comment parent = commentRepository.getById(commentId);
-        User user = userRepository.getById(userId);
         if (!parent.isParent())
             throw new DonationInvalidateException("대댓글에는 답글을 달 수 없습니다.");
-        Comment child = Comment.child(user, parent.getPost(), commentSaveReqDto.getMessage(), parent);
-        return commentRepository.save(child).getId();
+        return Comment.child(userRepository.getById(userId), parent.getPost(), commentSaveReqDto.getMessage(), parent);
     }
 
     public List<CommentResponse> findComment(final Long postId){
         return commentRepository.findCommentByPostIdAndParentIsNull(postId).stream()
-                .filter(comment -> (!comment.isSoftRemoved()))
+                .filter(comment -> !comment.isSoftRemoved())
                 .map(this::convertToCommentResponse)
-                .collect(Collectors.toList())
+                .collect(Collectors.toList());
     }
 
     public CommentResponse convertToCommentResponse(Comment comment){
