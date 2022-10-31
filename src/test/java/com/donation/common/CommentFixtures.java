@@ -17,9 +17,9 @@ public class CommentFixtures {
     public static String 일반_대댓글 = "일반 대댓글 입니다.";
 
     /* 댓글 생성 */
-    public static CommentSaveReqDto 댓글_생성_DTO(){
+    public static CommentSaveReqDto 댓글_생성_DTO(String message){
         return CommentSaveReqDto.builder()
-                .message(일반_댓글)
+                .message(message)
                 .build();
     }
 
