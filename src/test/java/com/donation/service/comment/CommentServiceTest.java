@@ -22,13 +22,10 @@ public class CommentServiceTest extends ServiceTest {
 
     @Autowired
     private CommentService commentService;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private CommentRepository commentRepository;
 
@@ -138,5 +135,21 @@ public class CommentServiceTest extends ServiceTest {
         assertThat(commentRepository.existsById(replyId)).isFalse();
     }
 
+    @Test
+    @DisplayName("댓글 삭제 요청 후 해당 대댓글이 삭제된다면 해당 부모 댓글도 삭제된다.")
+    void 댓글_삭제_요청_후_해당_대댓글이_삭제된다면_해당_부모댓글도_삭제된다(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Long commentId = commentRepository.save(createParentComment(user, post)).getId();
+        Long replyId = commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+
+        //when
+        commentService.delete(commentId, user.getId());
+        commentService.delete(replyId, user.getId());
+
+        //then
+        assertThat(commentRepository.count()).isEqualTo(0);
+    }
 }
 
