@@ -1,6 +1,8 @@
 package com.donation.service.comment;
 
 import com.donation.common.request.comment.CommentSaveReqDto;
+import com.donation.common.response.comment.CommentResponse;
+import com.donation.common.response.comment.ReplyResponse;
 import com.donation.domain.entites.Comment;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
@@ -11,6 +13,9 @@ import com.donation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,8 +44,25 @@ public class CommentService {
         return commentRepository.save(child).getId();
     }
 
+    public List<CommentResponse> findComment(final Long postId){
+        return commentRepository.findCommentByPostIdAndParentIsNull(postId).stream()
+                .filter(comment -> (!comment.isSoftRemoved()))
+                .map(this::convertToCommentResponse)
+                .collect(Collectors.toList())
+    }
+
+    public CommentResponse convertToCommentResponse(Comment comment){
+        return CommentResponse.of(comment, comment.getUser(), convertToRepliesResponse(comment));
+    }
+
+    public List<ReplyResponse> convertToRepliesResponse(Comment parent){
+        return commentRepository.findRepliesByParent(parent).stream()
+                .map(comment -> ReplyResponse.of(comment, comment.getUser()))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
-    public void delete(Long commentId, Long userId){
+    public void delete(final Long commentId, final Long userId){
         Comment comment = commentRepository.getById(commentId);
         comment.validateOwner(userId);
         deleteDelegate(comment);
