@@ -105,6 +105,21 @@ public class CommentServiceTest extends ServiceTest {
         assertThat(commentRepository.existsById(commentId)).isFalse();
     }
 
+    @Test
+    @DisplayName("대댓글이 존재하는 댓글 삭제 요청 성공")
+    void 대댓글이_존재하는_댓글_삭제_요청_성공() {
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Long commentId = commentRepository.save(createParentComment(user, post)).getId();
+        commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
 
+        //when
+        commentService.delete(commentId, user.getId());
+        Comment actual = commentRepository.getById(commentId);
+
+        //then
+        assertThat(actual.isSoftRemoved()).isTrue();
+    }
 }
 
