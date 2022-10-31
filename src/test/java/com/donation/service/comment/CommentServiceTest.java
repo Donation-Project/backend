@@ -121,5 +121,22 @@ public class CommentServiceTest extends ServiceTest {
         //then
         assertThat(actual.isSoftRemoved()).isTrue();
     }
+
+    @Test
+    @DisplayName("대댓글 삭제 요청 성공")
+    void 대댓글_삭제_요청_성공(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Long commentId = commentRepository.save(createParentComment(user, post)).getId();
+        Long replyId = commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+
+        //when
+        commentService.delete(replyId, user.getId());
+
+        //then
+        assertThat(commentRepository.existsById(replyId)).isFalse();
+    }
+
 }
 
