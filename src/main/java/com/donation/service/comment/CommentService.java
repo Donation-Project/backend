@@ -73,6 +73,7 @@ public class CommentService {
     public void deleteDelegate(Comment comment){
         if(comment.isParent()){
             deleteParent(comment);
+            return;
         }
         deleteChild(comment);
     }
