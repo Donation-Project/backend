@@ -65,7 +65,7 @@ public class CommentRepositoryTest extends RepositoryTest {
         commentRepository.saveAll(createParentCommentList(0, 10, user, post));
 
         //when
-        List<Comment> actual = commentRepository.findCommentByPostAndParentIsNull(post);
+        List<Comment> actual = commentRepository.findCommentByPostIdAndParentIsNull(post.getId());
 
         //then
         assertAll(() -> {

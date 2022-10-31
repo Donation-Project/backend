@@ -11,7 +11,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @EntityGraph(attributePaths = {"user"})
-    List<Comment> findCommentByPostAndParentIsNull(final Post post);
+    List<Comment> findCommentByPostIdAndParentIsNull(final Long postId);
 
     @EntityGraph(attributePaths = {"user"})
     List<Comment> findRepliesByParent(final Comment parent);
