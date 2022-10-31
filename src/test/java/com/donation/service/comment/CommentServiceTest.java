@@ -1,5 +1,6 @@
 package com.donation.service.comment;
 
+import com.donation.common.response.comment.CommentResponse;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Comment;
 import com.donation.domain.entites.Post;
@@ -13,10 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 import static com.donation.common.CommentFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CommentServiceTest extends ServiceTest {
 
@@ -150,6 +154,46 @@ public class CommentServiceTest extends ServiceTest {
 
         //then
         assertThat(commentRepository.count()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("게시물ID를 통해 해당 게시물의 댓글을 조회한다")
+    void 게시물ID를_통해_해당_게시물의_댓글을_조회한다(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Comment parent = commentRepository.save(createParentComment(user, post));
+        commentRepository.saveAll(createParentCommentList(0, 5, user, post));
+        commentRepository.saveAll(createChildCommentList(0, 5, user, post, parent));
+
+        //when
+        List<CommentResponse> actual = commentService.findComment(post.getId());
+
+        //then
+        assertAll(() -> {
+            assertThat(commentRepository.count()).isEqualTo(11);
+            assertThat(actual.size()).isEqualTo(6);
+        });
+    }
+
+    @Test
+    @DisplayName("댓글 삭제 후 댓글을 조회한다")
+    void 댓글_삭제_후_댓글을_조회한다(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        List<Comment> comments = commentRepository.saveAll(createParentCommentList(0, 5, user, post));
+        List<Comment> replies = commentRepository.saveAll(createChildCommentList(0, 5, user, post, comments.get(0)));
+
+        //when
+        commentService.delete(comments.get(0).getId(), user.getId());
+        List<CommentResponse> actual = commentService.findComment(post.getId());
+
+        //then
+        assertAll(() -> {
+            assertThat(commentRepository.count()).isEqualTo(10);
+            assertThat(actual.size()).isEqualTo(4);
+        });
     }
 }
 
