@@ -57,6 +57,30 @@ public class CommentRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @DisplayName("존재하는 댓글을 댓글ID를 통해 검증한다.")
+    void 존재하는_댓글을_댓글ID를_통해_검증한다(){
+        //given
+        User user = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(user));
+        Long commentId = commentRepository.save(createParentComment(user, post)).getId();
+
+        //when
+        assertDoesNotThrow(() -> commentRepository.validateExistsById(commentId));
+    }
+
+    @Test
+    @DisplayName("존재하는 댓글아닐때 ID로 조회시 예외를 던진다")
+    void 존재하는_댓글아아닐때_ID로_조회시_예외를_던진다(){
+        //given
+        Long id = 0L;
+
+        //when & then
+        assertThatThrownBy(() -> commentRepository.getById(id))
+                .isInstanceOf(DonationNotFoundException.class)
+                .hasMessage("존재하지 않는 댓글입니다.");
+    }
+
+    @Test
     @DisplayName("최상위 댓글을 게시물 정보를 통해 조회 한다")
     void 최상위_댓글을_게시물_정보를_통해_조회_한다(){
         //given
