@@ -182,17 +182,17 @@ public class CommentServiceTest extends ServiceTest {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
-        List<Comment> comments = commentRepository.saveAll(createParentCommentList(0, 5, user, post));
-        List<Comment> replies = commentRepository.saveAll(createChildCommentList(0, 5, user, post, comments.get(0)));
+        Comment parent = commentRepository.saveAll(createParentCommentList(0, 5, user, post)).get(0);
+        commentRepository.saveAll(createChildCommentList(0, 5, user, post, parent));
 
         //when
-        commentService.delete(comments.get(0).getId(), user.getId());
+        commentService.delete(parent.getId(), user.getId());
         List<CommentResponse> actual = commentService.findComment(post.getId());
 
         //then
         assertAll(() -> {
             assertThat(commentRepository.count()).isEqualTo(10);
-            assertThat(actual.size()).isEqualTo(4);
+            assertThat(actual.size()).isEqualTo(5);
         });
     }
 }

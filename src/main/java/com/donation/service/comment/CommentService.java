@@ -48,12 +48,14 @@ public class CommentService {
 
     public List<CommentResponse> findComment(final Long postId){
         return commentRepository.findCommentByPostIdAndParentIsNull(postId).stream()
-                .filter(comment -> !comment.isSoftRemoved())
                 .map(this::convertToCommentResponse)
                 .collect(Collectors.toList());
     }
 
     public CommentResponse convertToCommentResponse(Comment comment){
+        if(comment.isSoftRemoved()){
+            return CommentResponse.of(comment, convertToRepliesResponse(comment));
+        }
         return CommentResponse.of(comment, comment.getUser(), convertToRepliesResponse(comment));
     }
 
@@ -70,7 +72,7 @@ public class CommentService {
         deleteDelegate(comment);
     }
 
-    public void deleteDelegate(Comment comment){
+    private void deleteDelegate(Comment comment){
         if(comment.isParent()){
             deleteParent(comment);
             return;
