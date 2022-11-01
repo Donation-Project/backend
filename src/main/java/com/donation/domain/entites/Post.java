@@ -4,6 +4,7 @@ import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
+import com.donation.exception.DonationNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,8 @@ public class Post extends BaseEntity {
 
     private String amount;
 
+    private float currentAmount;
+
     @Enumerated(STRING)
     private Category category;
 
@@ -56,6 +59,7 @@ public class Post extends BaseEntity {
         this.user = user;
         this.write = write;
         this.amount = amount;
+        this.currentAmount = 0;
         this.category = category;
         this.state = state;
     }
@@ -80,5 +84,12 @@ public class Post extends BaseEntity {
     public Post confirm(PostState state) {
         this.state=state;
         return this;
+    }
+
+    public void decrease(final float amount){
+        if(this.currentAmount + amount > Float.parseFloat(this.amount)){
+            throw new DonationNotFoundException("목표금액보다 금액이 커질 수 없습니다.");
+        }
+        currentAmount += amount;
     }
 }
