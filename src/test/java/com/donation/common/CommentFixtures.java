@@ -50,4 +50,5 @@ public class CommentFixtures {
                 .mapToObj(i -> createChildComment(user, post, parent))
                 .collect(Collectors.toList());
     }
+
 }

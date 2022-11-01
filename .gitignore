@@ -19,6 +19,7 @@ bin/
 
 ## config
 application-prod.yml
+application-dev.yml
 application-s3.yml
 src/main/java/com/donation/init.java
 

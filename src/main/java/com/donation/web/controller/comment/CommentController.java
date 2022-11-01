@@ -23,28 +23,28 @@ public class CommentController {
     public ResponseEntity<?> addComment(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
                                         @PathVariable Long userId){
-        Long commentId = commentService.saveComment(postId, userId, commentSaveReqDto);
-        return new ResponseEntity<>(CommonResponse.success(commentId), HttpStatus.CREATED);
+        commentService.saveComment(postId, userId, commentSaveReqDto);
+        return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
     @PostMapping("/comment/{id}/reply/{userId}")
     public ResponseEntity<?> addReply(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
                                         @PathVariable Long userId){
-        Long commentId = commentService.saveReply(postId, userId, commentSaveReqDto);
-        return new ResponseEntity<>(CommonResponse.success(commentId), HttpStatus.CREATED);
+        commentService.saveReply(postId, userId, commentSaveReqDto);
+        return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
     @GetMapping("/post/{id}/comment")
     public ResponseEntity<?> findComments(@PathVariable(name = "id") Long postId){
         List<CommentResponse> comment = commentService.findComment(postId);
-        return new ResponseEntity<>(CommonResponse.success(comment), HttpStatus.CREATED);
+        return ResponseEntity.ok(CommonResponse.success(comment));
     }
 
     @DeleteMapping("/comment/{id}/{userId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id, @PathVariable Long userId){
         commentService.delete(id,userId);
-        return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
+        return ResponseEntity.ok(CommonResponse.success());
     }
 
 }
