@@ -17,7 +17,7 @@ public class Message {
 
     private static final int MAX_MESSAGE_LENGTH = 100;
 
-    @Column(name = "massage", nullable = false)
+    @Column(name = "message", nullable = false)
     private String value;
 
     @Builder
