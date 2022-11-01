@@ -149,3 +149,32 @@ include::{snippets}/favorite-list/request-parameters.adoc[]
 === 응답
 include::{snippets}/favorite-list/http-response.adoc[]
 
+= Comment API
+== 댓글 요청
+=== 요청
+include::{snippets}/comment-save/http-request.adoc[]
+include::{snippets}/comment-save/path-parameters.adoc[]
+=== 응답
+include::{snippets}/comment-save/http-response.adoc[]
+
+== 대댓글 요청
+=== 요청
+include::{snippets}/reply-save/http-request.adoc[]
+include::{snippets}/reply-save/path-parameters.adoc[]
+=== 응답
+include::{snippets}/reply-save/http-response.adoc[]
+
+= 댓글 삭제 요청
+=== 요청
+include::{snippets}/comment-delete/http-request.adoc[]
+include::{snippets}/comment-delete/path-parameters.adoc[]
+=== 응답
+include::{snippets}/comment-delete/http-response.adoc[]
+
+== 댓글 리스트 요청
+=== 요청
+include::{snippets}/comment-getList/http-request.adoc[]
+include::{snippets}/comment-getList/path-parameters.adoc[]
+=== 응답
+include::{snippets}/comment-getList/http-response.adoc[]
+include::{snippets}/comment-getList/response-fields.adoc[]

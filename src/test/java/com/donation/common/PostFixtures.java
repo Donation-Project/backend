@@ -104,6 +104,16 @@ public class PostFixtures {
                 .build();
     }
 
+    public static Post createPost(Long id){
+        return Post.builder()
+                .id(id)
+                .write(일반_게시물_게시글)
+                .amount(일반_게시물_기부금)
+                .state(일반_게시물_상태)
+                .category(일반_게시물_카테고리)
+                .build();
+    }
+
     public static Post createPost(User user){
         return Post.builder()
                 .user(user)
