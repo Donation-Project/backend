@@ -36,4 +36,12 @@ public class PostRepositoryTest extends RepositoryTest {
                 .isInstanceOf(DonationNotFoundException.class)
                 .hasMessage("존재하지 않는 게시글입니다.");
     }
+
+    @Test
+    @DisplayName("게시물 번호를 통해 OptimisticLock 메서드로 조회")
+    void 게시물번호를_통해_OptimisticLock메서드로_게시물_조회(){
+        Long id = postRepository.save(PostFixtures.createPost()).getId();
+        //when & then
+        assertThat(postRepository.findByIdWithOptimisticLock(id).getId()).isEqualTo(id);
+    }
 }

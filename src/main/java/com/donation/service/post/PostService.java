@@ -68,4 +68,11 @@ public class PostService {
     public PageCustom<PostListRespDto> getUserIdList(Long id, Pageable pageable){
         return postRepository.getUserIdPageList(id, pageable) ;
     }
+
+    @Transactional
+    public void increase(Long id, float amount){
+        Post post = postRepository.findByIdWithOptimisticLock(id);
+        post.increase(amount);
+        postRepository.saveAndFlush(post);
+    }
 }
