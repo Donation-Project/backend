@@ -22,13 +22,14 @@ import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
     private final CommentRepository commentRepository;
 
+    @Transactional
     public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, Long userId) {
         User user = userRepository.getById(userId);
         Post post = postRepository.save(validateSave(postSaveReqDto, postSaveReqDto.getImage(), user));
@@ -46,14 +47,17 @@ public class PostService {
         return PostFindRespDto.of(postRepository.findDetailById(postId));
     }
 
+    @Transactional
     public void update(PostUpdateReqDto updateReqDto, Long id) {
         postRepository.getById(id).changePost(updateReqDto);
     }
 
+    @Transactional
     public void confirm(PostState postState, Long id) {
         postRepository.getById(id).confirm(postState);
     }
 
+    @Transactional
     public void delete(Long postId) {
         Post post = postRepository.getById(postId);
         postRepository.delete(post);

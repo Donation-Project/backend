@@ -11,6 +11,7 @@ import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.s3.AwsS3Service;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,5 +153,19 @@ public class PostServiceTest extends ServiceTest {
             assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
             assertThat(postList.getContent().get(0).getState()).isEqualTo(APPROVAL);
         });
+    }
+
+    @Test
+    @DisplayName("현재금액을 2 증가시킨다")
+    void 현재금액을_2_증가시킨다() throws InterruptedException {
+        //given
+        User user = userRepository.save(createUser());
+        Long id = postRepository.save(createPost(user)).getId();
+
+        //when
+        postService.increase(id, 2f);
+
+        //then
+        Assertions.assertThat(postRepository.getById(id).getCurrentAmount()).isEqualTo(2);
     }
 }

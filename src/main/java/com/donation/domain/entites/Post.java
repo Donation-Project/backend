@@ -39,6 +39,9 @@ public class Post extends BaseEntity {
 
     private float currentAmount;
 
+    @Version
+    private Long version;
+
     @Enumerated(STRING)
     private Category category;
 
@@ -90,6 +93,6 @@ public class Post extends BaseEntity {
         if(this.currentAmount + amount > Float.parseFloat(this.amount)){
             throw new DonationNotFoundException("목표금액보다 금액이 커질 수 없습니다.");
         }
-        currentAmount += amount;
+        this.currentAmount = this.currentAmount + amount;
     }
 }
