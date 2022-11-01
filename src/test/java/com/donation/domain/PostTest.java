@@ -3,6 +3,7 @@ package com.donation.domain;
 import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
+import com.donation.exception.DonationNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,5 +87,31 @@ public class PostTest {
 
         //then
         assertThat(게시물.getState()).isEqualTo(COMPLETION);
+    }
+
+    @Test
+    @DisplayName("기부됨에 따라 현재 모인금액이 증가한다.")
+    void 기부됨에_따라_현재_모인금액이_증가한다(){
+        //given
+        float amount = 10.2f;
+        Post 게시물 = createPost();
+
+        //when
+        게시물.increase(amount);
+
+        //then
+        assertThat(게시물.getCurrentAmount()).isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("기부금액이 희망금액을 넘어선 경우 오류를 던진다.")
+    void 기부금액이_희망금액을_넘어선_경우_오류를_던진다(){
+        float amount = 111;
+        Post 게시물 = createPost();
+
+        //when & then
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> 게시물.increase(amount))
+                .isInstanceOf(DonationNotFoundException.class)
+                .hasMessage("목표금액보다 금액이 커질 수 없습니다.");
     }
 }

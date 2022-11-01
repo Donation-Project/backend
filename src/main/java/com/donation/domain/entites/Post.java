@@ -86,7 +86,7 @@ public class Post extends BaseEntity {
         return this;
     }
 
-    public void decrease(final float amount){
+    public void increase(final float amount){
         if(this.currentAmount + amount > Float.parseFloat(this.amount)){
             throw new DonationNotFoundException("목표금액보다 금액이 커질 수 없습니다.");
         }
