@@ -9,6 +9,7 @@ import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
 import com.donation.domain.enums.PostState;
+import com.donation.repository.comment.CommentRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
@@ -26,6 +27,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
+    private final CommentRepository commentRepository;
 
     public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, Long userId) {
         User user = userRepository.getById(userId);
@@ -53,7 +55,9 @@ public class PostService {
     }
 
     public void delete(Long postId) {
-        postRepository.delete(postRepository.getById(postId));
+        Post post = postRepository.getById(postId);
+        postRepository.delete(post);
+        commentRepository.deleteByPost(post);
     }
 
     public PageCustom<PostListRespDto> getList(Pageable pageable, PostState... states) {
