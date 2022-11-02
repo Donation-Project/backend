@@ -164,7 +164,7 @@ include::{snippets}/reply-save/path-parameters.adoc[]
 === 응답
 include::{snippets}/reply-save/http-response.adoc[]
 
-= 댓글 삭제 요청
+== 댓글 삭제 요청
 === 요청
 include::{snippets}/comment-delete/http-request.adoc[]
 include::{snippets}/comment-delete/path-parameters.adoc[]

@@ -5,9 +5,12 @@ import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
 import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.domain.entites.Donation;
+import com.donation.domain.entites.Post;
+import com.donation.domain.entites.User;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
+import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -18,26 +21,22 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class DonationService {
-
     private final UserRepository userRepository;
-
     private final PostRepository postRepository;
-
     private final DonationRepository donationRepository;
+    private final PostService postService;
 
-    public void save(DonationSaveReqDto donationSaveReqDto) {
-        Donation donation = Donation.builder()
-                .user(userRepository.getById(donationSaveReqDto.getUserId()))
-                .post(postRepository.getById(donationSaveReqDto.getPostId()))
-                .amount("10.1")
-                .build();
-        donationRepository.save(donation);
-
+    @Transactional
+    public void createDonate(DonationSaveReqDto donationSaveReqDto) {
+        User user = userRepository.getById(donationSaveReqDto.getUserId());
+        Post post = postRepository.getById(donationSaveReqDto.getPostId());
+        donationRepository.save(Donation.of(user, post, donationSaveReqDto.getAmount()));
+        postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
     }
 
-    public  List<DonationFindRespDto> findById(Long userId) {
+    public List<DonationFindRespDto> findById(Long userId) {
         List<DonationFindRespDto> donationFindRespDtos = donationRepository.findAllByUserId(userId);
         return getFindTotal(donationFindRespDtos);
     }
@@ -48,10 +47,10 @@ public class DonationService {
     }
 
 
-    public  List<DonationFindRespDto> getFindTotal(List<DonationFindRespDto> donationFindRespDtos) {
-        float total=0.0f;
+    public List<DonationFindRespDto> getFindTotal(List<DonationFindRespDto> donationFindRespDtos) {
+        float total = 0.0f;
         for (DonationFindRespDto donationFindRespDto : donationFindRespDtos) {
-            total+=Float.parseFloat(donationFindRespDto.getAmount());
+            total += Float.parseFloat(donationFindRespDto.getAmount());
         }
         for (DonationFindRespDto donationFindRespDto : donationFindRespDtos) {
             donationFindRespDto.setTotal(total);
@@ -59,16 +58,14 @@ public class DonationService {
         return donationFindRespDtos;
     }
 
-    public  Slice<DonationFindByFilterRespDto> getFilterFindTotal(Slice<DonationFindByFilterRespDto> donationFindRespDtos) {
-        float total=0.0f;
+    public Slice<DonationFindByFilterRespDto> getFilterFindTotal(Slice<DonationFindByFilterRespDto> donationFindRespDtos) {
+        float total = 0.0f;
         for (DonationFindByFilterRespDto donationFindRespDto : donationFindRespDtos) {
-            total+=Float.parseFloat(donationFindRespDto.getAmount());
+            total += Float.parseFloat(donationFindRespDto.getAmount());
         }
         for (DonationFindByFilterRespDto donationFindRespDto : donationFindRespDtos) {
             donationFindRespDto.setTotal(total);
         }
         return donationFindRespDtos;
     }
-
-
 }

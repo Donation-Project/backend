@@ -18,6 +18,7 @@ public class PostListRespDto {
     private Write write;
 
     private String amount;
+    private float currentAmount;
 
     private Category category;
 
@@ -27,11 +28,13 @@ public class PostListRespDto {
 
     @Builder
     @QueryProjection
-    public PostListRespDto(Long postId, Long userId, String username, String name, String profileImage, Write write, String amount, Category category, PostState state, String postMainImage) {
+    public PostListRespDto(final Long postId,final Long userId,final String username,final String name,final String profileImage,final Write write,
+                           final String amount,final float currentAmount,final Category category,final PostState state,final String postMainImage) {
         this.postId = postId;
         this.userRespDto = new UserRespDto(userId, username, name, profileImage ,null);
         this.write = write;
         this.amount = amount;
+        this.currentAmount = currentAmount;
         this.category = category;
         this.state = state;
         this.postMainImage = postMainImage;

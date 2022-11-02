@@ -4,6 +4,7 @@ import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
+import com.donation.exception.DonationNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Post extends BaseEntity {
+    private static final float MAX_AMOUNT = 3000f;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "post_id")
@@ -33,12 +36,10 @@ public class Post extends BaseEntity {
     private User user;
     @Embedded
     private Write write;
-
     private String amount;
-
+    private float currentAmount;
     @Enumerated(STRING)
     private Category category;
-
     @Enumerated(STRING)
     private PostState state;
 
@@ -56,6 +57,7 @@ public class Post extends BaseEntity {
         this.user = user;
         this.write = write;
         this.amount = amount;
+        this.currentAmount = 0;
         this.category = category;
         this.state = state;
     }
@@ -80,5 +82,12 @@ public class Post extends BaseEntity {
     public Post confirm(PostState state) {
         this.state=state;
         return this;
+    }
+
+    public void increase(final float amount){
+        if(this.currentAmount + amount > MAX_AMOUNT){
+            throw new DonationNotFoundException("목표금액보다 금액이 커질 수 없습니다.");
+        }
+        this.currentAmount = this.currentAmount + amount;
     }
 }

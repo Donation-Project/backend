@@ -1,0 +1,1 @@
+alter table post add column current_amount float

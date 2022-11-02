@@ -1,7 +1,6 @@
 package com.donation.service.favorite;
 
 import com.donation.common.FavoriteFixtures;
-import com.donation.common.UserFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Post;
@@ -15,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.donation.common.TestEntityDataFactory.createPost;
-import static com.donation.common.TestEntityDataFactory.createUser;
+import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.creatUserList;
+import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class FavoriteServiceTest extends ServiceTest {
     @Autowired
@@ -64,7 +64,7 @@ class FavoriteServiceTest extends ServiceTest {
     @DisplayName("좋아요(서비스) : 리스트 조회")
     void getList() {
         //given
-        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 11));
+        List<User> users = userRepository.saveAll(creatUserList(1, 11));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteService.save(FavoriteFixtures.좋아요_DTO(post.getId(), u.getId())));
 
@@ -84,7 +84,7 @@ class FavoriteServiceTest extends ServiceTest {
     @DisplayName("좋아요(서비스) : 포스팅 전체 좋아요 삭제")
     void delete() {
         //given
-        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 31));
+        List<User> users = userRepository.saveAll(creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteService.save(FavoriteFixtures.좋아요_DTO(post.getId(), u.getId())));
 

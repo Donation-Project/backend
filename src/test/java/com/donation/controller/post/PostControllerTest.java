@@ -102,6 +102,7 @@ class PostControllerTest extends ControllerTest {
                                 fieldWithPath("data.write.title").description("제목"),
                                 fieldWithPath("data.write.content").description("제목"),
                                 fieldWithPath("data.amount").description("금액"),
+                                fieldWithPath("data.currentAmount").description("현재까지의 모금액"),
                                 fieldWithPath("data.category").description("카테로리"),
                                 fieldWithPath("data.state").description("포스팅 상태"),
                                 fieldWithPath("data.postDetailImages").description("이미지"),

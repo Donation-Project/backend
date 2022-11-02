@@ -1,7 +1,5 @@
 package com.donation.repository.favorite;
 
-import com.donation.common.FavoriteFixtures;
-import com.donation.common.UserFixtures;
 import com.donation.common.utils.RepositoryTest;
 import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
@@ -17,8 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.donation.common.FavoriteFixtures.createFavorites;
-import static com.donation.common.TestEntityDataFactory.createPost;
-import static com.donation.common.TestEntityDataFactory.createUser;
+import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.creatUserList;
+import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -38,7 +37,7 @@ class FavoriteRepositoryTest extends RepositoryTest {
         Post post = postRepository.save(createPost());
 
         //when
-        Favorites actual = favoriteRepository.save(FavoriteFixtures.createFavorites(user, post));
+        Favorites actual = favoriteRepository.save(createFavorites(user, post));
 
         //then
         assertThat(favoriteRepository.existsById(actual.getId())).isTrue();
@@ -52,7 +51,7 @@ class FavoriteRepositoryTest extends RepositoryTest {
         Post post = postRepository.save(createPost());
 
         //when
-        favoriteRepository.save(FavoriteFixtures.createFavorites(user, post));
+        favoriteRepository.save(createFavorites(user, post));
 
         //then
         assertThatThrownBy(() -> favoriteRepository.validateExistsByPostIdAndUserId(post.getId(), user.getId()))
@@ -77,7 +76,7 @@ class FavoriteRepositoryTest extends RepositoryTest {
     @DisplayName("게시물번호로 저장된 좋아요 정보를 모두 삭제한다.")
     void 게시물번호로_저장된_좋아요_정보를_모두_삭제한다(){
         //given
-        List<User> users = userRepository.saveAll(UserFixtures.creatUserList(1, 11));
+        List<User> users = userRepository.saveAll(creatUserList(1, 11));
         Post post = postRepository.save(createPost(users.get(0)));
         users.forEach(u -> favoriteRepository.save(createFavorites(u, post)));
 
