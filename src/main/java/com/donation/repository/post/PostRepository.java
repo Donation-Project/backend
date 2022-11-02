@@ -9,7 +9,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.LockModeType;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +24,10 @@ public interface PostRepository extends JpaRepository<Post,Long>, PostRepository
     long countByUserId(Long user_id);
 
     long countByStateIn(List<PostState> state);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select p from Post p where p.id = :id")
+    Post findByIdWithLock(Long id);
 
     List<Post> findAllByUpdateAtLessThanEqualAndState(LocalDateTime updateAd, PostState state);
 

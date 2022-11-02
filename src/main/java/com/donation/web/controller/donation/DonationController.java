@@ -29,8 +29,8 @@ public class DonationController {
     @PostMapping
     public ResponseEntity<?> donation(
             @RequestBody @Valid DonationSaveReqDto donationSaveReqDto
-    ) {
-        donationService.save(donationSaveReqDto);
+    ) throws InterruptedException {
+        donationService.createDonate(donationSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 

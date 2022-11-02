@@ -17,18 +17,20 @@ import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
     private final CommentRepository commentRepository;
 
+    @Transactional
     public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, Long userId) {
         User user = userRepository.getById(userId);
         Post post = postRepository.save(validateSave(postSaveReqDto, postSaveReqDto.getImage(), user));
@@ -46,14 +48,17 @@ public class PostService {
         return PostFindRespDto.of(postRepository.findDetailById(postId));
     }
 
+    @Transactional
     public void update(PostUpdateReqDto updateReqDto, Long id) {
         postRepository.getById(id).changePost(updateReqDto);
     }
 
+    @Transactional
     public void confirm(PostState postState, Long id) {
         postRepository.getById(id).confirm(postState);
     }
 
+    @Transactional
     public void delete(Long postId) {
         Post post = postRepository.getById(postId);
         postRepository.delete(post);
@@ -68,4 +73,12 @@ public class PostService {
     public PageCustom<PostListRespDto> getUserIdList(Long id, Pageable pageable){
         return postRepository.getUserIdPageList(id, pageable) ;
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void increase(Long id, float amount){
+        Post post = postRepository.findByIdWithLock(id);
+        post.increase(amount);
+        postRepository.saveAndFlush(post);
+    }
+
 }

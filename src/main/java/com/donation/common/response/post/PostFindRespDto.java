@@ -23,6 +23,7 @@ public class PostFindRespDto {
     private Write write;
 
     private String amount;
+    private float currentAmount;
 
     private Category category;
 
@@ -33,11 +34,13 @@ public class PostFindRespDto {
     private int favoriteCount;
 
     @Builder
-    public PostFindRespDto(Long postId, UserRespDto userRespDto, Write write, String amount, Category category, PostState state, List<String> postDetailImages, int favoriteCount) {
+    public PostFindRespDto(final Long postId, final UserRespDto userRespDto,final Write write,final String amount,final float currentAmount,
+                           final Category category, final PostState state,final List<String> postDetailImages,final int favoriteCount) {
         this.postId = postId;
         this.userRespDto = userRespDto;
         this.write = write;
         this.amount = amount;
+        this.currentAmount = currentAmount;
         this.category = category;
         this.state = state;
         this.postDetailImages = postDetailImages;
@@ -50,6 +53,7 @@ public class PostFindRespDto {
                 .userRespDto(UserRespDto.of(post.getUser()))
                 .write(post.getWrite())
                 .amount(post.getAmount())
+                .currentAmount(post.getCurrentAmount())
                 .category(post.getCategory())
                 .state(post.getState())
                 .postDetailImages(getPostDetailImages(post))
