@@ -104,9 +104,9 @@ public class PostTest {
     }
 
     @Test
-    @DisplayName("기부금액이 희망금액을 넘어선 경우 오류를 던진다.")
-    void 기부금액이_희망금액을_넘어선_경우_오류를_던진다(){
-        float amount = 111;
+    @DisplayName("기부금액이 최대금액을 넘어선 경우 오류를 던진다.")
+    void 기부금액이_최대금액을_넘어선_경우_오류를_던진다(){
+        float amount = 3001;
         Post 게시물 = createPost();
 
         //when & then

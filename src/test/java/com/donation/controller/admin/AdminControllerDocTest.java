@@ -2,6 +2,7 @@ package com.donation.controller.admin;
 
 
 import com.donation.domain.entites.Post;
+import com.donation.domain.entites.User;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -17,11 +18,11 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.PostState.WAITING;
-import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.PostFixtures.creatPostList;
+import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.createUser;
+import static com.donation.domain.enums.PostState.APPROVAL;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -55,10 +56,10 @@ class AdminControllerDocTest {
     @DisplayName("관리자(RestDocs) : 대기글 수락 및 삭제 ")
     void confirm() throws Exception {
         //given
-        Post save = postRepository.save(createPost("title","content"));
+        Post post = postRepository.save(createPost());
 
         //expected
-        mockMvc.perform(post("/api/admin/{id}?postState=APPROVAL", save.getId()))
+        mockMvc.perform(post("/api/admin/{id}?postState=APPROVAL", post.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
@@ -83,12 +84,11 @@ class AdminControllerDocTest {
     @DisplayName("관리자(RestDocs) : 리스트 조회")
     void getList() throws Exception {
         //given
-        List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> createPost("title" + i, "content"+i))
-                .collect(Collectors.toList());
-        postRepository.saveAll(posts);
+        User user = userRepository.save(createUser());
+        List<Post> posts = postRepository.saveAll(creatPostList(1, 20, user));
+
         // expected
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/{state}?page=0&size=10", WAITING))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/admin/{state}?page=0&size=10", APPROVAL))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))

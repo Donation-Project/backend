@@ -1,5 +1,6 @@
 package com.donation.controller.donation;
 
+import com.donation.common.DonationFixtures;
 import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.domain.entites.Donation;
@@ -24,8 +25,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.createUser;
 import static com.donation.domain.enums.Category.ETC;
-import static com.donation.common.TestEntityDataFactory.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -101,7 +103,7 @@ class DonationControllerDocTest {
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor@email.com"));
         List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
+                .mapToObj(i -> DonationFixtures.createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
 
@@ -133,7 +135,7 @@ class DonationControllerDocTest {
         Post post = postRepository.save(createPost(user));
         User sponsor = userRepository.save(createUser("sponsor@emali.com"));
         List<Donation> donations = IntStream.range(1, 21)
-                .mapToObj(i -> createDonation(sponsor,post,"10.1"+i)
+                .mapToObj(i -> DonationFixtures.createDonation(sponsor,post,"10.1"+i)
                 ).collect(Collectors.toList());
         donationRepository.saveAll(donations);
         DonationFilterReqDto request = new DonationFilterReqDto(null, ETC);

@@ -28,6 +28,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                         user.profileImage,
                         post.write,
                         post.amount,
+                        post.currentAmount,
                         post.category,
                         post.state,
                         postDetailImage.imagePath.as("postMainImage")
@@ -54,6 +55,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                         user.profileImage,
                         post.write,
                         post.amount,
+                        post.currentAmount,
                         post.category,
                         post.state,
                         postDetailImage.imagePath.as("postMainImage")

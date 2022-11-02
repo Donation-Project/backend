@@ -17,6 +17,7 @@ import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -73,10 +74,11 @@ public class PostService {
         return postRepository.getUserIdPageList(id, pageable) ;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void increase(Long id, float amount){
-        Post post = postRepository.findByIdWithOptimisticLock(id);
+        Post post = postRepository.findByIdWithLock(id);
         post.increase(amount);
         postRepository.saveAndFlush(post);
     }
+
 }

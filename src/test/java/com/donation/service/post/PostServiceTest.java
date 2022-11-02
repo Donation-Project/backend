@@ -20,7 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 import static com.donation.common.PostFixtures.*;
-import static com.donation.common.TestEntityDataFactory.createUser;
+import static com.donation.common.UserFixtures.createUser;
 import static com.donation.domain.enums.PostState.APPROVAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -157,7 +157,7 @@ public class PostServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("현재금액을 2 증가시킨다")
-    void 현재금액을_2_증가시킨다() throws InterruptedException {
+    void 현재금액을_2_증가시킨다() {
         //given
         User user = userRepository.save(createUser());
         Long id = postRepository.save(createPost(user)).getId();

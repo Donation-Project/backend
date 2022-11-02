@@ -22,6 +22,7 @@ import static com.donation.common.UserFixtures.새로운_이미지;
 public class PostFixtures {
 
     public static String 일반_게시물_기부금 = "100";
+    public static float 일반_게시물_현재_모금액 = 30;
     public static String 일반_게시물_제목 = "일반 게시물 제목";
     public static String 일반_게시물_내용 = "일반 게시물 내용";
     public static Write 일반_게시물_게시글 = new Write(일반_게시물_제목, 일반_게시물_내용);
@@ -57,6 +58,7 @@ public class PostFixtures {
                 .postId(1L)
                 .userRespDto(UserRespDto.of(createUser(1L)))
                 .amount(일반_게시물_기부금)
+                .currentAmount(일반_게시물_현재_모금액)
                 .write(일반_게시물_게시글)
                 .postDetailImages(List.of(일반_게시물_이미지_주소))
                 .state(일반_게시물_상태)
@@ -74,6 +76,7 @@ public class PostFixtures {
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
                 .amount(일반_게시물_기부금)
+                .currentAmount(일반_게시물_현재_모금액)
                 .write(new Write(일반_게시물_제목 + id, 일반_게시물_내용 + id))
                 .state(일반_게시물_상태)
                 .category(일반_게시물_카테고리)

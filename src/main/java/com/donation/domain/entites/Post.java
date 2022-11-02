@@ -25,6 +25,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Post extends BaseEntity {
+    private static final float MAX_AMOUNT = 3000f;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "post_id")
@@ -34,17 +36,10 @@ public class Post extends BaseEntity {
     private User user;
     @Embedded
     private Write write;
-
     private String amount;
-
     private float currentAmount;
-
-    @Version
-    private Long version;
-
     @Enumerated(STRING)
     private Category category;
-
     @Enumerated(STRING)
     private PostState state;
 
@@ -90,7 +85,7 @@ public class Post extends BaseEntity {
     }
 
     public void increase(final float amount){
-        if(this.currentAmount + amount > Float.parseFloat(this.amount)){
+        if(this.currentAmount + amount > MAX_AMOUNT){
             throw new DonationNotFoundException("목표금액보다 금액이 커질 수 없습니다.");
         }
         this.currentAmount = this.currentAmount + amount;

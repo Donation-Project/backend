@@ -37,4 +37,12 @@ public class Donation extends BaseEntity {
         this.amount=amount;
     }
 
+    public static Donation of(User user, Post post, String amount){
+        return Donation.builder()
+                .user(user)
+                .post(post)
+                .amount(amount)
+                .build();
+    }
+
 }

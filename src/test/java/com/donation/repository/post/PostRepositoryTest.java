@@ -38,10 +38,10 @@ public class PostRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @DisplayName("게시물 번호를 통해 OptimisticLock 메서드로 조회")
+    @DisplayName("게시물 번호를 통해 데이터 베이스 락으로 조회")
     void 게시물번호를_통해_OptimisticLock메서드로_게시물_조회(){
         Long id = postRepository.save(PostFixtures.createPost()).getId();
         //when & then
-        assertThat(postRepository.findByIdWithOptimisticLock(id).getId()).isEqualTo(id);
+        assertThat(postRepository.findByIdWithLock(id).getId()).isEqualTo(id);
     }
 }

@@ -25,9 +25,9 @@ public interface PostRepository extends JpaRepository<Post,Long>, PostRepository
 
     long countByStateIn(List<PostState> state);
 
-    @Lock(LockModeType.OPTIMISTIC)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Post p where p.id = :id")
-    Post findByIdWithOptimisticLock(Long id);
+    Post findByIdWithLock(Long id);
 
     List<Post> findAllByUpdateAtLessThanEqualAndState(LocalDateTime updateAd, PostState state);
 

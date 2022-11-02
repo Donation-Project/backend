@@ -1,6 +1,7 @@
 package com.donation.controller.admin;
 
 import com.donation.domain.entites.Post;
+import com.donation.domain.entites.User;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
 import org.hamcrest.Matchers;
@@ -13,11 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.donation.domain.enums.PostState.WAITING;
-import static com.donation.common.TestEntityDataFactory.createPost;
+import static com.donation.common.PostFixtures.creatPostList;
+import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.createUser;
+import static com.donation.domain.enums.PostState.APPROVAL;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -45,7 +46,7 @@ class AdminControllerTest {
     @DisplayName("관리자(컨트롤러) : 대기글 수락 및 삭제 ")
     void confirm() throws Exception {
         //given
-        Post post = postRepository.save(createPost("title","content"));
+        Post post = postRepository.save(createPost());
         //expected
         mockMvc.perform(post("/api/admin/{id}?postState=APPROVAL", post.getId()))
                 .andExpect(status().isOk())
@@ -59,12 +60,11 @@ class AdminControllerTest {
     @DisplayName("관리자(컨트롤러) : 대기글 전체보기 ")
     void getList() throws Exception {
         //given
-        List<Post> posts = IntStream.range(1, 31)
-                .mapToObj(i -> createPost("title" + i, "content"+i))
-                .collect(Collectors.toList());
-        postRepository.saveAll(posts);
+        User user = userRepository.save(createUser());
+        List<Post> posts = postRepository.saveAll(creatPostList(1, 20, user));
+
         // expected
-        mockMvc.perform(get("/api/admin/{state}?page=0&size=10", WAITING))
+        mockMvc.perform(get("/api/admin/{state}?page=0&size=10", APPROVAL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.content.length()", Matchers.is(10)))

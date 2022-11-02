@@ -1,13 +1,15 @@
 package com.donation.common.request.donation;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class DonationSaveReqDto {
 
     @NotNull(message = "후원자의 아이디가 없습니다")
@@ -26,6 +28,10 @@ public class DonationSaveReqDto {
         this.userId = userId;
         this.postId = postId;
         this.amount = amount;
+    }
+
+    public float getFloatAmount(){
+        return Float.parseFloat(this.amount);
     }
 
 
