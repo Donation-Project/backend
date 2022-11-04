@@ -25,7 +25,7 @@ public class UserFixtures {
     /* 회원가입 데이터 */
     public static UserSaveReqDto 유저_회원가입_DTO = new UserSaveReqDto(일반_사용자_이메일, 일반_사용자_이름, 일반_사용자_패스워드, 일반_사용자_메타마스크_주소);
     /* 로그인 데이터 */
-    public static UserLoginReqDto 유저_로그인_DTO = new UserLoginReqDto(일반_사용자_이메일, 일반_사용자_패스워드);
+    public static UserLoginReqDto 유저_로그인_DTO = new UserLoginReqDto(일반_사용자_이메일, 일반_사용자_패스워드, "refreshToken");
     /* 업데이트 데이터 */
 
     public static final String 새로운_이미지 = "dwqdqwwd/d/wq/d/qw/d/wqdwqdqw/d/wq/d/q/d/d/qw/d/q/wdqdqwqwd/";

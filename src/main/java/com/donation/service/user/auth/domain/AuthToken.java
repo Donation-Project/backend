@@ -1,4 +1,4 @@
-package com.donation.auth.domain;
+package com.donation.service.user.auth.domain;
 
 import com.donation.exception.DonationInvalidateException;
 import lombok.Builder;

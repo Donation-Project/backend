@@ -1,4 +1,4 @@
-package com.donation.auth.repository;
+package com.donation.service.user.auth.repository;
 
 import com.donation.exception.DonationNotFoundException;
 import org.springframework.stereotype.Component;

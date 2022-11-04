@@ -1,4 +1,4 @@
-package com.donation.auth.application;
+package com.donation.service.user.auth.application;
 
 import com.donation.exception.DonationInvalidateException;
 import io.jsonwebtoken.*;

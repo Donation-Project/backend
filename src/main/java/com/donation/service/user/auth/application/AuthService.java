@@ -1,4 +1,4 @@
-package com.donation.service.user;
+package com.donation.service.user.auth.application;
 
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.common.request.user.UserSaveReqDto;

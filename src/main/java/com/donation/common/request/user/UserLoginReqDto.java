@@ -1,11 +1,13 @@
 package com.donation.common.request.user;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class UserLoginReqDto {
 
     @NotBlank
@@ -14,9 +16,12 @@ public class UserLoginReqDto {
     @NotBlank
     private String password;
 
+    private String refreshToken;
+
     @Builder
-    public UserLoginReqDto(String email, String password) {
+    public UserLoginReqDto(final String email, final String password, final String refreshToken) {
         this.email = email;
         this.password = password;
+        this.refreshToken = refreshToken;
     }
 }

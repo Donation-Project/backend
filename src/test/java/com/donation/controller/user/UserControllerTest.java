@@ -4,7 +4,7 @@ import com.donation.common.UserFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ControllerTest;
 import com.donation.repository.utils.PageCustom;
-import com.donation.service.user.AuthService;
+import com.donation.service.user.auth.application.AuthService;
 import com.donation.service.user.UserService;
 import com.donation.web.controller.user.UserController;
 import org.junit.jupiter.api.DisplayName;
