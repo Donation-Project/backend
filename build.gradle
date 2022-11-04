@@ -86,6 +86,7 @@ tasks.named('test') {
 asciidoctor {
 	inputs.dir snippetsDir
 	configurations 'asciidoctorExt'
+
 	dependsOn test
 }
 
@@ -125,7 +126,7 @@ jacocoTestCoverageVerification {
 			limit {
 				counter = 'LINE'
 				value = 'COVEREDRATIO'
-				minimum = 0.60
+				minimum = 0.80
 			}
 
 			excludes = []
