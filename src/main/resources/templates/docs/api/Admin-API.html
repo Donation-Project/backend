@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Donation Project</title>
+<meta name="author" content="== 포스트 권한 변경">
+<title>Admin API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,23 +437,315 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="book">
+<body class="article">
 <div id="header">
-<h1>Donation Project</h1>
+<h1>Admin API</h1>
 <div class="details">
-<span id="revnumber">version 0.0.1-SNAPSHOT</span>
+<span id="author" class="author">== 포스트 권한 변경</span><br>
+<span id="revnumber">version 0.0.1-SNAPSHOT,</span>
+<span id="revdate">=== 요청</span>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::api/User-API.adoc[]
-Unresolved directive in index.adoc - include::api/Post-API.adoc[]
-Unresolved directive in index.adoc - include::api/Donation-API.adoc[]
-Unresolved directive in index.adoc - include::api/Admin-API.adoc[]
-Unresolved directive in index.adoc - include::api/Favorite-API.adoc[]
-Unresolved directive in index.adoc - include::api/Comment-API.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/admin/20?postState=APPROVAL HTTP/1.1
+Host: api.springdocs.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/admin/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">포스트 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_응답">응답</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 61
+
+{
+  "success" : true,
+  "data" : null,
+  "error" : null
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러 발생시 오류 반환</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_어드민_리스트_요청">어드민 : 리스트 요청</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_요청">요청</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/admin/APPROVAL?page=0&amp;size=10 HTTP/1.1
+Host: api.springdocs.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_응답_2">응답</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 5297
+
+{
+  "success" : true,
+  "data" : {
+    "page" : {
+      "pageNum" : 1,
+      "pageElement" : 10,
+      "totalPages" : 2,
+      "totalElement" : 19,
+      "first" : true,
+      "last" : false
+    },
+    "content" : [ {
+      "postId" : 1,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title1",
+        "content" : "content1"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 2,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title2",
+        "content" : "content2"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 3,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title3",
+        "content" : "content3"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 4,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title4",
+        "content" : "content4"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 5,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title5",
+        "content" : "content5"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 6,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title6",
+        "content" : "content6"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 7,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title7",
+        "content" : "content7"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 8,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title8",
+        "content" : "content8"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 9,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title9",
+        "content" : "content9"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    }, {
+      "postId" : 10,
+      "userRespDto" : {
+        "id" : 1,
+        "email" : "default@email.com",
+        "name" : "일반 사용자",
+        "profileImage" : "https://avatars.githubusercontent.com/u/106054507?v=4",
+        "metamask" : null
+      },
+      "write" : {
+        "title" : "title10",
+        "content" : "content10"
+      },
+      "amount" : "100",
+      "currentAmount" : 0.0,
+      "category" : "ETC",
+      "state" : "APPROVAL",
+      "postMainImage" : null
+    } ]
+  },
+  "error" : null
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -460,11 +753,8 @@ Unresolved directive in index.adoc - include::api/Comment-API.adoc[]</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-11-04 15:28:27 +0900
+Last updated 2022-11-04 15:27:17 +0900
 </div>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-<script>hljs.initHighlighting()</script>
 </body>
 </html>

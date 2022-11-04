@@ -53,7 +53,7 @@ public class AuthServiceTest extends ServiceTest {
     @DisplayName("다른 패스워드로 로그인 요청시 예외 발생")
     void 다른_패스워드로_로그인_요청시_예외_발생(){
         //given
-        userRepository.save(createUser());
+        authService.save(유저_회원가입_DTO);
         UserLoginReqDto 예외발생요청 = new UserLoginReqDto(일반_사용자_이메일, "다른패스워드");
 
         //given & when & then

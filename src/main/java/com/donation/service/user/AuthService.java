@@ -6,8 +6,8 @@ import com.donation.domain.entites.User;
 import com.donation.exception.DonationInvalidateException;
 import com.donation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,6 @@ public class AuthService {
     @Value("${profileImageUrl}")
     private String profileImageUrl;
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long save(UserSaveReqDto userSaveReqDto) {
@@ -28,7 +27,7 @@ public class AuthService {
 
     public User validateMember(UserSaveReqDto userSaveReqDto){
         userRepository.validateExistsByEmail(userSaveReqDto.getEmail());
-        userSaveReqDto.setPassword(passwordEncoder.encode(userSaveReqDto.getPassword()));
+        userSaveReqDto.setPassword(BCrypt.hashpw(userSaveReqDto.getPassword(), BCrypt.gensalt()));
         return userSaveReqDto.toUser(profileImageUrl);
     }
 
@@ -38,7 +37,7 @@ public class AuthService {
 
     public User validateLogin(UserLoginReqDto userLoginReqDto) {
         User user = userRepository.getByEmail(userLoginReqDto.getEmail());
-        if(passwordEncoder.matches(userLoginReqDto.getPassword(), user.getPassword())){
+        if(BCrypt.checkpw(userLoginReqDto.getPassword(), user.getPassword())){
             return user;
         }
         throw new DonationInvalidateException("패스워드가 일치하지 않습니다.");
