@@ -2,11 +2,11 @@ package com.donation.service.user;
 
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.common.request.user.UserSaveReqDto;
-import com.donation.config.ConstConfig;
 import com.donation.domain.entites.User;
 import com.donation.exception.DonationInvalidateException;
 import com.donation.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthService {
+    @Value("${profileImageUrl}")
+    private String profileImageUrl;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ConstConfig config;
 
     @Transactional
     public Long save(UserSaveReqDto userSaveReqDto) {
@@ -28,7 +29,7 @@ public class AuthService {
     public User validateMember(UserSaveReqDto userSaveReqDto){
         userRepository.validateExistsByEmail(userSaveReqDto.getEmail());
         userSaveReqDto.setPassword(passwordEncoder.encode(userSaveReqDto.getPassword()));
-        return userSaveReqDto.toUser(config.getBasicImageProfile());
+        return userSaveReqDto.toUser(profileImageUrl);
     }
 
     public User login(UserLoginReqDto userLoginReqDto){
