@@ -3,7 +3,6 @@ package com.donation.service.user;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.User;
-import com.donation.exception.DonationException;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import static com.donation.common.UserFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class UserServiceTest extends ServiceTest {
@@ -73,20 +71,5 @@ class UserServiceTest extends ServiceTest {
         //then
         assertThat(dto.getEmail()).isEqualTo(user.getEmail());
         assertThat(dto.getName()).isEqualTo(user.getName());
-    }
-
-
-    @Test
-    @DisplayName("회원 ID를 통해 회원 삭제")
-    void 회원_ID를_통해_회원_삭제(){
-        //given
-        User user = userRepository.save(createUser());
-
-        //when
-        userService.delete(user.getId());
-
-        //then
-        assertThatThrownBy(() -> userService.findById(user.getId()))
-                .isInstanceOf(DonationException.class);
     }
 }
