@@ -26,7 +26,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -131,22 +130,6 @@ class UserControllerTest extends ControllerTest {
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/user?page=0&size=10"))
                 .andExpect(status().isOk())
                 .andDo(document("user-getList",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
-                ));
-    }
-
-    @Test
-    @DisplayName("회원의 ID를 통한 회원삭제 요청 성공")
-    void 회원의_ID를_통한_회원삭제_요청_성공() throws Exception {
-        //given
-        Long id = 1L;
-        willDoNothing().given(userService).delete(id);
-
-        // expected
-        mockMvc.perform(delete("/api/user/{id}", id))
-                .andExpect(status().isOk())
-                .andDo(document("user-delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));

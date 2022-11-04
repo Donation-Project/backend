@@ -57,11 +57,4 @@ public class UserController {
         userService.updateProfile(id, profileUpdateReqDto);
         return ResponseEntity.ok(CommonResponse.success());
     }
-
-
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        userService.delete(id);
-        return ResponseEntity.ok(CommonResponse.success());
-    }
 }

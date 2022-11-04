@@ -7,9 +7,14 @@
 :sectlinks:
 
 include::api/User-API.adoc[]
+
 include::api/Post-API.adoc[]
+
 include::api/Donation-API.adoc[]
+
 include::api/Admin-API.adoc[]
+
 include::api/Favorite-API.adoc[]
+
 include::api/Comment-API.adoc[]
 

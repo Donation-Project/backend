@@ -21,7 +21,8 @@ bin/
 application-prod.yml
 application-dev.yml
 application-s3.yml
-src/main/java/com/donation/init.java
+src/main/resources/templates/docs/api
+
 
 
 ### IntelliJ IDEA ###

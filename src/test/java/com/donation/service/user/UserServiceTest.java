@@ -3,9 +3,9 @@ package com.donation.service.user;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.User;
-import com.donation.exception.DonationException;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
+import com.donation.service.s3.AwsS3Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import java.util.List;
 
 import static com.donation.common.UserFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class UserServiceTest extends ServiceTest {
@@ -24,6 +23,9 @@ class UserServiceTest extends ServiceTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AwsS3Service awsS3Service;
 
     @Test
     @DisplayName("20명의 회원을 10개씩 페이징후 조회")
@@ -58,7 +60,7 @@ class UserServiceTest extends ServiceTest {
         assertThat(actual.getProfileImage()).isNotEqualTo(일반_사용자_프로필);
 
         //clear
-        userService.delete(actual.getId());
+        awsS3Service.delete(actual.getProfileImage());
     }
 
     @Test
@@ -73,20 +75,5 @@ class UserServiceTest extends ServiceTest {
         //then
         assertThat(dto.getEmail()).isEqualTo(user.getEmail());
         assertThat(dto.getName()).isEqualTo(user.getName());
-    }
-
-
-    @Test
-    @DisplayName("회원 ID를 통해 회원 삭제")
-    void 회원_ID를_통해_회원_삭제(){
-        //given
-        User user = userRepository.save(createUser());
-
-        //when
-        userService.delete(user.getId());
-
-        //then
-        assertThatThrownBy(() -> userService.findById(user.getId()))
-                .isInstanceOf(DonationException.class);
     }
 }
