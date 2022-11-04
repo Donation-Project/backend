@@ -1,5 +1,6 @@
 package com.donation.controller.comment;
 
+import com.donation.auth.LoginInfoArgumentResolver;
 import com.donation.common.PostFixtures;
 import com.donation.common.UserFixtures;
 import com.donation.common.response.comment.CommentResponse;
@@ -38,6 +39,8 @@ public class CommentControllerTest extends ControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @MockBean
+    private LoginInfoArgumentResolver loginInfoArgumentResolver;
 
     @Test
     @DisplayName("댓글요청이 정상적으로 등록된다.")

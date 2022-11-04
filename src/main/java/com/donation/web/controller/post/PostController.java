@@ -9,7 +9,6 @@ import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import static com.donation.domain.enums.PostState.COMPLETION;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;

@@ -2,7 +2,9 @@ package com.donation.service.auth;
 
 import com.donation.common.request.auth.TokenRenewalRequest;
 import com.donation.common.request.user.UserLoginReqDto;
+import com.donation.common.request.user.UserSaveReqDto;
 import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
+import com.donation.common.response.auth.AccessTokenResponse;
 import com.donation.common.utils.ServiceTest;
 import com.donation.exception.DonationDuplicateException;
 import com.donation.exception.DonationInvalidateException;
@@ -44,23 +46,23 @@ public class AuthServiceTest extends ServiceTest {
         });
     }
 
-//    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급한다.")
-//    @Test
-//    void 리프레시_토큰으로_새로운_엑세스_토큰을_발급한다() {
-//        // given
-//        authService.save(유저_회원가입_DTO);
-//        AccessAndRefreshTokenResponse response = authService.login(유저_로그인_DTO);
-//        TokenRenewalRequest tokenRenewalRequest = new TokenRenewalRequest(response.getRefreshToken());
-//
-//        // when
-//        AccessTokenResponse accessTokenResponse = authService.renewalToken(tokenRenewalRequest);
-//
-//        // then
-//        assertThat(accessTokenResponse.getAccessToken()).isNotEmpty();
-//    }
-
-    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급 할 때, 리프레시 토큰이 존재하지 않으면 예외를 던진다.")
     @Test
+    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급한다.")
+    void 리프레시_토큰으로_새로운_엑세스_토큰을_발급한다() {
+        // given
+        authService.save(new UserSaveReqDto(일반_사용자_이메일, 일반_사용자_이름, 일반_사용자_패스워드, 일반_사용자_메타마스크_주소));
+        AccessAndRefreshTokenResponse response = authService.login(유저_로그인_DTO);
+        TokenRenewalRequest tokenRenewalRequest = new TokenRenewalRequest(response.getRefreshToken());
+
+        // when
+        AccessTokenResponse accessTokenResponse = authService.renewalToken(tokenRenewalRequest);
+
+        // then
+        assertThat(accessTokenResponse.getAccessToken()).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("리프레시 토큰으로 새로운 엑세스 토큰을 발급 할 때, 리프레시 토큰이 존재하지 않으면 예외를 던진다.")
     void 리프레시_토큰으로_새로운_엑세스_토큰을_발급_할_때_리프레시_토큰이_존재하지_않으면_예외를_던진다() {
         // given
         TokenRenewalRequest tokenRenewalRequest = new TokenRenewalRequest("TempRefreshToken");
@@ -91,15 +93,15 @@ public class AuthServiceTest extends ServiceTest {
     }
 
 
-//    @Test
-//    @DisplayName("유저 로그인 성공")
-//    void 유저_로그인_성공(){
-//        //given
-//        authService.save(유저_회원가입_DTO);
-//
-//        //when & then
-//        assertDoesNotThrow(() -> authService.login(유저_로그인_DTO));
-//    }
+    @Test
+    @DisplayName("유저 로그인 성공")
+    void 유저_로그인_성공(){
+        //given
+        authService.save(new UserSaveReqDto(일반_사용자_이메일, 일반_사용자_이름, 일반_사용자_패스워드, 일반_사용자_메타마스크_주소));
+
+        //when & then
+        assertDoesNotThrow(() -> authService.login(유저_로그인_DTO));
+    }
 
     @Test
     @DisplayName("다른 패스워드로 로그인 요청시 예외 발생")
