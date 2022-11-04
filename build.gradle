@@ -113,7 +113,6 @@ jacocoTestReport {
 					"com/donation/*.*",
 					"com/donation/config/*.*",
 					"com/donation/config/**/*.*",
-					"com/donation/web/controller/*.*"
 			] + Qdomains)
 		}))
 	}
