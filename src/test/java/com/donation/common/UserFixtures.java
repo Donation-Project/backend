@@ -28,6 +28,7 @@ public class UserFixtures {
     public static UserLoginReqDto 유저_로그인_DTO = new UserLoginReqDto(일반_사용자_이메일, 일반_사용자_패스워드, "refreshToken");
     /* 업데이트 데이터 */
 
+
     public static final String 새로운_이미지 = "dwqdqwwd/d/wq/d/qw/d/wqdwqdqw/d/wq/d/q/d/d/qw/d/q/wdqdqwqwd/";
 
     public static UserProfileUpdateReqDto 유저_프로필_업데이트_DTO = new UserProfileUpdateReqDto(새로운_이미지);
