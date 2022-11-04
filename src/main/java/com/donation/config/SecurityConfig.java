@@ -1,4 +1,4 @@
-package com.donation.config.security;
+package com.donation.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,18 +22,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .headers().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
-                //Exception을 핸들링할때 사용할 클래스들을 추가
-//                .exceptionHandling()
-//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                .formLogin().disable()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-                .and().build();
+                .logout(
+                        logout -> logout.logoutSuccessUrl("/")
+                )
+                .authorizeRequests(
+                        auth -> auth.anyRequest().permitAll()
+                )
+                .build();
     }
 }
