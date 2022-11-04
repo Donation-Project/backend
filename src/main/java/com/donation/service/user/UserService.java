@@ -27,13 +27,6 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(Long id){
-        User user = userRepository.getById(id);
-        awsS3Service.delete(user.getProfileImage());
-        userRepository.delete(user);
-    }
-
-    @Transactional
     public void updateProfile(Long id, UserProfileUpdateReqDto userProfileUpdateReqDto){
         User user = userRepository.getById(id);
         user.changeNewProfileImage(awsS3Service.upload(userProfileUpdateReqDto.getProfileImage()));

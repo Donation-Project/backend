@@ -5,6 +5,7 @@ import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.User;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
+import com.donation.service.s3.AwsS3Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,9 @@ class UserServiceTest extends ServiceTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AwsS3Service awsS3Service;
 
     @Test
     @DisplayName("20명의 회원을 10개씩 페이징후 조회")
@@ -56,7 +60,7 @@ class UserServiceTest extends ServiceTest {
         assertThat(actual.getProfileImage()).isNotEqualTo(일반_사용자_프로필);
 
         //clear
-        userService.delete(actual.getId());
+        awsS3Service.delete(actual.getProfileImage());
     }
 
     @Test
