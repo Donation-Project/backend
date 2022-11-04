@@ -1,4 +1,4 @@
-package com.donation.common;
+package com.donation.auth;
 
 
 import lombok.Getter;
