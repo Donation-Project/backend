@@ -5,7 +5,7 @@ import com.donation.common.utils.ServiceTest;
 import com.donation.exception.DonationDuplicateException;
 import com.donation.exception.DonationInvalidateException;
 import com.donation.repository.user.UserRepository;
-import com.donation.service.user.auth.application.AuthService;
+import com.donation.service.auth.application.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

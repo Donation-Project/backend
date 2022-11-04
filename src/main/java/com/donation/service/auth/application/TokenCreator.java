@@ -1,7 +1,7 @@
-package com.donation.service.user.auth.application;
+package com.donation.service.auth.application;
 
 
-import com.donation.service.user.auth.domain.AuthToken;
+import com.donation.service.auth.domain.AuthToken;
 
 public interface TokenCreator {
 

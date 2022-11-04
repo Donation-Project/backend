@@ -1,4 +1,4 @@
-package com.donation.service.user.auth.repository;
+package com.donation.service.auth.repository;
 
 public interface TokenRepository {
 

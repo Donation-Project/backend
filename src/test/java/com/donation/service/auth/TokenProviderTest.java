@@ -1,7 +1,7 @@
 package com.donation.service.auth;
 
-import com.donation.service.user.auth.application.JwtTokenProvider;
-import com.donation.service.user.auth.application.TokenProvider;
+import com.donation.service.auth.application.JwtTokenProvider;
+import com.donation.service.auth.application.TokenProvider;
 import com.donation.exception.DonationInvalidateException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

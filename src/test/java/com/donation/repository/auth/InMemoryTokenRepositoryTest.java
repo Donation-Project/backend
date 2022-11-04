@@ -1,6 +1,6 @@
 package com.donation.repository.auth;
 
-import com.donation.service.user.auth.repository.TokenRepository;
+import com.donation.service.auth.repository.TokenRepository;
 import com.donation.exception.DonationNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;

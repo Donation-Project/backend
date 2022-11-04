@@ -1,8 +1,8 @@
-package com.donation.service.user.auth.application;
+package com.donation.service.auth.application;
 
 
-import com.donation.service.user.auth.domain.AuthToken;
-import com.donation.service.user.auth.repository.TokenRepository;
+import com.donation.service.auth.domain.AuthToken;
+import com.donation.service.auth.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

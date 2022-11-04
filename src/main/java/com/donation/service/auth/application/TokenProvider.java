@@ -1,4 +1,4 @@
-package com.donation.service.user.auth.application;
+package com.donation.service.auth.application;
 
 public interface TokenProvider {
 

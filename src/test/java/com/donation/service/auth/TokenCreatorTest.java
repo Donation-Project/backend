@@ -1,7 +1,7 @@
 package com.donation.service.auth;
 
-import com.donation.service.user.auth.application.TokenCreator;
-import com.donation.service.user.auth.domain.AuthToken;
+import com.donation.service.auth.application.TokenCreator;
+import com.donation.service.auth.domain.AuthToken;
 import com.donation.common.utils.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
