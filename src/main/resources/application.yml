@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: s3
+    include: s3, jwt
     active: local
 
 ---

@@ -1,5 +1,6 @@
 package com.donation.controller.post;
 
+import com.donation.auth.LoginInfoArgumentResolver;
 import com.donation.common.response.post.PostListRespDto;
 import com.donation.common.utils.ControllerTest;
 import com.donation.exception.DonationNotFoundException;
@@ -39,6 +40,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest extends ControllerTest {
     @MockBean
     private PostService postService;
+
+    @MockBean
+    private LoginInfoArgumentResolver loginInfoArgumentResolver;
 
     @Test
     @DisplayName("게시물 등록 요청 성공")

@@ -4,10 +4,10 @@ import com.donation.common.CommonResponse;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
 import com.donation.common.request.user.UserSaveReqDto;
+import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
 import com.donation.common.response.user.UserRespDto;
-import com.donation.domain.entites.User;
 import com.donation.repository.utils.PageCustom;
-import com.donation.service.user.AuthService;
+import com.donation.service.auth.application.AuthService;
 import com.donation.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +34,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserLoginReqDto userLoginReqDto){
-        User user = authService.login(userLoginReqDto);
-        return ResponseEntity.ok(CommonResponse.success(user.getId()));
+        AccessAndRefreshTokenResponse token = authService.login(userLoginReqDto);
+        return ResponseEntity.ok(CommonResponse.success(token));
     }
 
     @GetMapping("/user")

@@ -1,0 +1,7 @@
+= Auth API
+== 리프레쉬 토큰을 통한 새로운 엑세스 토큰 생성
+=== 요청
+include::{snippets}/auth-refreshToken/http-request.adoc[]
+include::{snippets}/auth-refreshToken/request-fields.adoc[]
+=== 응답
+include::{snippets}/auth-refreshToken/http-response.adoc[]

@@ -1,6 +1,7 @@
 package com.donation.controller.favorite;
 
 
+import com.donation.auth.LoginInfoArgumentResolver;
 import com.donation.common.UserFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ControllerTest;
@@ -30,10 +31,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(FavoriteController.class)
+@WebMvcTest(value = FavoriteController.class)
 public class FavoriteControllerTest extends ControllerTest {
     @MockBean
     private FavoriteService favoriteService;
+
+    @MockBean
+    private LoginInfoArgumentResolver loginInfoArgumentResolver;
 
     @Test
     @DisplayName("좋아요 요청을 통한 저장")
@@ -75,7 +79,7 @@ public class FavoriteControllerTest extends ControllerTest {
         mockMvc.perform(post("/api/favorite?type=CANCEL")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
-                )                .andExpect(status().isOk())
+                ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
@@ -99,7 +103,7 @@ public class FavoriteControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("좋아요 요청시 잘못된 정보를 통한 예외 발생")
-    void 좋아요_요청시_잘못된_정보를_통한_예외_발생() throws Exception{
+    void 좋아요_요청시_잘못된_정보를_통한_예외_발생() throws Exception {
         //given
         String 잘못된값 = "잘못된 값";
 
@@ -118,7 +122,7 @@ public class FavoriteControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("좋아요(컨트롤러) : 전체 조회")
-    void list() throws Exception{
+    void list() throws Exception {
         //given
         List<UserRespDto> response = LongStream.range(1, 11)
                 .mapToObj(UserFixtures::일반_반환_데이터)

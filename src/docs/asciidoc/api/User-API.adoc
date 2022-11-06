@@ -29,9 +29,3 @@ include::{snippets}/user-getList/http-response.adoc[]
 include::{snippets}/user-profileImage/http-request.adoc[]
 === 응답
 include::{snippets}/user-profileImage/http-response.adoc[]
-
-== 유저 정보 삭제
-=== 요청
-include::{snippets}/user-delete/http-request.adoc[]
-=== 응답
-include::{snippets}/user-delete/http-response.adoc[]
