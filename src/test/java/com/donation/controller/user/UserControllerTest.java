@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static com.donation.common.AuthFixtures.로그인_응답_DTO;
 import static com.donation.common.UserFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -30,6 +31,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -63,28 +65,24 @@ class UserControllerTest extends ControllerTest {
                 ));
     }
 
-//    @Test
-//    @DisplayName("로그인 요청 성공")
-//    void 로그인_요청_성공() throws Exception {
-//        //given
-//        given(authService.login(유저_로그인_DTO)).willReturn();
-//
-//        // expected
-//        mockMvc.perform(post("/api/login")
-//                        .contentType(APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(유저_로그인_DTO))
-//                )
-//                .andExpect(status().isOk())
-//                .andDo(document("user-login",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint()),
-//                        responseFields(
-//                                fieldWithPath("success").description("성공 여부"),
-//                                fieldWithPath("data").description("유저 ID"),
-//                                fieldWithPath("error").description("에러 발생시 오류 반환")
-//                        )
-//                ));
-//    }
+    @Test
+    @DisplayName("로그인 요청 성공")
+    void 로그인_요청_성공() throws Exception {
+        //given
+        given(authService.login(유저_로그인_DTO)).willReturn(로그인_응답_DTO());
+
+        // expected
+        mockMvc.perform(post("/api/login")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(유저_로그인_DTO))
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-login",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
 
     @Test
     @DisplayName("회원의 ID를 통한 회원단건조회 요청 성공")
