@@ -1,5 +1,6 @@
 package com.donation.common;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.auth.TokenRenewalRequest;
 import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
 import com.donation.common.response.auth.AccessTokenResponse;
@@ -13,6 +14,10 @@ public class AuthFixtures {
     public static final String 리뉴얼_엑세스_토큰 = "bbbbb.ccccc.aaaaa";
     public static final String 토큰_정보 = "Bearer " + 엑세스_토큰;
     public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+
+    public static LoginMember 로그인정보(Long id){
+        return new LoginMember(id);
+    }
 
     public static AuthToken 토큰(){
         return AuthToken.builder()
