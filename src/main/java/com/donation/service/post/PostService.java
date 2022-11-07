@@ -1,5 +1,6 @@
 package com.donation.service.post;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.common.response.post.PostFindRespDto;
@@ -31,8 +32,8 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, Long userId) {
-        User user = userRepository.getById(userId);
+    public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, LoginMember loginMember) {
+        User user = userRepository.getById(loginMember.getId());
         Post post = postRepository.save(validateSave(postSaveReqDto, postSaveReqDto.getImage(), user));
         return PostSaveRespDto.of(post, user);
     }

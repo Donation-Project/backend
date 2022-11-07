@@ -1,5 +1,7 @@
 package com.donation.web.controller.post;
 
+import com.donation.auth.LoginInfo;
+import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
@@ -27,10 +29,10 @@ public class PostController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> save(
-            @PathVariable Long id,
+            @LoginInfo LoginMember loginMember,
             @RequestBody @Valid PostSaveReqDto postSaveReqDto
     ){
-        PostSaveRespDto post = postService.createPost(postSaveReqDto, id);
+        PostSaveRespDto post = postService.createPost(postSaveReqDto, loginMember);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.CREATED);
     }
 
