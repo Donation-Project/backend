@@ -81,15 +81,17 @@ public class CommentControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("대댓글요청이 정상적으로 등록된다.")
-    void 댓글_작성시_댓글_내용이_100자를_경우_예외를_던진다() throws Exception {
+    void 대댓글요청이_정상적으로_등록된다() throws Exception {
         //given
         Long userId = 1L;
         Long commentId = 1L;
 
         given(commentService.saveReply(commentId, 회원검증(userId), 댓글_생성_DTO(일반_댓글))).willReturn(1L);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(userId);
 
         //expect
-        mockMvc.perform(post("/api/comment/{id}/reply/{userId}", commentId, userId)
+        mockMvc.perform(post("/api/comment/{id}/reply", commentId)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(댓글_생성_DTO(일반_대댓글)))
                 )
@@ -100,9 +102,11 @@ public class CommentControllerTest extends ControllerTest {
                 .andDo(document("reply-save",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
                         pathParameters(
-                                parameterWithName("id").description("댓글 ID"),
-                                parameterWithName("userId").description("유저 ID")
+                                parameterWithName("id").description("댓글 ID")
                         )
                 ));
     }
