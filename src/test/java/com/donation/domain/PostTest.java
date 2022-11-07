@@ -4,6 +4,7 @@ import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
 import com.donation.domain.entites.User;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.exception.DonationNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -117,8 +118,18 @@ public class PostTest {
     }
 
 
-//    @Test
-//    @DisplayName()
+    @Test
+    @DisplayName("게시물의 작성자가 아닐경우 예외를 던진다.")
+    void 게시물의_작성자가_아닌경우_예외를_던진다(){
+        //given
+        User 유저 = createUser(1L);
+        Post 게시물 = createPost(유저);
+
+        //when & then
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> 게시물.validateOwner(2L))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("게시물의 작성자만 권한이 있습니다.");
+    }
 
     @Test
     @DisplayName("기부금액이 최대금액을 넘어선 경우 오류를 던진다.")

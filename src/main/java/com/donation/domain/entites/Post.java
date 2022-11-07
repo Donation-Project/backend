@@ -87,7 +87,7 @@ public class Post extends BaseEntity {
 
     public void validateOwner(Long useId) {
         if (!useId.equals(user.getId())) {
-            throw new DonationInvalidateException("게시물의 작성자만 삭제할 수 있습니다.");
+            throw new DonationInvalidateException("게시물의 작성자만 권한이 있습니다.");
         }
     }
 
