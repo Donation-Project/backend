@@ -176,7 +176,7 @@ class PostControllerTest extends ControllerTest {
     @DisplayName("존재하는 게시물을 삭제요청")
     void 존재하는_게시물을_삭제요청() throws Exception {
         //given
-        willDoNothing().given(postService).delete(1L);
+        willDoNothing().given(postService).delete(회원검증(1L));
 
         // expected
         mockMvc.perform(delete("/api/post/{id}",1L))

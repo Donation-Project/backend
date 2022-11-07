@@ -54,8 +54,9 @@ public class PostController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        postService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id,
+                                    @LoginInfo LoginMember loginMember){
+        postService.delete(id, loginMember);
         return ResponseEntity.ok(CommonResponse.success());
     }
 

@@ -61,8 +61,8 @@ public class PostService {
     }
 
     @Transactional
-    public void delete(Long postId) {
-        Post post = postRepository.getById(postId);
+    public void delete(LoginMember loginMember) {
+        Post post = postRepository.getById(loginMember.getId());
         postRepository.delete(post);
         commentRepository.deleteByPost(post);
     }
