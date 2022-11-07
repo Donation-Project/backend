@@ -24,6 +24,7 @@ include::{snippets}/post-getList/http-response.adoc[]
 == 포스트 정보 수정
 === 요청
 include::{snippets}/post-update/http-request.adoc[]
+include::{snippets}/post-delete/request-headers.adoc[]
 include::{snippets}/post-update/path-parameters.adoc[]
 === 응답
 include::{snippets}/post-update/http-response.adoc[]
