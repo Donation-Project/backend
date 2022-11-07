@@ -62,10 +62,11 @@ public class PostServiceTest extends ServiceTest {
     @DisplayName("게시물 내용 업데이트 성공")
     void 게시물_내용_업데이트_성공() {
         //given
-        Long id = postRepository.save(createPost()).getId();
+        User user = userRepository.save(createUser());
+        Long id = postRepository.save(createPost(user)).getId();
 
         //when
-        postService.update(게시물_수정_DTO(),회원검증(id), id);
+        postService.update(게시물_수정_DTO(),회원검증(user.getId()), id);
         Post actual = postRepository.findById(id).get();
 
         //then
@@ -75,6 +76,12 @@ public class PostServiceTest extends ServiceTest {
             assertThat(actual.getCategory()).isEqualTo(게시물_수정_카테고리);
             assertThat(actual.getAmount()).isEqualTo(게시물_수정_기부금);
         });
+    }
+
+    @Test
+    @DisplayName("게시물 내용 업데이트시 작성자가 아니면 오류를 발생한다.")
+    void 게시물_내용_업데이트시_작성자가_아니면_오류를_발생한다(){
+
     }
 
     @Test
@@ -107,10 +114,11 @@ public class PostServiceTest extends ServiceTest {
     @DisplayName("게시물 번호를 통해 게시물을 삭제한다")
     void 게시물_번호를_통해_게시물을_삭제한다() {
         //given
-        Long id = postRepository.save(createPost()).getId();
+        User user = userRepository.save(createUser());
+        Long id = postRepository.save(createPost(user)).getId();
 
         //when
-        postService.delete(id);
+        postService.delete(id, 회원검증(user.getId()));
 
         //then
         assertThatThrownBy(() -> postService.findById(id))
