@@ -1,5 +1,6 @@
 package com.donation.controller.user;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.UserFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ControllerTest;
@@ -18,22 +19,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import static com.donation.common.AuthFixtures.로그인_응답_DTO;
+import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.UserFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @WebMvcTest(UserController.class)
 class UserControllerTest extends ControllerTest {
@@ -69,7 +68,7 @@ class UserControllerTest extends ControllerTest {
     @DisplayName("로그인 요청 성공")
     void 로그인_요청_성공() throws Exception {
         //given
-        given(authService.login(유저_로그인_DTO)).willReturn(로그인_응답_DTO());
+        given(authService.login(any())).willReturn(로그인_응답_DTO());
 
         // expected
         mockMvc.perform(post("/api/login")
@@ -80,7 +79,13 @@ class UserControllerTest extends ControllerTest {
                 .andDo(print())
                 .andDo(document("user-login",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.accessToken").description("엑세스 토큰"),
+                                fieldWithPath("data.refreshToken").description("리프레시 토큰"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
                 ));
     }
 
@@ -89,15 +94,18 @@ class UserControllerTest extends ControllerTest {
     void 회원의_ID를_통한_회원단건조회_요청_성공() throws Exception {
         //given
         Long id = 1L;
-        given(userService.findById(id)).willReturn(일반_반환_데이터(id));
+        given(userService.findById(any())).willReturn(일반_반환_데이터(id));
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
         // expected
-        mockMvc.perform(get("/api/user/{id}", id))
+        mockMvc.perform(get("/api/user/me")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보))
                 .andExpect(status().isOk())
-                .andDo(document("user-inquiry",
+                .andDo(print())
+                .andDo(document("user-me",
                         preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("id").description("유저 ID")
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
@@ -133,16 +141,26 @@ class UserControllerTest extends ControllerTest {
     void 회원_프로필_수정_요청_성공() throws Exception {
         //given
         Long id = 1L;
-        willDoNothing().given(userService).updateProfile(id, 유저_프로필_업데이트_DTO);
+        LoginMember 로그인정보 = new LoginMember(id);
+        willDoNothing().given(userService).updateProfile(로그인정보, 유저_프로필_업데이트_DTO);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
         //expected
-        mockMvc.perform(put("/api/user/{id}/profile", id)
+        mockMvc.perform(put("/api/user/profile")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(유저_프로필_업데이트_DTO)))
                 .andExpect(status().isOk())
                 .andDo(document("user-profileImage",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("profileImage").description("Base64 인코딩 이미지")
+                        )
+
                 ));
     }
 }
