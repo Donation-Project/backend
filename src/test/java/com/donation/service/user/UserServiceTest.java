@@ -1,5 +1,6 @@
 package com.donation.service.user;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.User;
@@ -51,9 +52,9 @@ class UserServiceTest extends ServiceTest {
     void 저장된_회원_새로운_프로필_등록(){
         //given
         User user = userRepository.save(createUser());
-
+        LoginMember loginMember = new LoginMember(user.getId());
         //when
-        userService.updateProfile(user.getId(), 유저_프로필_업데이트_DTO);
+        userService.updateProfile(loginMember, 유저_프로필_업데이트_DTO);
 
         //then
         User actual = userRepository.getById(user.getId());
@@ -68,9 +69,10 @@ class UserServiceTest extends ServiceTest {
     void 회원_ID를_통해_회원_조회() {
         //given
         User user = userRepository.save(createUser());
+        LoginMember loginMember = new LoginMember(user.getId());
 
         //when
-        UserRespDto dto = userService.findById(user.getId());
+        UserRespDto dto = userService.findById(loginMember);
 
         //then
         assertThat(dto.getEmail()).isEqualTo(user.getEmail());
