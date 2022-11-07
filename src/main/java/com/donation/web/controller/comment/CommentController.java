@@ -43,9 +43,10 @@ public class CommentController {
         return ResponseEntity.ok(CommonResponse.success(comment));
     }
 
-    @DeleteMapping("/comment/{id}/{userId}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long id, @PathVariable Long userId){
-        commentService.delete(id,userId);
+    @DeleteMapping("/comment/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id,
+                                           @LoginInfo LoginMember loginMember){
+        commentService.delete(id,loginMember);
         return ResponseEntity.ok(CommonResponse.success());
     }
 
