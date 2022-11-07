@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import static com.donation.common.AuthFixtures.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -74,22 +73,29 @@ public class FavoriteControllerTest extends ControllerTest {
     @DisplayName("좋아요 취소 요청 성공")
     void 좋아요_취소_요청_성공() throws Exception {
         //given
-        willDoNothing().given(favoriteService).cancel(any(), 1L);
+        Long id = 1L;
+        willDoNothing().given(favoriteService).cancel(회원검증(id), 1L);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
 
         // expected
-        mockMvc.perform(post("/api/favorite?type=CANCEL")
-                ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.error").isEmpty())
+        mockMvc.perform(post("/api/favorite/{id}?type=CANCEL",1L)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print())
                 .andDo(document("favorite-cancel",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
+                        ),
                         requestParameters(
                                 parameterWithName("type").description("저장 또는 취소")
                         )
@@ -103,10 +109,12 @@ public class FavoriteControllerTest extends ControllerTest {
         String 잘못된값 = "잘못된 값";
 
         // expected
-        mockMvc.perform(post("/api/favorite?type=CANCEL")
+        mockMvc.perform(post("/api/favorite/{id}", 1L)
                         .param("type", 잘못된값)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
                 )
                 .andExpect(status().isBadRequest())
+                .andDo(print())
                 .andExpect(jsonPath("$.success").value("false"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error.errorCode").value("NOT_FOUND"))
