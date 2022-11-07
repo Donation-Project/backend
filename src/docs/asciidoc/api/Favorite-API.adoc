@@ -20,6 +20,6 @@ include::{snippets}/favorite-cancel/http-response.adoc[]
 == 좋아요를 한 유저 정보 List
 === 요청
 include::{snippets}/favorite-list/http-request.adoc[]
-include::{snippets}/favorite-list/request-parameters.adoc[]
+include::{snippets}/favorite-cancel/path-parameters.adoc[]
 === 응답
 include::{snippets}/favorite-list/http-response.adoc[]

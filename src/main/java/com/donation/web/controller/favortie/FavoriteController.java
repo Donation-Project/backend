@@ -35,8 +35,8 @@ public class FavoriteController {
         return ResponseEntity.ok(CommonResponse.success());
     }
 
-    @GetMapping
-    public ResponseEntity<?> getUserList(@RequestParam Long postId){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserList(@PathVariable(name = "id") Long postId){
         List<UserRespDto> userRespDto = favoriteService.findAll(postId);
         return ResponseEntity.ok(CommonResponse.success(userRespDto));
     }

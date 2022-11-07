@@ -61,8 +61,8 @@ class FavoriteServiceTest extends ServiceTest {
 
 
     @Test
-    @DisplayName("좋아요(서비스) : 리스트 조회")
-    void getList() {
+    @DisplayName("게시물 ID를 통해 게시물에 좋아요를 클릭한 유저 조회")
+    void 게시물ID를_통해_게시물에_좋아요를_클릭한_유저_조회() {
         //given
         List<User> users = userRepository.saveAll(creatUserList(1, 11));
         Post post = postRepository.save(createPost(users.get(0)));
@@ -81,8 +81,8 @@ class FavoriteServiceTest extends ServiceTest {
 
 
     @Test
-    @DisplayName("좋아요(서비스) : 포스팅 전체 좋아요 삭제")
-    void delete() {
+    @DisplayName("게시물 ID를 통해 게시물에 저장된 모든 좋아요 정보 삭제")
+    void 게시물_ID를_통해_게시물에_저장된_모든_좋아요_정보_삭제() {
         //given
         List<User> users = userRepository.saveAll(creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));

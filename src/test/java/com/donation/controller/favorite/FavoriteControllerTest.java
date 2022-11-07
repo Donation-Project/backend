@@ -122,23 +122,23 @@ public class FavoriteControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("좋아요(컨트롤러) : 전체 조회")
-    void list() throws Exception {
+    @DisplayName("게시물ID를 통해 좋아요를 누른 유저 정보 조회")
+    void 게시물ID를_통해_좋아요를_누른_유저_정보_조회() throws Exception {
         //given
         List<UserRespDto> response = LongStream.range(1, 11)
                 .mapToObj(UserFixtures::일반_반환_데이터)
                 .collect(Collectors.toList());
+
         given(favoriteService.findAll(1L)).willReturn(response);
 
         // expected
-        mockMvc.perform(get("/api/favorite")
-                        .param("postId", "1")
+        mockMvc.perform(get("/api/favorite/{id}", 1L)
                 ).andExpect(status().isOk())
                 .andDo(document("favorite-list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("postId").description("포스팅 ID")
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
                         )
                 ));
     }
