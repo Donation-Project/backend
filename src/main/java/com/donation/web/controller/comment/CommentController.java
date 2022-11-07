@@ -1,5 +1,7 @@
 package com.donation.web.controller.comment;
 
+import com.donation.auth.LoginInfo;
+import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
 import com.donation.common.request.comment.CommentSaveReqDto;
 import com.donation.common.response.comment.CommentResponse;
@@ -22,16 +24,16 @@ public class CommentController {
     @PostMapping("/post/{id}/comment/{userId}")
     public ResponseEntity<?> addComment(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
-                                        @PathVariable Long userId){
-        commentService.saveComment(postId, userId, commentSaveReqDto);
+                                        @LoginInfo LoginMember loginMember){
+        commentService.saveComment(postId, loginMember, commentSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
-    @PostMapping("/comment/{id}/reply/{userId}")
+    @PostMapping("/comment/{id}/reply")
     public ResponseEntity<?> addReply(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
-                                        @PathVariable Long userId){
-        commentService.saveReply(postId, userId, commentSaveReqDto);
+                                        @LoginInfo LoginMember loginMember){
+        commentService.saveReply(postId, loginMember, commentSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
