@@ -51,8 +51,9 @@ public class PostService {
 
     @Transactional
     public void update(PostUpdateReqDto updateReqDto, LoginMember loginMember, Long id) {
-
-        postRepository.getById(id).changePost(updateReqDto);
+        Post post = postRepository.getById(id);
+        post.validateOwner(loginMember.getId());
+        post.changePost(updateReqDto);
     }
 
     @Transactional
@@ -61,8 +62,9 @@ public class PostService {
     }
 
     @Transactional
-    public void delete(LoginMember loginMember) {
-        Post post = postRepository.getById(loginMember.getId());
+    public void delete(Long id, LoginMember loginMember) {
+        Post post = postRepository.getById(id);
+        post.validateOwner(loginMember.getId());
         postRepository.delete(post);
         commentRepository.deleteByPost(post);
     }
