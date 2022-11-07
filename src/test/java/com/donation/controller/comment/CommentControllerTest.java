@@ -1,6 +1,5 @@
 package com.donation.controller.comment;
 
-import com.donation.auth.LoginInfoArgumentResolver;
 import com.donation.common.PostFixtures;
 import com.donation.common.UserFixtures;
 import com.donation.common.response.comment.CommentResponse;
@@ -9,6 +8,7 @@ import com.donation.common.utils.ControllerTest;
 import com.donation.domain.entites.Comment;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.service.auth.application.AuthService;
 import com.donation.service.comment.CommentService;
 import com.donation.web.controller.comment.CommentController;
 import org.junit.jupiter.api.DisplayName;
@@ -19,11 +19,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.donation.common.AuthFixtures.회원검증;
+import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.CommentFixtures.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -31,6 +33,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,7 +44,7 @@ public class CommentControllerTest extends ControllerTest {
     private CommentService commentService;
 
     @MockBean
-    private LoginInfoArgumentResolver loginInfoArgumentResolver;
+    private AuthService authService;
 
     @Test
     @DisplayName("댓글요청이 정상적으로 등록된다.")
@@ -51,9 +54,11 @@ public class CommentControllerTest extends ControllerTest {
         Long postId = 1L;
 
         given(commentService.saveComment(postId, 회원검증(userId), 댓글_생성_DTO(일반_댓글))).willReturn(1L);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(userId);
 
         //expect
-        mockMvc.perform(post("/api/post/{id}/comment/{userId}", postId, userId)
+        mockMvc.perform(post("/api/post/{id}/comment", postId)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(댓글_생성_DTO(일반_댓글)))
                 )
@@ -61,12 +66,15 @@ public class CommentControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print())
                 .andDo(document("comment-save",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
                         pathParameters(
-                                parameterWithName("id").description("포스트 ID"),
-                                parameterWithName("userId").description("유저 ID")
+                                parameterWithName("id").description("포스트 ID")
                         )
                 ));
     }
