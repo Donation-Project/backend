@@ -1,5 +1,7 @@
 package com.donation.web.controller.user;
 
+import com.donation.auth.LoginInfo;
+import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
@@ -28,8 +30,8 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<Void> join(@RequestBody @Valid UserSaveReqDto userSaveReqDto) {
-        Long id = authService.save(userSaveReqDto);
-        return ResponseEntity.created(URI.create("/api/user/" + id)).build();
+        authService.save(userSaveReqDto);
+        return ResponseEntity.created(URI.create("/api/user/me")).build();
     }
 
     @PostMapping("/login")
@@ -44,17 +46,17 @@ public class UserController {
         return ResponseEntity.ok(CommonResponse.success(users));
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<?> get(@PathVariable Long id){
-        UserRespDto userRespDto = userService.findById(id);
+    @GetMapping("/user/me")
+    public ResponseEntity<?> get(@LoginInfo LoginMember loginMember){
+        UserRespDto userRespDto = userService.findById(loginMember);
         return ResponseEntity.ok(CommonResponse.success(userRespDto));
     }
 
-    @PutMapping("/user/{id}/profile")
+    @PutMapping("/user/profile")
     public ResponseEntity<?> editProfile(
-            @PathVariable Long id,
+            @LoginInfo LoginMember loginMember,
             @Valid @RequestBody UserProfileUpdateReqDto profileUpdateReqDto){
-        userService.updateProfile(id, profileUpdateReqDto);
+        userService.updateProfile(loginMember, profileUpdateReqDto);
         return ResponseEntity.ok(CommonResponse.success());
     }
 }
