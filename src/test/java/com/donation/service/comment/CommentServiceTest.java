@@ -16,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.CommentFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class CommentServiceTest extends ServiceTest {
 
@@ -41,7 +42,7 @@ public class CommentServiceTest extends ServiceTest {
         Long postId = postRepository.save(createPost(user)).getId();
 
         //when
-        Long actual = commentService.saveComment(postId, user.getId(), 댓글_생성_DTO(일반_댓글));
+        Long actual = commentService.saveComment(postId, 회원검증(user.getId()), 댓글_생성_DTO(일반_댓글));
 
         //then
         assertThat(commentRepository.existsById(actual)).isTrue();
@@ -56,7 +57,7 @@ public class CommentServiceTest extends ServiceTest {
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
 
         //when
-        Long actual = commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+        Long actual = commentService.saveReply(commentId, 회원검증(user.getId()), 댓글_생성_DTO(일반_대댓글));
 
         //then
         assertThat(commentRepository.existsById(actual)).isTrue();
@@ -72,7 +73,7 @@ public class CommentServiceTest extends ServiceTest {
         Comment reply = commentRepository.save(createChildComment(user, post, comment));
 
         //when & then
-        Assertions.assertThatThrownBy(() -> commentService.saveReply(reply.getId(), user.getId(), 댓글_생성_DTO(일반_대댓글)))
+        Assertions.assertThatThrownBy(() -> commentService.saveReply(reply.getId(), 회원검증(user.getId()), 댓글_생성_DTO(일반_대댓글)))
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("대댓글에는 답글을 달 수 없습니다.");
     }
@@ -86,7 +87,7 @@ public class CommentServiceTest extends ServiceTest {
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
 
         //when & then
-        Assertions.assertThatThrownBy(() -> commentService.delete(commentId, 0L))
+        Assertions.assertThatThrownBy(() -> commentService.delete(commentId, 회원검증(0L)))
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("댓글의 작성자만 삭제할 수 있습니다.");
     }
@@ -100,7 +101,7 @@ public class CommentServiceTest extends ServiceTest {
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
 
         //when
-        commentService.delete(commentId, user.getId());
+        commentService.delete(commentId, 회원검증(user.getId()));
 
         //then
         assertThat(commentRepository.existsById(commentId)).isFalse();
@@ -113,10 +114,10 @@ public class CommentServiceTest extends ServiceTest {
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
-        commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+        commentService.saveReply(commentId, 회원검증(user.getId()), 댓글_생성_DTO(일반_대댓글));
 
         //when
-        commentService.delete(commentId, user.getId());
+        commentService.delete(commentId, 회원검증(user.getId()));
         Comment actual = commentRepository.getById(commentId);
 
         //then
@@ -130,10 +131,10 @@ public class CommentServiceTest extends ServiceTest {
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
-        Long replyId = commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+        Long replyId = commentService.saveReply(commentId, 회원검증(user.getId()), 댓글_생성_DTO(일반_대댓글));
 
         //when
-        commentService.delete(replyId, user.getId());
+        commentService.delete(replyId, 회원검증(user.getId()));
 
         //then
         assertThat(commentRepository.existsById(replyId)).isFalse();
@@ -146,11 +147,11 @@ public class CommentServiceTest extends ServiceTest {
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
-        Long replyId = commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+        Long replyId = commentService.saveReply(commentId, 회원검증(user.getId()), 댓글_생성_DTO(일반_대댓글));
 
         //when
-        commentService.delete(commentId, user.getId());
-        commentService.delete(replyId, user.getId());
+        commentService.delete(commentId, 회원검증(user.getId()));
+        commentService.delete(replyId, 회원검증(user.getId()));
 
         //then
         assertThat(commentRepository.count()).isEqualTo(0);
@@ -186,7 +187,7 @@ public class CommentServiceTest extends ServiceTest {
         commentRepository.saveAll(createChildCommentList(0, 5, user, post, parent));
 
         //when
-        commentService.delete(parent.getId(), user.getId());
+        commentService.delete(parent.getId(), 회원검증(user.getId()));
         List<CommentResponse> actual = commentService.findComment(post.getId());
 
         //then

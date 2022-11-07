@@ -1,5 +1,7 @@
 package com.donation.web.controller.comment;
 
+import com.donation.auth.LoginInfo;
+import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
 import com.donation.common.request.comment.CommentSaveReqDto;
 import com.donation.common.response.comment.CommentResponse;
@@ -19,19 +21,19 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/post/{id}/comment/{userId}")
+    @PostMapping("/post/{id}/comment")
     public ResponseEntity<?> addComment(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
-                                        @PathVariable Long userId){
-        commentService.saveComment(postId, userId, commentSaveReqDto);
+                                        @LoginInfo LoginMember loginMember){
+        commentService.saveComment(postId, loginMember, commentSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
-    @PostMapping("/comment/{id}/reply/{userId}")
+    @PostMapping("/comment/{id}/reply")
     public ResponseEntity<?> addReply(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
-                                        @PathVariable Long userId){
-        commentService.saveReply(postId, userId, commentSaveReqDto);
+                                        @LoginInfo LoginMember loginMember){
+        commentService.saveReply(postId, loginMember, commentSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
@@ -41,9 +43,10 @@ public class CommentController {
         return ResponseEntity.ok(CommonResponse.success(comment));
     }
 
-    @DeleteMapping("/comment/{id}/{userId}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long id, @PathVariable Long userId){
-        commentService.delete(id,userId);
+    @DeleteMapping("/comment/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id,
+                                           @LoginInfo LoginMember loginMember){
+        commentService.delete(id,loginMember);
         return ResponseEntity.ok(CommonResponse.success());
     }
 
