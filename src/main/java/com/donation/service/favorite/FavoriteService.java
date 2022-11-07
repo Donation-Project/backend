@@ -1,6 +1,6 @@
 package com.donation.service.favorite;
 
-import com.donation.common.request.favorites.LikeSaveAndCancelReqDto;
+import com.donation.auth.LoginMember;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.Favorites;
 import com.donation.repository.favorite.FavoriteRepository;
@@ -23,14 +23,14 @@ public class FavoriteService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public void save(LikeSaveAndCancelReqDto likeSaveAndCancelReqDto){
-        favoriteRepository.validateExistsByPostIdAndUserId(likeSaveAndCancelReqDto.getPostId(), likeSaveAndCancelReqDto.getUserId());
-        postRepository.getById(likeSaveAndCancelReqDto.getPostId())
-                .addFavorite(of(userRepository.getById(likeSaveAndCancelReqDto.getUserId())));
+    public void save(LoginMember loginMember, Long postId){
+        favoriteRepository.validateExistsByPostIdAndUserId(postId, loginMember.getId());
+        postRepository.getById(postId)
+                .addFavorite(of(userRepository.getById(loginMember.getId())));
     }
 
-    public void cancel(LikeSaveAndCancelReqDto likeSaveAndCancelReqDto){
-        Favorites favorites = favoriteRepository.getByPostIdAndUserId(likeSaveAndCancelReqDto.getPostId(), likeSaveAndCancelReqDto.getUserId());
+    public void cancel(LoginMember loginMember, Long postId){
+        Favorites favorites = favoriteRepository.getByPostIdAndUserId(postId, loginMember.getId());
         favoriteRepository.delete(favorites);
     }
 
