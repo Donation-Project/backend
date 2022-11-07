@@ -3,12 +3,15 @@ package com.donation.domain;
 import com.donation.domain.entites.Favorites;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.PostDetailImage;
+import com.donation.domain.entites.User;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.exception.DonationNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.donation.common.PostFixtures.*;
+import static com.donation.common.UserFixtures.createUser;
 import static com.donation.domain.enums.PostState.COMPLETION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -101,6 +104,31 @@ public class PostTest {
 
         //then
         assertThat(게시물.getCurrentAmount()).isEqualTo(amount);
+    }
+
+    @Test
+    @DisplayName("게시물 작성자가 맞는지 확인한다")
+    void 게시물_작성자가_맞는지_확인한다(){
+        //given
+        User 유저 = createUser(1L);
+        Post 게시물 = createPost(유저);
+
+        //when & then
+        Assertions.assertDoesNotThrow(() -> 게시물.validateOwner(유저.getId()));
+    }
+
+
+    @Test
+    @DisplayName("게시물의 작성자가 아닐경우 예외를 던진다.")
+    void 게시물의_작성자가_아닌경우_예외를_던진다(){
+        //given
+        User 유저 = createUser(1L);
+        Post 게시물 = createPost(유저);
+
+        //when & then
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> 게시물.validateOwner(2L))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("게시물의 작성자만 권한이 있습니다.");
     }
 
     @Test

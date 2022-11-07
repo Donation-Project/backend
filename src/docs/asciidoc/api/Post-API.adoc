@@ -2,6 +2,7 @@
 == 포스팅 생성
 === 요청
 include::{snippets}/post-save/http-request.adoc[]
+include::{snippets}/post-save/request-headers.adoc[]
 === 응답
 include::{snippets}/post-save/http-response.adoc[]
 include::{snippets}/post-save/response-fields.adoc[]
@@ -23,21 +24,22 @@ include::{snippets}/post-getList/http-response.adoc[]
 == 포스트 정보 수정
 === 요청
 include::{snippets}/post-update/http-request.adoc[]
+include::{snippets}/post-delete/request-headers.adoc[]
 include::{snippets}/post-update/path-parameters.adoc[]
 === 응답
 include::{snippets}/post-update/http-response.adoc[]
-include::{snippets}/post-update/response-fields.adoc[]
 
 == 포스트 정보 삭제
 === 요청
 include::{snippets}/post-delete/http-request.adoc[]
+include::{snippets}/post-delete/request-headers.adoc[]
 include::{snippets}/post-delete/path-parameters.adoc[]
 === 응답
 include::{snippets}/post-delete/http-response.adoc[]
-include::{snippets}/post-delete/response-fields.adoc[]
 
 == 자신이 작성한 포스트 조회
 === 요청
 include::{snippets}/post-getMyPostList/http-request.adoc[]
+include::{snippets}/post-getMyPostList/request-headers.adoc[]
 === 응답
 include::{snippets}/post-getMyPostList/http-response.adoc[]

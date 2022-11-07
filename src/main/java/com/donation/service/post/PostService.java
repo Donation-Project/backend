@@ -1,5 +1,6 @@
 package com.donation.service.post;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.common.response.post.PostFindRespDto;
@@ -31,8 +32,8 @@ public class PostService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, Long userId) {
-        User user = userRepository.getById(userId);
+    public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, LoginMember loginMember) {
+        User user = userRepository.getById(loginMember.getId());
         Post post = postRepository.save(validateSave(postSaveReqDto, postSaveReqDto.getImage(), user));
         return PostSaveRespDto.of(post, user);
     }
@@ -49,8 +50,10 @@ public class PostService {
     }
 
     @Transactional
-    public void update(PostUpdateReqDto updateReqDto, Long id) {
-        postRepository.getById(id).changePost(updateReqDto);
+    public void update(PostUpdateReqDto updateReqDto, LoginMember loginMember, Long id) {
+        Post post = postRepository.getById(id);
+        post.validateOwner(loginMember.getId());
+        post.changePost(updateReqDto);
     }
 
     @Transactional
@@ -59,8 +62,9 @@ public class PostService {
     }
 
     @Transactional
-    public void delete(Long postId) {
-        Post post = postRepository.getById(postId);
+    public void delete(Long id, LoginMember loginMember) {
+        Post post = postRepository.getById(id);
+        post.validateOwner(loginMember.getId());
         postRepository.delete(post);
         commentRepository.deleteByPost(post);
     }
@@ -70,8 +74,8 @@ public class PostService {
 
     }
 
-    public PageCustom<PostListRespDto> getUserIdList(Long id, Pageable pageable){
-        return postRepository.getUserIdPageList(id, pageable) ;
+    public PageCustom<PostListRespDto> getUserIdList(LoginMember loginMember, Pageable pageable){
+        return postRepository.getUserIdPageList(loginMember.getId(), pageable) ;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
