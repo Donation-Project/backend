@@ -182,26 +182,28 @@ class PostControllerTest extends ControllerTest {
     @DisplayName("존재하는 게시물을 삭제요청")
     void 존재하는_게시물을_삭제요청() throws Exception {
         //given
-        willDoNothing().given(postService).delete(1L, 회원검증(1L));
+        Long id = 1L;
+        willDoNothing().given(postService).delete(1L, 회원검증(id));
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
         // expected
-        mockMvc.perform(delete("/api/post/{id}",1L))
+        mockMvc.perform(delete("/api/post/{id}",1L)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print())
                 .andDo(document("post-delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("id").description("포스트 ID")
-                        ),
-                        responseFields(
-                                fieldWithPath("success").description("성공 여부"),
-                                fieldWithPath("data").description("데이터"),
-                                fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
-
                 ));
     }
 
