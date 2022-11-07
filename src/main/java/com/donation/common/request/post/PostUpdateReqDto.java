@@ -3,12 +3,14 @@ package com.donation.common.request.post;
 import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class PostUpdateReqDto {
     @NotBlank(message = "제목이 없습니다.")
     private String title;
