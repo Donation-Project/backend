@@ -1,5 +1,6 @@
 package com.donation.service.user;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.User;
@@ -22,13 +23,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
 
-    public UserRespDto findById(Long id){
-        return UserRespDto.of(userRepository.getById(id));
+    public UserRespDto findById(LoginMember loginMember){
+        return UserRespDto.of(userRepository.getById(loginMember.getId()));
     }
 
     @Transactional
-    public void updateProfile(Long id, UserProfileUpdateReqDto userProfileUpdateReqDto){
-        User user = userRepository.getById(id);
+    public void updateProfile(LoginMember loginMember, UserProfileUpdateReqDto userProfileUpdateReqDto){
+        User user = userRepository.getById(loginMember.getId());
         user.changeNewProfileImage(awsS3Service.upload(userProfileUpdateReqDto.getProfileImage()));
     }
 
