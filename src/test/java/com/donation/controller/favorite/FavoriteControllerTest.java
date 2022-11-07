@@ -1,33 +1,33 @@
 package com.donation.controller.favorite;
 
 
-import com.donation.auth.LoginInfoArgumentResolver;
 import com.donation.common.UserFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ControllerTest;
+import com.donation.service.auth.application.AuthService;
 import com.donation.service.favorite.FavoriteService;
 import com.donation.web.controller.favortie.FavoriteController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import static com.donation.common.FavoriteFixtures.좋아요_DTO;
+import static com.donation.common.AuthFixtures.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,33 +37,35 @@ public class FavoriteControllerTest extends ControllerTest {
     private FavoriteService favoriteService;
 
     @MockBean
-    private LoginInfoArgumentResolver loginInfoArgumentResolver;
+    private AuthService authService;
 
     @Test
     @DisplayName("좋아요 요청을 통한 저장")
     void 좋아요_요청을_통한_저장() throws Exception {
         //given
-        willDoNothing().given(favoriteService).save(좋아요_DTO(1L, 1L));
-
+        Long id = 1L;
+        willDoNothing().given(favoriteService).save(회원검증(id), 1L);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
         // expected
-        mockMvc.perform(post("/api/favorite?type=SAVE")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
+        mockMvc.perform(post("/api/favorite/{id}?type=SAVE",1L)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(print())
                 .andDo(document("favorite-save",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
+                        ),
                         requestParameters(
                                 parameterWithName("type").description("저장 또는 취소")
-                        ),
-                        responseFields(
-                                fieldWithPath("success").description("성공 여부"),
-                                fieldWithPath("data").description("데이터"),
-                                fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
                 ));
     }
@@ -72,13 +74,11 @@ public class FavoriteControllerTest extends ControllerTest {
     @DisplayName("좋아요 취소 요청 성공")
     void 좋아요_취소_요청_성공() throws Exception {
         //given
-        willDoNothing().given(favoriteService).cancel(좋아요_DTO(1L, 1L));
+        willDoNothing().given(favoriteService).cancel(any(), 1L);
 
 
         // expected
         mockMvc.perform(post("/api/favorite?type=CANCEL")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
@@ -92,11 +92,6 @@ public class FavoriteControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         requestParameters(
                                 parameterWithName("type").description("저장 또는 취소")
-                        ),
-                        responseFields(
-                                fieldWithPath("success").description("성공 여부"),
-                                fieldWithPath("data").description("데이터"),
-                                fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
                 ));
     }
@@ -110,8 +105,6 @@ public class FavoriteControllerTest extends ControllerTest {
         // expected
         mockMvc.perform(post("/api/favorite?type=CANCEL")
                         .param("type", 잘못된값)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(좋아요_DTO(1L, 1L)))
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value("false"))

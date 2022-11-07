@@ -2,6 +2,8 @@
 == 좋아요 요청
 === 요청
 include::{snippets}/favorite-save/http-request.adoc[]
+include::{snippets}/favorite-save/request-headers.adoc[]
+include::{snippets}/favorite-save/path-parameters.adoc[]
 include::{snippets}/favorite-save/request-parameters.adoc[]
 === 응답
 include::{snippets}/favorite-save/http-response.adoc[]
