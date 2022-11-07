@@ -6,6 +6,7 @@ import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
@@ -81,7 +82,15 @@ public class PostServiceTest extends ServiceTest {
     @Test
     @DisplayName("게시물 내용 업데이트시 작성자가 아니면 오류를 발생한다.")
     void 게시물_내용_업데이트시_작성자가_아니면_오류를_발생한다(){
+        //given
+        User user = userRepository.save(createUser());
+        Long id = postRepository.save(createPost(user)).getId();
+        Long 오류발생 = 0L;
 
+        //when & then
+        Assertions.assertThatThrownBy(() -> postService.update(게시물_수정_DTO(), 회원검증(오류발생), id))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("게시물의 작성자만 권한이 있습니다.");
     }
 
     @Test
@@ -123,6 +132,20 @@ public class PostServiceTest extends ServiceTest {
         //then
         assertThatThrownBy(() -> postService.findById(id))
                 .isInstanceOf(DonationNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 삭제시 작성자가 아니면 오류를 발생한다.")
+    void 게시물_삭제시_작성자가_아니면_오류를_발생한다(){
+        //given
+        User user = userRepository.save(createUser());
+        Long id = postRepository.save(createPost(user)).getId();
+        Long 오류발생 = 0L;
+
+        //when & then
+        Assertions.assertThatThrownBy(() -> postService.delete(id,회원검증(오류발생)))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("게시물의 작성자만 권한이 있습니다.");
     }
 
     @Test
