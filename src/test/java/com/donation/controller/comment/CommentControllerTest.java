@@ -119,9 +119,12 @@ public class CommentControllerTest extends ControllerTest {
         Long commentId = 1L;
 
         willDoNothing().given(commentService).delete(commentId,회원검증(userId));
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(userId);
 
         //expect
-        mockMvc.perform(delete("/api/comment/{id}/{userId}", commentId, userId))
+        mockMvc.perform(delete("/api/comment/{id}", commentId)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isEmpty())
@@ -129,9 +132,11 @@ public class CommentControllerTest extends ControllerTest {
                 .andDo(document("comment-delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
                         pathParameters(
-                                parameterWithName("id").description("댓글 ID"),
-                                parameterWithName("userId").description("유저 ID")
+                                parameterWithName("id").description("댓글 ID")
                         )
                 ));
     }
