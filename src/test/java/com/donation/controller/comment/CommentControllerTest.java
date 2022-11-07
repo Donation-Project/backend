@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.CommentFixtures.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -49,7 +50,7 @@ public class CommentControllerTest extends ControllerTest {
         Long userId = 1L;
         Long postId = 1L;
 
-        given(commentService.saveComment(postId, userId, 댓글_생성_DTO(일반_댓글))).willReturn(1L);
+        given(commentService.saveComment(postId, 회원검증(userId), 댓글_생성_DTO(일반_댓글))).willReturn(1L);
 
         //expect
         mockMvc.perform(post("/api/post/{id}/comment/{userId}", postId, userId)

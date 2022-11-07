@@ -1,5 +1,6 @@
 package com.donation.service.comment;
 
+import com.donation.common.AuthFixtures;
 import com.donation.common.response.comment.CommentResponse;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Comment;
@@ -16,11 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.CommentFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class CommentServiceTest extends ServiceTest {
 
@@ -41,7 +43,7 @@ public class CommentServiceTest extends ServiceTest {
         Long postId = postRepository.save(createPost(user)).getId();
 
         //when
-        Long actual = commentService.saveComment(postId, user.getId(), 댓글_생성_DTO(일반_댓글));
+        Long actual = commentService.saveComment(postId, 회원검증(user.getId()), 댓글_생성_DTO(일반_댓글));
 
         //then
         assertThat(commentRepository.existsById(actual)).isTrue();
@@ -56,7 +58,7 @@ public class CommentServiceTest extends ServiceTest {
         Long commentId = commentRepository.save(createParentComment(user, post)).getId();
 
         //when
-        Long actual = commentService.saveReply(commentId, user.getId(), 댓글_생성_DTO(일반_대댓글));
+        Long actual = commentService.saveReply(commentId, AuthFixtures.회원검증(user.getId()), 댓글_생성_DTO(일반_대댓글));
 
         //then
         assertThat(commentRepository.existsById(actual)).isTrue();
