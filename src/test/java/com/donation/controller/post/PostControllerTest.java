@@ -236,14 +236,22 @@ class PostControllerTest extends ControllerTest {
                 .collect(Collectors.toList());
 
         PageCustom<PostListRespDto> response = new PageCustom<>(PageableExecutionUtils.getPage(content, PageRequest.of(0, 10), () -> 20L));
-        given(postService.getUserIdList(회원검증(1L), PageRequest.of(0, 10))).willReturn(response);
+
+        Long id = 1L;
+        given(postService.getUserIdList(회원검증(id), PageRequest.of(0, 10))).willReturn(response);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
         // expected
-        mockMvc.perform(get("/api/post/{id}/my-page?page=0&size=10",1L))
+        mockMvc.perform(get("/api/post/my-page?page=0&size=10",1L)
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andDo(document("post-getMyPostList",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        )
                 ));
     }
 }

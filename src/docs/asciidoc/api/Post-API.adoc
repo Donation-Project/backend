@@ -40,5 +40,6 @@ include::{snippets}/post-delete/http-response.adoc[]
 == 자신이 작성한 포스트 조회
 === 요청
 include::{snippets}/post-getMyPostList/http-request.adoc[]
+include::{snippets}/post-getMyPostList/request-headers.adoc[]
 === 응답
 include::{snippets}/post-getMyPostList/http-response.adoc[]
