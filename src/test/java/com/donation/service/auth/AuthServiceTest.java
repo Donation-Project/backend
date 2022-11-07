@@ -108,7 +108,7 @@ public class AuthServiceTest extends ServiceTest {
     void 다른_패스워드로_로그인_요청시_예외_발생(){
         //given
         authService.save(유저_회원가입_DTO);
-        UserLoginReqDto 예외발생요청 = new UserLoginReqDto(일반_사용자_이메일, "다른패스워드", null);
+        UserLoginReqDto 예외발생요청 = new UserLoginReqDto(일반_사용자_이메일, "다른패스워드");
 
         //given & when & then
         assertThatThrownBy(() -> authService.login(예외발생요청))

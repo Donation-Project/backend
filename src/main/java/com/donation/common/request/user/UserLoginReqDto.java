@@ -16,12 +16,9 @@ public class UserLoginReqDto {
     @NotBlank
     private String password;
 
-    private String refreshToken;
-
     @Builder
-    public UserLoginReqDto(final String email, final String password, final String refreshToken) {
+    public UserLoginReqDto(final String email, final String password) {
         this.email = email;
         this.password = password;
-        this.refreshToken = refreshToken;
     }
 }
