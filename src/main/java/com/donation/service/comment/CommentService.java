@@ -67,9 +67,9 @@ public class CommentService {
     }
 
     @Transactional
-    public void delete(final Long commentId, final Long userId){
+    public void delete(final Long commentId, final LoginMember loginMember){
         Comment comment = commentRepository.getById(commentId);
-        comment.validateOwner(userId);
+        comment.validateOwner(loginMember.getId());
         deleteDelegate(comment);
     }
 
