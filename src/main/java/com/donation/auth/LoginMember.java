@@ -1,11 +1,13 @@
 package com.donation.auth;
 
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class LoginMember {
     private Long id;
 
