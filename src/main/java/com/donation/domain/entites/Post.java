@@ -4,6 +4,7 @@ import com.donation.common.request.post.PostUpdateReqDto;
 import com.donation.domain.embed.Write;
 import com.donation.domain.enums.Category;
 import com.donation.domain.enums.PostState;
+import com.donation.exception.DonationInvalidateException;
 import com.donation.exception.DonationNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
@@ -82,6 +83,12 @@ public class Post extends BaseEntity {
     public Post confirm(PostState state) {
         this.state=state;
         return this;
+    }
+
+    public void validateOwner(Long useId) {
+        if (!useId.equals(user.getId())) {
+            throw new DonationInvalidateException("게시물의 작성자만 권한이 있습니다.");
+        }
     }
 
     public void increase(final float amount){

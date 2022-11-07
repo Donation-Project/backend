@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: s3
+    include: s3, jwt
 
   datasource:
     url: jdbc:h2:mem:test

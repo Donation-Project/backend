@@ -29,14 +29,12 @@ public class User extends BaseEntity {
     private String password;
     private String name;
     private String profileImage;
-    private String provider;
-    private String providerId;
     @Enumerated(EnumType.STRING)
     private Role role;
     private String metamask;
 
     @Builder
-    public User(Long id, String email, String password, String name, String profileImage, String provider, String providerId, Role role, String metamask) {
+    public User(Long id, String email, String password, String name, String profileImage, Role role, String metamask) {
         validateEmail(email);
 
         this.id = id;
@@ -44,8 +42,6 @@ public class User extends BaseEntity {
         this.password = password;
         this.name = name;
         this.profileImage = profileImage;
-        this.provider = provider;
-        this.providerId = providerId;
         this.role = role;
         this.metamask = metamask;
     }

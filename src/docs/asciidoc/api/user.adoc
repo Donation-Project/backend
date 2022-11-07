@@ -1,0 +1,35 @@
+== User API
+=== 유저 생성
+==== 요청
+include::{snippets}/user-join/http-request.adoc[]
+==== 응답
+include::{snippets}/user-join/http-response.adoc[]
+
+=== 유저 로그인
+include::{snippets}/user-login/http-request.adoc[]
+==== 응답
+include::{snippets}/user-login/http-response.adoc[]
+include::{snippets}/user-login/response-fields.adoc[]
+
+
+=== 유저 정보 단건 조회
+==== 요청
+include::{snippets}/user-me/http-request.adoc[]
+include::{snippets}/user-me/request-headers.adoc[]
+==== 응답
+include::{snippets}/user-me/http-response.adoc[]
+include::{snippets}/user-me/response-fields.adoc[]
+
+=== 유저 정보 리스트 조회
+==== 요청
+include::{snippets}/user-getList/http-request.adoc[]
+==== 응답
+include::{snippets}/user-getList/http-response.adoc[]
+
+=== 유저 프로필 사진 업데이트
+==== 요청
+include::{snippets}/user-profileImage/http-request.adoc[]
+include::{snippets}/user-profileImage/request-headers.adoc[]
+include::{snippets}/user-profileImage/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-profileImage/http-response.adoc[]

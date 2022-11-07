@@ -1,6 +1,5 @@
 package com.donation.service.favorite;
 
-import com.donation.common.FavoriteFixtures;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Post;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.creatUserList;
 import static com.donation.common.UserFixtures.createUser;
@@ -38,7 +38,7 @@ class FavoriteServiceTest extends ServiceTest {
         Long postId = postRepository.save(createPost()).getId();
 
         //when
-        favoriteService.save(FavoriteFixtures.좋아요_DTO(postId, userId));
+        favoriteService.save(회원검증(userId), postId);
 
         //then
         assertThat(favoriteRepository.existsByPostIdAndUserId(postId, userId)).isTrue();
@@ -50,10 +50,10 @@ class FavoriteServiceTest extends ServiceTest {
         //given
         Long userId = userRepository.save(createUser()).getId();
         Long postId = postRepository.save(createPost()).getId();
-        favoriteService.save(FavoriteFixtures.좋아요_DTO(postId, userId));
+        favoriteService.save(회원검증(userId), postId);
 
         //when
-        favoriteService.cancel(FavoriteFixtures.좋아요_DTO(postId, userId));
+        favoriteService.cancel(회원검증(userId), postId);
 
         //then
         assertThat(favoriteRepository.existsByPostIdAndUserId(postId, userId)).isFalse();
@@ -61,12 +61,12 @@ class FavoriteServiceTest extends ServiceTest {
 
 
     @Test
-    @DisplayName("좋아요(서비스) : 리스트 조회")
-    void getList() {
+    @DisplayName("게시물 ID를 통해 게시물에 좋아요를 클릭한 유저 조회")
+    void 게시물ID를_통해_게시물에_좋아요를_클릭한_유저_조회() {
         //given
         List<User> users = userRepository.saveAll(creatUserList(1, 11));
         Post post = postRepository.save(createPost(users.get(0)));
-        users.forEach(u -> favoriteService.save(FavoriteFixtures.좋아요_DTO(post.getId(), u.getId())));
+        users.forEach(u -> favoriteService.save(회원검증(u.getId()), post.getId()));
 
         //when
         List<UserRespDto> result = favoriteService.findAll(post.getId());
@@ -81,12 +81,12 @@ class FavoriteServiceTest extends ServiceTest {
 
 
     @Test
-    @DisplayName("좋아요(서비스) : 포스팅 전체 좋아요 삭제")
-    void delete() {
+    @DisplayName("게시물 ID를 통해 게시물에 저장된 모든 좋아요 정보 삭제")
+    void 게시물_ID를_통해_게시물에_저장된_모든_좋아요_정보_삭제() {
         //given
         List<User> users = userRepository.saveAll(creatUserList(1, 31));
         Post post = postRepository.save(createPost(users.get(0)));
-        users.forEach(u -> favoriteService.save(FavoriteFixtures.좋아요_DTO(post.getId(), u.getId())));
+        users.forEach(u -> favoriteService.save(회원검증(u.getId()), post.getId()));
 
         //when
         favoriteService.deletePostId(post.getId());

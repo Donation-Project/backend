@@ -2,10 +2,10 @@ package com.donation.service.s3;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.donation.config.ConstConfig;
 import com.donation.exception.DonationInvalidateException;
 import com.donation.exception.DonationNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +18,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ByteImageCreator implements ImageCreator{
 
-    private final ConstConfig config;
+    @Value("${profileImageUrl}")
+    private String profileImageUrl;
 
     @Override
     public PutObjectRequest toUploadData(String bucket, Object imageData) {
@@ -52,7 +53,7 @@ public class ByteImageCreator implements ImageCreator{
 
     @Override
     public String[] validateDelete(String imageUrl) {
-        if (config.getBasicImageProfile().equals(imageUrl) || imageUrl.isEmpty())
+        if (profileImageUrl.equals(imageUrl) || imageUrl.isEmpty())
             return null;
         return imageUrl.split("/");
     }

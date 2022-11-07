@@ -1,5 +1,7 @@
 package com.donation.web.controller.post;
 
+import com.donation.auth.LoginInfo;
+import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
 import com.donation.common.request.post.PostSaveReqDto;
 import com.donation.common.request.post.PostUpdateReqDto;
@@ -9,7 +11,6 @@ import com.donation.common.response.post.PostSaveRespDto;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.post.PostService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +23,16 @@ import static com.donation.domain.enums.PostState.COMPLETION;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<?> save(
-            @PathVariable Long id,
+            @LoginInfo LoginMember loginMember,
             @RequestBody @Valid PostSaveReqDto postSaveReqDto
     ){
-        PostSaveRespDto post = postService.createPost(postSaveReqDto, id);
+        PostSaveRespDto post = postService.createPost(postSaveReqDto, loginMember);
         return new ResponseEntity<>(CommonResponse.success(post), HttpStatus.CREATED);
     }
 
@@ -45,16 +45,18 @@ public class PostController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
+            @LoginInfo LoginMember loginMember,
             @RequestBody @Valid PostUpdateReqDto postUpdateReqDto,
             @PathVariable Long id){
-        postService.update(postUpdateReqDto, id);
+        postService.update(postUpdateReqDto, loginMember, id);
         return ResponseEntity.ok(CommonResponse.success());
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        postService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id,
+                                    @LoginInfo LoginMember loginMember){
+        postService.delete(id, loginMember);
         return ResponseEntity.ok(CommonResponse.success());
     }
 
@@ -64,9 +66,9 @@ public class PostController {
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
-    @GetMapping("/{id}/my-page")
-    public ResponseEntity<?> getMyPostList(@PathVariable Long id, Pageable pageable) {
-        PageCustom<PostListRespDto> list = postService.getUserIdList(id, pageable);
+    @GetMapping("/my-page")
+    public ResponseEntity<?> getMyPostList(@LoginInfo LoginMember loginMember, Pageable pageable) {
+        PageCustom<PostListRespDto> list = postService.getUserIdList(loginMember, pageable);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 }

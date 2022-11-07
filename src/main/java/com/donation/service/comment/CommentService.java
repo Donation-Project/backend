@@ -1,5 +1,6 @@
 package com.donation.service.comment;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.comment.CommentSaveReqDto;
 import com.donation.common.response.comment.CommentResponse;
 import com.donation.common.response.comment.ReplyResponse;
@@ -26,16 +27,16 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long saveComment(final Long postId,final Long userId, final CommentSaveReqDto commentSaveReqDto){
+    public Long saveComment(final Long postId, final LoginMember loginMember, final CommentSaveReqDto commentSaveReqDto){
         Post post = postRepository.getById(postId);
-        User user = userRepository.getById(userId);
+        User user = userRepository.getById(loginMember.getId());
         Comment comment = Comment.parent(user, post, commentSaveReqDto.getMessage());
         return commentRepository.save(comment).getId();
     }
 
     @Transactional
-    public Long saveReply(final Long commentId, final Long userId, final CommentSaveReqDto commentSaveReqDto){
-        Comment child = validateReplySave(commentId, userId, commentSaveReqDto);
+    public Long saveReply(final Long commentId, final LoginMember loginMember, final CommentSaveReqDto commentSaveReqDto){
+        Comment child = validateReplySave(commentId, loginMember.getId(), commentSaveReqDto);
         return commentRepository.save(child).getId();
     }
 
@@ -66,9 +67,9 @@ public class CommentService {
     }
 
     @Transactional
-    public void delete(final Long commentId, final Long userId){
+    public void delete(final Long commentId, final LoginMember loginMember){
         Comment comment = commentRepository.getById(commentId);
-        comment.validateOwner(userId);
+        comment.validateOwner(loginMember.getId());
         deleteDelegate(comment);
     }
 

@@ -3,178 +3,20 @@
 :icon: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 
-= User API
-== 유저 생성
-include::{snippets}/user-join/http-request.adoc[]
-=== 응답
-include::{snippets}/user-join/http-response.adoc[]
+include::api/user.adoc[]
 
-== 유저 로그인
-include::{snippets}/user-login/http-request.adoc[]
-=== 응답
-include::{snippets}/user-login/http-response.adoc[]
-include::{snippets}/user-login/response-fields.adoc[]
+include::api/auth.adoc[]
 
+include::api/post.adoc[]
 
-== 유저 정보 단건 조회
-=== 요청
-include::{snippets}/user-inquiry/http-request.adoc[]
-include::{snippets}/user-inquiry/path-parameters.adoc[]
-=== 응답
-include::{snippets}/user-inquiry/http-response.adoc[]
-include::{snippets}/user-inquiry/response-fields.adoc[]
+include::api/donation.adoc[]
 
-== 유저 정보 리스트 조회
-=== 요청
-include::{snippets}/user-getList/http-request.adoc[]
-=== 응답
-include::{snippets}/user-getList/http-response.adoc[]
+include::api/admin.adoc[]
 
-== 유저 프로필 사진 업데이트
-include::{snippets}/user-profileImage/http-request.adoc[]
-=== 응답
-include::{snippets}/user-profileImage/http-response.adoc[]
+include::api/favorite.adoc[]
 
-== 유저 정보 삭제
-=== 요청
-include::{snippets}/user-delete/http-request.adoc[]
-=== 응답
-include::{snippets}/user-delete/http-response.adoc[]
+include::api/comment.adoc[]
 
-
-
-= POST API
-== 포스팅 생성
-=== 요청
-include::{snippets}/post-save/http-request.adoc[]
-=== 응답
-include::{snippets}/post-save/http-response.adoc[]
-include::{snippets}/post-save/response-fields.adoc[]
-
-== 포스트 정보 단건 조회
-=== 요청
-include::{snippets}/post-getOne/http-request.adoc[]
-include::{snippets}/post-getOne/path-parameters.adoc[]
-=== 응답
-include::{snippets}/post-getOne/http-response.adoc[]
-include::{snippets}/post-getOne/response-fields.adoc[]
-
-== 포스트 정보 리스트 조회
-=== 요청
-include::{snippets}/post-getList/http-request.adoc[]
-=== 응답
-include::{snippets}/post-getList/http-response.adoc[]
-
-== 포스트 정보 수정
-=== 요청
-include::{snippets}/post-update/http-request.adoc[]
-include::{snippets}/post-update/path-parameters.adoc[]
-=== 응답
-include::{snippets}/post-update/http-response.adoc[]
-include::{snippets}/post-update/response-fields.adoc[]
-
-== 포스트 정보 삭제
-=== 요청
-include::{snippets}/post-delete/http-request.adoc[]
-include::{snippets}/post-delete/path-parameters.adoc[]
-=== 응답
-include::{snippets}/post-delete/http-response.adoc[]
-include::{snippets}/post-delete/response-fields.adoc[]
-
-== 자신이 작성한 포스트 조회
-=== 요청
-include::{snippets}/post-getMyPostList/http-request.adoc[]
-=== 응답
-include::{snippets}/post-getMyPostList/http-response.adoc[]
-
-= Donation API
-== 기부 내역 저장
-=== 요청
-include::{snippets}/donation-save/http-request.adoc[]
-=== 응답
-include::{snippets}/donation-save/http-response.adoc[]
-include::{snippets}/donation-save/response-fields.adoc[]
-
-== 기부 내역 전체 조회
-=== 요청
-include::{snippets}/donation-getList/http-request.adoc[]
-=== 응답
-include::{snippets}/donation-getList/http-response.adoc[]
-
-== 회원의 기부 내역 전체 조회
-=== 요청
-include::{snippets}/donation-getUserList/http-request.adoc[]
-include::{snippets}/donation-getUserList/path-parameters.adoc[]
-=== 응답
-include::{snippets}/donation-getUserList/http-response.adoc[]
-
-
-= Admin API
-== 포스트 권한 변경
-=== 요청
-include::{snippets}/admin-confirm/http-request.adoc[]
-include::{snippets}/admin-confirm/path-parameters.adoc[]
-=== 응답
-include::{snippets}/admin-confirm/http-response.adoc[]
-include::{snippets}/admin-confirm/response-fields.adoc[]
-
-== 어드민 : 리스트 요청
-=== 요청
-include::{snippets}/admin-getList/http-request.adoc[]
-=== 응답
-include::{snippets}/admin-getList/http-response.adoc[]
-
-= Favorite API
-== 좋아요 요청
-=== 요청
-include::{snippets}/favorite-save/http-request.adoc[]
-include::{snippets}/favorite-save/request-parameters.adoc[]
-=== 응답
-include::{snippets}/favorite-save/http-response.adoc[]
-
-== 좋아요 취소
-=== 요청
-include::{snippets}/favorite-cancel/http-request.adoc[]
-include::{snippets}/favorite-cancel/request-parameters.adoc[]
-=== 응답
-include::{snippets}/favorite-cancel/http-response.adoc[]
-
-== 좋아요를 한 유저 정보 List
-=== 요청
-include::{snippets}/favorite-list/http-request.adoc[]
-include::{snippets}/favorite-list/request-parameters.adoc[]
-=== 응답
-include::{snippets}/favorite-list/http-response.adoc[]
-
-= Comment API
-== 댓글 요청
-=== 요청
-include::{snippets}/comment-save/http-request.adoc[]
-include::{snippets}/comment-save/path-parameters.adoc[]
-=== 응답
-include::{snippets}/comment-save/http-response.adoc[]
-
-== 대댓글 요청
-=== 요청
-include::{snippets}/reply-save/http-request.adoc[]
-include::{snippets}/reply-save/path-parameters.adoc[]
-=== 응답
-include::{snippets}/reply-save/http-response.adoc[]
-
-== 댓글 삭제 요청
-=== 요청
-include::{snippets}/comment-delete/http-request.adoc[]
-include::{snippets}/comment-delete/path-parameters.adoc[]
-=== 응답
-include::{snippets}/comment-delete/http-response.adoc[]
-
-== 댓글 리스트 요청
-=== 요청
-include::{snippets}/comment-getList/http-request.adoc[]
-include::{snippets}/comment-getList/path-parameters.adoc[]
-=== 응답
-include::{snippets}/comment-getList/http-response.adoc[]
-include::{snippets}/comment-getList/response-fields.adoc[]
