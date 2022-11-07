@@ -66,9 +66,9 @@ public class PostController {
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 
-    @GetMapping("/{id}/my-page")
-    public ResponseEntity<?> getMyPostList(@PathVariable Long id, Pageable pageable) {
-        PageCustom<PostListRespDto> list = postService.getUserIdList(id, pageable);
+    @GetMapping("/my-page")
+    public ResponseEntity<?> getMyPostList(@LoginInfo LoginMember loginMember, Pageable pageable) {
+        PageCustom<PostListRespDto> list = postService.getUserIdList(loginMember, pageable);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 }

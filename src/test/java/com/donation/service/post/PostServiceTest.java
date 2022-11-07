@@ -156,7 +156,7 @@ public class PostServiceTest extends ServiceTest {
         List<Post> posts = postRepository.saveAll(creatPostList(1, 11, user));
 
         //when
-        PageCustom<PostListRespDto> postList = postService.getUserIdList(user.getId(), PageRequest.of(0, 10));
+        PageCustom<PostListRespDto> postList = postService.getUserIdList(회원검증(user.getId()), PageRequest.of(0, 10));
 
         //then
         assertAll(() -> {

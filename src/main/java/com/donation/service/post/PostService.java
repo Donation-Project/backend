@@ -74,8 +74,8 @@ public class PostService {
 
     }
 
-    public PageCustom<PostListRespDto> getUserIdList(Long id, Pageable pageable){
-        return postRepository.getUserIdPageList(id, pageable) ;
+    public PageCustom<PostListRespDto> getUserIdList(LoginMember loginMember, Pageable pageable){
+        return postRepository.getUserIdPageList(loginMember.getId(), pageable) ;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
