@@ -78,7 +78,7 @@ public class CommentControllerTest extends ControllerTest {
         Long userId = 1L;
         Long commentId = 1L;
 
-        given(commentService.saveReply(commentId, userId, 댓글_생성_DTO(일반_댓글))).willReturn(1L);
+        given(commentService.saveReply(commentId, 회원검증(userId), 댓글_생성_DTO(일반_댓글))).willReturn(1L);
 
         //expect
         mockMvc.perform(post("/api/comment/{id}/reply/{userId}", commentId, userId)
@@ -106,7 +106,7 @@ public class CommentControllerTest extends ControllerTest {
         Long userId = 1L;
         Long commentId = 1L;
 
-        willDoNothing().given(commentService).delete(commentId,userId);
+        willDoNothing().given(commentService).delete(commentId,회원검증(userId));
 
         //expect
         mockMvc.perform(delete("/api/comment/{id}/{userId}", commentId, userId))
