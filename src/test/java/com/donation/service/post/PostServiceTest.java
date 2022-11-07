@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
+import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.PostFixtures.*;
 import static com.donation.common.UserFixtures.createUser;
 import static com.donation.domain.enums.PostState.APPROVAL;
@@ -44,7 +45,7 @@ public class PostServiceTest extends ServiceTest {
         Long id = userRepository.save(createUser()).getId();
 
         //when
-        PostSaveRespDto actual = postService.createPost(게시물_생성_DTO(), id);
+        PostSaveRespDto actual = postService.createPost(게시물_생성_DTO(), 회원검증(id));
 
         //then
         assertAll(() ->{
@@ -64,7 +65,7 @@ public class PostServiceTest extends ServiceTest {
         Long id = postRepository.save(createPost()).getId();
 
         //when
-        postService.update(게시물_수정_DTO(), id);
+        postService.update(게시물_수정_DTO(),회원검증(id), id);
         Post actual = postRepository.findById(id).get();
 
         //then

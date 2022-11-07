@@ -50,7 +50,8 @@ public class PostService {
     }
 
     @Transactional
-    public void update(PostUpdateReqDto updateReqDto, Long id) {
+    public void update(PostUpdateReqDto updateReqDto, LoginMember loginMember, Long id) {
+
         postRepository.getById(id).changePost(updateReqDto);
     }
 

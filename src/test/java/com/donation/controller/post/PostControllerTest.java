@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.PostFixtures.*;
 import static com.donation.common.UserFixtures.createUser;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +49,7 @@ class PostControllerTest extends ControllerTest {
     @DisplayName("게시물 등록 요청 성공")
     void 게시물_등록_요청_성공() throws Exception {
         //given
-        given(postService.createPost(게시물_생성_DTO(), 1L)).willReturn(게시물_생성_응답());
+        given(postService.createPost(게시물_생성_DTO(), 회원검증(1L))).willReturn(게시물_생성_응답());
 
         // expected
         mockMvc.perform(post("/api/post/{id}", 1L)
@@ -145,7 +146,7 @@ class PostControllerTest extends ControllerTest {
     @DisplayName("존재하는_게시물을_수정한다.")
     void 존재하는_게시물을_수정한다() throws Exception {
         //given
-        willDoNothing().given(postService).update(게시물_수정_DTO(), 1L);
+        willDoNothing().given(postService).update(게시물_수정_DTO(), 회원검증(1L), 1L);
 
         // expected
         mockMvc.perform(put("/api/post/{id}",1L)

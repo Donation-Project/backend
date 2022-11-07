@@ -27,7 +27,7 @@ import static com.donation.domain.enums.PostState.COMPLETION;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<?> save(
             @LoginInfo LoginMember loginMember,
             @RequestBody @Valid PostSaveReqDto postSaveReqDto
@@ -45,9 +45,10 @@ public class PostController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
+            @LoginInfo LoginMember loginMember,
             @RequestBody @Valid PostUpdateReqDto postUpdateReqDto,
             @PathVariable Long id){
-        postService.update(postUpdateReqDto, id);
+        postService.update(postUpdateReqDto, loginMember, id);
         return ResponseEntity.ok(CommonResponse.success());
     }
 
