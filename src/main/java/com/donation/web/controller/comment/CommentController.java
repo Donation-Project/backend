@@ -21,7 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/post/{id}/comment/{userId}")
+    @PostMapping("/post/{id}/comment")
     public ResponseEntity<?> addComment(@PathVariable(name = "id") Long postId,
                                         @RequestBody @Valid CommentSaveReqDto commentSaveReqDto,
                                         @LoginInfo LoginMember loginMember){
