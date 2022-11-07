@@ -1,20 +1,20 @@
-= Donation API
-== 기부 내역 저장
-=== 요청
+== Donation API
+=== 기부 내역 저장
+==== 요청
 include::{snippets}/donation-save/http-request.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/donation-save/http-response.adoc[]
 include::{snippets}/donation-save/response-fields.adoc[]
 
-== 기부 내역 전체 조회
-=== 요청
+=== 기부 내역 전체 조회
+==== 요청
 include::{snippets}/donation-getList/http-request.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/donation-getList/http-response.adoc[]
 
-== 회원의 기부 내역 전체 조회
-=== 요청
+=== 회원의 기부 내역 전체 조회
+==== 요청
 include::{snippets}/donation-getUserList/http-request.adoc[]
 include::{snippets}/donation-getUserList/path-parameters.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/donation-getUserList/http-response.adoc[]

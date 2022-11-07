@@ -3,20 +3,20 @@
 :icon: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 
-include::api/User-API.adoc[]
+include::api/user.adoc[]
 
-include::api/Auth-API.adoc[]
+include::api/auth.adoc[]
 
-include::api/Post-API.adoc[]
+include::api/post.adoc[]
 
-include::api/Donation-API.adoc[]
+include::api/donation.adoc[]
 
-include::api/Admin-API.adoc[]
+include::api/admin.adoc[]
 
-include::api/Favorite-API.adoc[]
+include::api/favorite.adoc[]
 
-include::api/Comment-API.adoc[]
+include::api/comment.adoc[]
 

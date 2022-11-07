@@ -1,14 +1,14 @@
-= Admin API
-== 포스트 권한 변경
-=== 요청
+== Admin API
+=== 포스트 권한 변경
+==== 요청
 include::{snippets}/admin-confirm/http-request.adoc[]
 include::{snippets}/admin-confirm/path-parameters.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/admin-confirm/http-response.adoc[]
 include::{snippets}/admin-confirm/response-fields.adoc[]
 
-== 어드민 : 리스트 요청
-=== 요청
+=== 어드민 : 리스트 요청
+==== 요청
 include::{snippets}/admin-getList/http-request.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/admin-getList/http-response.adoc[]
