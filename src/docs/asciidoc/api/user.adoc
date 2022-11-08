@@ -11,6 +11,12 @@ include::{snippets}/user-login/http-request.adoc[]
 include::{snippets}/user-login/http-response.adoc[]
 include::{snippets}/user-login/response-fields.adoc[]
 
+=== 유저 이메일 중복검사
+include::{snippets}/user-email/http-request.adoc[]
+include::{snippets}/user-email/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-email/http-response.adoc[]
+
 
 === 유저 정보 단건 조회
 ==== 요청
