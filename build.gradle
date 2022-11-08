@@ -26,7 +26,6 @@ repositories {
 }
 
 ext {
-	asciidocVersion = "2.0.6.RELEASE"
 	set('snippetsDir', file("build/generated-snippets"))
 }
 
@@ -54,8 +53,8 @@ dependencies {
 	implementation 'org.mindrot:jbcrypt:0.4'
 
 	//spring restdocs
-	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
-	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
+	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor"
+	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
 
 
 	//lombok
