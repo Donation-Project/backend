@@ -1,7 +1,7 @@
 package com.donation.service.user;
 
 import com.donation.auth.LoginMember;
-import com.donation.common.response.user.UserEmailReqDto;
+import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.User;
@@ -89,10 +89,10 @@ class UserServiceTest extends ServiceTest {
         User user = userRepository.save(createUser());
 
         //when
-        UserEmailReqDto userEmailReqDto = userService.checkUniqueEmail(user.getEmail());
+        UserEmailRespDto userEmailRespDto = userService.checkUniqueEmail(user.getEmail());
 
         //then
-        assertThat(userEmailReqDto.getMessage()).isEqualTo("이미 중복된 이메일이 존재합니다.");
+        assertThat(userEmailRespDto.getMessage()).isEqualTo("이미 중복된 이메일이 존재합니다.");
     }
 
 
@@ -101,9 +101,9 @@ class UserServiceTest extends ServiceTest {
     @ValueSource(strings = {"default@email.com"})
     void 이메일이_중복되지않는다면_사용가능한_이메일입니다_메시지를_전달한다(final String email){
         //given & when
-        UserEmailReqDto userEmailReqDto = userService.checkUniqueEmail(email);
+        UserEmailRespDto userEmailRespDto = userService.checkUniqueEmail(email);
 
         //then
-        assertThat(userEmailReqDto.getMessage()).isEqualTo("사용가능한 이메일입니다.");
+        assertThat(userEmailRespDto.getMessage()).isEqualTo("사용가능한 이메일입니다.");
     }
 }
