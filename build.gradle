@@ -1,9 +1,25 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		// maven 에서 0.16.1 버전 처리 누락 이슈
+		// https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/652
+		classpath ("org.ysb33r.gradle:grolifant:0.16.2")
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 	id 'java'
 	id 'jacoco'
+}
+
+jacoco {
+	toolVersion = "0.8.7"
 }
 
 group = 'com'
@@ -21,12 +37,8 @@ repositories {
 	mavenCentral()
 }
 
-jacoco {
-	toolVersion = "0.8.7"
-}
-
 ext {
-	snippetsDir = file('build/generated-snippets')
+	set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -52,18 +64,21 @@ dependencies {
 	//비밀번호 암호화 라이브러리
 	implementation 'org.mindrot:jbcrypt:0.4'
 
-	//spring restdocs
-	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor"
-	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
+	// Restdocs를 위한 의존성
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
 
 	//lombok
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
 
 	//S3
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 
 	//query dsl
 	implementation "com.querydsl:querydsl-core"
@@ -71,7 +86,6 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jpa"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-
 }
 
 tasks.named('test') {
@@ -83,7 +97,6 @@ tasks.named('test') {
 asciidoctor {
 	inputs.dir snippetsDir
 	configurations 'asciidoctorExt'
-
 	dependsOn test
 }
 
