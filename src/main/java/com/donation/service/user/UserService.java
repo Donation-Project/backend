@@ -2,6 +2,7 @@ package com.donation.service.user;
 
 import com.donation.auth.LoginMember;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
+import com.donation.common.response.user.UserEmailReqDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.User;
 import com.donation.repository.user.UserRepository;
@@ -22,6 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
+
+    public UserEmailReqDto checkUniqueEmail(String email){
+        return UserEmailReqDto.of(userRepository.existsByEmail(email));
+    }
 
     public UserRespDto findById(LoginMember loginMember){
         return UserRespDto.of(userRepository.getById(loginMember.getId()));
