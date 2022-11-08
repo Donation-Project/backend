@@ -1,6 +1,7 @@
 package com.donation.service.user;
 
 import com.donation.auth.LoginMember;
+import com.donation.common.response.user.UserEmailReqDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.User;
@@ -10,6 +11,8 @@ import com.donation.service.s3.AwsS3Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
@@ -77,5 +80,30 @@ class UserServiceTest extends ServiceTest {
         //then
         assertThat(dto.getEmail()).isEqualTo(user.getEmail());
         assertThat(dto.getName()).isEqualTo(user.getName());
+    }
+
+    @Test
+    @DisplayName("이메일이 존재한다면 (이미 중복된 이메일이 존재합니다.)메시지를 전달한다")
+    void 이메일이_존재한다면_이미_중복된_이메일이_존재합니다_메시지를_전달한다(){
+        //given
+        User user = userRepository.save(createUser());
+
+        //when
+        UserEmailReqDto userEmailReqDto = userService.checkUniqueEmail(user.getEmail());
+
+        //then
+        assertThat(userEmailReqDto.getMessage()).isEqualTo("이미 중복된 이메일이 존재합니다.");
+    }
+
+
+    @ParameterizedTest
+    @DisplayName("이메일이 중복되지않는다면 (사용가능한 이메일입니다.)메시지를 전달한다")
+    @ValueSource(strings = {"default@email.com"})
+    void 이메일이_중복되지않는다면_사용가능한_이메일입니다_메시지를_전달한다(final String email){
+        //given & when
+        UserEmailReqDto userEmailReqDto = userService.checkUniqueEmail(email);
+
+        //then
+        assertThat(userEmailReqDto.getMessage()).isEqualTo("사용가능한 이메일입니다.");
     }
 }
