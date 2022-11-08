@@ -2,6 +2,7 @@ package com.donation.common;
 
 
 import com.donation.common.request.user.UserLoginReqDto;
+import com.donation.common.request.user.UserPasswordModifyReqDto;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
 import com.donation.common.request.user.UserSaveReqDto;
 import com.donation.common.response.user.UserRespDto;
@@ -27,12 +28,15 @@ public class UserFixtures {
     /* 로그인 데이터 */
     public static UserLoginReqDto 유저_로그인_DTO = new UserLoginReqDto(일반_사용자_이메일, 일반_사용자_패스워드);
     /* 업데이트 데이터 */
-
-
     public static final String 새로운_이미지 = "dwqdqwwd/d/wq/d/qw/d/wqdwqdqw/d/wq/d/q/d/d/qw/d/q/wdqdqwqwd/";
 
     public static UserProfileUpdateReqDto 유저_프로필_업데이트_DTO = new UserProfileUpdateReqDto(새로운_이미지);
 
+    /* 비밀번호 변경 데이터 */
+    public static final String 새로운_일반_사용자_패스워드 = "modifyPassword";
+    public static UserPasswordModifyReqDto 비밀번호_변경_DTO(final String currentPassword, final String modifyPassword){
+        return new UserPasswordModifyReqDto(currentPassword, modifyPassword);
+    }
 
     /* 단건조회시 반횐되는 데이터 */
     public static UserRespDto 일반_반환_데이터(Long id){
