@@ -3,10 +3,12 @@ package com.donation.web.controller.user;
 import com.donation.auth.LoginInfo;
 import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
+import com.donation.common.request.user.UserEmailReqDto;
 import com.donation.common.request.user.UserLoginReqDto;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
 import com.donation.common.request.user.UserSaveReqDto;
 import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
+import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.auth.application.AuthService;
@@ -38,6 +40,12 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody @Valid UserLoginReqDto userLoginReqDto){
         AccessAndRefreshTokenResponse token = authService.login(userLoginReqDto);
         return ResponseEntity.ok(CommonResponse.success(token));
+    }
+
+    @PostMapping("/join/exists")
+    public ResponseEntity<?> validateUniqueEmail(@RequestBody @Valid UserEmailReqDto userEmailReqDto){
+        UserEmailRespDto userEmailRespDto = userService.checkUniqueEmail(userEmailReqDto.getEmail());
+        return ResponseEntity.ok(CommonResponse.success(userEmailRespDto));
     }
 
     @GetMapping("/user")
