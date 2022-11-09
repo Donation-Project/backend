@@ -92,6 +92,36 @@ class UserControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("패스워드 변경 요청 성공")
+    void 패스워드_변경_요청_성공() throws Exception {
+        //given
+        Long id = 1L;
+        willDoNothing().given(userService).passwordModify(회원검증(id), 비밀번호_변경_DTO(일반_사용자_패스워드, 새로운_일반_사용자_패스워드));
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
+
+        //expected
+        mockMvc.perform(put("/api/user/pw")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(비밀번호_변경_DTO(일반_사용자_패스워드, 새로운_일반_사용자_패스워드)))
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-password",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("currentPassword").description("현재 비밀번호"),
+                                fieldWithPath("modifyPassword").description("변경 비밀번호")
+                        )
+                ));
+
+    }
+
+    @Test
     @DisplayName("이메일 중복확인 요청 성공(중복되지 않은 이메일)")
     void 이메일_중복확인_요청_성공() throws Exception {
         //given
