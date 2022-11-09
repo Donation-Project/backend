@@ -6,11 +6,10 @@ import com.donation.common.request.user.UserSaveReqDto;
 import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
 import com.donation.common.response.auth.AccessTokenResponse;
 import com.donation.domain.entites.User;
-import com.donation.exception.DonationInvalidateException;
+import com.donation.infrastructure.PasswordEncoder;
 import com.donation.repository.user.UserRepository;
 import com.donation.service.auth.domain.AuthToken;
 import lombok.RequiredArgsConstructor;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +24,8 @@ public class AuthService {
 
     private final TokenCreator tokenCreator;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public Long save(final UserSaveReqDto userSaveReqDto) {
         User user = validateMember(userSaveReqDto);
@@ -33,7 +34,7 @@ public class AuthService {
 
     public User validateMember(final UserSaveReqDto userSaveReqDto){
         userRepository.validateExistsByEmail(userSaveReqDto.getEmail());
-        userSaveReqDto.setPassword(BCrypt.hashpw(userSaveReqDto.getPassword(), BCrypt.gensalt()));
+        userSaveReqDto.setPassword(passwordEncoder.encode(userSaveReqDto.getPassword()));
         return userSaveReqDto.toUser(profileImageUrl);
     }
 
@@ -45,10 +46,8 @@ public class AuthService {
 
     public User validateLogin(final UserLoginReqDto userLoginReqDto) {
         User user = userRepository.getByEmail(userLoginReqDto.getEmail());
-        if(BCrypt.checkpw(userLoginReqDto.getPassword(), user.getPassword())){
-            return user;
-        }
-        throw new DonationInvalidateException("패스워드가 일치하지 않습니다.");
+        passwordEncoder.compare(userLoginReqDto.getPassword(), user.getPassword());
+        return user;
     }
 
     public AccessTokenResponse renewalToken(final TokenRenewalRequest tokenRenewalRequest) {

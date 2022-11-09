@@ -6,12 +6,11 @@ import com.donation.common.request.user.UserProfileUpdateReqDto;
 import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.User;
-import com.donation.exception.DonationInvalidateException;
+import com.donation.infrastructure.PasswordEncoder;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
+    private final PasswordEncoder passwordEncoder;
 
     public UserEmailRespDto checkUniqueEmail(String email){
         return UserEmailRespDto.of(userRepository.existsByEmail(email));
@@ -34,11 +34,8 @@ public class UserService {
     @Transactional
     public void passwordModify(LoginMember loginMember, UserPasswordModifyReqDto userPasswordModifyReqDto){
         User user = userRepository.getById(loginMember.getId());
-
-        if (!BCrypt.checkpw(userPasswordModifyReqDto.getCurrentPassword(), user.getPassword()))
-            throw new DonationInvalidateException("패스워드가 일치하지 않습니다.");
-
-        user.changeNewPassword(BCrypt.hashpw(userPasswordModifyReqDto.getModifyPassword(), BCrypt.gensalt()));
+        passwordEncoder.compare(userPasswordModifyReqDto.getCurrentPassword(), user.getPassword());
+        user.changeNewPassword(passwordEncoder.encode(userPasswordModifyReqDto.getModifyPassword()));
     }
 
     public UserRespDto findById(LoginMember loginMember){
