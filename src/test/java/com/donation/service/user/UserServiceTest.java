@@ -2,6 +2,7 @@ package com.donation.service.user;
 
 import com.donation.auth.LoginMember;
 import com.donation.common.request.user.UserLoginReqDto;
+import com.donation.common.request.user.UserSaveReqDto;
 import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ServiceTest;
@@ -116,14 +117,21 @@ class UserServiceTest extends ServiceTest {
         assertThat(userEmailRespDto.getMessage()).isEqualTo("사용가능한 이메일입니다.");
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("사용자의 비밀번호를 변경합니다.")
-    void 사용자의_비밀번호를_변경합니다() {
+    @ValueSource(strings = {"password"})
+    void 사용자의_비밀번호를_변경합니다(final String password) {
         //given
-        Long id = authService.save(유저_회원가입_DTO);
+        UserSaveReqDto user = UserSaveReqDto.builder()
+                .email(일반_사용자_이메일)
+                .password(password)
+                .metamask(일반_사용자_메타마스크_주소)
+                .name(일반_사용자_이름)
+                .build();
+        Long id = authService.save(user);
 
         //when
-        userService.passwordModify(회원검증(id), 비밀번호_변경_DTO(일반_사용자_패스워드, 새로운_일반_사용자_패스워드));
+        userService.passwordModify(회원검증(id), 비밀번호_변경_DTO(password, 새로운_일반_사용자_패스워드));
 
         //then
         assertDoesNotThrow(() -> authService.login(new UserLoginReqDto(일반_사용자_이메일, 새로운_일반_사용자_패스워드)));

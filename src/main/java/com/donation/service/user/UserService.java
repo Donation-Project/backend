@@ -34,8 +34,10 @@ public class UserService {
     @Transactional
     public void passwordModify(LoginMember loginMember, UserPasswordModifyReqDto userPasswordModifyReqDto){
         User user = userRepository.getById(loginMember.getId());
+
         if (!BCrypt.checkpw(userPasswordModifyReqDto.getCurrentPassword(), user.getPassword()))
             throw new DonationInvalidateException("패스워드가 일치하지 않습니다.");
+
         user.changeNewPassword(BCrypt.hashpw(userPasswordModifyReqDto.getModifyPassword(), BCrypt.gensalt()));
     }
 
