@@ -1,5 +1,6 @@
 package com.donation.service.donation;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
@@ -37,8 +38,8 @@ public class DonationService {
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
     }
 
-    public List<DonationFindRespDto> findById(Long userId) {
-        return donationRepository.findAllByUserId(userId).stream()
+    public List<DonationFindRespDto> findById(LoginMember loginMember) {
+        return donationRepository.findAllByUserId(loginMember.getId()).stream()
                 .map(DonationFindRespDto::of)
                 .collect(Collectors.toList());
     }
