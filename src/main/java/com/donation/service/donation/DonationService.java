@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,35 +38,13 @@ public class DonationService {
     }
 
     public List<DonationFindRespDto> findById(Long userId) {
-        List<DonationFindRespDto> donationFindRespDtos = donationRepository.findAllByUserId(userId);
-        return getFindTotal(donationFindRespDtos);
+        return donationRepository.findAllByUserId(userId).stream()
+                .map(DonationFindRespDto::of)
+                .collect(Collectors.toList());
     }
 
-    public Slice<DonationFindByFilterRespDto> getList(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
-        Slice<DonationFindByFilterRespDto> allByFilter = donationRepository.findAllByFilter(pageable, donationFilterReqDto);
-        return getFilterFindTotal(allByFilter);
+    public List<DonationFindByFilterRespDto> getList(DonationFilterReqDto donationFilterReqDto){
+        return donationRepository.findAllByFilter(donationFilterReqDto);
     }
 
-
-    public List<DonationFindRespDto> getFindTotal(List<DonationFindRespDto> donationFindRespDtos) {
-        float total = 0.0f;
-        for (DonationFindRespDto donationFindRespDto : donationFindRespDtos) {
-            total += Float.parseFloat(donationFindRespDto.getAmount());
-        }
-        for (DonationFindRespDto donationFindRespDto : donationFindRespDtos) {
-            donationFindRespDto.setTotal(total);
-        }
-        return donationFindRespDtos;
-    }
-
-    public Slice<DonationFindByFilterRespDto> getFilterFindTotal(Slice<DonationFindByFilterRespDto> donationFindRespDtos) {
-        float total = 0.0f;
-        for (DonationFindByFilterRespDto donationFindRespDto : donationFindRespDtos) {
-            total += Float.parseFloat(donationFindRespDto.getAmount());
-        }
-        for (DonationFindByFilterRespDto donationFindRespDto : donationFindRespDtos) {
-            donationFindRespDto.setTotal(total);
-        }
-        return donationFindRespDtos;
-    }
 }
