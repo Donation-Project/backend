@@ -3,10 +3,7 @@ package com.donation.web.controller.user;
 import com.donation.auth.LoginInfo;
 import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
-import com.donation.common.request.user.UserEmailReqDto;
-import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.common.request.user.UserProfileUpdateReqDto;
-import com.donation.common.request.user.UserSaveReqDto;
+import com.donation.common.request.user.*;
 import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
 import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
@@ -65,6 +62,14 @@ public class UserController {
             @LoginInfo LoginMember loginMember,
             @Valid @RequestBody UserProfileUpdateReqDto profileUpdateReqDto){
         userService.updateProfile(loginMember, profileUpdateReqDto);
+        return ResponseEntity.ok(CommonResponse.success());
+    }
+
+    @PutMapping("/user/pw")
+    public ResponseEntity<?> modifyPassword(
+            @LoginInfo LoginMember loginMember,
+            @RequestBody @Valid UserPasswordModifyReqDto userPasswordModifyReqDto){
+        userService.passwordModify(loginMember, userPasswordModifyReqDto);
         return ResponseEntity.ok(CommonResponse.success());
     }
 }
