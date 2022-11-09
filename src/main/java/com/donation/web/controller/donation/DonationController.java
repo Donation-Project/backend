@@ -36,7 +36,7 @@ public class DonationController {
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/me")
     public ResponseEntity<?> get(@LoginInfo LoginMember loginMember) {
         List<DonationFindRespDto> donationFindRespDtos = donationService.findById(loginMember);
         return ResponseEntity.ok(CommonResponse.success(donationFindRespDtos));
