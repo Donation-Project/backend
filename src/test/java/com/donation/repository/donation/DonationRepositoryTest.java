@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.donation.common.DonationFixtures.createDonation;
+import static com.donation.common.DonationFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,12 +34,12 @@ public class DonationRepositoryTest extends RepositoryTest {
     @DisplayName("유저_아이디로_후원내역을_조회한다.")
     void 유저_아이디로_후원내역을_조회한다() {
         //given
-        User sponsor = userRepository.save(createUser());
-        User beneficiary = userRepository.save(createUser("beneficiary@naver.com"));
+        User sponsor = userRepository.save(createUser(후원자));
+        User beneficiary = userRepository.save(createUser(후원_받는_사람));
 
         Post post = postRepository.save(createPost(beneficiary));
 
-        Donation donation = donationRepository.save(createDonation(sponsor, post, "10.1"));
+        Donation donation = donationRepository.save(createDonation(sponsor, post, 후원금액));
 
 
         //when
