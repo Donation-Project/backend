@@ -17,6 +17,11 @@ include::{snippets}/user-email/request-fields.adoc[]
 ==== 응답
 include::{snippets}/user-email/http-response.adoc[]
 
+=== 유저 비밀변호 변경 요청
+include::{snippets}/user-password/http-request.adoc[]
+include::{snippets}/user-password/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-password/http-response.adoc[]
 
 === 유저 정보 단건 조회
 ==== 요청
