@@ -1,5 +1,6 @@
 package com.donation.common.response.donation;
 
+import com.donation.domain.entites.Donation;
 import com.donation.domain.enums.Category;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
@@ -12,24 +13,36 @@ public class DonationFindRespDto {
 
     private String title;
     private String amount;
-    private String total;
+
+    private float currentAmount;
     private Long postId;
+
+    private Long userId;
     private Category category;
     private LocalDateTime localDateTime;
+
+    public static DonationFindRespDto of(Donation donation){
+        return DonationFindRespDto.builder()
+                .title(donation.getPost().getWrite().getTitle())
+                .amount(donation.getAmount())
+                .currentAmount(donation.getPost().getCurrentAmount())
+                .postId(donation.getPost().getId())
+                .userId(donation.getUser().getId())
+                .category(donation.getPost().getCategory())
+                .localDateTime(donation.getCreateAt())
+                .build();
+    }
 
 
     @Builder
     @QueryProjection
-    public DonationFindRespDto(String title, String amount, Long postId, Category category, LocalDateTime localDateTime) {
+    public DonationFindRespDto(String title, String amount, float currentAmount, Long postId, Long userId, Category category, LocalDateTime localDateTime) {
         this.title = title;
         this.amount = amount;
-
-        this.postId=postId;
+        this.currentAmount = currentAmount;
+        this.postId = postId;
+        this.userId = userId;
         this.category = category;
         this.localDateTime = localDateTime;
     }
-    public void setTotal(float total){
-        this.total =String.valueOf(total);
-    }
-
 }
