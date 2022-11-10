@@ -35,7 +35,6 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                                 post.currentAmount,
                                 donation.user.name,
                                 donation.post.user.name,
-                                donation.createAt,
                                 post.category
                         )
                 )
