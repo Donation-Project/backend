@@ -61,7 +61,7 @@ public class DonationFixtures {
                 .userId(user.getId())
                 .title(post.getWrite().getTitle())
                 .amount(일반_게시물_기부금)
-                .currentAmount(일반_게시물_현재_모금액)
+                .gross_amount(일반_게시물_현재_모금액)
                 .category(일반_게시물_카테고리)
                 .build();
     }

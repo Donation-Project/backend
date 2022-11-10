@@ -87,7 +87,7 @@ class DonationControllerTest extends ControllerTest {
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("금액"),
-                                fieldWithPath("data.[].currentAmount").description("포스트 총 후원금액"),
+                                fieldWithPath("data.[].gross_amount").description("포스트 총 후원금액"),
                                 fieldWithPath("data.[].postId").description("포스팅 ID"),
                                 fieldWithPath("data.[].userId").description("유저 ID"),
                                 fieldWithPath("data.[].category").description("카테고리"),

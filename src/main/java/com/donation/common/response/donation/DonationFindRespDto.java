@@ -14,18 +14,18 @@ public class DonationFindRespDto {
     private String title;
     private String amount;
 
-    private float currentAmount;
+    private float gross_amount;
     private Long postId;
 
     private Long userId;
     private Category category;
 
 
-    public static DonationFindRespDto of(Donation donation){
+    public static DonationFindRespDto of(Donation donation,float gross_amount){
         return DonationFindRespDto.builder()
                 .title(donation.getPost().getWrite().getTitle())
                 .amount(donation.getAmount())
-                .currentAmount(donation.getPost().getCurrentAmount())
+                .gross_amount(gross_amount)
                 .postId(donation.getPost().getId())
                 .userId(donation.getUser().getId())
                 .category(donation.getPost().getCategory())
@@ -35,10 +35,10 @@ public class DonationFindRespDto {
 
     @Builder
     @QueryProjection
-    public DonationFindRespDto(String title, String amount, float currentAmount, Long postId, Long userId, Category category) {
+    public DonationFindRespDto(String title, String amount, float gross_amount, Long postId, Long userId, Category category) {
         this.title = title;
         this.amount = amount;
-        this.currentAmount = currentAmount;
+        this.gross_amount = gross_amount;
         this.postId = postId;
         this.userId = userId;
         this.category = category;

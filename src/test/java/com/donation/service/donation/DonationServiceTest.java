@@ -7,6 +7,7 @@ import com.donation.common.utils.ServiceTest;
 import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
@@ -64,13 +65,13 @@ class DonationServiceTest extends ServiceTest {
         Post post = postRepository.save(createPost(user));
         String amount = "1";
 
-        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(null, post.getId(), amount);
+        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(회원검증(2L), post.getId(), amount);
         DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(회원검증(user.getId()), null, amount);
 
         //when & then
         assertAll(() -> {
             assertThatThrownBy(() ->  donationService.createDonate(존재하지않는_유저))
-                .isInstanceOf(InvalidDataAccessApiUsageException.class);
+                .isInstanceOf(DonationNotFoundException.class);
             assertThatThrownBy(() ->  donationService.createDonate(존재하지않는_게시물))
                 .isInstanceOf(InvalidDataAccessApiUsageException.class);
         });
