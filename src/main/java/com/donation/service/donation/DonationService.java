@@ -18,7 +18,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,8 +41,18 @@ public class DonationService {
     }
 
     public List<DonationFindRespDto> findById(LoginMember loginMember) {
-        return donationRepository.findAllByUserId(loginMember.getId()).stream()
-                .map(DonationFindRespDto::of)
+        List<Donation> donations = donationRepository.findAllByUserId(loginMember.getId());
+        Map<Long, Float> gross_amount = new HashMap<>();
+        for (Donation donation : donations) {
+            if(gross_amount.containsKey(donation.getPost().getId())){
+                gross_amount.put(donation.getPost().getId(),Float.parseFloat(donation.getAmount())+gross_amount.get(donation.getPost().getId()));
+            }
+            else {
+                gross_amount.put(donation.getPost().getId(),Float.parseFloat(donation.getAmount()));
+            }
+        }
+        return donations.stream()
+                .map((Donation donation) -> DonationFindRespDto.of(donation,gross_amount.get(donation.getPost().getId())))
                 .collect(Collectors.toList());
     }
 
