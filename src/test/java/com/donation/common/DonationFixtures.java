@@ -1,17 +1,13 @@
 package com.donation.common;
 
-import com.donation.auth.LoginMember;
-import com.donation.common.request.donation.DonationFilterReqDto;
-import com.donation.common.request.donation.DonationSaveReqDto;
-import com.donation.common.response.donation.DonationFindByFilterRespDto;
-import com.donation.common.response.donation.DonationFindRespDto;
-import com.donation.common.response.post.PostFindRespDto;
-import com.donation.common.response.post.PostListRespDto;
-import com.donation.common.response.user.UserRespDto;
-import com.donation.domain.embed.Write;
-import com.donation.domain.entites.Donation;
-import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
+import com.donation.presentation.auth.LoginMember;
+import com.donation.domain.donation.dto.DonationFilterReqDto;
+import com.donation.domain.donation.dto.DonationSaveReqDto;
+import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
+import com.donation.domain.donation.dto.DonationFindRespDto;
+import com.donation.domain.donation.entity.Donation;
+import com.donation.domain.post.entity.Post;
+import com.donation.domain.user.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

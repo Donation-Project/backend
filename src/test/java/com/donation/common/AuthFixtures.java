@@ -1,10 +1,10 @@
 package com.donation.common;
 
-import com.donation.auth.LoginMember;
-import com.donation.common.request.auth.TokenRenewalRequest;
-import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
-import com.donation.common.response.auth.AccessTokenResponse;
-import com.donation.service.auth.domain.AuthToken;
+import com.donation.presentation.auth.LoginMember;
+import com.donation.domain.auth.dto.TokenRenewalRequest;
+import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
+import com.donation.domain.auth.dto.AccessTokenResponse;
+import com.donation.domain.auth.entity.AuthToken;
 
 public class AuthFixtures {
 
