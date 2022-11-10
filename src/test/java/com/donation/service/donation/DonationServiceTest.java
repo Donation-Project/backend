@@ -1,9 +1,13 @@
 package com.donation.service.donation;
 
 import com.donation.common.request.donation.DonationSaveReqDto;
+import com.donation.common.response.donation.DonationFindByFilterRespDto;
+import com.donation.common.response.donation.DonationFindRespDto;
 import com.donation.common.utils.ServiceTest;
+import com.donation.domain.entites.Donation;
 import com.donation.domain.entites.Post;
 import com.donation.domain.entites.User;
+import com.donation.exception.DonationNotFoundException;
 import com.donation.repository.donation.DonationRepository;
 import com.donation.repository.post.PostRepository;
 import com.donation.repository.user.UserRepository;
@@ -13,13 +17,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.donation.common.DonationFixtures.기부_생성_DTO;
-import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.AuthFixtures.회원검증;
+import static com.donation.common.DonationFixtures.*;
+import static com.donation.common.PostFixtures.*;
+import static com.donation.common.PostFixtures.일반_게시물_기부금;
 import static com.donation.common.UserFixtures.createUser;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -43,7 +51,7 @@ class DonationServiceTest extends ServiceTest {
         String amount = "1";
 
         //given
-        donationService.createDonate(기부_생성_DTO(user.getId(), post.getId(), amount));
+        donationService.createDonate(기부_생성_DTO(회원검증( user.getId()), post.getId(), amount));
 
         //then
         Assertions.assertThat(donationRepository.count()).isEqualTo(1L);
@@ -57,56 +65,59 @@ class DonationServiceTest extends ServiceTest {
         Post post = postRepository.save(createPost(user));
         String amount = "1";
 
-        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(null, post.getId(), amount);
-        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(user.getId(), null, amount);
+        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(회원검증(2L), post.getId(), amount);
+        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(회원검증(user.getId()), null, amount);
 
         //when & then
         assertAll(() -> {
             assertThatThrownBy(() ->  donationService.createDonate(존재하지않는_유저))
-                .isInstanceOf(InvalidDataAccessApiUsageException.class);
+                .isInstanceOf(DonationNotFoundException.class);
             assertThatThrownBy(() ->  donationService.createDonate(존재하지않는_게시물))
                 .isInstanceOf(InvalidDataAccessApiUsageException.class);
         });
     }
 
+    @Test
+    @DisplayName("유저_아이디로_후원내역을_조회한다.")
+    void 유저_아이디로_후원내역을_조회한다() {
+        //given
+        User sponsor = userRepository.save(createUser(후원자));
+        User beneficiary = userRepository.save(createUser(후원_받는_사람));
+        Post post = postRepository.save(createPost(beneficiary));
+        Donation donation = donationRepository.save(createDonation(sponsor, post, 후원금액));
 
-//    @Test
-//    @DisplayName("후원(서비스) :  내후원 내역조회")
-//    void get(){
-//        //given
-//        User user = userRepository.save(createUser("beneficiary@email.com"));
-//        Post post = postRepository.save(createPost(user));
-//        User sponsor = userRepository.save(createUser("sponsor@email.com"));
-//        List<Donation> donations = IntStream.range(1, 31)
-//                .mapToObj(i ->createDonation(sponsor,post,"10.1"+i)
-//                ).collect(Collectors.toList());
-//        donationRepository.saveAll(donations);
-//        List<DonationFindRespDto> donationFindRespDtos = donationService.findById(sponsor.getId());
-//        assertThat(donations.get(0).getPost().getWrite().getTitle()).isEqualTo(donationFindRespDtos.get(0).getTitle());
-//        assertThat(donations.get(0).getAmount()).isEqualTo(donationFindRespDtos.get(0).getAmount());
-//
-//    }
-//
-//    @Test
-//    @DisplayName("후원(서비스) :  아이디, 카테고리로 모든후원조회")
-//    void getList(){
-//        //given
-//        User user = userRepository.save(createUser());
-//        Post post = postRepository.save(createPost(user));
-//        User sponsor = userRepository.save(createUser("sponsor@email.com"));
-//        List<Donation> donations = IntStream.range(1, 31)
-//                .mapToObj(i ->createDonation(sponsor,post,"10.1"+i)
-//                ).collect(Collectors.toList());
-//        donationRepository.saveAll(donations);
-//        DonationFilterReqDto donationFilterReqDto = DonationFilterReqDto.builder().build();
-//        Pageable pageable = PageRequest.of(0, 10);
-//        Slice<DonationFindByFilterRespDto> donationList = donationService.getList(pageable, donationFilterReqDto);
-//        assertThat(donationList.getSize()).isEqualTo(10);
-//        assertThat(donationList.getNumberOfElements()).isEqualTo(10);
-//        assertThat(donationList.getContent().get(0).getTitle()).isEqualTo(donations.get(0).getPost().getWrite().getTitle());
-//        assertThat(donationList.getContent().get(0).getAmount()).isEqualTo(donations.get(0).getAmount());
-//
-//    }
+        //when
+        List<DonationFindRespDto> dtos = donationService.findById(회원검증(sponsor.getId()));
+
+        //then
+        assertAll(() ->{
+            assertThat(dtos.get(0).getUserId()).isEqualTo(sponsor.getId());
+            assertThat(dtos.get(0).getPostId()).isEqualTo(post.getId());
+            assertThat(dtos.get(0).getAmount()).isEqualTo(후원금액);
+        });
+    }
+
+    @Test
+    @DisplayName("모든_후원내역을_조회한다.")
+    void 모든_후원내역을_조회한다() {
+        //given
+        User sponsor = userRepository.save(createUser(후원자));
+        User beneficiary = userRepository.save(createUser(후원_받는_사람));
+        Post post = postRepository.save(createPost(beneficiary));
+        List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, sponsor, post));
+
+        //when
+        List<DonationFindByFilterRespDto> list = donationService.getList(기부_전체검색_DTO());
+
+        //then
+        assertAll(() ->{
+            Assertions.assertThat(list.get(0).getDonateId()).isEqualTo(donations.get(0).getId());
+            Assertions.assertThat(list.get(0).getPostId()).isEqualTo(donations.get(0).getPost().getId());
+            Assertions.assertThat(list.get(0).getUserId()).isEqualTo(donations.get(0).getUser().getId());
+        });
+
+    }
+
 
 
     @Test
@@ -124,7 +135,7 @@ class DonationServiceTest extends ServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    donationService.createDonate(new DonationSaveReqDto(user.getId(),post.getId(), amount));
+                    donationService.createDonate(new DonationSaveReqDto(회원검증(user.getId()),post.getId(), amount));
                 } finally {
                     latch.countDown();
                 }

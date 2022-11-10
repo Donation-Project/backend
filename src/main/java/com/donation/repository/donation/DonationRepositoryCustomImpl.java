@@ -24,36 +24,17 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<DonationFindRespDto> findAllByUserId(Long id) {
+    public List<DonationFindByFilterRespDto> findAllByFilter(DonationFilterReqDto donationFilterReqDto) {
         return queryFactory
-                .select(new QDonationFindRespDto(
-                                post.write.title,
-                                donation.amount,
-                                post.id,
-                                post.category,
-                                donation.createAt
-                        )
-                )
-                .from(donation)
-                .leftJoin(donation.post, post)
-                .where(
-                        donation.user.id.eq(id)
-                )
-                .fetch();
-    }
-
-
-    @Override
-    public Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
-        List<DonationFindByFilterRespDto> content = queryFactory
                 .select(new QDonationFindByFilterRespDto(
                                 donation.id,
                                 post.id,
+                                donation.user.id,
                                 post.write.title,
                                 donation.amount,
+                                post.currentAmount,
                                 donation.user.name,
                                 donation.post.user.name,
-                                donation.createAt,
                                 post.category
                         )
                 )
@@ -62,12 +43,8 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                 .where(
                         categoryEq(donationFilterReqDto.getCategory()),
                         usernameEq(donationFilterReqDto.getUsername())
-                ).offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
+                )
                 .fetch();
-
-        boolean hasNext = hasNextPage(content, pageable);
-        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     private static BooleanExpression usernameEq(String username) {

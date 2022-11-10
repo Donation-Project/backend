@@ -1,5 +1,7 @@
 package com.donation.web.controller.donation;
 
+import com.donation.auth.LoginInfo;
+import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
 import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
@@ -34,19 +36,15 @@ public class DonationController {
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Long id) {
-        List<DonationFindRespDto> donationFindRespDtos = donationService.findById(id);
+    @GetMapping("/me")
+    public ResponseEntity<?> get(@LoginInfo LoginMember loginMember) {
+        List<DonationFindRespDto> donationFindRespDtos = donationService.findById(loginMember);
         return ResponseEntity.ok(CommonResponse.success(donationFindRespDtos));
     }
-
     @GetMapping
-    public ResponseEntity<?> getList(Pageable pageable,
-                                     @RequestParam(required = false)String username,
-                                     @RequestParam(required = false)Category category) {
-        Slice<DonationFindByFilterRespDto> list = donationService.getList(pageable, new DonationFilterReqDto(username,category));
+    public ResponseEntity<?> getList(@RequestParam(required = false) String username,
+                                     @RequestParam(required = false) Category category) {
+        List<DonationFindByFilterRespDto> list = donationService.getList(new DonationFilterReqDto(username, category));
         return ResponseEntity.ok(CommonResponse.success(list));
     }
-
-
 }

@@ -3,10 +3,9 @@ package com.donation.web.controller.user;
 import com.donation.auth.LoginInfo;
 import com.donation.auth.LoginMember;
 import com.donation.common.CommonResponse;
-import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.common.request.user.UserProfileUpdateReqDto;
-import com.donation.common.request.user.UserSaveReqDto;
+import com.donation.common.request.user.*;
 import com.donation.common.response.auth.AccessAndRefreshTokenResponse;
+import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.auth.application.AuthService;
@@ -40,6 +39,12 @@ public class UserController {
         return ResponseEntity.ok(CommonResponse.success(token));
     }
 
+    @PostMapping("/join/exists")
+    public ResponseEntity<?> validateUniqueEmail(@RequestBody @Valid UserEmailReqDto userEmailReqDto){
+        UserEmailRespDto userEmailRespDto = userService.checkUniqueEmail(userEmailReqDto.getEmail());
+        return ResponseEntity.ok(CommonResponse.success(userEmailRespDto));
+    }
+
     @GetMapping("/user")
     public ResponseEntity<?> getList(Pageable pageable){
         PageCustom<UserRespDto> users = userService.getList(pageable);
@@ -57,6 +62,14 @@ public class UserController {
             @LoginInfo LoginMember loginMember,
             @Valid @RequestBody UserProfileUpdateReqDto profileUpdateReqDto){
         userService.updateProfile(loginMember, profileUpdateReqDto);
+        return ResponseEntity.ok(CommonResponse.success());
+    }
+
+    @PutMapping("/user/pw")
+    public ResponseEntity<?> modifyPassword(
+            @LoginInfo LoginMember loginMember,
+            @RequestBody @Valid UserPasswordModifyReqDto userPasswordModifyReqDto){
+        userService.passwordModify(loginMember, userPasswordModifyReqDto);
         return ResponseEntity.ok(CommonResponse.success());
     }
 }

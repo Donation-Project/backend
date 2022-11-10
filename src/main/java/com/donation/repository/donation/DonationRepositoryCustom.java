@@ -9,8 +9,5 @@ import org.springframework.data.domain.Slice;
 import java.util.List;
 public interface DonationRepositoryCustom {
 
-    List<DonationFindRespDto> findAllByUserId(Long id);
-
-    Slice<DonationFindByFilterRespDto> findAllByFilter(Pageable pageable, DonationFilterReqDto donationFilterReqDto);
-
+    List<DonationFindByFilterRespDto> findAllByFilter(DonationFilterReqDto donationFilterReqDto);
     }

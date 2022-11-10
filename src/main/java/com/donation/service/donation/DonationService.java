@@ -1,5 +1,6 @@
 package com.donation.service.donation;
 
+import com.donation.auth.LoginMember;
 import com.donation.common.request.donation.DonationFilterReqDto;
 import com.donation.common.request.donation.DonationSaveReqDto;
 import com.donation.common.response.donation.DonationFindByFilterRespDto;
@@ -17,7 +18,10 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,42 +34,30 @@ public class DonationService {
 
     @Transactional
     public void createDonate(DonationSaveReqDto donationSaveReqDto) {
-        User user = userRepository.getById(donationSaveReqDto.getUserId());
+        User user = userRepository.getById(donationSaveReqDto.getLoginMember().getId());
         Post post = postRepository.getById(donationSaveReqDto.getPostId());
         donationRepository.save(Donation.of(user, post, donationSaveReqDto.getAmount()));
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
     }
 
-    public List<DonationFindRespDto> findById(Long userId) {
-        List<DonationFindRespDto> donationFindRespDtos = donationRepository.findAllByUserId(userId);
-        return getFindTotal(donationFindRespDtos);
+    public List<DonationFindRespDto> findById(LoginMember loginMember) {
+        List<Donation> donations = donationRepository.findAllByUserId(loginMember.getId());
+        Map<Long, Float> gross_amount = new HashMap<>();
+        for (Donation donation : donations) {
+            if(gross_amount.containsKey(donation.getPost().getId())){
+                gross_amount.put(donation.getPost().getId(),Float.parseFloat(donation.getAmount())+gross_amount.get(donation.getPost().getId()));
+            }
+            else {
+                gross_amount.put(donation.getPost().getId(),Float.parseFloat(donation.getAmount()));
+            }
+        }
+        return donations.stream()
+                .map((Donation donation) -> DonationFindRespDto.of(donation,gross_amount.get(donation.getPost().getId())))
+                .collect(Collectors.toList());
     }
 
-    public Slice<DonationFindByFilterRespDto> getList(Pageable pageable, DonationFilterReqDto donationFilterReqDto) {
-        Slice<DonationFindByFilterRespDto> allByFilter = donationRepository.findAllByFilter(pageable, donationFilterReqDto);
-        return getFilterFindTotal(allByFilter);
+    public List<DonationFindByFilterRespDto> getList(DonationFilterReqDto donationFilterReqDto){
+        return donationRepository.findAllByFilter(donationFilterReqDto);
     }
 
-
-    public List<DonationFindRespDto> getFindTotal(List<DonationFindRespDto> donationFindRespDtos) {
-        float total = 0.0f;
-        for (DonationFindRespDto donationFindRespDto : donationFindRespDtos) {
-            total += Float.parseFloat(donationFindRespDto.getAmount());
-        }
-        for (DonationFindRespDto donationFindRespDto : donationFindRespDtos) {
-            donationFindRespDto.setTotal(total);
-        }
-        return donationFindRespDtos;
-    }
-
-    public Slice<DonationFindByFilterRespDto> getFilterFindTotal(Slice<DonationFindByFilterRespDto> donationFindRespDtos) {
-        float total = 0.0f;
-        for (DonationFindByFilterRespDto donationFindRespDto : donationFindRespDtos) {
-            total += Float.parseFloat(donationFindRespDto.getAmount());
-        }
-        for (DonationFindByFilterRespDto donationFindRespDto : donationFindRespDtos) {
-            donationFindRespDto.setTotal(total);
-        }
-        return donationFindRespDtos;
-    }
 }

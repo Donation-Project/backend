@@ -1,9 +1,12 @@
 package com.donation.service.user;
 
 import com.donation.auth.LoginMember;
+import com.donation.common.request.user.UserPasswordModifyReqDto;
 import com.donation.common.request.user.UserProfileUpdateReqDto;
+import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.domain.entites.User;
+import com.donation.infrastructure.PasswordEncoder;
 import com.donation.repository.user.UserRepository;
 import com.donation.repository.utils.PageCustom;
 import com.donation.service.s3.AwsS3Service;
@@ -22,6 +25,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserEmailRespDto checkUniqueEmail(String email){
+        return UserEmailRespDto.of(userRepository.existsByEmail(email));
+    }
+
+    @Transactional
+    public void passwordModify(LoginMember loginMember, UserPasswordModifyReqDto userPasswordModifyReqDto){
+        User user = userRepository.getById(loginMember.getId());
+        passwordEncoder.compare(userPasswordModifyReqDto.getCurrentPassword(), user.getPassword());
+        user.changeNewPassword(passwordEncoder.encode(userPasswordModifyReqDto.getModifyPassword()));
+    }
 
     public UserRespDto findById(LoginMember loginMember){
         return UserRespDto.of(userRepository.getById(loginMember.getId()));

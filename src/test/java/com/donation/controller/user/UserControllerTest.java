@@ -2,6 +2,8 @@ package com.donation.controller.user;
 
 import com.donation.auth.LoginMember;
 import com.donation.common.UserFixtures;
+import com.donation.common.request.user.UserEmailReqDto;
+import com.donation.common.response.user.UserEmailRespDto;
 import com.donation.common.response.user.UserRespDto;
 import com.donation.common.utils.ControllerTest;
 import com.donation.repository.utils.PageCustom;
@@ -90,6 +92,57 @@ class UserControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("패스워드 변경 요청 성공")
+    void 패스워드_변경_요청_성공() throws Exception {
+        //given
+        Long id = 1L;
+        willDoNothing().given(userService).passwordModify(회원검증(id), 비밀번호_변경_DTO(일반_사용자_패스워드, 새로운_일반_사용자_패스워드));
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
+
+        //expected
+        mockMvc.perform(put("/api/user/pw")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(비밀번호_변경_DTO(일반_사용자_패스워드, 새로운_일반_사용자_패스워드)))
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-password",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("currentPassword").description("현재 비밀번호"),
+                                fieldWithPath("modifyPassword").description("변경 비밀번호")
+                        )
+                ));
+
+    }
+
+    @Test
+    @DisplayName("이메일 중복확인 요청 성공(중복되지 않은 이메일)")
+    void 이메일_중복확인_요청_성공() throws Exception {
+        //given
+        given(userService.checkUniqueEmail(일반_사용자_이메일)).willReturn(UserEmailRespDto.of(false));
+
+        //expected
+        mockMvc.perform(post("/api/join/exists")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new UserEmailReqDto(일반_사용자_이메일)))
+                )
+                .andDo(print())
+                .andDo(document("user-email",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestFields(
+                                fieldWithPath("email").description("중복 확인 요청 이메일")
+                        ))
+                );
+    }
+
+    @Test
     @DisplayName("회원의 ID를 통한 회원단건조회 요청 성공")
     void 회원의_ID를_통한_회원단건조회_요청_성공() throws Exception {
         //given
@@ -121,7 +174,7 @@ class UserControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("회원 리스트 조회시 10개씩 페이징되어 조회된다.")
-    void 회원_리스트_조회시_10개씩_페이징되어_조회된다() throws Exception{
+    void 회원_리스트_조회시_10개씩_페이징되어_조회된다() throws Exception {
         //given
         List<UserRespDto> contet = LongStream.range(1, 11).mapToObj(UserFixtures::일반_반환_데이터).collect(Collectors.toList());
         PageCustom<UserRespDto> response = new PageCustom<>(PageableExecutionUtils.getPage(contet, PageRequest.of(0, 10), () -> 20L));
