@@ -1,6 +1,6 @@
 package com.donation.common.utils;
 
-import com.donation.config.JpaConfig;
+import com.donation.global.config.JpaConfig;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 

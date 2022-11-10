@@ -1,9 +1,9 @@
 package com.donation.common;
 
-import com.donation.common.request.comment.CommentSaveReqDto;
-import com.donation.domain.entites.Comment;
-import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
+import com.donation.domain.comment.dto.CommentSaveReqDto;
+import com.donation.domain.comment.entity.Comment;
+import com.donation.domain.post.entity.Post;
+import com.donation.domain.user.entity.User;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,16 +1,16 @@
 package com.donation.common;
 
-import com.donation.common.request.post.PostSaveReqDto;
-import com.donation.common.request.post.PostUpdateReqDto;
-import com.donation.common.response.post.PostFindRespDto;
-import com.donation.common.response.post.PostListRespDto;
-import com.donation.common.response.post.PostSaveRespDto;
-import com.donation.common.response.user.UserRespDto;
-import com.donation.domain.embed.Write;
-import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
-import com.donation.domain.enums.Category;
-import com.donation.domain.enums.PostState;
+import com.donation.domain.post.dto.PostSaveReqDto;
+import com.donation.domain.post.dto.PostUpdateReqDto;
+import com.donation.domain.post.dto.PostFindRespDto;
+import com.donation.domain.post.dto.PostListRespDto;
+import com.donation.domain.post.dto.PostSaveRespDto;
+import com.donation.domain.user.dto.UserRespDto;
+import com.donation.infrastructure.embed.Write;
+import com.donation.domain.post.entity.Post;
+import com.donation.domain.user.entity.User;
+import com.donation.domain.post.entity.Category;
+import com.donation.domain.post.entity.PostState;
 
 import java.util.List;
 import java.util.stream.Collectors;
