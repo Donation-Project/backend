@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 @Getter
-@Setter
 public class DonationFilterReqDto {
 
     @Nullable
