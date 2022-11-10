@@ -543,19 +543,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_기부_내역_저장">기부 내역 저장</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_12">요청</a></li>
-<li><a href="#_응답_15">응답</a></li>
 </ul>
 </li>
 <li><a href="#_기부_내역_전체_조회">기부 내역 전체 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_13">요청</a></li>
-<li><a href="#_응답_16">응답</a></li>
+<li><a href="#_응답_15">응답</a></li>
 </ul>
 </li>
 <li><a href="#_회원의_기부_내역_전체_조회">회원의 기부 내역 전체 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_14">요청</a></li>
-<li><a href="#_응답_17">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -565,13 +563,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_포스트_권한_변경">포스트 권한 변경</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_15">요청</a></li>
-<li><a href="#_응답_18">응답</a></li>
+<li><a href="#_응답_16">응답</a></li>
 </ul>
 </li>
 <li><a href="#_어드민_리스트_요청">어드민 : 리스트 요청</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_16">요청</a></li>
-<li><a href="#_응답_19">응답</a></li>
+<li><a href="#_응답_17">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -581,19 +579,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_좋아요_요청">좋아요 요청</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_17">요청</a></li>
-<li><a href="#_응답_20">응답</a></li>
+<li><a href="#_응답_18">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요_취소">좋아요 취소</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_18">요청</a></li>
-<li><a href="#_응답_21">응답</a></li>
+<li><a href="#_응답_19">응답</a></li>
 </ul>
 </li>
 <li><a href="#_좋아요를_한_유저_정보_list">좋아요를 한 유저 정보 List</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_19">요청</a></li>
-<li><a href="#_응답_22">응답</a></li>
+<li><a href="#_응답_20">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -603,25 +601,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_댓글_요청">댓글 요청</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_20">요청</a></li>
-<li><a href="#_응답_23">응답</a></li>
+<li><a href="#_응답_21">응답</a></li>
 </ul>
 </li>
 <li><a href="#_대댓글_요청">대댓글 요청</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_21">요청</a></li>
-<li><a href="#_응답_24">응답</a></li>
+<li><a href="#_응답_22">응답</a></li>
 </ul>
 </li>
 <li><a href="#_댓글_삭제_요청">댓글 삭제 요청</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_22">요청</a></li>
-<li><a href="#_응답_25">응답</a></li>
+<li><a href="#_응답_23">응답</a></li>
 </ul>
 </li>
 <li><a href="#_댓글_리스트_요청">댓글 리스트 요청</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_23">요청</a></li>
-<li><a href="#_응답_26">응답</a></li>
+<li><a href="#_응답_24">응답</a></li>
 </ul>
 </li>
 </ul>
@@ -641,13 +639,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/join HTTP/1.1
 Content-Type: application/json
-Content-Length: 143
+Content-Length: 196
 Host: localhost:8080
 
 {
   "email" : "default@email.com",
   "name" : "일반 사용자",
-  "password" : "default",
+  "password" : "$2a$10$8Qhf.373qGYLT/Ig/p0doOTgxwg7Dg/F3db3XxromDyoVAJY3u9X6",
   "metamask" : "https://dafaultmetamask.com"
 }</code></pre>
 </div>
@@ -2146,71 +2144,12 @@ Content-Length: 6178
 <h3 id="_기부_내역_저장"><a class="link" href="#_기부_내역_저장">기부 내역 저장</a></h3>
 <div class="sect3">
 <h4 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/donation HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 85
-Host: api.springdocs.com
-
-{
-  "userId" : 5,
-  "postId" : 22,
-  "amount" : "10.1",
-  "floatAmount" : 10.1
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::C:\Users\User\Desktop\backend\build\generated-snippets/donation-save/http-request.adoc[]
+==== 응답
+Unresolved directive in index.adoc - include::C:\Users\User\Desktop\backend\build\generated-snippets/donation-save/http-response.adoc[]
+Unresolved directive in index.adoc - include::C:\Users\User\Desktop\backend\build\generated-snippets/donation-save/response-fields.adoc[]</p>
 </div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-Content-Length: 61
-
-{
-  "success" : true,
-  "data" : null,
-  "error" : null
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>error</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">에러 발생시 오류 반환</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="sect2">
@@ -2219,20 +2158,13 @@ Content-Length: 61
 <h4 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 48
-Host: api.springdocs.com
-
-{
-  "username" : null,
-  "category" : "ETC"
-}</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation?username=%EC%9D%BC%EB%B0%98%20%EC%82%AC%EC%9A%A9%EC%9E%90&amp;category=ETC HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_16"><a class="link" href="#_응답_16">응답</a></h4>
+<h4 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2240,236 +2172,111 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 6923
+Content-Length: 2720
 
 {
   "success" : true,
-  "data" : {
-    "content" : [ {
-      "donateId" : 1,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.11",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.351417",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 2,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.12",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.357418",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 3,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.13",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.358418",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 4,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.14",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.360418",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 5,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.15",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.362418",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 6,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.16",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.36362",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 7,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.17",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.364744",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 8,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.18",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.366413",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 9,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.19",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.368861",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 10,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.110",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.370376",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 11,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.111",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.371376",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 12,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.112",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.373376",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 13,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.113",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.374378",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 14,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.114",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.376377",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 15,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.115",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.377377",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 16,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.116",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.378376",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 17,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.117",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.380377",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 18,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.118",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.38238",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 19,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.119",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.383378",
-      "total" : "202.615",
-      "category" : "ETC"
-    }, {
-      "donateId" : 20,
-      "postId" : 21,
-      "title" : "일반 게시물 제목",
-      "amount" : "10.120",
-      "sponsor" : "일반 사용자",
-      "beneficiary" : "일반 사용자",
-      "localDateTime" : "2022-11-09T12:19:32.384376",
-      "total" : "202.615",
-      "category" : "ETC"
-    } ],
-    "pageable" : {
-      "sort" : {
-        "sorted" : false,
-        "unsorted" : true,
-        "empty" : true
-      },
-      "pageNumber" : 0,
-      "pageSize" : 20,
-      "offset" : 0,
-      "unpaged" : false,
-      "paged" : true
-    },
-    "numberOfElements" : 20,
-    "first" : true,
-    "last" : true,
-    "size" : 20,
-    "number" : 0,
-    "sort" : {
-      "sorted" : false,
-      "unsorted" : true,
-      "empty" : true
-    },
-    "empty" : false
-  },
+  "data" : [ {
+    "donateId" : 1,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 2,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 3,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 4,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 5,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 6,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 7,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 8,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 9,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 10,
+    "postId" : null,
+    "userId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "currentAmount" : 30.0,
+    "sponsor" : "일반 사용자",
+    "beneficiary" : "일반 사용자",
+    "category" : "ETC"
+  } ],
   "error" : null
 }</code></pre>
 </div>
@@ -2480,259 +2287,11 @@ Content-Length: 6923
 <h3 id="_회원의_기부_내역_전체_조회"><a class="link" href="#_회원의_기부_내역_전체_조회">회원의 기부 내역 전체 조회</a></h3>
 <div class="sect3">
 <h4 id="_요청_14"><a class="link" href="#_요청_14">요청</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation/7 HTTP/1.1
-Host: api.springdocs.com</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /api/donation/{id}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">유저 ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_17"><a class="link" href="#_응답_17">응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-Content-Length: 5989
-
-{
-  "success" : true,
-  "data" : [ {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.11",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.602769"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.12",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.603724"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.13",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.604225"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.14",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.605055"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.15",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.606463"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.16",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.608462"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.17",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.610011"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.18",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.611178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.19",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.612179"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.110",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.613182"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.111",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.614178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.112",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.615178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.113",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.616178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.114",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.617183"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.115",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.618178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.116",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.619177"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.117",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.619177"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.118",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.620178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.119",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.621177"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.120",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.622179"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.121",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.623201"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.122",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.624178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.123",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.625181"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.124",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.626179"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.125",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.627178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.126",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.628178"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.127",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.629179"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.128",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.630179"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.129",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.631179"
-  }, {
-    "title" : "일반 게시물 제목",
-    "amount" : "10.130",
-    "total" : "303.87",
-    "postId" : 23,
-    "category" : "ETC",
-    "localDateTime" : "2022-11-09T12:19:32.63218"
-  } ],
-  "error" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::C:\Users\User\Desktop\backend\build\generated-snippets/donation-getUserList/http-request.adoc[]
+Unresolved directive in index.adoc - include::C:\Users\User\Desktop\backend\build\generated-snippets/donation-getUserList/path-parameters.adoc[]
+==== 응답
+Unresolved directive in index.adoc - include::C:\Users\User\Desktop\backend\build\generated-snippets/donation-getUserList/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -2752,7 +2311,7 @@ Host: api.springdocs.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /api/admin/{id}</caption>
+<caption class="title">Table 4. /api/admin/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2772,7 +2331,7 @@ Host: api.springdocs.com</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_18"><a class="link" href="#_응답_18">응답</a></h4>
+<h4 id="_응답_16"><a class="link" href="#_응답_16">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2834,7 +2393,7 @@ Host: api.springdocs.com</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_19"><a class="link" href="#_응답_19">응답</a></h4>
+<h4 id="_응답_17"><a class="link" href="#_응답_17">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3078,7 +2637,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /api/favorite/{id}</caption>
+<caption class="title">Table 5. /api/favorite/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3116,7 +2675,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_20"><a class="link" href="#_응답_20">응답</a></h4>
+<h4 id="_응답_18"><a class="link" href="#_응답_18">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3165,7 +2724,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /api/favorite/{id}</caption>
+<caption class="title">Table 6. /api/favorite/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3203,7 +2762,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_21"><a class="link" href="#_응답_21">응답</a></h4>
+<h4 id="_응답_19"><a class="link" href="#_응답_19">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3233,7 +2792,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /api/favorite/{id}</caption>
+<caption class="title">Table 7. /api/favorite/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3253,7 +2812,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_22"><a class="link" href="#_응답_22">응답</a></h4>
+<h4 id="_응답_20"><a class="link" href="#_응답_20">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3373,7 +2932,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /api/post/{id}/comment</caption>
+<caption class="title">Table 8. /api/post/{id}/comment</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3393,7 +2952,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_23"><a class="link" href="#_응답_23">응답</a></h4>
+<h4 id="_응답_21"><a class="link" href="#_응답_21">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -3448,7 +3007,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. /api/comment/{id}/reply</caption>
+<caption class="title">Table 9. /api/comment/{id}/reply</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3468,7 +3027,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_24"><a class="link" href="#_응답_24">응답</a></h4>
+<h4 id="_응답_22"><a class="link" href="#_응답_22">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -3517,7 +3076,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. /api/comment/{id}</caption>
+<caption class="title">Table 10. /api/comment/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3537,7 +3096,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_25"><a class="link" href="#_응답_25">응답</a></h4>
+<h4 id="_응답_23"><a class="link" href="#_응답_23">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3567,7 +3126,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. /api/post/{id}/comment</caption>
+<caption class="title">Table 11. /api/post/{id}/comment</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3587,7 +3146,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_26"><a class="link" href="#_응답_26">응답</a></h4>
+<h4 id="_응답_24"><a class="link" href="#_응답_24">응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK

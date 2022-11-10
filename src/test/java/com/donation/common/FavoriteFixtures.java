@@ -1,8 +1,8 @@
 package com.donation.common;
 
-import com.donation.domain.entites.Favorites;
-import com.donation.domain.entites.Post;
-import com.donation.domain.entites.User;
+import com.donation.domain.favorite.entity.Favorites;
+import com.donation.domain.post.entity.Post;
+import com.donation.domain.user.entity.User;
 
 public class FavoriteFixtures {
     public static Favorites createFavorites(User user, Post post) {

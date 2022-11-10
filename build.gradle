@@ -90,53 +90,13 @@ asciidoctor {
 
 jacocoTestReport {
 	reports {
-		xml.enabled false
-		csv.enabled false
+		xml.enabled true
 		html.enabled true
 	}
-
-	finalizedBy 'jacocoTestCoverageVerification'
-
-	dependsOn test
-
-	def Qdomains = []
-	for (qPattern in "QA".."QZ") {  // qPattern = "*.QA","*.QB","*.QC", ... "*.QZ"
-		Qdomains.add("com/donation/**/" + qPattern + "*.*")
-	}
-
-	afterEvaluate {
-		classDirectories.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: [
-					"com/donation/*.*",
-					"com/donation/config/*.*",
-					"com/donation/config/**/*.*",
-			] + Qdomains)
-		}))
-	}
-}
-
-jacocoTestCoverageVerification {
-	violationRules {
-		rule {
-			enabled = false
-			element = 'BUNDLE'
-
-			limit {
-				counter = 'LINE'
-				value = 'COVEREDRATIO'
-				minimum = 0.80
-			}
-
-			excludes = []
-		}
-	}
-
-	finalizedBy 'asciidoctor'
 }
 
 bootJar {
 	dependsOn asciidoctor
-
 	copy {
 		from asciidoctor.outputDir
 		into 'src/main/resources/templates/docs'

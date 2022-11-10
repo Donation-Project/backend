@@ -1,13 +1,13 @@
 package com.donation.common;
 
 
-import com.donation.common.request.user.UserLoginReqDto;
-import com.donation.common.request.user.UserPasswordModifyReqDto;
-import com.donation.common.request.user.UserProfileUpdateReqDto;
-import com.donation.common.request.user.UserSaveReqDto;
-import com.donation.common.response.user.UserRespDto;
-import com.donation.domain.entites.User;
-import com.donation.domain.enums.Role;
+import com.donation.domain.user.dto.UserLoginReqDto;
+import com.donation.domain.user.dto.UserPasswordModifyReqDto;
+import com.donation.domain.user.dto.UserProfileUpdateReqDto;
+import com.donation.domain.user.dto.UserSaveReqDto;
+import com.donation.domain.user.dto.UserRespDto;
+import com.donation.domain.user.entity.User;
+import com.donation.domain.user.entity.Role;
 
 import java.util.List;
 import java.util.stream.Collectors;
