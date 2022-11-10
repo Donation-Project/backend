@@ -19,7 +19,7 @@ public class DonationFindRespDto {
 
     private Long userId;
     private Category category;
-    private LocalDateTime localDateTime;
+
 
     public static DonationFindRespDto of(Donation donation){
         return DonationFindRespDto.builder()
@@ -29,20 +29,19 @@ public class DonationFindRespDto {
                 .postId(donation.getPost().getId())
                 .userId(donation.getUser().getId())
                 .category(donation.getPost().getCategory())
-                .localDateTime(donation.getCreateAt())
                 .build();
     }
 
 
     @Builder
     @QueryProjection
-    public DonationFindRespDto(String title, String amount, float currentAmount, Long postId, Long userId, Category category, LocalDateTime localDateTime) {
+    public DonationFindRespDto(String title, String amount, float currentAmount, Long postId, Long userId, Category category) {
         this.title = title;
         this.amount = amount;
         this.currentAmount = currentAmount;
         this.postId = postId;
         this.userId = userId;
         this.category = category;
-        this.localDateTime = localDateTime;
+
     }
 }
