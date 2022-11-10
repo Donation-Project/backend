@@ -50,7 +50,7 @@ class DonationServiceTest extends ServiceTest {
         String amount = "1";
 
         //given
-        donationService.createDonate(기부_생성_DTO(user.getId(), post.getId(), amount));
+        donationService.createDonate(기부_생성_DTO(회원검증( user.getId()), post.getId(), amount));
 
         //then
         Assertions.assertThat(donationRepository.count()).isEqualTo(1L);
@@ -65,7 +65,7 @@ class DonationServiceTest extends ServiceTest {
         String amount = "1";
 
         DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(null, post.getId(), amount);
-        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(user.getId(), null, amount);
+        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(회원검증(user.getId()), null, amount);
 
         //when & then
         assertAll(() -> {
@@ -134,7 +134,7 @@ class DonationServiceTest extends ServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    donationService.createDonate(new DonationSaveReqDto(user.getId(),post.getId(), amount));
+                    donationService.createDonate(new DonationSaveReqDto(회원검증(user.getId()),post.getId(), amount));
                 } finally {
                     latch.countDown();
                 }

@@ -1,5 +1,6 @@
 package com.donation.common.request.donation;
 
+import com.donation.auth.LoginMember;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class DonationSaveReqDto {
 
-    @NotNull(message = "후원자의 아이디가 없습니다")
-    private Long userId;
+    private LoginMember loginMember;
 
     @NotNull(message = "포스트의 아이디가 없습니다")
     private Long postId;
@@ -24,8 +24,8 @@ public class DonationSaveReqDto {
     private String amount;
 
     @Builder
-    public DonationSaveReqDto(Long userId, Long postId, String amount) {
-        this.userId = userId;
+    public DonationSaveReqDto(LoginMember loginMember, Long postId, String amount) {
+        this.loginMember = loginMember;
         this.postId = postId;
         this.amount = amount;
     }

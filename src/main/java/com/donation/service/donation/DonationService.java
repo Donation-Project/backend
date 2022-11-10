@@ -32,7 +32,7 @@ public class DonationService {
 
     @Transactional
     public void createDonate(DonationSaveReqDto donationSaveReqDto) {
-        User user = userRepository.getById(donationSaveReqDto.getUserId());
+        User user = userRepository.getById(donationSaveReqDto.getLoginMember().getId());
         Post post = postRepository.getById(donationSaveReqDto.getPostId());
         donationRepository.save(Donation.of(user, post, donationSaveReqDto.getAmount()));
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
