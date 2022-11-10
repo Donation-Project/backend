@@ -1,159 +1,96 @@
 package com.donation.controller.donation;
 
-import com.donation.common.DonationFixtures;
-import com.donation.common.request.donation.DonationFilterReqDto;
-import com.donation.domain.entites.Donation;
-import com.donation.domain.entites.Post;
+
+import com.donation.common.response.donation.DonationFindByFilterRespDto;
+import com.donation.common.response.donation.DonationFindRespDto;
+
+import com.donation.common.utils.ControllerTest;
+
 import com.donation.domain.entites.User;
-import com.donation.repository.donation.DonationRepository;
-import com.donation.repository.post.PostRepository;
-import com.donation.repository.user.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
+
+import com.donation.service.auth.application.AuthService;
+import com.donation.service.donation.DonationService;
+
+import com.donation.web.controller.donation.DonationController;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.donation.common.PostFixtures.createPost;
+import java.util.stream.LongStream;
+
+import static com.donation.common.AuthFixtures.*;
+import static com.donation.common.DonationFixtures.*;
+
+import static com.donation.common.PostFixtures.*;
+
 import static com.donation.common.UserFixtures.createUser;
-import static com.donation.domain.enums.Category.ETC;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import static org.mockito.BDDMockito.given;
+
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class DonationControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private DonationRepository donationRepository;
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ObjectMapper objectMapper;
+@WebMvcTest(value = DonationController.class)
+class DonationControllerTest extends ControllerTest {
 
-    @AfterEach
-    void clear() {
-        donationRepository.deleteAll();
-        postRepository.deleteAll();
-        userRepository.deleteAll();
-
-    }
-
-//    @Test
-//    @DisplayName("후원(컨트롤러) : 후원 하기")
-//    void save() throws Exception {
-//        //given
-//        User user = userRepository.save(createUser("beneficiary@email.com"));
-//        Post post = postRepository.save(createPost(user));
-//        User sponsor = userRepository.save(createUser("sponsor@email.com"));
-//        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), post.getId(), "10.1");
-//        String request = objectMapper.writeValueAsString(data);
-//
-//        //expected
-//        mockMvc.perform(post("/api/donation")
-//                        .contentType(APPLICATION_JSON)
-//                        .content(request)
-//                )
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.success").value("true"))
-//                .andExpect(jsonPath("$.data").isEmpty())
-//                .andExpect(jsonPath("$.error").isEmpty())
-//                .andDo(print());
-//    }
-
-//    @Test
-//    @DisplayName("후원(컨트롤러) : 후원 하기_예외발생")
-//    void saveError() throws Exception {
-//        //given
-//        User sponsor = userRepository.save(createUser("sponsor@email.com"));
-//        DonationSaveReqDto data = new DonationSaveReqDto(sponsor.getId(), null, "10.1");
-//        String request = objectMapper.writeValueAsString(data);
-//
-//        //expected
-//        mockMvc.perform(post("/api/donation")
-//                        .contentType(APPLICATION_JSON)
-//                        .content(request)
-//                )
-//                .andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.success").value("false"))
-//                .andExpect(jsonPath("$.data").isEmpty())
-//                .andExpect(jsonPath("$.error.errorCode").value("BAD_REQUEST"))
-//                .andDo(print());
-//    }
+    @MockBean
+    private DonationService donationService;
+    @MockBean
+    private AuthService authService;
 
     @Test
-    @DisplayName("후원(컨트롤러) : 내후원 조회")
-    void findByUserId() throws Exception {
+    @DisplayName("유저_아이디로_후원내역을_조회한다")
+    void 유저_아이디로_후원내역을_조회한다() throws Exception {
         //given
-        User user = userRepository.save(createUser("beneficiary@email.com"));
-        Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor@email.com"));
-        List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i -> DonationFixtures.createDonation(sponsor,post,"10.1"+i)
-                ).collect(Collectors.toList());
-        donationRepository.saveAll(donations);
+        User user = createUser(1L);
+        List<DonationFindRespDto> content = LongStream.range(1, 11)
+                .mapToObj(i -> 유저에_대한_기부_응답(createPost(i) ,user))
+                .collect(Collectors.toList());
 
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
+        given(donationService.findById(회원검증(user.getId()))).willReturn(content);
 
-        //expected
-        mockMvc.perform(get("/api/donation/"+sponsor.getId()))
+        // expected
+        mockMvc.perform(get("/api/donation/me")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data[0].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data[0].amount").value("10.11"))
-                .andExpect(jsonPath("$.data[9].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data[9].amount").value("10.110"))
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
-
+                .andDo(print())
+                .andDo(document("donation-findById",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.[].title").description("제목"),
+                                fieldWithPath("data.[].amount").description("금액"),
+                                fieldWithPath("data.[].currentAmount").description("포스트 총 후원금액"),
+                                fieldWithPath("data.[].postId").description("포스팅 ID"),
+                                fieldWithPath("data.[].userId").description("유저 ID"),
+                                fieldWithPath("data.[].category").description("카테고리"),
+                                fieldWithPath("error").description("에러 발생시 오류 반환")
+                        )
+                ));
     }
-
-    @Test
-    @DisplayName("후원(컨트롤러) : 전체 조회")
-    void findAllByFilter() throws Exception {
-        //given
-        User user = userRepository.save(createUser("beneficiary@email.com"));
-        Post post = postRepository.save(createPost(user));
-        User sponsor = userRepository.save(createUser("sponsor@email.com"));
-        List<Donation> donations = IntStream.range(1, 31)
-                .mapToObj(i -> DonationFixtures.createDonation(sponsor,post,"10.1"+i)
-                ).collect(Collectors.toList());
-        donationRepository.saveAll(donations);
-
-        DonationFilterReqDto dto=new DonationFilterReqDto(null, ETC);
-
-        String request = objectMapper.writeValueAsString(dto);
-
-
-        //expected
-        mockMvc.perform(get("/api/donation")
-                        .contentType(APPLICATION_JSON)
-                        .content(request))
-
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data.content[0].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data.content[0].amount").value("10.11"))
-                .andExpect(jsonPath("$.data.content[3].title").value(post.getWrite().getTitle()))
-                .andExpect(jsonPath("$.data.content[3].amount").value("10.14"))
-                .andExpect(jsonPath("$.error").isEmpty())
-                .andDo(print());
-
-    }
-
-
 
 
 }
