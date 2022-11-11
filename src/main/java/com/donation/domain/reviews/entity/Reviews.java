@@ -1,5 +1,6 @@
 package com.donation.domain.reviews.entity;
 
+import com.donation.global.exception.DonationInvalidateException;
 import com.donation.infrastructure.embed.BaseEntity;
 import com.donation.infrastructure.embed.Write;
 import com.donation.domain.post.entity.Post;
@@ -40,4 +41,13 @@ public class Reviews extends BaseEntity {
     }
 
 
+    public void validateOwner(Long useId) {
+        if (!useId.equals(user.getId())) {
+            throw new DonationInvalidateException("작성자만 권한이 있습니다.");
+        }
+    }
+
+    public void validate(final Write write){
+        this.write = write;
+    }
 }
