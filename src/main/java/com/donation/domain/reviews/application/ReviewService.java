@@ -38,10 +38,10 @@ public class ReviewService {
     }
 
     @Transactional
-    public void changeWrite(LoginMember loginMember, Long postId, ReviewReqDto reviewReqDto){
+    public void changeContent(LoginMember loginMember, Long postId, ReviewReqDto reviewReqDto){
         Reviews reviews = reviewRepository.getByPostId(postId);
         reviews.validateOwner(loginMember.getId());
-        reviews.changeWrite(reviewReqDto.getWrite());
+        reviews.changeContent(reviewReqDto.getWrite());
     }
 
     public ReviewRespDto getReview(Long postId) {

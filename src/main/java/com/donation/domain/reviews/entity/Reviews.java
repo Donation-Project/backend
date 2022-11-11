@@ -57,7 +57,7 @@ public class Reviews extends BaseEntity {
         }
     }
 
-    public void changeWrite(final Write write){
+    public void changeContent(final Write write){
         this.write = write;
     }
 }

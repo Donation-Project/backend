@@ -89,7 +89,7 @@ class ReviewServiceTest extends ServiceTest {
         Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when
-        reviewService.changeWrite(회원검증(user.getId()), post.getId(), 수정된_감사글());
+        reviewService.changeContent(회원검증(user.getId()), post.getId(), 수정된_감사글());
         Reviews actual = reviewRepository.getById(reviewId);
 
         //then
@@ -109,7 +109,7 @@ class ReviewServiceTest extends ServiceTest {
         reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when & then
-        assertThatThrownBy(() -> reviewService.changeWrite(회원검증(0L), post.getId(), 수정된_감사글()))
+        assertThatThrownBy(() -> reviewService.changeContent(회원검증(0L), post.getId(), 수정된_감사글()))
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("작성자만 권한이 있습니다.");
     }

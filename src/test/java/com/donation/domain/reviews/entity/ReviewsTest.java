@@ -43,7 +43,7 @@ class ReviewsTest {
         Write 수정내용 = new Write(게시물_수정_제목, 게시물_수정_내용);
 
         //when
-        review.changeWrite(수정내용);
+        review.changeContent(수정내용);
 
         //then
         assertAll(() -> {
