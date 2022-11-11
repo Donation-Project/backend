@@ -24,6 +24,8 @@ public class DonationFixtures {
     public static String 후원자 = "sponsor@naver.com";
 
     public static String 후원금액 = "100";
+    public static String 최소금액을_벗어남 = "-1";
+    public static String 최대금액을_벗어남 = "100000000";
 
     /* 기부 생성 */
     public static DonationSaveReqDto 기부_생성_DTO(Long userId, Long postId, String amount){
