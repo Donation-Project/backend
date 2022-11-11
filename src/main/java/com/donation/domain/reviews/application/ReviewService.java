@@ -22,10 +22,19 @@ public class ReviewService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void save(LoginMember loginMember, Long postId, Write write){
+    public Long save(LoginMember loginMember, Long postId, Write write){
         User user = userRepository.getById(loginMember.getId());
         Post post = postRepository.getById(postId);
-        reviewRepository.save(Reviews.of(user, post, write));
+
+        validate(user, post);
+
+        Reviews reviews = reviewRepository.save(Reviews.of(user, post, write));
+        return reviews.getId();
+    }
+
+    private void validate(User user, Post post){
+        post.validateOwner(user.getId());
+        reviewRepository.validateExistsPostId(post.getId());
     }
 
     @Transactional
@@ -41,8 +50,8 @@ public class ReviewService {
     }
 
     @Transactional
-    public void delete(LoginMember loginMember, Long id){
-        Reviews review = reviewRepository.getById(id);
+    public void delete(LoginMember loginMember, Long postId){
+        Reviews review = reviewRepository.getByPostId(postId);
         review.validateOwner(loginMember.getId());
         reviewRepository.delete(review);
     }
