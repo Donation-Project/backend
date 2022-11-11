@@ -87,7 +87,7 @@ class DonationServiceTest extends ServiceTest {
         Donation donation = donationRepository.save(createDonation(sponsor, post, 후원금액));
 
         //when
-        List<DonationFindRespDto> dtos = donationService.findById(회원검증(sponsor.getId()));
+        List<DonationFindRespDto> dtos = donationService.findMyDonation(회원검증(sponsor.getId()));
 
         //then
         assertAll(() ->{
@@ -107,7 +107,7 @@ class DonationServiceTest extends ServiceTest {
         List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, sponsor, post));
 
         //when
-        List<DonationFindByFilterRespDto> list = donationService.getList(기부_전체검색_DTO());
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(기부_전체검색_DTO());
 
         //then
         assertAll(() ->{

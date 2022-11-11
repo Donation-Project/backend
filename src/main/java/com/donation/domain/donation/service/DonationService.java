@@ -38,7 +38,7 @@ public class DonationService {
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
     }
 
-    public List<DonationFindRespDto> findById(LoginMember loginMember) {
+    public List<DonationFindRespDto> findMyDonation(LoginMember loginMember) {
         List<Donation> donations = donationRepository.findAllByUserId(loginMember.getId());
         Map<Long, Float> gross_amount = new HashMap<>();
         for (Donation donation : donations) {
@@ -54,7 +54,7 @@ public class DonationService {
                 .collect(Collectors.toList());
     }
 
-    public List<DonationFindByFilterRespDto> getList(DonationFilterReqDto donationFilterReqDto){
+    public List<DonationFindByFilterRespDto> findAllDonationByFilter(DonationFilterReqDto donationFilterReqDto){
         return donationRepository.findAllByFilter(donationFilterReqDto);
     }
 
