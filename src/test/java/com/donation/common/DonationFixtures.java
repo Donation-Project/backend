@@ -24,8 +24,6 @@ public class DonationFixtures {
     public static String 후원자 = "sponsor@naver.com";
 
     public static String 후원금액 = "100";
-    public static LocalDateTime 현재시간=LocalDateTime.now();
-    public static LoginMember 유저=new LoginMember(1L);
 
     /* 기부 생성 */
     public static DonationSaveReqDto 기부_생성_DTO(Long userId, Long postId, String amount){
