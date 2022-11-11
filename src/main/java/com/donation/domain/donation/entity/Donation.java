@@ -47,5 +47,7 @@ public class Donation extends BaseEntity {
                 .amount(amount)
                 .build();
     }
-
+    public static Float toFloat(String amount){
+        return Float.parseFloat(amount);
+    }
 }
