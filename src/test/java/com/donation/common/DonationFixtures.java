@@ -24,13 +24,13 @@ public class DonationFixtures {
     public static String 후원자 = "sponsor@naver.com";
 
     public static String 후원금액 = "100";
-    public static LocalDateTime 현재시간=LocalDateTime.now();
-    public static LoginMember 유저=new LoginMember(1L);
+    public static String 최소금액을_벗어남 = "-1";
+    public static String 최대금액을_벗어남 = "100000000";
 
     /* 기부 생성 */
-    public static DonationSaveReqDto 기부_생성_DTO(LoginMember loginMember, Long postId, String amount){
+    public static DonationSaveReqDto 기부_생성_DTO(Long userId, Long postId, String amount){
         return DonationSaveReqDto.builder()
-                .loginMember(loginMember)
+                .userId(userId)
                 .postId(postId)
                 .amount(amount)
                 .build();
@@ -44,9 +44,9 @@ public class DonationFixtures {
                 .userId(user.getId())
                 .title(post.getWrite().getTitle())
                 .amount(일반_게시물_기부금)
-                .currentAmount(일반_게시물_현재_모금액)
-                .sponsor(user.getName())
-                .beneficiary(post.getUser().getName())
+                .grossAmount(일반_게시물_현재_모금액)
+                .fromUser(user.getName())
+                .toUser(post.getUser().getName())
                 .category(일반_게시물_카테고리)
                 .build();
     }
@@ -57,7 +57,7 @@ public class DonationFixtures {
                 .userId(user.getId())
                 .title(post.getWrite().getTitle())
                 .amount(일반_게시물_기부금)
-                .gross_amount(일반_게시물_현재_모금액)
+                .grossAmount(일반_게시물_현재_모금액)
                 .category(일반_게시물_카테고리)
                 .build();
     }

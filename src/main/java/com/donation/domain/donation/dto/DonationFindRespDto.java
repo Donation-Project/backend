@@ -9,21 +9,23 @@ import lombok.Getter;
 @Getter
 public class DonationFindRespDto {
 
+    private Long donationId;
     private String title;
     private String amount;
 
-    private float gross_amount;
+    private float grossAmount;
     private Long postId;
 
     private Long userId;
     private Category category;
 
 
-    public static DonationFindRespDto of(Donation donation,float gross_amount){
+    public static DonationFindRespDto of(Donation donation,float grossAmount){
         return DonationFindRespDto.builder()
+                .donationId(donation.getId())
                 .title(donation.getPost().getWrite().getTitle())
                 .amount(donation.getAmount())
-                .gross_amount(gross_amount)
+                .grossAmount(grossAmount)
                 .postId(donation.getPost().getId())
                 .userId(donation.getUser().getId())
                 .category(donation.getPost().getCategory())
@@ -33,10 +35,11 @@ public class DonationFindRespDto {
 
     @Builder
     @QueryProjection
-    public DonationFindRespDto(String title, String amount, float gross_amount, Long postId, Long userId, Category category) {
+    public DonationFindRespDto(Long donationId,String title, String amount, float grossAmount, Long postId, Long userId, Category category) {
+        this.donationId = donationId;
         this.title = title;
         this.amount = amount;
-        this.gross_amount = gross_amount;
+        this.grossAmount = grossAmount;
         this.postId = postId;
         this.userId = userId;
         this.category = category;

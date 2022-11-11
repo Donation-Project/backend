@@ -12,8 +12,6 @@ import com.donation.domain.user.entity.User;
 import com.donation.domain.auth.application.AuthService;
 import com.donation.domain.donation.service.DonationService;
 
-import com.donation.presentation.DonationController;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -70,7 +68,7 @@ class DonationControllerTest extends ControllerTest {
                 .collect(Collectors.toList());
 
         given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
-        given(donationService.findById(회원검증(user.getId()))).willReturn(content);
+        given(donationService.findMyDonation(회원검증(user.getId()))).willReturn(content);
         // expected
         mockMvc.perform(get("/api/donation/me")
                         .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
@@ -87,7 +85,7 @@ class DonationControllerTest extends ControllerTest {
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("금액"),
-                                fieldWithPath("data.[].gross_amount").description("포스트 총 후원금액"),
+                                fieldWithPath("data.[].grossAmount").description("포스트 총 후원금액"),
                                 fieldWithPath("data.[].postId").description("포스팅 ID"),
                                 fieldWithPath("data.[].userId").description("유저 ID"),
                                 fieldWithPath("data.[].category").description("카테고리"),
@@ -104,7 +102,7 @@ class DonationControllerTest extends ControllerTest {
         List<DonationFindByFilterRespDto> content = LongStream.range(1, 11)
                 .mapToObj(i -> 기부_전체조회_응답(i,post ,user))
                 .collect(Collectors.toList());
-        given(donationService.getList(any())).willReturn(content);
+        given(donationService.findAllDonationByFilter(any())).willReturn(content);
         // expected
         mockMvc.perform(get("/api/donation?username="+일반_사용자_이름+"&category="+일반_게시물_카테고리))
                 .andExpect(status().isOk())
@@ -123,7 +121,7 @@ class DonationControllerTest extends ControllerTest {
                                 fieldWithPath("data.[].userId").description("유저 ID"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("후원량"),
-                                fieldWithPath("data.[].currentAmount").description("포스트 총 후원금액"),
+                                fieldWithPath("data.[].grossAmount").description("포스트 총 후원금액"),
                                 fieldWithPath("data.[].sponsor").description("후원자"),
                                 fieldWithPath("data.[].beneficiary").description("후원 받는사람"),
                                 fieldWithPath("data.[].category").description("카테고리"),
