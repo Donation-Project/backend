@@ -42,6 +42,14 @@ public class Reviews extends BaseEntity {
         this.write = write;
     }
 
+    public static Reviews of(User user, Post post, Write write){
+        return Reviews.builder()
+                .user(user)
+                .post(post)
+                .write(write)
+                .build();
+    }
+
 
     public void validateOwner(Long useId) {
         if (!useId.equals(user.getId())) {
@@ -49,7 +57,7 @@ public class Reviews extends BaseEntity {
         }
     }
 
-    public void validate(final Write write){
+    public void changeWrite(final Write write){
         this.write = write;
     }
 }

@@ -9,6 +9,11 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Reviews, Long> {
 
+    default Reviews getById(Long id){
+        return findById(id)
+                .orElseThrow(() -> new DonationNotFoundException("해당 검색결과로 존재햐는 글이 없습니다."));
+    }
+
     Optional<Reviews> findByPostId(Long postId);
 
     default Reviews getByPostId(Long postId){
