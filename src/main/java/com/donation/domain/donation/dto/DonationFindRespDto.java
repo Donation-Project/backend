@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class DonationFindRespDto {
 
+    private Long donationId;
     private String title;
     private String amount;
 
@@ -21,6 +22,7 @@ public class DonationFindRespDto {
 
     public static DonationFindRespDto of(Donation donation,float grossAmount){
         return DonationFindRespDto.builder()
+                .donationId(donation.getId())
                 .title(donation.getPost().getWrite().getTitle())
                 .amount(donation.getAmount())
                 .grossAmount(grossAmount)
@@ -33,7 +35,8 @@ public class DonationFindRespDto {
 
     @Builder
     @QueryProjection
-    public DonationFindRespDto(String title, String amount, float grossAmount, Long postId, Long userId, Category category) {
+    public DonationFindRespDto(Long donationId,String title, String amount, float grossAmount, Long postId, Long userId, Category category) {
+        this.donationId = donationId;
         this.title = title;
         this.amount = amount;
         this.grossAmount = grossAmount;
