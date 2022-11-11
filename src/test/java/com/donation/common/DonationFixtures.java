@@ -28,9 +28,9 @@ public class DonationFixtures {
     public static LoginMember 유저=new LoginMember(1L);
 
     /* 기부 생성 */
-    public static DonationSaveReqDto 기부_생성_DTO(LoginMember loginMember, Long postId, String amount){
+    public static DonationSaveReqDto 기부_생성_DTO(Long userId, Long postId, String amount){
         return DonationSaveReqDto.builder()
-                .loginMember(loginMember)
+                .userId(userId)
                 .postId(postId)
                 .amount(amount)
                 .build();
