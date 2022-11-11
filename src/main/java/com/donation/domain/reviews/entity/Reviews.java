@@ -6,6 +6,7 @@ import com.donation.infrastructure.embed.Write;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.user.entity.User;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Table(name = "reviews")
+@Getter
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 public class Reviews extends BaseEntity {
