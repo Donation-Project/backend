@@ -40,9 +40,8 @@ public class DonationController {
         return ResponseEntity.ok(CommonResponse.success(donationFindRespDtos));
     }
     @GetMapping
-    public ResponseEntity<?> findAllDonationByFilter(@RequestParam(required = false) String username,
-                                                     @RequestParam(required = false) Category category) {
-        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(new DonationFilterReqDto(username, category));
+    public ResponseEntity<?> findAllDonationByFilter(@RequestBody DonationFilterReqDto donationFilterReqDto) {
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(donationFilterReqDto);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 }
