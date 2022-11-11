@@ -29,4 +29,17 @@ class WriteTest {
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("제목이 15자 이상일 수 없습니다.");
     }
+
+    @Test
+    @DisplayName("제목 또는 내용이 null인 경우 오류를 던진다.")
+    void 제목_또는_내용이_null인경우_오류를_던진다(){
+        //given
+        String title = null;
+        String content = null;
+
+        //when & then
+        assertThatThrownBy(() -> new Write(title, content))
+                .isInstanceOf(DonationInvalidateException.class)
+                .hasMessage("제목 또는 내용이 존재하지 않습니다.");
+    }
 }

@@ -21,15 +21,16 @@ public class Write {
 
     @Builder
     public Write(String title, String content) {
-        validate(title);
+        validate(title, content);
         this.title = title;
         this.content = content;
     }
 
-    private void validate(final String title){
+    private void validate(final String title, final String content){
+        if (title == null || content == null)
+            throw new DonationInvalidateException("제목 또는 내용이 존재하지 않습니다.");
         if (title.length() > TITLE_MESSAGE_LENGTH)
             throw new DonationInvalidateException("제목이 15자 이상일 수 없습니다.");
+
     }
-
-
 }
