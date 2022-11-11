@@ -10,17 +10,17 @@ import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
 import com.donation.global.exception.DonationDuplicateException;
 import com.donation.global.exception.DonationInvalidateException;
-import com.donation.infrastructure.embed.Write;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.PostFixtures.*;
+import static com.donation.common.ReviewFixture.*;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 
 class ReviewServiceTest extends ServiceTest {
@@ -44,7 +44,7 @@ class ReviewServiceTest extends ServiceTest {
         Post post = postRepository.save(createPost(user));
 
         //when
-        Long expected = reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글);
+        Long expected = reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
         Reviews actual = reviewRepository.getById(expected);
 
         //then
@@ -57,10 +57,10 @@ class ReviewServiceTest extends ServiceTest {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
-        reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글);
+        reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when & then
-        assertThatThrownBy(() -> reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글))
+        assertThatThrownBy(() -> reviewService.save(회원검증(user.getId()), post.getId(), 감사글()))
                 .isInstanceOf(DonationDuplicateException.class)
                 .hasMessage("이미 작성한 글이 있습니다.");
     }
@@ -75,7 +75,7 @@ class ReviewServiceTest extends ServiceTest {
 
 
         //when & then
-        assertThatThrownBy(() -> reviewService.save(회원검증(타인.getId()), post.getId(), 일반_게시물_게시글))
+        assertThatThrownBy(() -> reviewService.save(회원검증(타인.getId()), post.getId(), 감사글()))
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("게시물의 작성자만 권한이 있습니다.");
     }
@@ -86,18 +86,17 @@ class ReviewServiceTest extends ServiceTest {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
-        Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글);
-        Write 수정글 = new Write(게시물_수정_제목, 게시물_수정_내용);
+        Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when
-        reviewService.changeWrite(회원검증(user.getId()), post.getId(), 수정글);
+        reviewService.changeWrite(회원검증(user.getId()), post.getId(), 수정된_감사글());
         Reviews actual = reviewRepository.getById(reviewId);
 
         //then
         assertAll(() -> {
             assertThat(actual.getId()).isEqualTo(reviewId);
-            assertThat(actual.getWrite().getTitle()).isEqualTo(게시물_수정_제목);
-            assertThat(actual.getWrite().getContent()).isEqualTo(게시물_수정_내용);
+            assertThat(actual.getWrite().getTitle()).isEqualTo(수정된_감사글_제목);
+            assertThat(actual.getWrite().getContent()).isEqualTo(수정된_감사글_내용);
         });
     }
 
@@ -107,11 +106,10 @@ class ReviewServiceTest extends ServiceTest {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
-        reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글);
-        Write 수정글 = new Write(게시물_수정_제목, 게시물_수정_내용);
+        reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when & then
-        assertThatThrownBy(() -> reviewService.changeWrite(회원검증(0L), post.getId(), 수정글))
+        assertThatThrownBy(() -> reviewService.changeWrite(회원검증(0L), post.getId(), 수정된_감사글()))
                 .isInstanceOf(DonationInvalidateException.class)
                 .hasMessage("작성자만 권한이 있습니다.");
     }
@@ -122,7 +120,7 @@ class ReviewServiceTest extends ServiceTest {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
-        Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글);
+        Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when
         ReviewRespDto actual = reviewService.getReview(post.getId());
@@ -140,7 +138,7 @@ class ReviewServiceTest extends ServiceTest {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
-        Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 일반_게시물_게시글);
+        Long reviewId = reviewService.save(회원검증(user.getId()), post.getId(), 감사글());
 
         //when
         reviewService.delete(회원검증(user.getId()), post.getId());

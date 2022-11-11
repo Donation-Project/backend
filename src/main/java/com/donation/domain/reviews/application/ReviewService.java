@@ -2,12 +2,12 @@ package com.donation.domain.reviews.application;
 
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
+import com.donation.domain.reviews.dto.ReviewReqDto;
 import com.donation.domain.reviews.dto.ReviewRespDto;
 import com.donation.domain.reviews.entity.Reviews;
 import com.donation.domain.reviews.repository.ReviewRepository;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.embed.Write;
 import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,13 @@ public class ReviewService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long save(LoginMember loginMember, Long postId, Write write){
+    public Long save(LoginMember loginMember, Long postId, ReviewReqDto reviewReqDto){
         User user = userRepository.getById(loginMember.getId());
         Post post = postRepository.getById(postId);
 
         validate(user, post);
 
-        Reviews reviews = reviewRepository.save(Reviews.of(user, post, write));
+        Reviews reviews = reviewRepository.save(Reviews.of(user, post, reviewReqDto.getWrite()));
         return reviews.getId();
     }
 
@@ -38,10 +38,10 @@ public class ReviewService {
     }
 
     @Transactional
-    public void changeWrite(LoginMember loginMember, Long postId, Write changeWrite){
+    public void changeWrite(LoginMember loginMember, Long postId, ReviewReqDto reviewReqDto){
         Reviews reviews = reviewRepository.getByPostId(postId);
         reviews.validateOwner(loginMember.getId());
-        reviews.changeWrite(changeWrite);
+        reviews.changeWrite(reviewReqDto.getWrite());
     }
 
     public ReviewRespDto getReview(Long postId) {
