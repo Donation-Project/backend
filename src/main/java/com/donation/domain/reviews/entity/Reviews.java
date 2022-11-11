@@ -38,4 +38,6 @@ public class Reviews extends BaseEntity {
         this.post = post;
         this.write = write;
     }
+
+
 }
