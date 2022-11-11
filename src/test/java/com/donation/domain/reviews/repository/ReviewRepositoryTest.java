@@ -8,6 +8,7 @@ import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
 import com.donation.global.exception.DonationDuplicateException;
 import com.donation.global.exception.DonationNotFoundException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,15 @@ class ReviewRepositoryTest extends RepositoryTest {
 
         //then
         assertThat(actual).isFalse();
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 감사글 아이디로 조회시 오류를 던진다.")
+    void 존재하지_않는_감사글_아이디로_조회시_오류를_던진다(){
+        //given & when & then
+        Assertions.assertThatThrownBy(() -> reviewRepository.getById(0L))
+                .isInstanceOf(DonationNotFoundException.class)
+                .hasMessage("해당 검색결과로 존재햐는 글이 없습니다.");
     }
 
     @Test
