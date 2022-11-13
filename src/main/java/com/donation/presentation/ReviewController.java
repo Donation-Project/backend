@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 import static com.donation.infrastructure.common.CommonResponse.success;
@@ -23,7 +24,7 @@ public class ReviewController {
     @PostMapping("/{id}/reviews")
     public ResponseEntity<?> create(@LoginInfo LoginMember loginMember,
                                     @PathVariable(name = "id") Long postId,
-                                    @RequestBody ReviewReqDto reviewReqDto){
+                                    @RequestBody @Valid ReviewReqDto reviewReqDto){
         Long reviewId = reviewService.save(loginMember, postId, reviewReqDto);
         return ResponseEntity.created(URI.create(String.format("/api/post/%d/reviews", reviewId))).build();
     }

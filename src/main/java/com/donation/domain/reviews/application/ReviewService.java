@@ -8,6 +8,7 @@ import com.donation.domain.reviews.entity.Reviews;
 import com.donation.domain.reviews.repository.ReviewRepository;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
+import com.donation.infrastructure.embed.Write;
 import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class ReviewService {
 
         validate(user, post);
 
-        Reviews reviews = reviewRepository.save(Reviews.of(user, post, reviewReqDto.getWrite()));
+        Reviews reviews = reviewRepository.save(Reviews.of(user, post, Write.of(reviewReqDto.getTitle(), reviewReqDto.getContent())));
         return reviews.getId();
     }
 
@@ -41,7 +42,7 @@ public class ReviewService {
     public void changeContent(LoginMember loginMember, Long postId, ReviewReqDto reviewReqDto){
         Reviews reviews = reviewRepository.getByPostId(postId);
         reviews.validateOwner(loginMember.getId());
-        reviews.changeContent(reviewReqDto.getWrite());
+        reviews.changeContent(Write.of(reviewReqDto.getTitle(), reviewReqDto.getContent()));
     }
 
     public ReviewRespDto getReview(Long postId) {

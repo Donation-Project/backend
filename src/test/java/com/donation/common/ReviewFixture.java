@@ -2,9 +2,13 @@ package com.donation.common;
 
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.reviews.dto.ReviewReqDto;
+import com.donation.domain.reviews.dto.ReviewRespDto;
 import com.donation.domain.reviews.entity.Reviews;
+import com.donation.domain.user.dto.UserRespDto;
 import com.donation.domain.user.entity.User;
 import com.donation.infrastructure.embed.Write;
+
+import static com.donation.common.UserFixtures.*;
 
 public class ReviewFixture {
 
@@ -18,13 +22,23 @@ public class ReviewFixture {
 
     public static ReviewReqDto 감사글(){
         return ReviewReqDto.builder()
-                .write(감사글)
+                .title(감사글_제목)
+                .content(감사글_내용)
                 .build();
     }
 
     public static ReviewReqDto 수정된_감사글(){
         return ReviewReqDto.builder()
-                .write(수정된_감사글)
+                .title(수정된_감사글_제목)
+                .content(수정된_감사글_내용)
+                .build();
+    }
+
+    public static ReviewRespDto 감사글_조회_결과(){
+        return ReviewRespDto.builder()
+                .reviewId(1L)
+                .write(감사글)
+                .userRespDto(UserRespDto.of(createUser(1L)))
                 .build();
     }
 

@@ -1,18 +1,21 @@
 package com.donation.domain.reviews.dto;
 
-import com.donation.infrastructure.embed.Write;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ReviewReqDto {
 
-    private Write write;
+    private String title;
+    private String content;
 
     @Builder
-    public ReviewReqDto(Write write) {
-        this.write = write;
+    public ReviewReqDto(final String title, final String content) {
+        this.title = title;
+        this.content = content;
     }
 }
