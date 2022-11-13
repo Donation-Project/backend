@@ -3,6 +3,7 @@
 ==== 요청
 include::{snippets}/admin-confirm/http-request.adoc[]
 include::{snippets}/admin-confirm/path-parameters.adoc[]
+include::{snippets}/admin-confirm/request-parameters.adoc[]
 ==== 응답
 include::{snippets}/admin-confirm/http-response.adoc[]
 include::{snippets}/admin-confirm/response-fields.adoc[]

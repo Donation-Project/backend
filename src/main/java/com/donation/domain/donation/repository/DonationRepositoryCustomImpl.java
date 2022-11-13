@@ -36,7 +36,7 @@ public class DonationRepositoryCustomImpl implements DonationRepositoryCustom {
                 .leftJoin(donation.post, post)
                 .where(
                         categoryEq(donationFilterReqDto.getCategory()),
-                        usernameEq(donationFilterReqDto.getUsername())
+                        usernameEq(donationFilterReqDto.getName())
                 )
                 .fetch();
     }
