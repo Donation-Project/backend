@@ -1,0 +1,79 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.4.0
+        with:
+          redis-version: 6
+          redis-port: 6379
+          
+      # gradle caching
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+          
+      # main 설정 파일 생성 및 write
+      - name: make env file
+        run: |
+          # main 설정 파일 디렉토리로 이동
+          cd ./src/main/resources
+  
+          # application-prod.yml 파일 생성
+          touch ./application-prod.yml
+          # GitHub-Actions 에서 설정한 값을 application-prod.yml 파일에 쓰기
+          echo "${{ secrets.PROD }}" >> ./application-dev.yml
+      
+          # application-s3.yml 파일 생성
+          touch ./application-s3.yml          
+          # GitHub-Actions 에서 설정한 값을 application-s3.yml 파일에 쓰기
+          echo "${{ secrets.S3 }}" >> ./application-s3.yml
+        shell: bash 
+      
+      # gradle 권한 오류 체크 
+      - name: Grant execution permission for gradlew
+        run: chmod +x gradlew
+        
+      # gradle build
+      - name: Build with Gradle
+        run: ./gradlew clean build
+        
+      # Spring 어플리케이션 Docker Image 빌드
+      - name: Build Docker Image For Spring
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile.dev -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_DEV_REPOSITORY }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_DEV_REPOSITORY }}
+        
+        ## deploy to ec2
+      - name: Deploy to ec2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_DEV_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_DEV_REPOSITORY }}
+            docker stop server
+            docker rm server
+            docker run -it -d -p 80:8080 --name server ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
