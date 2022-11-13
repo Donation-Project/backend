@@ -26,6 +26,13 @@ public class Write {
         this.content = content;
     }
 
+    public static Write of(String title, String content){
+        return Write.builder()
+                .title(title)
+                .content(content)
+                .build();
+    }
+
     private void validate(final String title, final String content){
         if (title == null || content == null)
             throw new DonationInvalidateException("제목 또는 내용이 존재하지 않습니다.");
