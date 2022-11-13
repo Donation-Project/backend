@@ -76,4 +76,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_DEV_REPOSITORY }}
             docker stop server
             docker rm server
-            docker run -it -d -p 80:8080 --name server ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}
+            docker run -it -d -p 80:8080 --name server ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_DEV_REPOSITORY }}
