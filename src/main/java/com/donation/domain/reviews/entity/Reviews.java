@@ -1,10 +1,12 @@
 package com.donation.domain.reviews.entity;
 
+import com.donation.global.exception.DonationInvalidateException;
 import com.donation.infrastructure.embed.BaseEntity;
 import com.donation.infrastructure.embed.Write;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.user.entity.User;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -14,11 +16,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Table(name = "reviews")
+@Getter
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 public class Reviews extends BaseEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "review_id")
+    @Column(name = "reviews_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -36,6 +39,25 @@ public class Reviews extends BaseEntity {
         this.id = id;
         this.user = user;
         this.post = post;
+        this.write = write;
+    }
+
+    public static Reviews of(User user, Post post, Write write){
+        return Reviews.builder()
+                .user(user)
+                .post(post)
+                .write(write)
+                .build();
+    }
+
+
+    public void validateOwner(Long useId) {
+        if (!useId.equals(user.getId())) {
+            throw new DonationInvalidateException("작성자만 권한이 있습니다.");
+        }
+    }
+
+    public void changeContent(final Write write){
         this.write = write;
     }
 }

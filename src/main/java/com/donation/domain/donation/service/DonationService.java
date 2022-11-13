@@ -32,30 +32,34 @@ public class DonationService {
 
     @Transactional
     public void createDonate(DonationSaveReqDto donationSaveReqDto) {
-        User user = userRepository.getById(donationSaveReqDto.getLoginMember().getId());
+        User user = userRepository.getById(donationSaveReqDto.getUserId());
         Post post = postRepository.getById(donationSaveReqDto.getPostId());
         donationRepository.save(Donation.of(user, post, donationSaveReqDto.getAmount()));
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
     }
 
-    public List<DonationFindRespDto> findById(LoginMember loginMember) {
+    public List<DonationFindRespDto> findMyDonation(LoginMember loginMember) {
         List<Donation> donations = donationRepository.findAllByUserId(loginMember.getId());
-        Map<Long, Float> gross_amount = new HashMap<>();
-        for (Donation donation : donations) {
-            if(gross_amount.containsKey(donation.getPost().getId())){
-                gross_amount.put(donation.getPost().getId(),Float.parseFloat(donation.getAmount())+gross_amount.get(donation.getPost().getId()));
-            }
-            else {
-                gross_amount.put(donation.getPost().getId(),Float.parseFloat(donation.getAmount()));
-            }
-        }
+        Map<Long, Float> grossAmount = getGrossAmount(donations);
         return donations.stream()
-                .map((Donation donation) -> DonationFindRespDto.of(donation,gross_amount.get(donation.getPost().getId())))
+                .map((Donation donation) -> DonationFindRespDto.of(donation,grossAmount.get(donation.getPost().getId())))
                 .collect(Collectors.toList());
     }
 
-    public List<DonationFindByFilterRespDto> getList(DonationFilterReqDto donationFilterReqDto){
+    public List<DonationFindByFilterRespDto> findAllDonationByFilter(DonationFilterReqDto donationFilterReqDto){
         return donationRepository.findAllByFilter(donationFilterReqDto);
+    }
+
+    public Map<Long,Float> getGrossAmount(List<Donation> donations){
+        Map<Long, Float> collect = donations.stream().collect(Collectors.toMap(
+                i1 -> i1.getPost().getId(),
+                i1 -> Donation.toFloat(i1.getAmount()),
+                (oldValue, newValue) -> {
+                    return oldValue+newValue;
+                }
+
+        ));
+        return collect;
     }
 
 }

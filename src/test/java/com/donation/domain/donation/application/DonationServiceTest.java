@@ -51,7 +51,7 @@ class DonationServiceTest extends ServiceTest {
         String amount = "1";
 
         //given
-        donationService.createDonate(기부_생성_DTO(회원검증( user.getId()), post.getId(), amount));
+        donationService.createDonate(기부_생성_DTO( user.getId(), post.getId(), amount));
 
         //then
         Assertions.assertThat(donationRepository.count()).isEqualTo(1L);
@@ -65,8 +65,8 @@ class DonationServiceTest extends ServiceTest {
         Post post = postRepository.save(createPost(user));
         String amount = "1";
 
-        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(회원검증(2L), post.getId(), amount);
-        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(회원검증(user.getId()), null, amount);
+        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(2L, post.getId(), amount);
+        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(user.getId(), null, amount);
 
         //when & then
         assertAll(() -> {
@@ -87,7 +87,7 @@ class DonationServiceTest extends ServiceTest {
         Donation donation = donationRepository.save(createDonation(sponsor, post, 후원금액));
 
         //when
-        List<DonationFindRespDto> dtos = donationService.findById(회원검증(sponsor.getId()));
+        List<DonationFindRespDto> dtos = donationService.findMyDonation(회원검증(sponsor.getId()));
 
         //then
         assertAll(() ->{
@@ -107,7 +107,7 @@ class DonationServiceTest extends ServiceTest {
         List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, sponsor, post));
 
         //when
-        List<DonationFindByFilterRespDto> list = donationService.getList(기부_전체검색_DTO());
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(기부_전체검색_DTO());
 
         //then
         assertAll(() ->{
@@ -135,7 +135,7 @@ class DonationServiceTest extends ServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    donationService.createDonate(new DonationSaveReqDto(회원검증(user.getId()),post.getId(), amount));
+                    donationService.createDonate(new DonationSaveReqDto(user.getId(),post.getId(), amount));
                 } finally {
                     latch.countDown();
                 }

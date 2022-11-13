@@ -13,7 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class DonationSaveReqDto {
 
-    private LoginMember loginMember;
+    @NotNull(message = "유저의 아이디가 없습니다")
+    private Long userId;
 
     @NotNull(message = "포스트의 아이디가 없습니다")
     private Long postId;
@@ -24,8 +25,8 @@ public class DonationSaveReqDto {
     private String amount;
 
     @Builder
-    public DonationSaveReqDto(LoginMember loginMember, Long postId, String amount) {
-        this.loginMember = loginMember;
+    public DonationSaveReqDto(Long userId, Long postId, String amount) {
+        this.userId = userId;
         this.postId = postId;
         this.amount = amount;
     }
@@ -33,6 +34,5 @@ public class DonationSaveReqDto {
     public float getFloatAmount(){
         return Float.parseFloat(this.amount);
     }
-
 
 }

@@ -13,23 +13,22 @@ public class DonationFindByFilterRespDto {
     private Long userId;
     private String title;
     private String amount;
-    private float currentAmount;
-    private String sponsor;
-    private String beneficiary;
-
+    private float grossAmount;
+    private String fromUser;
+    private String toUser;
     private Category category;
 
     @Builder
     @QueryProjection
-    public DonationFindByFilterRespDto(Long donateId, Long postId, Long userId, String title, String amount,float currentAmount, String sponsor, String beneficiary,  Category category) {
+    public DonationFindByFilterRespDto(Long donateId, Long postId, Long userId, String title, String amount, float grossAmount, String fromUser, String toUser, Category category) {
         this.donateId = donateId;
         this.postId = postId;
         this.userId = userId;
         this.title = title;
         this.amount = amount;
-        this.currentAmount = currentAmount;
-        this.sponsor = sponsor;
-        this.beneficiary = beneficiary;
+        this.grossAmount = grossAmount;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
         this.category = category;
     }
 

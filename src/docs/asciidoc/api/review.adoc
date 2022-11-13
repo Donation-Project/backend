@@ -1,0 +1,33 @@
+== Review API
+=== 감사글 생성
+==== 요청
+include::{snippets}/review-create/http-request.adoc[]
+include::{snippets}/review-create/request-headers.adoc[]
+include::{snippets}/review-create/path-parameters.adoc[]
+==== 응답
+include::{snippets}/review-create/http-response.adoc[]
+
+=== 감사글 수정
+==== 요청
+include::{snippets}/review-update/http-request.adoc[]
+include::{snippets}/review-update/request-headers.adoc[]
+include::{snippets}/review-update/path-parameters.adoc[]
+==== 응답
+include::{snippets}/review-update/http-response.adoc[]
+
+
+=== 감사글 조회
+==== 요청
+include::{snippets}/review-get/http-request.adoc[]
+include::{snippets}/review-get/path-parameters.adoc[]
+==== 응답
+include::{snippets}/review-get/http-response.adoc[]
+include::{snippets}/review-get/response-fields.adoc[]
+
+=== 감사글 삭제
+==== 요청
+include::{snippets}/review-delete/http-request.adoc[]
+include::{snippets}/review-delete/request-headers.adoc[]
+include::{snippets}/review-delete/path-parameters.adoc[]
+==== 응답
+include::{snippets}/review-delete/http-response.adoc[]

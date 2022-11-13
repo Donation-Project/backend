@@ -29,20 +29,19 @@ public class DonationController {
     @PostMapping
     public ResponseEntity<?> donation(
             @RequestBody @Valid DonationSaveReqDto donationSaveReqDto
-    ) throws InterruptedException {
+    ) {
         donationService.createDonate(donationSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> get(@LoginInfo LoginMember loginMember) {
-        List<DonationFindRespDto> donationFindRespDtos = donationService.findById(loginMember);
+    public ResponseEntity<?> findMyDonation(@LoginInfo LoginMember loginMember) {
+        List<DonationFindRespDto> donationFindRespDtos = donationService.findMyDonation(loginMember);
         return ResponseEntity.ok(CommonResponse.success(donationFindRespDtos));
     }
     @GetMapping
-    public ResponseEntity<?> getList(@RequestParam(required = false) String username,
-                                     @RequestParam(required = false) Category category) {
-        List<DonationFindByFilterRespDto> list = donationService.getList(new DonationFilterReqDto(username, category));
+    public ResponseEntity<?> findAllDonationByFilter(@RequestBody DonationFilterReqDto donationFilterReqDto) {
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(donationFilterReqDto);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 }
