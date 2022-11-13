@@ -27,9 +27,9 @@ public class AdminController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> confirm(
-            @RequestParam PostState postState,
+            @RequestParam PostState state,
             @PathVariable Long id) {
-        postService.confirm(postState, id);
+        postService.confirm(state, id);
         return ResponseEntity.ok(CommonResponse.success());
     }
 
