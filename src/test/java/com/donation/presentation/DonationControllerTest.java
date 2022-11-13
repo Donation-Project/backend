@@ -1,53 +1,34 @@
 package com.donation.presentation;
 
 
+import com.donation.common.utils.ControllerTest;
+import com.donation.domain.auth.application.AuthService;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
-
-import com.donation.common.utils.ControllerTest;
-
+import com.donation.domain.donation.service.DonationService;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.user.entity.User;
-
-import com.donation.domain.auth.application.AuthService;
-import com.donation.domain.donation.service.DonationService;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import java.util.stream.LongStream;
 
 import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.DonationFixtures.*;
-
-import static com.donation.common.PostFixtures.*;
-
+import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
-
-import static com.donation.common.UserFixtures.일반_사용자_이름;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-
-
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,7 +45,7 @@ class DonationControllerTest extends ControllerTest {
         //given
         User user = createUser(1L);
         List<DonationFindRespDto> content = LongStream.range(1, 11)
-                .mapToObj(i -> 유저에_대한_기부_응답(createPost(i) ,user))
+                .mapToObj(i -> 유저에_대한_기부_응답(i, createPost(i) ,user))
                 .collect(Collectors.toList());
 
         given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
@@ -83,6 +64,7 @@ class DonationControllerTest extends ControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.[].donationId").description("아이디"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("금액"),
                                 fieldWithPath("data.[].grossAmount").description("포스트 총 후원금액"),
@@ -102,28 +84,32 @@ class DonationControllerTest extends ControllerTest {
         List<DonationFindByFilterRespDto> content = LongStream.range(1, 11)
                 .mapToObj(i -> 기부_전체조회_응답(i,post ,user))
                 .collect(Collectors.toList());
-        given(donationService.findAllDonationByFilter(any())).willReturn(content);
+
+        given(donationService.findAllDonationByFilter(기부_전체검색_DTO())).willReturn(content);
+
         // expected
-        mockMvc.perform(get("/api/donation?username="+일반_사용자_이름+"&category="+일반_게시물_카테고리))
+        mockMvc.perform(get("/api/donation")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(기부_전체검색_DTO())))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("donation-getList",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("username").description("유저이름"),
-                                parameterWithName("category").description("포스트 카테고리")
+                        requestFields(
+                                fieldWithPath("name").description("유저이름"),
+                                fieldWithPath("category").description("포스트 카테고리")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.[].donateId").description("후원 ID"),
                                 fieldWithPath("data.[].postId").description("포스팅 ID"),
                                 fieldWithPath("data.[].userId").description("유저 ID"),
+                                fieldWithPath("data.[].fromUser").description("후원자 이름"),
+                                fieldWithPath("data.[].toUser").description("후원대상자 이름"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("후원량"),
                                 fieldWithPath("data.[].grossAmount").description("포스트 총 후원금액"),
-                                fieldWithPath("data.[].sponsor").description("후원자"),
-                                fieldWithPath("data.[].beneficiary").description("후원 받는사람"),
                                 fieldWithPath("data.[].category").description("카테고리"),
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
