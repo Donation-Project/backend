@@ -19,8 +19,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Donation extends BaseEntity {
-    public static Float maxAmount=1000000.0F;
-    public static Float minAmount=0.0F;
+    public static final Float MAX_AMOUNT =1000000.0F;
+    public static final Float MIN_AMOUNT =0.0F;
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "donationId")
@@ -59,10 +59,10 @@ public class Donation extends BaseEntity {
     }
     public static String validate(String amount){
         Float Amount = toFloat(amount);
-        if(Amount>minAmount&&Amount<=maxAmount){
+        if(Amount> MIN_AMOUNT &&Amount<= MAX_AMOUNT){
             return Amount.toString();
         }else {
-            throw new DonationInvalidateException(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다",minAmount,maxAmount) );
+            throw new DonationInvalidateException(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다", MIN_AMOUNT, MAX_AMOUNT) );
 
         }
     }
