@@ -42,8 +42,9 @@ public class DonationController {
     }
 
     @GetMapping("/donation")
-    public ResponseEntity<?> findAllDonationByFilter(@RequestBody DonationFilterReqDto donationFilterReqDto) {
-        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(donationFilterReqDto);
+    public ResponseEntity<?> findAllDonationByFilter(@LoginInfo LoginMember loginMember,
+            @RequestBody DonationFilterReqDto donationFilterReqDto) {
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(loginMember,donationFilterReqDto);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 

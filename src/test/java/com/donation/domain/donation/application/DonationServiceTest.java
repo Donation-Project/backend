@@ -11,6 +11,7 @@ import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
+import com.donation.global.exception.DonationInvalidateException;
 import com.donation.global.exception.DonationNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +26,7 @@ import java.util.concurrent.Executors;
 import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.DonationFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.createAdmin;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -97,13 +99,13 @@ class DonationServiceTest extends ServiceTest {
     @DisplayName("모든_후원내역을_조회한다.")
     void 모든_후원내역을_조회한다() {
         //given
-        User sponsor = userRepository.save(createUser(후원자));
-        User beneficiary = userRepository.save(createUser(후원_받는_사람));
-        Post post = postRepository.save(createPost(beneficiary));
-        List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, sponsor, post));
+        User fromUser = userRepository.save(createAdmin(후원자));
+        User toUser = userRepository.save(createUser(후원_받는_사람));
+        Post post = postRepository.save(createPost(toUser));
+        List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, fromUser, post));
 
         //when
-        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(기부_전체검색_DTO());
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(회원검증(fromUser.getId()),기부_전체검색_DTO());
 
         //then
         assertAll(() ->{
@@ -113,6 +115,21 @@ class DonationServiceTest extends ServiceTest {
         });
 
     }
+
+    @Test
+    @DisplayName("모든_후원내역을_조회할때_관리자가_아닐경우_예외를_던진다.")
+    void 모든_후원내역을_조회할때_관리자가_아닐경우_예외를_던진다() {
+        //given
+        User fromUser = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(fromUser));
+        donationRepository.saveAll(createDonationList(1, 5, fromUser, post));
+
+        //when&then
+        Assertions.assertThatThrownBy(()->donationService.findAllDonationByFilter(회원검증(fromUser.getId()),기부_전체검색_DTO()))
+                .isInstanceOf(DonationInvalidateException.class);
+
+    }
+
 
 
 

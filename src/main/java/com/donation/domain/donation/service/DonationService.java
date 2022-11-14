@@ -45,9 +45,8 @@ public class DonationService {
                 .collect(Collectors.toList());
     }
 
-    public List<DonationFindByFilterRespDto> findAllDonationByFilter(DonationFilterReqDto donationFilterReqDto){
-        Long id = 1L;
-        User user = userRepository.getById(id);
+    public List<DonationFindByFilterRespDto> findAllDonationByFilter(LoginMember loginMember,DonationFilterReqDto donationFilterReqDto){
+        User user = userRepository.getById(loginMember.getId());
         user.validateAdmin();
 
         return donationRepository.findAllByFilter(donationFilterReqDto);

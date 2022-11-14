@@ -20,8 +20,9 @@ import java.util.stream.LongStream;
 import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.DonationFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
-import static com.donation.common.UserFixtures.createUser;
+import static com.donation.common.UserFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -81,14 +82,16 @@ class DonationControllerTest extends ControllerTest {
     @DisplayName("모든_후원내역을_조회한다")
     void 모든_후원내역을_조회한다() throws Exception {
         //given
-        User user = createUser(2L);
-        Post post = createPost(createUser(1L));
+        User user = createAdmin();
+        Post post = createPost(createUser(2L));
         List<DonationFindByFilterRespDto> content = LongStream.range(1, 11)
                 .mapToObj(i -> 기부_전체조회_응답(i,post ,user))
                 .collect(Collectors.toList());
-        given(donationService.findAllDonationByFilter(any())).willReturn(content);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
+        given(donationService.findAllDonationByFilter(eq(회원검증(user.getId())),any())).willReturn(content);
         // expected
         mockMvc.perform(get("/api/donation")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(기부_전체검색_DTO())))
                 .andExpect(status().isOk())
