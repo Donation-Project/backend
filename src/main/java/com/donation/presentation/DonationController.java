@@ -1,14 +1,13 @@
 package com.donation.presentation;
 
-import com.donation.presentation.auth.LoginInfo;
-import com.donation.presentation.auth.LoginMember;
-import com.donation.infrastructure.common.CommonResponse;
 import com.donation.domain.donation.dto.DonationFilterReqDto;
-import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
-import com.donation.domain.post.entity.Category;
+import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.service.DonationService;
+import com.donation.infrastructure.common.CommonResponse;
+import com.donation.presentation.auth.LoginInfo;
+import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,27 +20,32 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/donation")
+@RequestMapping("/api")
 public class DonationController {
 
     private final DonationService donationService;
 
-    @PostMapping
+    @PostMapping("/post/{id}/donation")
     public ResponseEntity<?> donation(
+            @LoginInfo LoginMember loginMember,
+            @PathVariable(name = "id") Long postId,
             @RequestBody @Valid DonationSaveReqDto donationSaveReqDto
     ) {
-        donationService.createDonate(donationSaveReqDto);
+        donationService.createDonate(loginMember,postId,donationSaveReqDto);
         return new ResponseEntity<>(CommonResponse.success(), HttpStatus.CREATED);
     }
 
-    @GetMapping("/me")
+    @GetMapping("/donation/me")
     public ResponseEntity<?> findMyDonation(@LoginInfo LoginMember loginMember) {
         List<DonationFindRespDto> donationFindRespDtos = donationService.findMyDonation(loginMember);
         return ResponseEntity.ok(CommonResponse.success(donationFindRespDtos));
     }
-    @GetMapping
+
+    @GetMapping("/donation")
     public ResponseEntity<?> findAllDonationByFilter(@RequestBody DonationFilterReqDto donationFilterReqDto) {
         List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(donationFilterReqDto);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
+
+
 }
