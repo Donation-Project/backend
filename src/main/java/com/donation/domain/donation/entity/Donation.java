@@ -19,8 +19,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Donation extends BaseEntity {
-    public static final Float MAX_AMOUNT =1000000.0F;
-    public static final Float MIN_AMOUNT =0.0F;
+    private static final Float MAX_AMOUNT =1000000.0F;
+    private static final Float MIN_AMOUNT =0.0F;
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "donationId")
