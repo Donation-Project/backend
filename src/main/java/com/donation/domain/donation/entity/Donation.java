@@ -19,8 +19,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Donation extends BaseEntity {
-    public static Float maxAmount=1000000.0F;
-    public static Float minAmount=0.0F;
+    private static final Float MAX_AMOUNT =1000000.0F;
+    private static final Float MIN_AMOUNT =0.0F;
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "donationId")
@@ -38,7 +38,7 @@ public class Donation extends BaseEntity {
 
     @Builder
     public Donation(Long id, User user, Post post,String amount) {
-        String validateAmount = validate(amount);
+        validate(amount);
         this.id = id;
         this.user = user;
         this.post = post;
@@ -46,24 +46,20 @@ public class Donation extends BaseEntity {
     }
 
     public static Donation of(User user, Post post, String amount){
-        String validateAmount = validate(amount);
         return Donation.builder()
                 .user(user)
                 .post(post)
-                .amount(validateAmount)
+                .amount(amount)
                 .build();
     }
 
     public static Float toFloat(String amount){
         return Float.parseFloat(amount);
     }
-    public static String validate(String amount){
+    public static void validate(String amount){
         Float Amount = toFloat(amount);
-        if(Amount>minAmount&&Amount<=maxAmount){
-            return Amount.toString();
-        }else {
-            throw new DonationInvalidateException(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다",minAmount,maxAmount) );
-
+        if(Amount<=MIN_AMOUNT||Amount>MAX_AMOUNT) {
+            throw new DonationInvalidateException(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다", MIN_AMOUNT, MAX_AMOUNT));
         }
     }
 }

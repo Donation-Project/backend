@@ -1,22 +1,21 @@
 package com.donation.domain.donation.service;
 
-import com.donation.presentation.auth.LoginMember;
 import com.donation.domain.donation.dto.DonationFilterReqDto;
-import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
+import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.entity.Donation;
-import com.donation.domain.post.entity.Post;
-import com.donation.domain.user.entity.User;
 import com.donation.domain.donation.repository.DonationRepository;
+import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
-import com.donation.domain.user.repository.UserRepository;
 import com.donation.domain.post.service.PostService;
+import com.donation.domain.user.entity.User;
+import com.donation.domain.user.repository.UserRepository;
+import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,9 +30,9 @@ public class DonationService {
     private final PostService postService;
 
     @Transactional
-    public void createDonate(DonationSaveReqDto donationSaveReqDto) {
-        User user = userRepository.getById(donationSaveReqDto.getUserId());
-        Post post = postRepository.getById(donationSaveReqDto.getPostId());
+    public void createDonate(LoginMember loginMember,Long postId,DonationSaveReqDto donationSaveReqDto) {
+        User user = userRepository.getById(loginMember.getId());
+        Post post = postRepository.getById(postId);
         donationRepository.save(Donation.of(user, post, donationSaveReqDto.getAmount()));
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
     }
@@ -46,7 +45,10 @@ public class DonationService {
                 .collect(Collectors.toList());
     }
 
-    public List<DonationFindByFilterRespDto> findAllDonationByFilter(DonationFilterReqDto donationFilterReqDto){
+    public List<DonationFindByFilterRespDto> findAllDonationByFilter(LoginMember loginMember,DonationFilterReqDto donationFilterReqDto){
+        User user = userRepository.getById(loginMember.getId());
+        user.validateAdmin();
+
         return donationRepository.findAllByFilter(donationFilterReqDto);
     }
 
@@ -55,9 +57,8 @@ public class DonationService {
                 i1 -> i1.getPost().getId(),
                 i1 -> Donation.toFloat(i1.getAmount()),
                 (oldValue, newValue) -> {
-                    return oldValue+newValue;
+                    return oldValue + newValue;
                 }
-
         ));
         return collect;
     }
