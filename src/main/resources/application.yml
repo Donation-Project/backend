@@ -3,6 +3,12 @@ spring:
     include: s3, jwt
     active: local
 
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
 ---
 
 spring:
