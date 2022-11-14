@@ -1,25 +1,24 @@
 spring:
   profiles:
     include: s3, jwt
-    active: dev
 
-#  datasource:
-#    url: jdbc:h2:mem:test
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-#    hikari:
-#      maximum-pool-size: 40
-#
-#
-#  flyway:
-#    enabled: false
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: create #create update none
-#    properties:
-#      hibernate:
-#        show_sql: true
-#        format_sql: true
-#        default_batch_fetch_size: 1000
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 40
+
+
+  flyway:
+    enabled: false
+
+  jpa:
+    hibernate:
+      ddl-auto: create #create update none
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
