@@ -21,6 +21,7 @@ import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.DonationFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -28,7 +29,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,7 +66,7 @@ class DonationControllerTest extends ControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
-                                fieldWithPath("data.[].donationId").description("아이디"),
+                                fieldWithPath("data.[].donationId").description("후원 ID"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("금액"),
                                 fieldWithPath("data.[].grossAmount").description("포스트 총 후원금액"),
@@ -84,9 +86,7 @@ class DonationControllerTest extends ControllerTest {
         List<DonationFindByFilterRespDto> content = LongStream.range(1, 11)
                 .mapToObj(i -> 기부_전체조회_응답(i,post ,user))
                 .collect(Collectors.toList());
-
-        given(donationService.findAllDonationByFilter(기부_전체검색_DTO())).willReturn(content);
-
+        given(donationService.findAllDonationByFilter(any())).willReturn(content);
         // expected
         mockMvc.perform(get("/api/donation")
                         .contentType(APPLICATION_JSON)
@@ -96,20 +96,16 @@ class DonationControllerTest extends ControllerTest {
                 .andDo(document("donation-getList",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("name").description("유저이름"),
-                                fieldWithPath("category").description("포스트 카테고리")
-                        ),
                         responseFields(
                                 fieldWithPath("success").description("성공 여부"),
                                 fieldWithPath("data.[].donateId").description("후원 ID"),
                                 fieldWithPath("data.[].postId").description("포스팅 ID"),
                                 fieldWithPath("data.[].userId").description("유저 ID"),
-                                fieldWithPath("data.[].fromUser").description("후원자 이름"),
-                                fieldWithPath("data.[].toUser").description("후원대상자 이름"),
                                 fieldWithPath("data.[].title").description("제목"),
                                 fieldWithPath("data.[].amount").description("후원량"),
                                 fieldWithPath("data.[].grossAmount").description("포스트 총 후원금액"),
+                                fieldWithPath("data.[].fromUser").description("후원자"),
+                                fieldWithPath("data.[].toUser").description("후원 받는사람"),
                                 fieldWithPath("data.[].category").description("카테고리"),
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
