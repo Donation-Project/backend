@@ -8,6 +8,7 @@ import com.donation.domain.donation.dto.DonationFindRespDto;
 import com.donation.domain.donation.service.DonationService;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.user.entity.User;
+import com.donation.global.exception.DonationInvalidateException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,7 +21,7 @@ import java.util.stream.LongStream;
 import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.DonationFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
-import static com.donation.common.UserFixtures.*;
+import static com.donation.common.UserFixtures.createUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -78,17 +79,18 @@ class DonationControllerTest extends ControllerTest {
                         )
                 ));
     }
+
     @Test
     @DisplayName("모든_후원내역을_조회한다")
     void 모든_후원내역을_조회한다() throws Exception {
         //given
-        User user = createAdmin();
+        User user = createUser(1L);
         Post post = createPost(createUser(2L));
         List<DonationFindByFilterRespDto> content = LongStream.range(1, 11)
-                .mapToObj(i -> 기부_전체조회_응답(i,post ,user))
+                .mapToObj(i -> 기부_전체조회_응답(i, post, user))
                 .collect(Collectors.toList());
         given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
-        given(donationService.findAllDonationByFilter(eq(회원검증(user.getId())),any())).willReturn(content);
+        given(donationService.findAllDonationByFilter(eq(회원검증(user.getId())), any())).willReturn(content);
         // expected
         mockMvc.perform(get("/api/donation")
                         .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
@@ -113,6 +115,36 @@ class DonationControllerTest extends ControllerTest {
                                 fieldWithPath("error").description("에러 발생시 오류 반환")
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("모든_후원내역을_조회할때_관리자가_아닐경우_예외를_던진다")
+    void 모든_후원내역을_조회할때_관리자가_아닐경우_예외를_던진다() throws Exception {
+        //given
+        User user = createUser(1L);
+        Post post = createPost(createUser(2L));
+        List<DonationFindByFilterRespDto> content = LongStream.range(1, 11)
+                .mapToObj(i -> 기부_전체조회_응답(i, post, user))
+                .collect(Collectors.toList());
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
+        given(donationService.findAllDonationByFilter(eq(회원검증(user.getId())), any())).willThrow(new DonationInvalidateException("권한이_없습니다"));
+        //expected
+        mockMvc.perform(get("/api/donation")
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(기부_전체검색_DTO())))
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andDo(document("donation-getList-exception",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data").description("실패시 반환하지 않는다"),
+                                fieldWithPath("error.errorCode").description("에러코드"),
+                                fieldWithPath("error.errorMessage").description("에러 메시지")
+                        )
+                ));
+
     }
 
 }
