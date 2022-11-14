@@ -23,7 +23,7 @@ public class DonationTest {
     }
     @Test
     @DisplayName("후원원시 최소금액나 최대금액을 벗어나면 예외를 던진다.")
-    void 후원원시_최소금액나_최대금액을_벗어나면_예외를_던진다(){
+    void 후원시_최소금액나_최대금액을_벗어나면_예외를_던진다(){
         //given & when & then
         assertAll(() ->{
             assertThatThrownBy(() -> createDonation(createUser(),createPost(),최소금액을_벗어남))

@@ -58,8 +58,8 @@ public class Donation extends BaseEntity {
     }
     public static void validate(String amount){
         Float Amount = toFloat(amount);
-        if(Amount<=MAX_AMOUNT&&Amount>MIN_AMOUNT) {
-            throw new DonationInvalidateException(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다", MAX_AMOUNT, MIN_AMOUNT));
+        if(Amount<=MIN_AMOUNT||Amount>MAX_AMOUNT) {
+            throw new DonationInvalidateException(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다", MIN_AMOUNT, MAX_AMOUNT));
         }
     }
 }
