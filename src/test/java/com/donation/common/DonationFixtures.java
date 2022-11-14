@@ -64,6 +64,11 @@ public class DonationFixtures {
                 .category(일반_게시물_카테고리)
                 .build();
     }
+    public static DonationSaveReqDto 기부_생성_DTO(){
+        return DonationSaveReqDto.builder()
+                .amount(후원금액)
+                .build();
+    }
     public static Donation createDonation(User user, Post post, String amount){
         return  Donation.builder()
                 .user(user)

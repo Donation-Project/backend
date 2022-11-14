@@ -20,19 +20,24 @@ import java.util.stream.LongStream;
 
 import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.DonationFixtures.*;
+import static com.donation.common.DonationFixtures.기부_생성_DTO;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,6 +47,34 @@ class DonationControllerTest extends ControllerTest {
     private DonationService donationService;
     @MockBean
     private AuthService authService;
+
+    @Test
+    @DisplayName("후원_하기")
+    void 후원_하기() throws Exception {
+        //given
+        User user = createUser(1L);
+        Post post = createPost(1L);
+        willDoNothing().given(donationService).createDonate(회원검증(user.getId()),post.getId(),기부_생성_DTO());
+        //expected
+        mockMvc.perform(post("/api/post/{id}/donation",post.getId())
+                        .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(기부_생성_DTO()))
+                )
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andDo(document("donation-save",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION_HEADER_NAME).description("JWT 엑세스 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("id").description("포스트 ID")
+                        )
+                ));
+
+    }
 
     @Test
     @DisplayName("유저_아이디로_후원내역을_조회한다")
@@ -90,7 +123,7 @@ class DonationControllerTest extends ControllerTest {
                 .mapToObj(i -> 기부_전체조회_응답(i, post, user))
                 .collect(Collectors.toList());
         given(authService.extractMemberId(엑세스_토큰)).willReturn(user.getId());
-        given(donationService.findAllDonationByFilter(eq(회원검증(user.getId())), any())).willReturn(content);
+        given(donationService.findAllDonationByFilter(회원검증(user.getId()), 기부_전체검색_DTO())).willReturn(content);
         // expected
         mockMvc.perform(get("/api/donation")
                         .header(AUTHORIZATION_HEADER_NAME, 토큰_정보)
