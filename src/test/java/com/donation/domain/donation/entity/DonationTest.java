@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import static com.donation.common.DonationFixtures.*;
 import static com.donation.common.PostFixtures.createPost;
 import static com.donation.common.UserFixtures.createUser;
-import static com.donation.domain.donation.entity.Donation.maxAmount;
-import static com.donation.domain.donation.entity.Donation.minAmount;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -28,11 +27,9 @@ public class DonationTest {
         //given & when & then
         assertAll(() ->{
             assertThatThrownBy(() -> createDonation(createUser(),createPost(),최소금액을_벗어남))
-                    .isInstanceOf(DonationInvalidateException.class)
-                    .hasMessage(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다",minAmount,maxAmount));
+                    .isInstanceOf(DonationInvalidateException.class);
             assertThatThrownBy(() -> createDonation(createUser(),createPost(),최대금액을_벗어남))
-                    .isInstanceOf(DonationInvalidateException.class)
-                    .hasMessage(String.format("후원금액은 %.1f 보다크고 %.1f보다 작아야합니다",minAmount,maxAmount));
+                    .isInstanceOf(DonationInvalidateException.class);
         });
     }
 }

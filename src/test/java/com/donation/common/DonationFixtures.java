@@ -25,10 +25,8 @@ public class DonationFixtures {
     public static String 최대금액을_벗어남 = "100000000";
 
     /* 기부 생성 */
-    public static DonationSaveReqDto 기부_생성_DTO(Long userId, Long postId, String amount){
+    public static DonationSaveReqDto 기부_생성_DTO(String amount){
         return DonationSaveReqDto.builder()
-                .userId(userId)
-                .postId(postId)
                 .amount(amount)
                 .build();
     }
