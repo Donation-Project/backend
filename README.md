@@ -1,5 +1,4 @@
 ### 프로젝트 소개 🤲🏻
-   
 블록체인을 활용한 투명한 기부 웹 어플리케이션
    
 
@@ -21,25 +20,8 @@
 ### 프로젝트 기술스택 🏰
 
 <div align=center> 
-  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=square&logo=Spring Boot&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=square&logo=Spring Security&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=square&logo=Spring Data JPA&logoColor=white"/>
-  <br>
-  <img src="https://img.shields.io/badge/Spring RestDocs-6DB33F?style=square&logo=Spring Data JPA&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Querydsl-003366?style=square&logo=Querydsl&logoColor=white"/>
-  <br>
+  <img width="605" alt="백엔드" src="https://user-images.githubusercontent.com/106054507/201921242-414130d0-db2f-4505-a4e6-22d3c4843315.PNG">
 
-  <img src="https://img.shields.io/badge/MySQL-4479A1?style=square&logo=MySQL&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=square&logo=Amazon RDS&logoColor=white">
-  <img src="https://img.shields.io/badge/Redis-DC382D?style=square&logo=Redis&logoColor=white"/>
-  <img src="https://img.shields.io/badge/AWS S3-569A31?style=square&logo=Amazon S3&logoColor=white"> 
-
-  <br>
-  
-  <img src="https://img.shields.io/badge/AWS-FF9900?style=square&logo=Amazon AWS&logoColor=white"> 
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=square&logo=Docker&logoColor=white">
-  <br>
-  
 </div>
 
 ## 
@@ -47,15 +29,18 @@
 ### 프로젝트 아키텍쳐 🏛
 - **CI/CD**
 <div align=center> 
-<img width="619" alt="cicd" src="https://user-images.githubusercontent.com/106054507/197660025-c7385431-1300-450d-bc75-8c4a2db4b557.PNG">
+
+<img width="634" alt="cicd" src="https://user-images.githubusercontent.com/106054507/201916183-ff55bfd7-b60a-4814-9620-7dad2cd56a47.PNG">
+
 </div>
 
 ### 데이터 베이스 설계 🖼 
 
 [Table Diagram](https://dbdiagram.io/d/633bfdb8f0018a1c5f8d14b7)
+<div align=center> 
 
-![image](https://user-images.githubusercontent.com/106054507/194212014-ab18dc5e-1e05-4b5e-8e33-b3ba35f38c2d.png)
-
+<img width="634" alt="cicd" src="https://user-images.githubusercontent.com/106054507/201916238-33bded16-c870-44a0-b438-90422070857d.png">
+</div>
 
 ##
 
