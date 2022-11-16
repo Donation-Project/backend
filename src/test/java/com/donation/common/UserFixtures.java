@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.donation.common.DonationFixtures.후원자;
+
 public class UserFixtures {
 
     /* 일반 사용자 */
@@ -17,6 +19,7 @@ public class UserFixtures {
     public static final String 일반_사용자_이름 = "일반 사용자";
     public static final String 일반_사용자_프로필 = "https://avatars.githubusercontent.com/u/106054507?v=4";
     public static final Role 일반_사용자_권한 = Role.USER;
+    public static final Role 관리자_권한 = Role.ADMIN;
     public static final String 일반_사용자_메타마스크_주소 = "https://dafaultmetamask.com";
 
     /* 회원가입 데이터 */
@@ -75,6 +78,28 @@ public class UserFixtures {
                 .password(일반_사용자_패스워드)
                 .name(일반_사용자_이름)
                 .role(일반_사용자_권한)
+                .profileImage(일반_사용자_프로필)
+                .metamask(일반_사용자_메타마스크_주소)
+                .build();
+    }
+
+    public static User createAdmin(String email) {
+        return User.builder()
+                .email(email)
+                .password(일반_사용자_패스워드)
+                .name(일반_사용자_이름)
+                .role(관리자_권한)
+                .profileImage(일반_사용자_프로필)
+                .metamask(일반_사용자_메타마스크_주소)
+                .build();
+    }
+    public static User createAdmin() {
+        return User.builder()
+                .id(1L)
+                .email(후원자)
+                .password(일반_사용자_패스워드)
+                .name(일반_사용자_이름)
+                .role(관리자_권한)
                 .profileImage(일반_사용자_프로필)
                 .metamask(일반_사용자_메타마스크_주소)
                 .build();

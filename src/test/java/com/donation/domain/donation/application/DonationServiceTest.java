@@ -1,22 +1,22 @@
 package com.donation.domain.donation.application;
 
-import com.donation.domain.donation.dto.DonationSaveReqDto;
+import com.donation.common.utils.ServiceTest;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
-import com.donation.common.utils.ServiceTest;
+import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.entity.Donation;
+import com.donation.domain.donation.repository.DonationRepository;
 import com.donation.domain.donation.service.DonationService;
 import com.donation.domain.post.entity.Post;
-import com.donation.domain.user.entity.User;
-import com.donation.global.exception.DonationNotFoundException;
-import com.donation.domain.donation.repository.DonationRepository;
 import com.donation.domain.post.repository.PostRepository;
+import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
+import com.donation.global.exception.DonationInvalidateException;
+import com.donation.global.exception.DonationNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -25,7 +25,8 @@ import java.util.concurrent.Executors;
 
 import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.DonationFixtures.*;
-import static com.donation.common.PostFixtures.*;
+import static com.donation.common.PostFixtures.createPost;
+import static com.donation.common.UserFixtures.createAdmin;
 import static com.donation.common.UserFixtures.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -51,7 +52,7 @@ class DonationServiceTest extends ServiceTest {
         String amount = "1";
 
         //given
-        donationService.createDonate(기부_생성_DTO( user.getId(), post.getId(), amount));
+        donationService.createDonate(회원검증(user.getId()),post.getId(),기부_생성_DTO(amount));
 
         //then
         Assertions.assertThat(donationRepository.count()).isEqualTo(1L);
@@ -65,15 +66,12 @@ class DonationServiceTest extends ServiceTest {
         Post post = postRepository.save(createPost(user));
         String amount = "1";
 
-        DonationSaveReqDto 존재하지않는_유저 = 기부_생성_DTO(2L, post.getId(), amount);
-        DonationSaveReqDto 존재하지않는_게시물 = 기부_생성_DTO(user.getId(), null, amount);
-
         //when & then
         assertAll(() -> {
-            assertThatThrownBy(() ->  donationService.createDonate(존재하지않는_유저))
+            assertThatThrownBy(() ->  donationService.createDonate(회원검증(0L), post.getId(), 기부_생성_DTO(amount)))
                 .isInstanceOf(DonationNotFoundException.class);
-            assertThatThrownBy(() ->  donationService.createDonate(존재하지않는_게시물))
-                .isInstanceOf(InvalidDataAccessApiUsageException.class);
+            assertThatThrownBy(() ->  donationService.createDonate(회원검증(1L),0L,기부_생성_DTO(amount)))
+                .isInstanceOf(DonationNotFoundException.class);
         });
     }
 
@@ -101,13 +99,13 @@ class DonationServiceTest extends ServiceTest {
     @DisplayName("모든_후원내역을_조회한다.")
     void 모든_후원내역을_조회한다() {
         //given
-        User sponsor = userRepository.save(createUser(후원자));
-        User beneficiary = userRepository.save(createUser(후원_받는_사람));
-        Post post = postRepository.save(createPost(beneficiary));
-        List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, sponsor, post));
+        User fromUser = userRepository.save(createAdmin(후원자));
+        User toUser = userRepository.save(createUser(후원_받는_사람));
+        Post post = postRepository.save(createPost(toUser));
+        List<Donation> donations = donationRepository.saveAll(createDonationList(1, 5, fromUser, post));
 
         //when
-        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(기부_전체검색_DTO());
+        List<DonationFindByFilterRespDto> list = donationService.findAllDonationByFilter(회원검증(fromUser.getId()),기부_전체검색_DTO());
 
         //then
         assertAll(() ->{
@@ -117,6 +115,21 @@ class DonationServiceTest extends ServiceTest {
         });
 
     }
+
+    @Test
+    @DisplayName("모든_후원내역을_조회할때_관리자가_아닐경우_예외를_던진다.")
+    void 모든_후원내역을_조회할때_관리자가_아닐경우_예외를_던진다() {
+        //given
+        User fromUser = userRepository.save(createUser());
+        Post post = postRepository.save(createPost(fromUser));
+        donationRepository.saveAll(createDonationList(1, 5, fromUser, post));
+
+        //when&then
+        Assertions.assertThatThrownBy(()->donationService.findAllDonationByFilter(회원검증(fromUser.getId()),기부_전체검색_DTO()))
+                .isInstanceOf(DonationInvalidateException.class);
+
+    }
+
 
 
 
@@ -135,7 +148,7 @@ class DonationServiceTest extends ServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    donationService.createDonate(new DonationSaveReqDto(user.getId(),post.getId(), amount));
+                    donationService.createDonate(회원검증(user.getId()),post.getId(),new DonationSaveReqDto( amount));
                 } finally {
                     latch.countDown();
                 }

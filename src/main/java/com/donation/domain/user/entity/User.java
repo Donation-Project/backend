@@ -59,4 +59,8 @@ public class User extends BaseEntity {
             throw new DonationInvalidateException("이메일 형식이 올바르지 않습니다.");
         }
     }
+    public void validateAdmin(){
+        if(this.role != Role.ADMIN)
+            throw new DonationInvalidateException("해당 권한이 없습니다.");
+    }
 }
