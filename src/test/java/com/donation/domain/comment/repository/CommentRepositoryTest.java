@@ -2,13 +2,12 @@ package com.donation.domain.comment.repository;
 
 
 import com.donation.common.utils.RepositoryTest;
-import com.donation.domain.comment.repository.CommentRepository;
 import com.donation.domain.comment.entity.Comment;
 import com.donation.domain.post.entity.Post;
-import com.donation.domain.user.entity.User;
-import com.donation.global.exception.DonationNotFoundException;
 import com.donation.domain.post.repository.PostRepository;
+import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
+import com.donation.global.exception.DonationNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class CommentRepositoryTest extends RepositoryTest {
 
     @Test
     @DisplayName("댓글을 정상적으로 저장한다")
-    void 댓글을_정상적으로_저장한다(){
+    void 댓글을_정상적으로_저장한다() {
         //given
         User user = userRepository.save(createUser());
         Post post = postRepository.save(createPost(user));
