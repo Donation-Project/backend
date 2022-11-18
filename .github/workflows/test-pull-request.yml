@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
@@ -22,7 +21,7 @@ jobs:
       - name: make env file
         run: |
           # main 설정 파일 디렉토리로 이동
-          cd .src/main/resources
+          cd ./src/main/resources
           
           # application-s3.yml 파일 생성
           touch ./application-s3.yml          
