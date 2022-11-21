@@ -1,4 +1,4 @@
-package com.donation.infrastructure.support;
+package com.donation.infrastructure.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

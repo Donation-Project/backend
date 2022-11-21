@@ -6,7 +6,7 @@ import com.donation.domain.user.dto.UserSaveReqDto;
 import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
 import com.donation.domain.auth.dto.AccessTokenResponse;
 import com.donation.domain.user.entity.User;
-import com.donation.infrastructure.common.PasswordEncoder;
+import com.donation.infrastructure.support.PasswordEncoder;
 import com.donation.domain.user.repository.UserRepository;
 import com.donation.domain.auth.entity.AuthToken;
 import lombok.RequiredArgsConstructor;

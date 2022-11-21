@@ -10,7 +10,7 @@ import com.donation.common.utils.ServiceTest;
 import com.donation.domain.user.entity.User;
 import com.donation.global.exception.DonationInvalidateException;
 import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.support.PageCustom;
+import com.donation.infrastructure.util.PageCustom;
 import com.donation.domain.auth.application.AuthService;
 import com.donation.infrastructure.Image.AwsS3Service;
 import org.junit.jupiter.api.DisplayName;

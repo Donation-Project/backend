@@ -1,4 +1,4 @@
-package com.donation.infrastructure.common;
+package com.donation.infrastructure.support;
 
 import com.donation.global.exception.DonationInvalidateException;
 import org.mindrot.jbcrypt.BCrypt;

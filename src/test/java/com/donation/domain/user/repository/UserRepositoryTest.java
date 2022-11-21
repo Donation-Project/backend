@@ -2,10 +2,9 @@ package com.donation.domain.user.repository;
 
 import com.donation.domain.user.dto.UserRespDto;
 import com.donation.domain.user.entity.User;
-import com.donation.domain.user.repository.UserRepository;
 import com.donation.global.exception.DonationDuplicateException;
 import com.donation.global.exception.DonationNotFoundException;
-import com.donation.infrastructure.support.PageCustom;
+import com.donation.infrastructure.util.PageCustom;
 import com.donation.common.utils.RepositoryTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

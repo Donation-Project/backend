@@ -644,6 +644,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#_donation_api">Donation API</a>
+<ul class="sectlevel2">
+<li><a href="#_기부_내역_저장">기부 내역 저장</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_27">요청</a></li>
+<li><a href="#_응답_30">응답</a></li>
+</ul>
+</li>
+<li><a href="#_기부_내역_전체_조회_2">기부 내역 전체 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_28">요청</a></li>
+<li><a href="#_응답_31">응답</a></li>
+</ul>
+</li>
+<li><a href="#_회원의_기부_내역_전체_조회_2">회원의 기부 내역 전체 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_29">요청</a></li>
+<li><a href="#_응답_32">응답</a></li>
+</ul>
+</li>
+<li><a href="#_회원의_기부_내역_전체_조회시_관리자가_아닌경우">회원의 기부 내역 전체 조회시 관리자가 아닌경우</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_30">요청</a></li>
+<li><a href="#_응답_33">응답</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -665,7 +693,7 @@ Host: localhost:8080
 {
   "email" : "default@email.com",
   "name" : "일반 사용자",
-  "password" : "$2a$10$i7ad2OPKfnv0sQpaBLVdPusgvNKxaFq3Ww7xN6UwPn3vGPY63Ynuu",
+  "password" : "$2a$10$INayEW2YLU1aRhMhbWleTOADGonvGzlQh7vJ3YPO8qay55bUxuVbi",
   "metamask" : "https://dafaultmetamask.com"
 }</code></pre>
 </div>
@@ -1549,7 +1577,7 @@ Content-Length: 667
 <h4 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post?page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1563,20 +1591,16 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 6179
+Content-Length: 6045
 
 {
   "success" : true,
   "data" : {
-    "page" : {
-      "pageNum" : 1,
-      "pageElement" : 10,
-      "totalPages" : 2,
-      "totalElement" : 20,
-      "first" : true,
-      "last" : false
+    "nextCursorRequest" : {
+      "key" : 1000,
+      "size" : 20
     },
-    "content" : [ {
+    "request" : [ {
       "postId" : 1,
       "userRespDto" : {
         "id" : 1,
@@ -1593,7 +1617,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
     }, {
       "postId" : 2,
       "userRespDto" : {
@@ -1611,7 +1635,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
     }, {
       "postId" : 3,
       "userRespDto" : {
@@ -1629,7 +1653,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
     }, {
       "postId" : 4,
       "userRespDto" : {
@@ -1647,7 +1671,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
     }, {
       "postId" : 5,
       "userRespDto" : {
@@ -1665,7 +1689,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
     }, {
       "postId" : 6,
       "userRespDto" : {
@@ -1683,7 +1707,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
     }, {
       "postId" : 7,
       "userRespDto" : {
@@ -1701,7 +1725,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
     }, {
       "postId" : 8,
       "userRespDto" : {
@@ -1719,7 +1743,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
     }, {
       "postId" : 9,
       "userRespDto" : {
@@ -1737,7 +1761,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
     }, {
       "postId" : 10,
       "userRespDto" : {
@@ -1755,7 +1779,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
     } ]
   },
   "error" : null
@@ -1921,7 +1945,7 @@ Content-Length: 61
 <h4 id="_요청_11"><a class="link" href="#_요청_11">요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/my-page?page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/post/my-page HTTP/1.1
 Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
 Host: localhost:8080</code></pre>
 </div>
@@ -1954,20 +1978,16 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 6178
+Content-Length: 6044
 
 {
   "success" : true,
   "data" : {
-    "page" : {
-      "pageNum" : 1,
-      "pageElement" : 10,
-      "totalPages" : 2,
-      "totalElement" : 20,
-      "first" : true,
-      "last" : false
+    "nextCursorRequest" : {
+      "key" : 1000,
+      "size" : 20
     },
-    "content" : [ {
+    "request" : [ {
       "postId" : 1,
       "userRespDto" : {
         "id" : 1,
@@ -1984,7 +2004,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
     }, {
       "postId" : 2,
       "userRespDto" : {
@@ -2002,7 +2022,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
     }, {
       "postId" : 3,
       "userRespDto" : {
@@ -2020,7 +2040,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
     }, {
       "postId" : 4,
       "userRespDto" : {
@@ -2038,7 +2058,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
     }, {
       "postId" : 5,
       "userRespDto" : {
@@ -2056,7 +2076,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
     }, {
       "postId" : 6,
       "userRespDto" : {
@@ -2074,7 +2094,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
     }, {
       "postId" : 7,
       "userRespDto" : {
@@ -2092,7 +2112,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
     }, {
       "postId" : 8,
       "userRespDto" : {
@@ -2110,7 +2130,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
     }, {
       "postId" : 9,
       "userRespDto" : {
@@ -2128,7 +2148,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
     }, {
       "postId" : 10,
       "userRespDto" : {
@@ -2146,7 +2166,7 @@ Content-Length: 6178
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
     } ]
   },
   "error" : null
@@ -2163,6 +2183,7 @@ Content-Length: 6178
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
 Content-Length: 58
 Host: localhost:8080
 
@@ -2189,7 +2210,7 @@ Content-Length: 2660
   "data" : [ {
     "donateId" : 1,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2199,7 +2220,7 @@ Content-Length: 2660
   }, {
     "donateId" : 2,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2209,7 +2230,7 @@ Content-Length: 2660
   }, {
     "donateId" : 3,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2219,7 +2240,7 @@ Content-Length: 2660
   }, {
     "donateId" : 4,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2229,7 +2250,7 @@ Content-Length: 2660
   }, {
     "donateId" : 5,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2239,7 +2260,7 @@ Content-Length: 2660
   }, {
     "donateId" : 6,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2249,7 +2270,7 @@ Content-Length: 2660
   }, {
     "donateId" : 7,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2259,7 +2280,7 @@ Content-Length: 2660
   }, {
     "donateId" : 8,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2269,7 +2290,7 @@ Content-Length: 2660
   }, {
     "donateId" : 9,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2279,7 +2300,7 @@ Content-Length: 2660
   }, {
     "donateId" : 10,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2301,6 +2322,7 @@ Content-Length: 2660
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
 Content-Length: 58
 Host: localhost:8080
 
@@ -2327,7 +2349,7 @@ Content-Length: 2660
   "data" : [ {
     "donateId" : 1,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2337,7 +2359,7 @@ Content-Length: 2660
   }, {
     "donateId" : 2,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2347,7 +2369,7 @@ Content-Length: 2660
   }, {
     "donateId" : 3,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2357,7 +2379,7 @@ Content-Length: 2660
   }, {
     "donateId" : 4,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2367,7 +2389,7 @@ Content-Length: 2660
   }, {
     "donateId" : 5,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2377,7 +2399,7 @@ Content-Length: 2660
   }, {
     "donateId" : 6,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2387,7 +2409,7 @@ Content-Length: 2660
   }, {
     "donateId" : 7,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2397,7 +2419,7 @@ Content-Length: 2660
   }, {
     "donateId" : 8,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2407,7 +2429,7 @@ Content-Length: 2660
   }, {
     "donateId" : 9,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2417,7 +2439,7 @@ Content-Length: 2660
   }, {
     "donateId" : 10,
     "postId" : null,
-    "userId" : 2,
+    "userId" : 1,
     "title" : "일반 게시물 제목",
     "amount" : "100",
     "grossAmount" : 30.0,
@@ -2544,7 +2566,7 @@ Content-Length: 61
 <h4 id="_요청_15"><a class="link" href="#_요청_15">요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/admin/APPROVAL?page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/admin/APPROVAL HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2558,20 +2580,16 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 6179
+Content-Length: 6045
 
 {
   "success" : true,
   "data" : {
-    "page" : {
-      "pageNum" : 1,
-      "pageElement" : 10,
-      "totalPages" : 2,
-      "totalElement" : 20,
-      "first" : true,
-      "last" : false
+    "nextCursorRequest" : {
+      "key" : 1000,
+      "size" : 20
     },
-    "content" : [ {
+    "request" : [ {
       "postId" : 1,
       "userRespDto" : {
         "id" : 1,
@@ -2588,7 +2606,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/1"
     }, {
       "postId" : 2,
       "userRespDto" : {
@@ -2606,7 +2624,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/2"
     }, {
       "postId" : 3,
       "userRespDto" : {
@@ -2624,7 +2642,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/3"
     }, {
       "postId" : 4,
       "userRespDto" : {
@@ -2642,7 +2660,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/4"
     }, {
       "postId" : 5,
       "userRespDto" : {
@@ -2660,7 +2678,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/5"
     }, {
       "postId" : 6,
       "userRespDto" : {
@@ -2678,7 +2696,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/6"
     }, {
       "postId" : 7,
       "userRespDto" : {
@@ -2696,7 +2714,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/7"
     }, {
       "postId" : 8,
       "userRespDto" : {
@@ -2714,7 +2732,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/8"
     }, {
       "postId" : 9,
       "userRespDto" : {
@@ -2732,7 +2750,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/9"
     }, {
       "postId" : 10,
       "userRespDto" : {
@@ -2750,7 +2768,7 @@ Content-Length: 6179
       "currentAmount" : 30.0,
       "category" : "ETC",
       "state" : "APPROVAL",
-      "postMainImage" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
+      "imagePath" : "https://avatars.githubusercontent.com/u/106054507?v=4/10"
     } ]
   },
   "error" : null
@@ -3773,11 +3791,348 @@ Content-Length: 61
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_donation_api"><a class="link" href="#_donation_api">Donation API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_기부_내역_저장"><a class="link" href="#_기부_내역_저장">기부 내역 저장</a></h3>
+<div class="sect3">
+<h4 id="_요청_27"><a class="link" href="#_요청_27">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/post/1/donation HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Content-Length: 50
+Host: localhost:8080
+
+{
+  "amount" : "100",
+  "floatAmount" : 100.0
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_30"><a class="link" href="#_응답_30">응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 61
+
+{
+  "success" : true,
+  "data" : null,
+  "error" : null
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::C:\Users\User\Desktop\project\backend\build\generated-snippets/donation-save/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_기부_내역_전체_조회_2"><a class="link" href="#_기부_내역_전체_조회_2">기부 내역 전체 조회</a></h3>
+<div class="sect3">
+<h4 id="_요청_28"><a class="link" href="#_요청_28">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Content-Length: 58
+Host: localhost:8080
+
+{
+  "name" : "일반 사용자",
+  "category" : "ETC"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_31"><a class="link" href="#_응답_31">응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 2660
+
+{
+  "success" : true,
+  "data" : [ {
+    "donateId" : 1,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 2,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 3,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 4,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 5,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 6,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 7,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 8,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 9,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  }, {
+    "donateId" : 10,
+    "postId" : null,
+    "userId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "fromUser" : "일반 사용자",
+    "toUser" : "일반 사용자",
+    "category" : "ETC"
+  } ],
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원의_기부_내역_전체_조회_2"><a class="link" href="#_회원의_기부_내역_전체_조회_2">회원의 기부 내역 전체 조회</a></h3>
+<div class="sect3">
+<h4 id="_요청_29"><a class="link" href="#_요청_29">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation/me HTTP/1.1
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_32"><a class="link" href="#_응답_32">응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 1911
+
+{
+  "success" : true,
+  "data" : [ {
+    "donationId" : 1,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 1,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 2,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 2,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 3,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 3,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 4,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 4,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 5,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 5,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 6,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 6,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 7,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 7,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 8,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 8,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 9,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 9,
+    "userId" : 1,
+    "category" : "ETC"
+  }, {
+    "donationId" : 10,
+    "title" : "일반 게시물 제목",
+    "amount" : "100",
+    "grossAmount" : 30.0,
+    "postId" : 10,
+    "userId" : 1,
+    "category" : "ETC"
+  } ],
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원의_기부_내역_전체_조회시_관리자가_아닌경우"><a class="link" href="#_회원의_기부_내역_전체_조회시_관리자가_아닌경우">회원의 기부 내역 전체 조회시 관리자가 아닌경우</a></h3>
+<div class="sect3">
+<h4 id="_요청_30"><a class="link" href="#_요청_30">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/donation HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Content-Length: 44
+Host: localhost:8080
+
+{"name":"일반 사용자","category":"ETC"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_33"><a class="link" href="#_응답_33">응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 145
+
+{
+  "success" : false,
+  "data" : null,
+  "error" : {
+    "errorCode" : "BAD_REQUEST",
+    "errorMessage" : "권한이_없습니다"
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-11-14 09:49:50 +0900
+Last updated 2022-11-16 20:22:07 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

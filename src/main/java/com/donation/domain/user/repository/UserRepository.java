@@ -5,7 +5,7 @@ import com.donation.domain.user.dto.UserRespDto;
 import com.donation.domain.user.entity.User;
 import com.donation.global.exception.DonationDuplicateException;
 import com.donation.global.exception.DonationNotFoundException;
-import com.donation.infrastructure.support.PageCustom;
+import com.donation.infrastructure.util.PageCustom;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.support.PageableExecutionUtils;
