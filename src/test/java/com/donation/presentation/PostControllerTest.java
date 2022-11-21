@@ -1,18 +1,15 @@
 package com.donation.presentation;
 
-import com.donation.domain.post.dto.PostListRespDto;
 import com.donation.common.utils.ControllerTest;
-import com.donation.global.exception.DonationNotFoundException;
-import com.donation.infrastructure.support.PageCustom;
 import com.donation.domain.auth.application.AuthService;
+import com.donation.domain.post.dto.PostListRespDto;
 import com.donation.domain.post.service.PostService;
-import com.donation.presentation.PostController;
+import com.donation.global.exception.DonationNotFoundException;
+import com.donation.infrastructure.util.PageCursor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +18,9 @@ import java.util.stream.LongStream;
 import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.PostFixtures.*;
 import static com.donation.common.UserFixtures.createUser;
-import static org.mockito.ArgumentMatchers.any;
+import static com.donation.common.utils.CursorRequestFixtures.createCursor;
+import static com.donation.domain.post.entity.PostState.APPROVAL;
+import static com.donation.domain.post.entity.PostState.COMPLETION;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -215,11 +214,12 @@ class PostControllerTest extends ControllerTest {
         List<PostListRespDto> content = LongStream.range(1, 11)
                 .mapToObj(i -> 게시물_전체조회_응답(i, createUser(i)))
                 .collect(Collectors.toList());
-        PageCustom<PostListRespDto> response = new PageCustom<>(PageableExecutionUtils.getPage(content, PageRequest.of(0, 10), () -> 20L));
-        given(postService.getList(any(), any())).willReturn(response);
+
+        PageCursor<PostListRespDto> response = new PageCursor<>(createCursor(1000L), content);
+        given(postService.getList(createCursor(), APPROVAL, COMPLETION)).willReturn(response);
 
         // expected
-        mockMvc.perform(get("/api/post?page=0&size=10"))
+        mockMvc.perform(get("/api/post"))
                 .andExpect(status().isOk())
                 .andDo(document("post-getList",
                         preprocessRequest(prettyPrint()),
@@ -235,14 +235,13 @@ class PostControllerTest extends ControllerTest {
                 .mapToObj(i -> 게시물_전체조회_응답(i, createUser(1L)))
                 .collect(Collectors.toList());
 
-        PageCustom<PostListRespDto> response = new PageCustom<>(PageableExecutionUtils.getPage(content, PageRequest.of(0, 10), () -> 20L));
-
+        PageCursor<PostListRespDto> response = new PageCursor<>(createCursor(1000L), content);
         Long id = 1L;
-        given(postService.getUserIdList(회원검증(id), PageRequest.of(0, 10))).willReturn(response);
+        given(postService.getList(회원검증(id), createCursor())).willReturn(response);
         given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
         // expected
-        mockMvc.perform(get("/api/post/my-page?page=0&size=10",1L)
+        mockMvc.perform(get("/api/post/my-page")
                         .header(AUTHORIZATION_HEADER_NAME, 토큰_정보))
                 .andExpect(status().isOk())
                 .andDo(print())
