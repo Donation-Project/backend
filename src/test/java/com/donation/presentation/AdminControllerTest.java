@@ -18,7 +18,10 @@ import java.util.stream.LongStream;
 
 import static com.donation.common.PostFixtures.게시물_전체조회_응답;
 import static com.donation.common.UserFixtures.createUser;
+import static com.donation.common.utils.CursorRequestFixtures.createCursor;
 import static com.donation.domain.post.entity.PostState.APPROVAL;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -76,8 +79,8 @@ class AdminControllerTest extends ControllerTest {
                 .mapToObj(i -> 게시물_전체조회_응답(i, createUser(i)))
                 .collect(Collectors.toList());
 
-        PageCursor<PostListRespDto> response = new PageCursor<>(new CursorRequest(10000L, 20), content);
-        given(postService.getList(new CursorRequest(null, 20), APPROVAL)).willReturn(response);
+        PageCursor<PostListRespDto> response = new PageCursor<>(createCursor(1000L), content);
+        given(postService.getList(any(CursorRequest.class), eq(APPROVAL))).willReturn(response);
         // expected
         mockMvc.perform(get("/api/admin/{state}", APPROVAL))
                 .andExpect(status().isOk())

@@ -3,8 +3,10 @@ package com.donation.presentation;
 import com.donation.common.utils.ControllerTest;
 import com.donation.domain.auth.application.AuthService;
 import com.donation.domain.post.dto.PostListRespDto;
+import com.donation.domain.post.entity.PostState;
 import com.donation.domain.post.service.PostService;
 import com.donation.global.exception.DonationNotFoundException;
+import com.donation.infrastructure.util.CursorRequest;
 import com.donation.infrastructure.util.PageCursor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,8 @@ import static com.donation.common.AuthFixtures.*;
 import static com.donation.common.PostFixtures.*;
 import static com.donation.common.UserFixtures.createUser;
 import static com.donation.common.utils.CursorRequestFixtures.createCursor;
-import static com.donation.domain.post.entity.PostState.APPROVAL;
-import static com.donation.domain.post.entity.PostState.COMPLETION;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -216,10 +218,12 @@ class PostControllerTest extends ControllerTest {
                 .collect(Collectors.toList());
 
         PageCursor<PostListRespDto> response = new PageCursor<>(createCursor(1000L), content);
-        given(postService.getList(createCursor(), APPROVAL, COMPLETION)).willReturn(response);
+        given(postService.getList(any(CursorRequest.class), any(PostState.class))).willReturn(response);
 
         // expected
-        mockMvc.perform(get("/api/post"))
+        mockMvc.perform(get("/api/post")
+                )
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("post-getList",
                         preprocessRequest(prettyPrint()),
@@ -237,7 +241,7 @@ class PostControllerTest extends ControllerTest {
 
         PageCursor<PostListRespDto> response = new PageCursor<>(createCursor(1000L), content);
         Long id = 1L;
-        given(postService.getList(회원검증(id), createCursor())).willReturn(response);
+        given(postService.getList(eq(회원검증(id)), any(CursorRequest.class))).willReturn(response);
         given(authService.extractMemberId(엑세스_토큰)).willReturn(id);
 
         // expected
