@@ -84,7 +84,7 @@ public class PostFixtures {
                 .write(new Write(일반_게시물_제목 + id, 일반_게시물_내용 + id))
                 .state(일반_게시물_상태)
                 .category(일반_게시물_카테고리)
-                .postMainImage(일반_게시물_이미지_주소 + "/" + id)
+                .imagePath(일반_게시물_이미지_주소 + "/" + id)
                 .build();
     }
 

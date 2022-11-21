@@ -24,12 +24,12 @@ public class PostListRespDto {
 
     private PostState state;
 
-    private String postMainImage;
+    private String imagePath;
 
     @Builder
     @QueryProjection
     public PostListRespDto(final Long postId,final Long userId,final String username,final String name,final String profileImage,final Write write,
-                           final String amount,final float currentAmount,final Category category,final PostState state,final String postMainImage) {
+                           final String amount,final float currentAmount,final Category category,final PostState state,final String imagePath) {
         this.postId = postId;
         this.userRespDto = new UserRespDto(userId, username, name, profileImage ,null);
         this.write = write;
@@ -37,6 +37,6 @@ public class PostListRespDto {
         this.currentAmount = currentAmount;
         this.category = category;
         this.state = state;
-        this.postMainImage = postMainImage;
+        this.imagePath = imagePath;
     }
 }

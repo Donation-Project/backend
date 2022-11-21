@@ -1,7 +1,6 @@
 package com.donation.infrastructure.support;
 
 import com.donation.global.exception.DonationInvalidateException;
-import com.donation.infrastructure.common.PasswordEncoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

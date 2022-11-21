@@ -18,7 +18,6 @@ public class PostJdbcRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-
     public void bulkInsert(List<Post> post) {
         var sql = String.format("INSERT INTO `%s` (user_id, state, category, title, content, amount, current_amount, create_at, update_at) " +
                 "VALUES (:user.id, :state, :category, :write.title, :write.content, :amount, :currentAmount, :createAt, :updateAt)", TABLE);
@@ -34,8 +33,6 @@ public class PostJdbcRepository {
                         return value;
                     }
                 }).toArray(SqlParameterSource[]::new);
-
-
         namedParameterJdbcTemplate.batchUpdate(sql, params);
     }
 }

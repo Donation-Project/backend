@@ -7,7 +7,7 @@ import com.donation.infrastructure.common.CommonResponse;
 import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
 import com.donation.domain.user.dto.UserEmailRespDto;
 import com.donation.domain.user.dto.UserRespDto;
-import com.donation.infrastructure.support.PageCustom;
+import com.donation.infrastructure.util.PageCustom;
 import com.donation.domain.auth.application.AuthService;
 import com.donation.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
