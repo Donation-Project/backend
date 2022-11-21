@@ -1,26 +1,24 @@
 package com.donation.domain.post.service;
 
-import com.donation.presentation.auth.LoginMember;
-import com.donation.domain.post.dto.PostSaveReqDto;
-import com.donation.domain.post.dto.PostUpdateReqDto;
-import com.donation.domain.post.dto.PostFindRespDto;
-import com.donation.domain.post.dto.PostListRespDto;
-import com.donation.domain.post.dto.PostSaveRespDto;
+import com.donation.domain.comment.repository.CommentRepository;
+import com.donation.domain.post.dto.*;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.entity.PostDetailImage;
-import com.donation.domain.user.entity.User;
 import com.donation.domain.post.entity.PostState;
-import com.donation.domain.comment.repository.CommentRepository;
 import com.donation.domain.post.repository.PostRepository;
+import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.support.PageCustom;
 import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.infrastructure.util.CursorRequest;
+import com.donation.infrastructure.util.PageCursor;
+import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -69,13 +67,25 @@ public class PostService {
         commentRepository.deleteByPost(post);
     }
 
-    public PageCustom<PostListRespDto> getList(Pageable pageable, PostState... states) {
-        return postRepository.getPageList(pageable, states);
+    public PageCursor<PostListRespDto> getList(CursorRequest cursorRequest, PostState... states) {
+        List<PostListRespDto> posts = postRepository.findDtoAllByIdLessThanAndStateInOrderByIdDesc(cursorRequest, states);
+        Long nextKey = getNextKey(posts);
 
+        return new PageCursor<>(cursorRequest.next(nextKey), posts);
     }
 
-    public PageCustom<PostListRespDto> getUserIdList(LoginMember loginMember, Pageable pageable){
-        return postRepository.getUserIdPageList(loginMember.getId(), pageable) ;
+    public PageCursor<PostListRespDto> getList(LoginMember loginMember, CursorRequest cursorRequest){
+        List<PostListRespDto> posts = postRepository.findDtoAllByUserIdOrderByIdDesc(loginMember.getId(), cursorRequest);
+        Long nextKey = getNextKey(posts);
+
+        return new PageCursor<>(cursorRequest.next(nextKey), posts);
+    }
+
+    private static long getNextKey(List<PostListRespDto> posts) {
+        return posts.stream()
+                .mapToLong(PostListRespDto::getPostId)
+                .min()
+                .orElse(CursorRequest.NONE_KEY);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
