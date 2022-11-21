@@ -47,7 +47,7 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	//redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	//비밀번호 암호화 라이브러리
 	implementation 'org.mindrot:jbcrypt:0.4'
