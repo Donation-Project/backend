@@ -1,4 +1,4 @@
-package com.donation.infrastructure.support;
+package com.donation.infrastructure.util;
 
 import com.donation.global.exception.DonationNotFoundException;
 import lombok.Builder;
