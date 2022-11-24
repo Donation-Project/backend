@@ -1,5 +1,9 @@
 package com.donation.presentation;
 
+import com.donation.domain.auth.application.AuthCodeService;
+import com.donation.domain.auth.application.mail.MailService;
+import com.donation.domain.auth.application.mail.dto.MailReqDto;
+import com.donation.domain.auth.dto.VerificationReqDto;
 import com.donation.presentation.auth.LoginMember;
 import com.donation.common.UserFixtures;
 import com.donation.domain.user.dto.UserEmailReqDto;
@@ -44,6 +48,11 @@ class UserControllerTest extends ControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private MailService mailService;
+
+    @MockBean
+    private AuthCodeService authCodeService;
 
     @Test
     @DisplayName("회원가입 요청 성공")
@@ -58,7 +67,7 @@ class UserControllerTest extends ControllerTest {
                         .content(objectMapper.writeValueAsString(유저_회원가입_DTO))
 
                 )
-                .andExpect(status().isCreated())
+                .andExpect(status().isNoContent())
                 .andDo(document("user-join",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
@@ -121,6 +130,56 @@ class UserControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("이메일에 인증코드 요청 성공")
+    void 이메일에_인증코드_요청() throws Exception {
+        //given
+        MailReqDto 요청DTO = MailReqDto.builder().email(일반_사용자_이메일).build();
+        willDoNothing().given(mailService).sendCodeToMailAndAuthCodeSave(요청DTO);
+
+        //expected
+        mockMvc.perform(post("/api/join/email")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(요청DTO))
+                )
+                .andExpect(status().isNoContent())
+                .andDo(print())
+                .andDo(document("user-authcode",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestFields(
+                                fieldWithPath("email").description("인증코드 요청 이메일")
+                        ))
+                );
+    }
+
+    @Test
+    @DisplayName("인증코드 검증 요청 성공")
+    void 인증코드_검증_요청_성공() throws Exception {
+        //given
+        VerificationReqDto 요청DTO = VerificationReqDto.builder()
+                .email(일반_사용자_이메일)
+                .code("code")
+                .build();
+        willDoNothing().given(authCodeService).verifyCode(요청DTO);
+
+        //expected
+        mockMvc.perform(post("/api/join/email/verification")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(요청DTO))
+                )
+                .andExpect(status().isNoContent())
+                .andDo(print())
+                .andDo(document("user-authcode-verification",
+                        preprocessRequest(),
+                        preprocessResponse(),
+                        requestFields(
+                                fieldWithPath("email").description("인증코드 검증 이메일"),
+                                fieldWithPath("code").description("인증코드")
+                        ))
+                );
+    }
+
+    @Test
     @DisplayName("이메일 중복확인 요청 성공(중복되지 않은 이메일)")
     void 이메일_중복확인_요청_성공() throws Exception {
         //given
@@ -131,6 +190,7 @@ class UserControllerTest extends ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UserEmailReqDto(일반_사용자_이메일)))
                 )
+                .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("user-email",
                         preprocessRequest(),
