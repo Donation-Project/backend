@@ -21,6 +21,7 @@ bin/
 application-prod.yml
 application-dev.yml
 application-s3.yml
+application-mail.yml
 src/main/resources/templates/docs/api
 
 

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: s3, jwt
+    include: s3, jwt, mail
     active: local
 
 logging:
