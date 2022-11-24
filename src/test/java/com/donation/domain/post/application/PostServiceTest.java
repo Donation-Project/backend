@@ -6,12 +6,11 @@ import com.donation.domain.post.dto.PostListRespDto;
 import com.donation.domain.post.dto.PostSaveRespDto;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
-import com.donation.domain.post.service.PostService;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
 import com.donation.global.exception.DonationInvalidateException;
 import com.donation.global.exception.DonationNotFoundException;
-import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.domain.post.application.Image.ImageService;
 import com.donation.infrastructure.util.PageCursor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +37,7 @@ public class PostServiceTest extends ServiceTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private AwsS3Service awsS3Service;
+    private ImageService imageService;
 
     @Test
     @DisplayName("게시물 작성 성공")
@@ -57,7 +56,7 @@ public class PostServiceTest extends ServiceTest {
         });
 
         //clear
-        actual.getPostDetailImages().forEach(image -> awsS3Service.delete(image));
+        actual.getPostDetailImages().forEach(image -> imageService.delete(image));
     }
 
     @Test

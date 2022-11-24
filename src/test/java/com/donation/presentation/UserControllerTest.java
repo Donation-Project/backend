@@ -8,7 +8,7 @@ import com.donation.domain.user.dto.UserRespDto;
 import com.donation.common.utils.ControllerTest;
 import com.donation.infrastructure.util.PageCustom;
 import com.donation.domain.auth.application.AuthService;
-import com.donation.domain.user.service.UserService;
+import com.donation.domain.user.application.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

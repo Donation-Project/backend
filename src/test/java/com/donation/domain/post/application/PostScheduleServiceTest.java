@@ -2,7 +2,6 @@ package com.donation.domain.post.application;
 
 
 import com.donation.common.utils.ServiceTest;
-import com.donation.domain.post.service.PostScheduleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.donation.domain.post.service;
+package com.donation.domain.post.application;
 
 import com.donation.domain.comment.repository.CommentRepository;
 import com.donation.domain.post.dto.*;
@@ -8,7 +8,7 @@ import com.donation.domain.post.entity.PostState;
 import com.donation.domain.post.repository.PostRepository;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.domain.post.application.Image.ImageService;
 import com.donation.infrastructure.util.CursorRequest;
 import com.donation.infrastructure.util.PageCursor;
 import com.donation.presentation.auth.LoginMember;
@@ -26,7 +26,7 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final AwsS3Service awsS3Service;
+    private final ImageService imageService;
     private final CommentRepository commentRepository;
 
     @Transactional
@@ -38,7 +38,7 @@ public class PostService {
     private Post validateSave(PostSaveReqDto postSaveReqDto, String image, User user) {
         Post post = postSaveReqDto.toPost(user);
         if (StringUtils.hasText(image))
-            post.addPostImage(PostDetailImage.of(awsS3Service.upload(image)));
+            post.addPostImage(PostDetailImage.of(imageService.upload(image)));
         return post;
     }
 

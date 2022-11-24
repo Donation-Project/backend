@@ -1,4 +1,4 @@
-package com.donation.infrastructure.Image;
+package com.donation.domain.post.application.Image;
 
 import com.amazonaws.services.s3.model.PutObjectRequest;
 

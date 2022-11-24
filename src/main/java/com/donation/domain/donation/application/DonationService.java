@@ -1,4 +1,4 @@
-package com.donation.domain.donation.service;
+package com.donation.domain.donation.application;
 
 import com.donation.domain.donation.dto.DonationFilterReqDto;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
@@ -8,7 +8,7 @@ import com.donation.domain.donation.entity.Donation;
 import com.donation.domain.donation.repository.DonationRepository;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
-import com.donation.domain.post.service.PostService;
+import com.donation.domain.post.application.PostService;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
 import com.donation.presentation.auth.LoginMember;

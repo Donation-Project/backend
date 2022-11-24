@@ -1,4 +1,4 @@
-package com.donation.domain.post.service;
+package com.donation.domain.post.application;
 
 import com.donation.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

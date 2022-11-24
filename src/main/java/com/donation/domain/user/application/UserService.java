@@ -1,4 +1,4 @@
-package com.donation.domain.user.service;
+package com.donation.domain.user.application;
 
 import com.donation.domain.user.dto.UserEmailRespDto;
 import com.donation.domain.user.dto.UserPasswordModifyReqDto;
@@ -6,7 +6,7 @@ import com.donation.domain.user.dto.UserProfileUpdateReqDto;
 import com.donation.domain.user.dto.UserRespDto;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.domain.post.application.Image.ImageService;
 import com.donation.infrastructure.support.AuthEncoder;
 import com.donation.infrastructure.util.PageCustom;
 import com.donation.presentation.auth.LoginMember;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
-    private final AwsS3Service awsS3Service;
+    private final ImageService imageService;
     private final AuthEncoder authEncoder;
 
     public UserEmailRespDto checkUniqueEmail(String email){
@@ -45,7 +45,7 @@ public class UserService {
     @Transactional
     public void updateProfile(LoginMember loginMember, UserProfileUpdateReqDto userProfileUpdateReqDto){
         User user = userRepository.getById(loginMember.getId());
-        user.changeNewProfileImage(awsS3Service.upload(userProfileUpdateReqDto.getProfileImage()));
+        user.changeNewProfileImage(imageService.upload(userProfileUpdateReqDto.getProfileImage()));
     }
 
     public PageCustom<UserRespDto> getList(Pageable pageable){

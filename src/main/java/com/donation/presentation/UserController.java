@@ -9,7 +9,7 @@ import com.donation.domain.user.dto.UserEmailRespDto;
 import com.donation.domain.user.dto.UserRespDto;
 import com.donation.infrastructure.util.PageCustom;
 import com.donation.domain.auth.application.AuthService;
-import com.donation.domain.user.service.UserService;
+import com.donation.domain.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
