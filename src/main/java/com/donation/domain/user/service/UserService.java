@@ -1,15 +1,15 @@
 package com.donation.domain.user.service;
 
-import com.donation.presentation.auth.LoginMember;
+import com.donation.domain.user.dto.UserEmailRespDto;
 import com.donation.domain.user.dto.UserPasswordModifyReqDto;
 import com.donation.domain.user.dto.UserProfileUpdateReqDto;
-import com.donation.domain.user.dto.UserEmailRespDto;
 import com.donation.domain.user.dto.UserRespDto;
 import com.donation.domain.user.entity.User;
-import com.donation.infrastructure.support.PasswordEncoder;
 import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.util.PageCustom;
 import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.infrastructure.support.AuthEncoder;
+import com.donation.infrastructure.util.PageCustom;
+import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthEncoder authEncoder;
 
     public UserEmailRespDto checkUniqueEmail(String email){
         return UserEmailRespDto.of(userRepository.existsByEmail(email));
@@ -34,8 +34,8 @@ public class UserService {
     @Transactional
     public void passwordModify(LoginMember loginMember, UserPasswordModifyReqDto userPasswordModifyReqDto){
         User user = userRepository.getById(loginMember.getId());
-        passwordEncoder.compare(userPasswordModifyReqDto.getCurrentPassword(), user.getPassword());
-        user.changeNewPassword(passwordEncoder.encode(userPasswordModifyReqDto.getModifyPassword()));
+        authEncoder.compare(userPasswordModifyReqDto.getCurrentPassword(), user.getPassword());
+        user.changeNewPassword(authEncoder.encode(userPasswordModifyReqDto.getModifyPassword()));
     }
 
     public UserRespDto findById(LoginMember loginMember){
