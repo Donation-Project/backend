@@ -1,5 +1,6 @@
 package com.donation.common;
 
+import com.donation.domain.auth.dto.VerificationReqDto;
 import com.donation.domain.auth.entity.AuthCode;
 import com.donation.presentation.auth.LoginMember;
 import com.donation.domain.auth.dto.TokenRenewalRequest;
@@ -24,6 +25,13 @@ public class AuthFixtures {
 
     public static AuthCode 인증코드(){
         return AuthCode.of(인증코드, 시리얼넘버);
+    }
+
+    public static VerificationReqDto 검증_DTO(){
+        return VerificationReqDto.builder()
+                .email(시리얼넘버)
+                .code(인증코드)
+                .build();
     }
 
     public static LoginMember 회원검증(Long id){
