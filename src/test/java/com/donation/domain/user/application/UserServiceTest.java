@@ -148,6 +148,6 @@ class UserServiceTest extends ServiceTest {
         //when & then
         assertThatThrownBy(() -> userService.passwordModify(회원검증(id), 비밀번호_변경_DTO(잘못된비밀번호, 새로운_일반_사용자_패스워드)))
                 .isInstanceOf(DonationInvalidateException.class)
-                .hasMessage("패스워드가 일치하지 않습니다.");
+                .hasMessage("인증정보가 일치하지 않습니다.");
     }
 }

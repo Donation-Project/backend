@@ -1,15 +1,14 @@
 package com.donation.domain.auth.application;
 
-import com.donation.domain.auth.dto.TokenRenewalRequest;
-import com.donation.domain.user.dto.UserLoginReqDto;
-import com.donation.domain.user.dto.UserSaveReqDto;
+import com.donation.common.utils.ServiceTest;
 import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
 import com.donation.domain.auth.dto.AccessTokenResponse;
-import com.donation.common.utils.ServiceTest;
+import com.donation.domain.auth.dto.TokenRenewalRequest;
+import com.donation.domain.auth.repository.TokenRepository;
+import com.donation.domain.user.dto.UserLoginReqDto;
+import com.donation.domain.user.dto.UserSaveReqDto;
 import com.donation.global.exception.DonationDuplicateException;
 import com.donation.global.exception.DonationInvalidateException;
-import com.donation.domain.auth.application.AuthService;
-import com.donation.domain.auth.repository.TokenRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -113,6 +112,6 @@ public class AuthServiceTest extends ServiceTest {
         //given & when & then
         assertThatThrownBy(() -> authService.login(예외발생요청))
                 .isInstanceOf(DonationInvalidateException.class)
-                .hasMessage("패스워드가 일치하지 않습니다.");
+                .hasMessage("인증정보가 일치하지 않습니다.");
     }
 }
