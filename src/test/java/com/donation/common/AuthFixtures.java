@@ -1,5 +1,6 @@
 package com.donation.common;
 
+import com.donation.domain.auth.entity.AuthCode;
 import com.donation.presentation.auth.LoginMember;
 import com.donation.domain.auth.dto.TokenRenewalRequest;
 import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
@@ -14,6 +15,16 @@ public class AuthFixtures {
     public static final String 리뉴얼_엑세스_토큰 = "bbbbbbbbbb.ccccccccc.aaaaaaaaaa";
     public static final String 토큰_정보 = "Bearer " + 엑세스_토큰;
     public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+
+    /*
+    * AuthCode
+    * */
+    public static final String 인증코드 = "AuthorizationCode";
+    public static final String 시리얼넘버 = "SerialNumber";
+
+    public static AuthCode 인증코드(){
+        return AuthCode.of(인증코드, 시리얼넘버);
+    }
 
     public static LoginMember 회원검증(Long id){
         return new LoginMember(id);

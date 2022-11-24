@@ -6,16 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+@Table(name="authcode")
 @Getter
 @Entity
 @NoArgsConstructor(access = PROTECTED)
@@ -51,9 +49,9 @@ public class AuthCode extends BaseEntity {
             throw new DonationInvalidateException("인증 코드가 일치하지 않습니다.");
     }
 
-    public void verifyTime(LocalDateTime currentTime){
+    public void verifyTime(LocalDateTime verificationTime){
         LocalDateTime expireTime = getUpdateAt().plusMonths(EXPIRED_TIME);
-        if(currentTime.isAfter(expireTime))
-            throw new DonationInvalidateException("인증 시간이 5분을 초과했습니다");
+        if(verificationTime.isAfter(expireTime))
+            throw new DonationInvalidateException("인증 시간이 5분을 초과했습니다.");
     }
 }
