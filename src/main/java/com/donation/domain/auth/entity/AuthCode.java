@@ -28,7 +28,7 @@ public class AuthCode extends BaseEntity {
     @Column(nullable = false)
     private String code;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String authSerialNumber;
 
     @Builder
