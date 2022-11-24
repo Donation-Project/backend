@@ -50,7 +50,7 @@ public class AuthCode extends BaseEntity {
     }
 
     public void verifyTime(LocalDateTime verificationTime){
-        LocalDateTime expireTime = getUpdateAt().plusMonths(EXPIRED_TIME);
+        LocalDateTime expireTime = getUpdateAt().plusMinutes(EXPIRED_TIME);
         if(verificationTime.isAfter(expireTime))
             throw new DonationInvalidateException("인증 시간이 5분을 초과했습니다.");
     }
