@@ -1,14 +1,14 @@
 package com.donation.domain.auth.application;
 
-import com.donation.domain.auth.dto.TokenRenewalRequest;
-import com.donation.domain.user.dto.UserLoginReqDto;
-import com.donation.domain.user.dto.UserSaveReqDto;
 import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
 import com.donation.domain.auth.dto.AccessTokenResponse;
-import com.donation.domain.user.entity.User;
-import com.donation.infrastructure.support.PasswordEncoder;
-import com.donation.domain.user.repository.UserRepository;
+import com.donation.domain.auth.dto.TokenRenewalRequest;
 import com.donation.domain.auth.entity.AuthToken;
+import com.donation.domain.user.dto.UserLoginReqDto;
+import com.donation.domain.user.dto.UserSaveReqDto;
+import com.donation.domain.user.entity.User;
+import com.donation.domain.user.repository.UserRepository;
+import com.donation.infrastructure.support.AuthEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class AuthService {
 
     private final TokenCreator tokenCreator;
 
-    private final PasswordEncoder passwordEncoder;
+    private final AuthEncoder authEncoder;
 
     @Transactional
     public Long save(final UserSaveReqDto userSaveReqDto) {
@@ -34,7 +34,7 @@ public class AuthService {
 
     public User validateMember(final UserSaveReqDto userSaveReqDto){
         userRepository.validateExistsByEmail(userSaveReqDto.getEmail());
-        userSaveReqDto.setPassword(passwordEncoder.encode(userSaveReqDto.getPassword()));
+        userSaveReqDto.setPassword(authEncoder.encode(userSaveReqDto.getPassword()));
         return userSaveReqDto.toUser(profileImageUrl);
     }
 
@@ -46,7 +46,7 @@ public class AuthService {
 
     public User validateLogin(final UserLoginReqDto userLoginReqDto) {
         User user = userRepository.getByEmail(userLoginReqDto.getEmail());
-        passwordEncoder.compare(userLoginReqDto.getPassword(), user.getPassword());
+        authEncoder.compare(userLoginReqDto.getPassword(), user.getPassword());
         return user;
     }
 

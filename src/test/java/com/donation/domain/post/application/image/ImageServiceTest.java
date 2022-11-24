@@ -1,7 +1,7 @@
-package com.donation.infrastructure.image;
+package com.donation.domain.post.application.image;
 
 import com.donation.global.exception.DonationNotFoundException;
-import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.domain.post.application.Image.ImageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.util.StringUtils.hasText;
 
 @SpringBootTest
-class AwsS3ServiceTest {
+class ImageServiceTest {
 
     @Autowired
-    private AwsS3Service awsS3Service;
+    private ImageService imageService;
 
     @Test
     @DisplayName("Base64로 인코딩된 이미지 업로드 성공")
@@ -26,13 +26,13 @@ class AwsS3ServiceTest {
         String image = 새로운_이미지;
 
         //when
-        String imagePath = awsS3Service.upload(image);
+        String imagePath = imageService.upload(image);
 
         //then
         assertThat(hasText(imagePath)).isTrue();
 
         //clear
-        awsS3Service.delete(imagePath);
+        imageService.delete(imagePath);
     }
 
     @Test
@@ -42,7 +42,7 @@ class AwsS3ServiceTest {
         String image = "";
 
         //when & then
-        assertThatThrownBy(() -> awsS3Service.upload(image))
+        assertThatThrownBy(() -> imageService.upload(image))
                 .isInstanceOf(DonationNotFoundException.class)
                 .hasMessage("파일이 존재하지 않습니다.");
     }
@@ -54,6 +54,6 @@ class AwsS3ServiceTest {
         String imagePath = "";
 
         //when
-        Assertions.assertDoesNotThrow(() -> awsS3Service.delete(imagePath));
+        Assertions.assertDoesNotThrow(() -> imageService.delete(imagePath));
     }
 }

@@ -4,7 +4,7 @@ import com.donation.domain.donation.dto.DonationFilterReqDto;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
 import com.donation.domain.donation.dto.DonationSaveReqDto;
-import com.donation.domain.donation.service.DonationService;
+import com.donation.domain.donation.application.DonationService;
 import com.donation.infrastructure.common.CommonResponse;
 import com.donation.presentation.auth.LoginInfo;
 import com.donation.presentation.auth.LoginMember;

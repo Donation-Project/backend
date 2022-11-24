@@ -2,7 +2,7 @@ package com.donation.presentation;
 
 import com.donation.domain.post.dto.PostListRespDto;
 import com.donation.domain.post.entity.PostState;
-import com.donation.domain.post.service.PostService;
+import com.donation.domain.post.application.PostService;
 import com.donation.infrastructure.common.CommonResponse;
 import com.donation.infrastructure.util.CursorRequest;
 import com.donation.infrastructure.util.PageCursor;
