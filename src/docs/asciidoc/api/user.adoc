@@ -17,6 +17,19 @@ include::{snippets}/user-email/request-fields.adoc[]
 ==== 응답
 include::{snippets}/user-email/http-response.adoc[]
 
+=== 이메일 인증코드 요청
+include::{snippets}/user-authcode/http-request.adoc[]
+include::{snippets}/user-authcode/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-authcode/http-response.adoc[]
+
+=== 인증코드 검증 요청
+include::{snippets}/user-authcode-verification/http-request.adoc[]
+include::{snippets}/user-authcode-verification/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-authcode-verification/http-response.adoc[]
+
+
 === 유저 비밀변호 변경 요청
 include::{snippets}/user-password/http-request.adoc[]
 include::{snippets}/user-password/request-fields.adoc[]
