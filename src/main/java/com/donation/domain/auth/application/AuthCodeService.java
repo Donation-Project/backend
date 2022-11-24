@@ -26,7 +26,7 @@ public class AuthCodeService {
     }
 
     public void verifyCode(VerificationReqDto verificationReqDto){
-        String authSerialNumber = authEncoder.encode(verificationReqDto.getEmail());
+        String authSerialNumber = authEncoder.encodeNoSalt(verificationReqDto.getEmail());
         AuthCode authCode = authCodeRepository.getByAuthSerialNumber(authSerialNumber);
         authCode.verify(verificationReqDto.getCode());
         authCode.verifyTime(LocalDateTime.now());
