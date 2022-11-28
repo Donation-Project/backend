@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 import static com.donation.domain.notification.entity.NotifyType.*;
+import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -21,48 +22,44 @@ import static lombok.AccessLevel.PROTECTED;
 public class Notification extends BaseEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "notification_id")
     private Long id;
     @Column(nullable = false)
-    private Long toMemberId;
-    private Long fromMemberId;
+    private Long memberId;
     private Long postId;
     private Long commentId;
-    @Embedded
-    private NotifyType notifyType;
+    @Enumerated(STRING)
+    private NotifyType type;
+
     private boolean isDetect;
 
     @Builder
-    public Notification(Long toMemberId, Long fromMemberId, Long postId, Long commentId, NotifyType notifyType) {
-        this.toMemberId = toMemberId;
-        this.fromMemberId = fromMemberId;
+    public Notification(Long memberId, Long postId, Long commentId, NotifyType type) {
+        this.memberId = memberId;
         this.postId = postId;
         this.commentId = commentId;
-        this.notifyType = notifyType;
+        this.type = type;
     }
 
 
-    public static Notification newPostToNotification(Long toMemberId, Long postId){
-        return new Notification(toMemberId, null, postId, null, POST);
+    public static Notification newPostToNotification(Long memberId, Long postId){
+        return new Notification(memberId, postId, null, POST);
     }
 
-    public static Notification donateToNotification(Long toMemberId, Long fromMemberId, Long postId){
-        return new Notification(toMemberId, fromMemberId, postId, null, DONATE);
+    public static Notification donateToNotification(Long memberId, Long postId){
+        return new Notification(memberId, postId, null, DONATE);
     }
 
-    public static Notification replyCommentToNotification(Long toMemberId, Long fromMemberId, Long commentId){
-        return new Notification(toMemberId, fromMemberId, null, commentId, REPLY);
+    public static Notification replyCommentToNotification(Long memberId, Long commentId){
+        return new Notification(memberId, null, commentId, REPLY);
     }
 
-    public static Notification likeToNotification(Long toMemberId, Long fromMemberId, Long postId){
-        return new Notification(toMemberId, fromMemberId, postId, null, LIKE);
+    public static Notification likeToNotification(Long memberId, Long postId){
+        return new Notification(memberId, postId, null, LIKE);
     }
 
-    public void validateOwner(Long toMemberId){
-        if (!Objects.equals(this.toMemberId, toMemberId))
+    public void validateOwner(Long memberId){
+        if (!Objects.equals(this.memberId, memberId))
             throw new DonationInvalidateException("잘못된 알람 요청입니다.");
-    }
-
-    public void changeToDetect(){
-        this.isDetect = true;
     }
 }
