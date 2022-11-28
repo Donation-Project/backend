@@ -1,7 +1,7 @@
 CREATE TABLE if not exists notification
 (
     notification_id              bigint PRIMARY KEY AUTO_INCREMENT,
-    member_id            bigint NOT NULL,
+    user_id            bigint NOT NULL,
     post_id              bigint,
     comment_id           bigint,
     type                 varchar(255),
@@ -11,7 +11,7 @@ CREATE TABLE if not exists notification
 ) engine = InnoDB;
 
 ALTER TABLE notification
-    ADD FOREIGN KEY (user_id) REFERENCES user (user_id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
 
 ALTER TABLE notification
     ADD FOREIGN KEY (post_id) REFERENCES post (post_id);
