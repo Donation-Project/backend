@@ -31,19 +31,19 @@ public class NotificationService {
     }
 
     public List<NotificationResponse> findAllByUncheckedNotification(Long memberId){
-        List<Notification> notifications = notificationRepository.findAllByMemberIdAndDetectIsFalseOrderByIdDesc(memberId);
+        List<Notification> notifications = notificationRepository.findAllByMemberIdAndConformIsFalseOrderByIdDesc(memberId);
         return getByNotificationResponse(notifications);
     }
 
     public void checkedToNotification(Long memberId){
         validateExistByDetectIsFalse(memberId);
-        List<Notification> notifications = notificationRepository.findAllByMemberIdAndDetectIsFalseOrderByIdDesc(memberId);
+        List<Notification> notifications = notificationRepository.findAllByMemberIdAndConformIsFalseOrderByIdDesc(memberId);
         List<Long> ids = getByIds(notifications);
         notificationRepository.changeDetectIsTrueByIdIn(ids);
     }
 
     private void validateExistByDetectIsFalse(Long memberId){
-        if (!notificationRepository.existsByMemberIdAndDetectIsFalse(memberId))
+        if (!notificationRepository.existsByMemberIdAndConformIsFalse(memberId))
             throw new DonationInvalidateException("읽지않은 알람이 존재하지 않습니다.");
     }
 
@@ -72,6 +72,6 @@ public class NotificationService {
     @Transactional
     public void deleteOrderThanDayNotification(){
         LocalDateTime day = LocalDateTime.now().minusMonths(6L);
-        notificationRepository.deleteAllByCreateAtLessThanAndDetectIsFalse(day);
+        notificationRepository.deleteAllByUpdateAtLessThanAndConformIsTrue(day);
     }
 }
