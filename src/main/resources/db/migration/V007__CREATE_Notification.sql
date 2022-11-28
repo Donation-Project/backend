@@ -5,7 +5,7 @@ CREATE TABLE if not exists notification
     post_id              bigint,
     comment_id           bigint,
     type                 varchar(255),
-    is_detect            bit(1),
+    conform            bit(1),
     create_at            timestamp,
     update_at            timestamp
 ) engine = InnoDB;

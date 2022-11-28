@@ -15,7 +15,7 @@ import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.PROTECTED;
 
-@Table(name = "Notification")
+@Table(name = "notification")
 @Getter
 @Entity
 @NoArgsConstructor(access = PROTECTED)
@@ -31,7 +31,7 @@ public class Notification extends BaseEntity {
     @Enumerated(STRING)
     private NotifyType type;
 
-    private boolean isDetect;
+    private boolean conform;
 
     @Builder
     public Notification(Long memberId, Long postId, Long commentId, NotifyType type) {
