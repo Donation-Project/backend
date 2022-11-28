@@ -264,3 +264,23 @@ include::{snippets}/donation-findById/http-response.adoc[]
 include::{snippets}/donation-getList-exception/http-request.adoc[]
 ==== 응답
 include::{snippets}/donation-getList-exception/http-response.adoc[]
+
+== Notification API
+=== 사용자의 알림 전체조회
+==== 요청
+include::{snippets}/notification-findAll/http-request.adoc[]
+include::{snippets}/notification-findAll/request-headers.adoc[]
+==== 응답
+include::{snippets}/notification-findAll/http-response.adoc[]
+
+=== 읽지않은 알림 전체조회
+==== 요청
+include::{snippets}/notification-findAllByUncheck/http-request.adoc[]
+include::{snippets}/notification-findAllByUncheck/request-headers.adoc[]
+==== 응답
+include::{snippets}/notification-findAllByUncheck/http-response.adoc[]
+
+=== 알림 읽은 표시로 변경
+==== 요청
+include::{snippets}/notification-check/http-request.adoc[]
+include::{snippets}/notification-check/request-headers.adoc[]
