@@ -682,6 +682,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#_notification_api">Notification API</a>
+<ul class="sectlevel2">
+<li><a href="#_사용자의_알림_전체조회">사용자의 알림 전체조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_31">요청</a></li>
+<li><a href="#_응답_36">응답</a></li>
+</ul>
+</li>
+<li><a href="#_읽지않은_알림_전체조회">읽지않은 알림 전체조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_32">요청</a></li>
+<li><a href="#_응답_37">응답</a></li>
+</ul>
+</li>
+<li><a href="#_알림_읽은_표시로_변경">알림 읽은 표시로 변경</a>
+<ul class="sectlevel3">
+<li><a href="#_요청_33">요청</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -703,7 +724,7 @@ Host: localhost:8080
 {
   "email" : "default@email.com",
   "name" : "일반 사용자",
-  "password" : "$2a$10$6UW2ur3kQESmcbomPJEsy.SSULBnOsZ.IH7JrjWy9G.rMkMcn12iW",
+  "password" : "$2a$10$b3eTyOjOxDNjZvzqr5EQme0l3FvmPq7Tb2PSWeBU.zPkURtA8qbJG",
   "metamask" : "https://dafaultmetamask.com"
 }</code></pre>
 </div>
@@ -4229,11 +4250,197 @@ Content-Length: 145
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_notification_api"><a class="link" href="#_notification_api">Notification API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_사용자의_알림_전체조회"><a class="link" href="#_사용자의_알림_전체조회">사용자의 알림 전체조회</a></h3>
+<div class="sect3">
+<h4 id="_요청_31"><a class="link" href="#_요청_31">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/notification HTTP/1.1
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 엑세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_36"><a class="link" href="#_응답_36">응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 764
+
+{
+  "success" : true,
+  "data" : [ {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  } ],
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_읽지않은_알림_전체조회"><a class="link" href="#_읽지않은_알림_전체조회">읽지않은 알림 전체조회</a></h3>
+<div class="sect3">
+<h4 id="_요청_32"><a class="link" href="#_요청_32">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/notification/uncheck HTTP/1.1
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 엑세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_37"><a class="link" href="#_응답_37">응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 764
+
+{
+  "success" : true,
+  "data" : [ {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  }, {
+    "id" : null,
+    "message" : "포스팅이 정상적으로 등록되었습니다.",
+    "postId" : 1,
+    "commentId" : null
+  } ],
+  "error" : null
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_알림_읽은_표시로_변경"><a class="link" href="#_알림_읽은_표시로_변경">알림 읽은 표시로 변경</a></h3>
+<div class="sect3">
+<h4 id="_요청_33"><a class="link" href="#_요청_33">요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/notification HTTP/1.1
+Authorization: Bearer aaaaaaaaaa.bbbbbbbbbb.ccccccccc
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JWT 엑세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-11-24 18:11:01 +0900
+Last updated 2022-11-28 16:13:41 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
