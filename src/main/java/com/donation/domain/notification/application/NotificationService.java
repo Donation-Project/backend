@@ -21,9 +21,9 @@ import static com.donation.domain.notification.entity.NotifyType.POST;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NotificationService {
-    private NotificationRepository notificationRepository;
-    private CommentRepository commentRepository;
-    private PostRepository postRepository;
+    private final NotificationRepository notificationRepository;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
 
     public List<NotificationResponse> findAll(Long memberId){
         List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByIdDesc(memberId);
