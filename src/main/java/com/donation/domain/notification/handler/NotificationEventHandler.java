@@ -3,6 +3,7 @@ package com.donation.domain.notification.handler;
 import com.donation.domain.comment.event.NewCommentNotificationEvent;
 import com.donation.domain.comment.event.NewReplyNotificationEvent;
 import com.donation.domain.donation.event.DonateNotificationEvent;
+import com.donation.domain.favorite.event.PostLikeNotificationEvent;
 import com.donation.domain.notification.entity.Notification;
 import com.donation.domain.notification.repository.NotificationRepository;
 import com.donation.domain.post.event.NewPostNotificationEvent;
@@ -56,7 +57,10 @@ public class NotificationEventHandler {
     }
 
     @TransactionalEventListener
-    public void postLikeHandleNotification(){
-
+    public void postLikeHandleNotification(PostLikeNotificationEvent postLikeNotificationEvent){
+        Notification notification = Notification.likeToNotification(
+                postLikeNotificationEvent.getToUserId(),
+                postLikeNotificationEvent.getPostId());
+        notificationRepository.save(notification);
     }
 }
