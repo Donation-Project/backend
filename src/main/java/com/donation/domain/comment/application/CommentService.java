@@ -36,7 +36,7 @@ public class CommentService {
         Post post = postRepository.getById(postId);
         User user = userRepository.getById(loginMember.getId());
         Comment comment = commentRepository.save(Comment.parent(user, post, commentSaveReqDto.getMessage()));
-        publisher.publishEvent(new NewCommentNotificationEvent(post.getId(), user.getId(), postId, comment.getId()));
+        publisher.publishEvent(new NewCommentNotificationEvent(post.getUser().getId(), user.getId(), postId, comment.getId()));
         return comment.getId();
     }
 

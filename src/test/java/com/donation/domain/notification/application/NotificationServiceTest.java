@@ -101,6 +101,6 @@ public class NotificationServiceTest extends ServiceTest {
         notificationService.checkedToNotification(user.getId());
 
         //then
-        assertThat(notificationRepository.existsByMemberIdAndConformIsFalse(user.getId())).isFalse();
+        assertThat(notificationRepository.existsByUserIdAndConformIsFalse(user.getId())).isFalse();
     }
 }
