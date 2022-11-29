@@ -25,6 +25,18 @@ include::{snippets}/user-email/request-fields.adoc[]
 ==== 응답
 include::{snippets}/user-email/http-response.adoc[]
 
+=== 이메일 인증코드 요청
+include::{snippets}/user-authcode/http-request.adoc[]
+include::{snippets}/user-authcode/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-authcode/http-response.adoc[]
+
+=== 인증코드 검증 요청
+include::{snippets}/user-authcode-verification/http-request.adoc[]
+include::{snippets}/user-authcode-verification/request-fields.adoc[]
+==== 응답
+include::{snippets}/user-authcode-verification/http-response.adoc[]
+
 === 유저 비밀변호 변경 요청
 include::{snippets}/user-password/http-request.adoc[]
 include::{snippets}/user-password/request-fields.adoc[]
@@ -234,7 +246,6 @@ include::{snippets}/review-delete/http-response.adoc[]
 include::{snippets}/donation-save/http-request.adoc[]
 ==== 응답
 include::{snippets}/donation-save/http-response.adoc[]
-include::{snippets}/donation-save/response-fields.adoc[]
 
 === 기부 내역 전체 조회
 ==== 요청
@@ -253,3 +264,23 @@ include::{snippets}/donation-findById/http-response.adoc[]
 include::{snippets}/donation-getList-exception/http-request.adoc[]
 ==== 응답
 include::{snippets}/donation-getList-exception/http-response.adoc[]
+
+== Notification API
+=== 사용자의 알림 전체조회
+==== 요청
+include::{snippets}/notification-findAll/http-request.adoc[]
+include::{snippets}/notification-findAll/request-headers.adoc[]
+==== 응답
+include::{snippets}/notification-findAll/http-response.adoc[]
+
+=== 읽지않은 알림 전체조회
+==== 요청
+include::{snippets}/notification-findAllByUncheck/http-request.adoc[]
+include::{snippets}/notification-findAllByUncheck/request-headers.adoc[]
+==== 응답
+include::{snippets}/notification-findAllByUncheck/http-response.adoc[]
+
+=== 알림 읽은 표시로 변경
+==== 요청
+include::{snippets}/notification-check/http-request.adoc[]
+include::{snippets}/notification-check/request-headers.adoc[]

@@ -1,6 +1,5 @@
 package com.donation.infrastructure.common;
 
-import com.donation.infrastructure.support.ErrorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

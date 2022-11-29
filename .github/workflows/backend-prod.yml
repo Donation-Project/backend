@@ -47,6 +47,12 @@ jobs:
           touch ./application-s3.yml          
           # GitHub-Actions 에서 설정한 값을 application-s3.yml 파일에 쓰기
           echo "${{ secrets.S3 }}" >> ./application-s3.yml
+          
+          # application-mail.yml 파일 생성
+          touch ./application-mail.yml          
+          # GitHub-Actions 에서 설정한 값을 application-mail.yml 파일에 쓰기
+          echo "${{ secrets.MAIL }}" >> ./application-mail.yml
+
         shell: bash 
       
       # gradle 권한 오류 체크 

@@ -2,7 +2,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "none - dev" ]
 
 jobs:
   build:
@@ -38,15 +38,20 @@ jobs:
           # main 설정 파일 디렉토리로 이동
           cd ./src/main/resources
   
-          # application-prod.yml 파일 생성
-          touch ./application-prod.yml
-          # GitHub-Actions 에서 설정한 값을 application-prod.yml 파일에 쓰기
+          # application-dev.yml 파일 생성
+          touch ./application-dev.yml
+          # GitHub-Actions 에서 설정한 값을 application-dev.yml 파일에 쓰기
           echo "${{ secrets.DEV }}" >> ./application-dev.yml
       
           # application-s3.yml 파일 생성
           touch ./application-s3.yml          
           # GitHub-Actions 에서 설정한 값을 application-s3.yml 파일에 쓰기
           echo "${{ secrets.S3 }}" >> ./application-s3.yml
+          
+          # application-mail.yml 파일 생성
+          touch ./application-mail.yml          
+          # GitHub-Actions 에서 설정한 값을 application-mail.yml 파일에 쓰기
+          echo "${{ secrets.MAIL }}" >> ./application-mail.yml
         shell: bash 
       
       # gradle 권한 오류 체크 

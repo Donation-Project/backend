@@ -1,12 +1,11 @@
 package com.donation.domain.favorite.application;
 
-import com.donation.domain.favorite.application.FavoriteService;
-import com.donation.domain.user.dto.UserRespDto;
 import com.donation.common.utils.ServiceTest;
-import com.donation.domain.post.entity.Post;
-import com.donation.domain.user.entity.User;
 import com.donation.domain.favorite.repository.FavoriteRepository;
+import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
+import com.donation.domain.user.dto.UserRespDto;
+import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,29 +34,29 @@ class FavoriteServiceTest extends ServiceTest {
     @DisplayName("좋아요 요청 성공")
     void 좋아요_요청_성공() {
         //given
-        Long userId = userRepository.save(createUser()).getId();
-        Long postId = postRepository.save(createPost()).getId();
+        User user = userRepository.save(createUser());
+        Long postId = postRepository.save(createPost(user)).getId();
 
         //when
-        favoriteService.save(회원검증(userId), postId);
+        favoriteService.save(회원검증(user.getId()), postId);
 
         //then
-        assertThat(favoriteRepository.existsByPostIdAndUserId(postId, userId)).isTrue();
+        assertThat(favoriteRepository.existsByPostIdAndUserId(postId, user.getId())).isTrue();
     }
 
     @Test
     @DisplayName("좋아요 취소 요청 성공")
     void 좋아요_취소_요청_성공() {
         //given
-        Long userId = userRepository.save(createUser()).getId();
-        Long postId = postRepository.save(createPost()).getId();
-        favoriteService.save(회원검증(userId), postId);
+        User user = userRepository.save(createUser());
+        Long postId = postRepository.save(createPost(user)).getId();
+        favoriteService.save(회원검증(user.getId()), postId);
 
         //when
-        favoriteService.cancel(회원검증(userId), postId);
+        favoriteService.cancel(회원검증(user.getId()), postId);
 
         //then
-        assertThat(favoriteRepository.existsByPostIdAndUserId(postId, userId)).isFalse();
+        assertThat(favoriteRepository.existsByPostIdAndUserId(postId, user.getId())).isFalse();
     }
 
 

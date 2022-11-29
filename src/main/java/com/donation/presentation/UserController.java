@@ -1,15 +1,17 @@
 package com.donation.presentation;
 
+import com.donation.domain.auth.application.AuthCodeService;
+import com.donation.domain.auth.application.AuthService;
+import com.donation.domain.auth.application.mail.MailService;
+import com.donation.domain.auth.application.mail.dto.MailReqDto;
+import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
+import com.donation.domain.auth.dto.VerificationReqDto;
+import com.donation.domain.user.application.UserService;
 import com.donation.domain.user.dto.*;
+import com.donation.infrastructure.common.CommonResponse;
+import com.donation.infrastructure.util.PageCustom;
 import com.donation.presentation.auth.LoginInfo;
 import com.donation.presentation.auth.LoginMember;
-import com.donation.infrastructure.common.CommonResponse;
-import com.donation.domain.auth.dto.AccessAndRefreshTokenResponse;
-import com.donation.domain.user.dto.UserEmailRespDto;
-import com.donation.domain.user.dto.UserRespDto;
-import com.donation.infrastructure.support.PageCustom;
-import com.donation.domain.auth.application.AuthService;
-import com.donation.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 
 @Slf4j
 @RestController
@@ -26,17 +27,33 @@ import java.net.URI;
 public class UserController {
     private final UserService userService;
     private final AuthService authService;
+    private final MailService mailService;
+
+    private final AuthCodeService authCodeService;
+
 
     @PostMapping("/join")
     public ResponseEntity<Void> join(@RequestBody @Valid UserSaveReqDto userSaveReqDto) {
         authService.save(userSaveReqDto);
-        return ResponseEntity.created(URI.create("/api/user/me")).build();
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserLoginReqDto userLoginReqDto){
         AccessAndRefreshTokenResponse token = authService.login(userLoginReqDto);
         return ResponseEntity.ok(CommonResponse.success(token));
+    }
+
+    @PostMapping("/join/email")
+    public ResponseEntity<Void> sendAuthCodeToEmail(@RequestBody MailReqDto mailReqDto){
+        mailService.sendCodeToMailAndAuthCodeSave(mailReqDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/join/email/verification")
+    public ResponseEntity<Void> verifyCode(@RequestBody VerificationReqDto verificationReqDto){
+        authCodeService.verifyCode(verificationReqDto);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/join/exists")

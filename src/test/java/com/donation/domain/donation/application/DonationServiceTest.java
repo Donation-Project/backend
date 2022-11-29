@@ -6,7 +6,6 @@ import com.donation.domain.donation.dto.DonationFindRespDto;
 import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.entity.Donation;
 import com.donation.domain.donation.repository.DonationRepository;
-import com.donation.domain.donation.service.DonationService;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
 import com.donation.domain.user.entity.User;

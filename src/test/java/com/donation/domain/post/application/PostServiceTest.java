@@ -1,29 +1,28 @@
 package com.donation.domain.post.application;
 
+import com.donation.common.utils.ServiceTest;
 import com.donation.domain.post.dto.PostFindRespDto;
 import com.donation.domain.post.dto.PostListRespDto;
 import com.donation.domain.post.dto.PostSaveRespDto;
-import com.donation.common.utils.ServiceTest;
 import com.donation.domain.post.entity.Post;
-import com.donation.domain.post.service.PostService;
+import com.donation.domain.post.repository.PostRepository;
 import com.donation.domain.user.entity.User;
+import com.donation.domain.user.repository.UserRepository;
 import com.donation.global.exception.DonationInvalidateException;
 import com.donation.global.exception.DonationNotFoundException;
-import com.donation.domain.post.repository.PostRepository;
-import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.support.PageCustom;
-import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.domain.post.application.Image.ImageService;
+import com.donation.infrastructure.util.PageCursor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
 import static com.donation.common.AuthFixtures.회원검증;
 import static com.donation.common.PostFixtures.*;
 import static com.donation.common.UserFixtures.createUser;
+import static com.donation.common.utils.CursorRequestFixtures.createCursor;
 import static com.donation.domain.post.entity.PostState.APPROVAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -38,7 +37,7 @@ public class PostServiceTest extends ServiceTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private AwsS3Service awsS3Service;
+    private ImageService imageService;
 
     @Test
     @DisplayName("게시물 작성 성공")
@@ -57,7 +56,7 @@ public class PostServiceTest extends ServiceTest {
         });
 
         //clear
-        actual.getPostDetailImages().forEach(image -> awsS3Service.delete(image));
+        actual.getPostDetailImages().forEach(image -> imageService.delete(image));
     }
 
     @Test
@@ -157,14 +156,13 @@ public class PostServiceTest extends ServiceTest {
         List<Post> posts = postRepository.saveAll(creatPostList(1, 11, user));
 
         //when
-        PageCustom<PostListRespDto> postList = postService.getUserIdList(회원검증(user.getId()), PageRequest.of(0, 10));
+        PageCursor<PostListRespDto> postList = postService.getList(회원검증(user.getId()), createCursor());
 
         //then
         assertAll(() -> {
-            assertThat(postList.getContent().size()).isEqualTo(10);
-            assertThat(postList.getPage().getPageElement()).isEqualTo(10);
-            assertThat(postList.getContent().get(0).getWrite().getTitle()).isEqualTo(posts.get(0).getWrite().getTitle());
-            assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
+            assertThat(postList.getRequest().size()).isEqualTo(10);
+            assertThat(postList.getRequest().get(0).getWrite().getTitle()).isEqualTo(posts.get(9).getWrite().getTitle());
+            assertThat(postList.getRequest().get(0).getWrite().getContent()).isEqualTo(posts.get(9).getWrite().getContent());
         });
     }
 
@@ -176,15 +174,14 @@ public class PostServiceTest extends ServiceTest {
         List<Post> posts = postRepository.saveAll(creatPostList(1, 11, user));
 
         //when
-        PageCustom<PostListRespDto> postList = postService.getList(PageRequest.of(0, 10), APPROVAL);
+        PageCursor<PostListRespDto> actual = postService.getList(createCursor(), APPROVAL);
 
         //then
         assertAll(() -> {
-            assertThat(postList.getContent().size()).isEqualTo(10);
-            assertThat(postList.getPage().getPageElement()).isEqualTo(10);
-            assertThat(postList.getContent().get(0).getWrite().getTitle()).isEqualTo(posts.get(0).getWrite().getTitle());
-            assertThat(postList.getContent().get(0).getWrite().getContent()).isEqualTo(posts.get(0).getWrite().getContent());
-            assertThat(postList.getContent().get(0).getState()).isEqualTo(APPROVAL);
+            assertThat(actual.getRequest().size()).isEqualTo(10);
+            assertThat(actual.getRequest().get(0).getWrite().getTitle()).isEqualTo(posts.get(9).getWrite().getTitle());
+            assertThat(actual.getRequest().get(0).getWrite().getContent()).isEqualTo(posts.get(9).getWrite().getContent());
+            assertThat(actual.getRequest().get(0).getState()).isEqualTo(APPROVAL);
         });
     }
 

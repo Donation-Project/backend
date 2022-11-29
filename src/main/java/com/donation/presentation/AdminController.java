@@ -1,13 +1,13 @@
 package com.donation.presentation;
 
-import com.donation.infrastructure.common.CommonResponse;
 import com.donation.domain.post.dto.PostListRespDto;
 import com.donation.domain.post.entity.PostState;
-import com.donation.infrastructure.support.PageCustom;
-import com.donation.domain.post.service.PostService;
+import com.donation.domain.post.application.PostService;
+import com.donation.infrastructure.common.CommonResponse;
+import com.donation.infrastructure.util.CursorRequest;
+import com.donation.infrastructure.util.PageCursor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +20,8 @@ public class AdminController {
     private final PostService postService;
 
     @GetMapping("/{state}")
-    public ResponseEntity<?> getPostList(@PathVariable PostState[] state, Pageable pageable) {
-        PageCustom<PostListRespDto> list = postService.getList(pageable, state);
+    public ResponseEntity<?> getPostList(@PathVariable PostState[] state, CursorRequest cursorRequest) {
+        PageCursor<PostListRespDto> list = postService.getList(cursorRequest, state);
         return ResponseEntity.ok(CommonResponse.success(list));
     }
 

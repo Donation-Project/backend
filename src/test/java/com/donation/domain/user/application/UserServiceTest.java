@@ -1,18 +1,17 @@
 package com.donation.domain.user.application;
 
-import com.donation.domain.user.service.UserService;
-import com.donation.presentation.auth.LoginMember;
-import com.donation.domain.user.dto.UserLoginReqDto;
-import com.donation.domain.user.dto.UserSaveReqDto;
-import com.donation.domain.user.dto.UserEmailRespDto;
-import com.donation.domain.user.dto.UserRespDto;
 import com.donation.common.utils.ServiceTest;
-import com.donation.domain.user.entity.User;
-import com.donation.global.exception.DonationInvalidateException;
-import com.donation.domain.user.repository.UserRepository;
-import com.donation.infrastructure.support.PageCustom;
 import com.donation.domain.auth.application.AuthService;
-import com.donation.infrastructure.Image.AwsS3Service;
+import com.donation.domain.user.dto.UserEmailRespDto;
+import com.donation.domain.user.dto.UserLoginReqDto;
+import com.donation.domain.user.dto.UserRespDto;
+import com.donation.domain.user.dto.UserSaveReqDto;
+import com.donation.domain.user.entity.User;
+import com.donation.domain.user.repository.UserRepository;
+import com.donation.global.exception.DonationInvalidateException;
+import com.donation.domain.post.application.Image.ImageService;
+import com.donation.infrastructure.util.PageCustom;
+import com.donation.presentation.auth.LoginMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,7 +36,7 @@ class UserServiceTest extends ServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private AwsS3Service awsS3Service;
+    private ImageService imageService;
 
     @Autowired
     private AuthService authService;
@@ -75,7 +74,7 @@ class UserServiceTest extends ServiceTest {
         assertThat(actual.getProfileImage()).isNotEqualTo(일반_사용자_프로필);
 
         //clear
-        awsS3Service.delete(actual.getProfileImage());
+        imageService.delete(actual.getProfileImage());
     }
 
     @Test
@@ -148,6 +147,6 @@ class UserServiceTest extends ServiceTest {
         //when & then
         assertThatThrownBy(() -> userService.passwordModify(회원검증(id), 비밀번호_변경_DTO(잘못된비밀번호, 새로운_일반_사용자_패스워드)))
                 .isInstanceOf(DonationInvalidateException.class)
-                .hasMessage("패스워드가 일치하지 않습니다.");
+                .hasMessage("인증정보가 일치하지 않습니다.");
     }
 }

@@ -1,7 +1,7 @@
 package com.donation.global;
 
 import com.donation.infrastructure.common.CommonResponse;
-import com.donation.infrastructure.support.ErrorResponse;
+import com.donation.infrastructure.common.ErrorResponse;
 import com.donation.global.exception.DonationException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

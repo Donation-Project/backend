@@ -5,7 +5,7 @@ import com.donation.common.utils.ControllerTest;
 import com.donation.domain.auth.application.AuthService;
 import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
-import com.donation.domain.donation.service.DonationService;
+import com.donation.domain.donation.application.DonationService;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.user.entity.User;
 import com.donation.global.exception.DonationInvalidateException;
