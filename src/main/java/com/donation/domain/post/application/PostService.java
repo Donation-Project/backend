@@ -5,6 +5,7 @@ import com.donation.domain.post.dto.*;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.entity.PostDetailImage;
 import com.donation.domain.post.entity.PostState;
+import com.donation.domain.post.event.NewPostEvent;
 import com.donation.domain.post.repository.PostRepository;
 import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
@@ -13,6 +14,7 @@ import com.donation.infrastructure.util.CursorRequest;
 import com.donation.infrastructure.util.PageCursor;
 import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +30,13 @@ public class PostService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final CommentRepository commentRepository;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional
     public PostSaveRespDto createPost(PostSaveReqDto postSaveReqDto, LoginMember loginMember) {
         User user = userRepository.getById(loginMember.getId());
         Post post = postRepository.save(validateSave(postSaveReqDto, postSaveReqDto.getImage(), user));
+        publisher.publishEvent(new NewPostEvent(user.getId(), post.getId()));
         return PostSaveRespDto.of(post, user);
     }
     private Post validateSave(PostSaveReqDto postSaveReqDto, String image, User user) {
