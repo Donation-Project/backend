@@ -4,16 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class NewReplyEvent {
+public class NewCommentNotificationEvent {
 
     private Long toUserId;
     private Long fromUserId;
-
     private Long postId;
     private Long commentId;
 
     @Builder
-    public NewReplyEvent(Long toUserId, Long fromUserId, Long postId, Long commentId) {
+    public NewCommentNotificationEvent(Long toUserId, Long fromUserId, Long postId, Long commentId) {
         this.toUserId = toUserId;
         this.fromUserId = fromUserId;
         this.postId = postId;

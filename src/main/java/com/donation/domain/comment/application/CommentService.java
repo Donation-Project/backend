@@ -1,7 +1,7 @@
 package com.donation.domain.comment.application;
 
-import com.donation.domain.comment.event.NewCommentEvent;
-import com.donation.domain.comment.event.NewReplyEvent;
+import com.donation.domain.comment.event.NewCommentNotificationEvent;
+import com.donation.domain.comment.event.NewReplyNotificationEvent;
 import com.donation.presentation.auth.LoginMember;
 import com.donation.domain.comment.dto.CommentSaveReqDto;
 import com.donation.domain.comment.dto.CommentResponse;
@@ -36,7 +36,7 @@ public class CommentService {
         Post post = postRepository.getById(postId);
         User user = userRepository.getById(loginMember.getId());
         Comment comment = commentRepository.save(Comment.parent(user, post, commentSaveReqDto.getMessage()));
-        publisher.publishEvent(new NewCommentEvent(post.getId(), user.getId(), postId, comment.getId()));
+        publisher.publishEvent(new NewCommentNotificationEvent(post.getId(), user.getId(), postId, comment.getId()));
         return comment.getId();
     }
 
@@ -44,7 +44,7 @@ public class CommentService {
     public Long saveReply(final Long commentId, final LoginMember loginMember, final CommentSaveReqDto commentSaveReqDto){
         Comment parent = commentRepository.getById(commentId);
         Comment comment = commentRepository.save(validateReplySave(parent, loginMember.getId(), commentSaveReqDto));
-        publisher.publishEvent(new NewReplyEvent(parent.getUser().getId(), loginMember.getId(), parent.getPost().getId(), comment.getId()));
+        publisher.publishEvent(new NewReplyNotificationEvent(parent.getUser().getId(), loginMember.getId(), parent.getPost().getId(), comment.getId()));
         return comment.getId();
     }
 

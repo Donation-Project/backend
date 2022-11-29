@@ -1,16 +1,16 @@
-package com.donation.domain.post.event;
+package com.donation.domain.donation.event;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class NewPostEvent {
+public class DonateNotificationEvent {
 
     private Long userId;
     private Long postId;
 
     @Builder
-    public NewPostEvent(Long userId, Long postId) {
+    public DonateNotificationEvent(Long userId, Long postId) {
         this.userId = userId;
         this.postId = postId;
     }

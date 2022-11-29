@@ -1,10 +1,11 @@
 package com.donation.domain.notification.handler;
 
-import com.donation.domain.comment.event.NewCommentEvent;
-import com.donation.domain.comment.event.NewReplyEvent;
+import com.donation.domain.comment.event.NewCommentNotificationEvent;
+import com.donation.domain.comment.event.NewReplyNotificationEvent;
+import com.donation.domain.donation.event.DonateNotificationEvent;
 import com.donation.domain.notification.entity.Notification;
 import com.donation.domain.notification.repository.NotificationRepository;
-import com.donation.domain.post.event.NewPostEvent;
+import com.donation.domain.post.event.NewPostNotificationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -22,33 +23,40 @@ public class NotificationEventHandler {
     private final NotificationRepository notificationRepository;
 
     @TransactionalEventListener
-    public void newPostHandleNotification(NewPostEvent newPostEvent) {
+    public void newPostHandleNotification(NewPostNotificationEvent newPostNotificationEvent) {
         Notification notification = Notification.newPostToNotification(
-                newPostEvent.getUserId(),
-                newPostEvent.getPostId());
+                newPostNotificationEvent.getUserId(),
+                newPostNotificationEvent.getPostId());
         notificationRepository.save(notification);
     }
     @TransactionalEventListener
-    public void newCommentHandleNotification(NewCommentEvent newCommentEvent) {
+    public void newCommentHandleNotification(NewCommentNotificationEvent newCommentNotificationEvent) {
         Notification notification = Notification.commentToNotification(
-                newCommentEvent.getToUserId(),
-                newCommentEvent.getPostId(),
-                newCommentEvent.getCommentId());
+                newCommentNotificationEvent.getToUserId(),
+                newCommentNotificationEvent.getPostId(),
+                newCommentNotificationEvent.getCommentId());
         notificationRepository.save(notification);
     }
 
     @TransactionalEventListener
-    public void newReplyHandleNotification(NewReplyEvent newReplyEvent) {
+    public void newReplyHandleNotification(NewReplyNotificationEvent newReplyNotificationEvent) {
         Notification notification = Notification.replyCommentToNotification(
-                newReplyEvent.getToUserId(),
-                newReplyEvent.getPostId(),
-                newReplyEvent.getCommentId());
+                newReplyNotificationEvent.getToUserId(),
+                newReplyNotificationEvent.getPostId(),
+                newReplyNotificationEvent.getCommentId());
         notificationRepository.save(notification);
     }
 
+    @TransactionalEventListener
+    public void donateHandleNotification(DonateNotificationEvent donateNotificationEvent) {
+        Notification notification = Notification.donateToNotification(
+                donateNotificationEvent.getUserId(),
+                donateNotificationEvent.getPostId());
+        notificationRepository.save(notification);
+    }
 
-    //TODO: 게시물에 기부시 해당 작성자에게 알림
+    @TransactionalEventListener
+    public void postLikeHandleNotification(){
 
-
-    //TODO: 게시물 좋아요 요청시 게시물 작성자에게 알림
+    }
 }
