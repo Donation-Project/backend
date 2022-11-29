@@ -44,7 +44,7 @@ public class CommentService {
     public Long saveReply(final Long commentId, final LoginMember loginMember, final CommentSaveReqDto commentSaveReqDto){
         Comment parent = commentRepository.getById(commentId);
         Comment comment = commentRepository.save(validateReplySave(parent, loginMember.getId(), commentSaveReqDto));
-        publisher.publishEvent(new NewReplyEvent(parent.getUser().getId(), loginMember.getId(), comment.getId()));
+        publisher.publishEvent(new NewReplyEvent(parent.getUser().getId(), loginMember.getId(), parent.getPost().getId(), comment.getId()));
         return comment.getId();
     }
 

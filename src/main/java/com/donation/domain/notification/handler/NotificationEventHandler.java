@@ -41,6 +41,7 @@ public class NotificationEventHandler {
     public void newReplyHandleNotification(NewReplyEvent newReplyEvent) {
         Notification notification = Notification.replyCommentToNotification(
                 newReplyEvent.getToUserId(),
+                newReplyEvent.getPostId(),
                 newReplyEvent.getCommentId());
         notificationRepository.save(notification);
     }
