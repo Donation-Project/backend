@@ -15,6 +15,7 @@ public class UserFixtures {
 
     /* 일반 사용자 */
     public static final String 일반_사용자_이메일 = "default@email.com";
+    public static final String 일반_사용자1_이메일 = "default1@email.com";
     public static final String 일반_사용자_패스워드 = "default";
     public static final String 일반_사용자_이름 = "일반 사용자";
     public static final String 일반_사용자_프로필 = "https://avatars.githubusercontent.com/u/106054507?v=4";

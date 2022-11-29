@@ -1,5 +1,7 @@
 package com.donation.domain.comment.application;
 
+import com.donation.domain.comment.event.NewCommentNotificationEvent;
+import com.donation.domain.comment.event.NewReplyNotificationEvent;
 import com.donation.presentation.auth.LoginMember;
 import com.donation.domain.comment.dto.CommentSaveReqDto;
 import com.donation.domain.comment.dto.CommentResponse;
@@ -12,6 +14,7 @@ import com.donation.domain.comment.repository.CommentRepository;
 import com.donation.domain.post.repository.PostRepository;
 import com.donation.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,22 +29,26 @@ public class CommentService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
+    private final ApplicationEventPublisher publisher;
+
     @Transactional
     public Long saveComment(final Long postId, final LoginMember loginMember, final CommentSaveReqDto commentSaveReqDto){
         Post post = postRepository.getById(postId);
         User user = userRepository.getById(loginMember.getId());
-        Comment comment = Comment.parent(user, post, commentSaveReqDto.getMessage());
-        return commentRepository.save(comment).getId();
+        Comment comment = commentRepository.save(Comment.parent(user, post, commentSaveReqDto.getMessage()));
+        publisher.publishEvent(new NewCommentNotificationEvent(post.getUser().getId(), user.getId(), postId, comment.getId()));
+        return comment.getId();
     }
 
     @Transactional
     public Long saveReply(final Long commentId, final LoginMember loginMember, final CommentSaveReqDto commentSaveReqDto){
-        Comment child = validateReplySave(commentId, loginMember.getId(), commentSaveReqDto);
-        return commentRepository.save(child).getId();
+        Comment parent = commentRepository.getById(commentId);
+        Comment comment = commentRepository.save(validateReplySave(parent, loginMember.getId(), commentSaveReqDto));
+        publisher.publishEvent(new NewReplyNotificationEvent(parent.getUser().getId(), loginMember.getId(), parent.getPost().getId(), comment.getId()));
+        return comment.getId();
     }
 
-    private Comment validateReplySave(final Long commentId, final Long userId, final CommentSaveReqDto commentSaveReqDto) {
-        Comment parent = commentRepository.getById(commentId);
+    private Comment validateReplySave(final Comment parent, final Long userId, final CommentSaveReqDto commentSaveReqDto) {
         if (!parent.isParent())
             throw new DonationInvalidateException("대댓글에는 답글을 달 수 없습니다.");
         return Comment.child(userRepository.getById(userId), parent.getPost(), commentSaveReqDto.getMessage(), parent);

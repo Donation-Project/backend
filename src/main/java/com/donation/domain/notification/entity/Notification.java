@@ -25,7 +25,7 @@ public class Notification extends BaseEntity {
     @Column(name = "notification_id")
     private Long id;
     @Column(nullable = false)
-    private Long memberId;
+    private Long userId;
     private Long postId;
     private Long commentId;
     @Enumerated(STRING)
@@ -34,32 +34,36 @@ public class Notification extends BaseEntity {
     private boolean conform;
 
     @Builder
-    public Notification(Long memberId, Long postId, Long commentId, NotifyType type) {
-        this.memberId = memberId;
+    public Notification(Long userId, Long postId, Long commentId, NotifyType type) {
+        this.userId = userId;
         this.postId = postId;
         this.commentId = commentId;
         this.type = type;
     }
 
 
-    public static Notification newPostToNotification(Long memberId, Long postId){
-        return new Notification(memberId, postId, null, POST);
+    public static Notification newPostToNotification(Long userId, Long postId){
+        return new Notification(userId, postId, null, POST);
     }
 
-    public static Notification donateToNotification(Long memberId, Long postId){
-        return new Notification(memberId, postId, null, DONATE);
+    public static Notification donateToNotification(Long userId, Long postId){
+        return new Notification(userId, postId, null, DONATE);
     }
 
-    public static Notification replyCommentToNotification(Long memberId, Long commentId){
-        return new Notification(memberId, null, commentId, REPLY);
+    public static Notification commentToNotification(Long userId, Long postId, Long commentId){
+        return new Notification(userId, postId, commentId, COMMENT);
     }
 
-    public static Notification likeToNotification(Long memberId, Long postId){
-        return new Notification(memberId, postId, null, LIKE);
+    public static Notification replyCommentToNotification(Long userId, Long postId, Long commentId){
+        return new Notification(userId, postId, commentId, REPLY);
     }
 
-    public void validateOwner(Long memberId){
-        if (!Objects.equals(this.memberId, memberId))
+    public static Notification likeToNotification(Long userId, Long postId){
+        return new Notification(userId, postId, null, LIKE);
+    }
+
+    public void validateOwner(Long userId){
+        if (!Objects.equals(this.userId, userId))
             throw new DonationInvalidateException("잘못된 알람 요청입니다.");
     }
 }

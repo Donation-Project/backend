@@ -1,26 +1,66 @@
 package com.donation.domain.notification.handler;
 
+import com.donation.domain.comment.event.NewCommentNotificationEvent;
+import com.donation.domain.comment.event.NewReplyNotificationEvent;
+import com.donation.domain.donation.event.DonateNotificationEvent;
+import com.donation.domain.favorite.event.PostLikeNotificationEvent;
+import com.donation.domain.notification.entity.Notification;
 import com.donation.domain.notification.repository.NotificationRepository;
+import com.donation.domain.post.event.NewPostNotificationEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
 @Component
+@Async
 @RequiredArgsConstructor
 @Transactional(propagation = REQUIRES_NEW)
 public class NotificationEventHandler {
 
     private final NotificationRepository notificationRepository;
 
-    //TODO: 댓글 작성시 게시물 작성자에게 알림
+    @TransactionalEventListener
+    public void newPostHandleNotification(NewPostNotificationEvent newPostNotificationEvent) {
+        Notification notification = Notification.newPostToNotification(
+                newPostNotificationEvent.getUserId(),
+                newPostNotificationEvent.getPostId());
+        notificationRepository.save(notification);
+    }
+    @TransactionalEventListener
+    public void newCommentHandleNotification(NewCommentNotificationEvent newCommentNotificationEvent) {
+        Notification notification = Notification.commentToNotification(
+                newCommentNotificationEvent.getToUserId(),
+                newCommentNotificationEvent.getPostId(),
+                newCommentNotificationEvent.getCommentId());
+        notificationRepository.save(notification);
+    }
 
-    //TODO: 대댓글 작성시 해당 댓글 작성자에게 알림
+    @TransactionalEventListener
+    public void newReplyHandleNotification(NewReplyNotificationEvent newReplyNotificationEvent) {
+        Notification notification = Notification.replyCommentToNotification(
+                newReplyNotificationEvent.getToUserId(),
+                newReplyNotificationEvent.getPostId(),
+                newReplyNotificationEvent.getCommentId());
+        notificationRepository.save(notification);
+    }
 
-    //TODO: 게시물에 기부시 해당 작성자에게 알림
+    @TransactionalEventListener
+    public void donateHandleNotification(DonateNotificationEvent donateNotificationEvent) {
+        Notification notification = Notification.donateToNotification(
+                donateNotificationEvent.getUserId(),
+                donateNotificationEvent.getPostId());
+        notificationRepository.save(notification);
+    }
 
-    //TODO: 게시물 등록시 등록확인 알림
-
-    //TODO: 게시물 좋아요 요청시 게시물 작성자에게 알림
+    @TransactionalEventListener
+    public void postLikeHandleNotification(PostLikeNotificationEvent postLikeNotificationEvent){
+        Notification notification = Notification.likeToNotification(
+                postLikeNotificationEvent.getToUserId(),
+                postLikeNotificationEvent.getPostId());
+        notificationRepository.save(notification);
+    }
 }

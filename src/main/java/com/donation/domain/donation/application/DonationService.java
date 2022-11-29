@@ -5,6 +5,7 @@ import com.donation.domain.donation.dto.DonationFindByFilterRespDto;
 import com.donation.domain.donation.dto.DonationFindRespDto;
 import com.donation.domain.donation.dto.DonationSaveReqDto;
 import com.donation.domain.donation.entity.Donation;
+import com.donation.domain.donation.event.DonateNotificationEvent;
 import com.donation.domain.donation.repository.DonationRepository;
 import com.donation.domain.post.entity.Post;
 import com.donation.domain.post.repository.PostRepository;
@@ -13,6 +14,7 @@ import com.donation.domain.user.entity.User;
 import com.donation.domain.user.repository.UserRepository;
 import com.donation.presentation.auth.LoginMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,7 @@ public class DonationService {
     private final PostRepository postRepository;
     private final DonationRepository donationRepository;
     private final PostService postService;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional
     public void createDonate(LoginMember loginMember,Long postId,DonationSaveReqDto donationSaveReqDto) {
@@ -35,6 +38,7 @@ public class DonationService {
         Post post = postRepository.getById(postId);
         donationRepository.save(Donation.of(user, post, donationSaveReqDto.getAmount()));
         postService.increase(post.getId(), donationSaveReqDto.getFloatAmount());
+        publisher.publishEvent(new DonateNotificationEvent(post.getUser().getId(), postId));
     }
 
     public List<DonationFindRespDto> findMyDonation(LoginMember loginMember) {
