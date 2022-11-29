@@ -19,6 +19,12 @@ public enum NotifyType {
             return NOTIFY_DONATE_MESSAGE;
         }
     },
+    COMMENT{
+        @Override
+        public String toMessage() {
+            return NOTIFY_COMMENT_MESSAGE;
+        }
+    },
     REPLY{
         @Override
         public String toMessage() {

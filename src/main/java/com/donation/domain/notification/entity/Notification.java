@@ -50,6 +50,10 @@ public class Notification extends BaseEntity {
         return new Notification(userId, postId, null, DONATE);
     }
 
+    public static Notification commentToNotification(Long userId, Long postId, Long commentId){
+        return new Notification(userId, postId, commentId, COMMENT);
+    }
+
     public static Notification replyCommentToNotification(Long userId, Long commentId){
         return new Notification(userId, null, commentId, REPLY);
     }
