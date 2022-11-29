@@ -34,9 +34,9 @@ public class NotificationControllerTest extends ControllerTest {
     @DisplayName("사용자의 알림 전체 조회")
     void 사용자의_알림_전체_조회() throws Exception {
         //given
-        Long memberId = 1L;
-        given(notificationService.findAll(memberId)).willReturn(전체알림조회());
-        given(authService.extractMemberId(엑세스_토큰)).willReturn(memberId);
+        Long userId = 1L;
+        given(notificationService.findAll(userId)).willReturn(전체알림조회());
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(userId);
 
 
         //expected
@@ -59,9 +59,9 @@ public class NotificationControllerTest extends ControllerTest {
     @DisplayName("확인하지않은 알림 전체 조회")
     void 확인하지않은_알림_전체_조회() throws Exception {
         //given
-        Long memberId = 1L;
-        given(notificationService.findAllByUncheckedNotification(memberId)).willReturn(전체알림조회());
-        given(authService.extractMemberId(엑세스_토큰)).willReturn(memberId);
+        Long userId = 1L;
+        given(notificationService.findAllByUncheckedNotification(userId)).willReturn(전체알림조회());
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(userId);
 
 
         //expected
@@ -83,9 +83,9 @@ public class NotificationControllerTest extends ControllerTest {
     @DisplayName("알림 읽은 표시로 변경")
     void 알림_읽은_표시로_변경() throws Exception{
         //given
-        Long memberId = 1L;
-        BDDMockito.willDoNothing().given(notificationService).checkedToNotification(memberId);
-        given(authService.extractMemberId(엑세스_토큰)).willReturn(memberId);
+        Long userId = 1L;
+        BDDMockito.willDoNothing().given(notificationService).checkedToNotification(userId);
+        given(authService.extractMemberId(엑세스_토큰)).willReturn(userId);
 
 
         //expected

@@ -25,25 +25,25 @@ public class NotificationService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
-    public List<NotificationResponse> findAll(Long memberId){
-        List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByIdDesc(memberId);
+    public List<NotificationResponse> findAll(Long userId){
+        List<Notification> notifications = notificationRepository.findAllByUserIdOrderByIdDesc(userId);
         return getByNotificationResponse(notifications);
     }
 
-    public List<NotificationResponse> findAllByUncheckedNotification(Long memberId){
-        List<Notification> notifications = notificationRepository.findAllByMemberIdAndConformIsFalseOrderByIdDesc(memberId);
+    public List<NotificationResponse> findAllByUncheckedNotification(Long userId){
+        List<Notification> notifications = notificationRepository.findAllByUserIdAndConformIsFalseOrderByIdDesc(userId);
         return getByNotificationResponse(notifications);
     }
 
-    public void checkedToNotification(Long memberId){
-        validateExistByDetectIsFalse(memberId);
-        List<Notification> notifications = notificationRepository.findAllByMemberIdAndConformIsFalseOrderByIdDesc(memberId);
+    public void checkedToNotification(Long userId){
+        validateExistByDetectIsFalse(userId);
+        List<Notification> notifications = notificationRepository.findAllByUserIdAndConformIsFalseOrderByIdDesc(userId);
         List<Long> ids = getByIds(notifications);
         notificationRepository.changeDetectIsTrueByIdIn(ids);
     }
 
-    private void validateExistByDetectIsFalse(Long memberId){
-        if (!notificationRepository.existsByMemberIdAndConformIsFalse(memberId))
+    private void validateExistByDetectIsFalse(Long userId){
+        if (!notificationRepository.existsByUserIdAndConformIsFalse(userId))
             throw new DonationInvalidateException("읽지않은 알람이 존재하지 않습니다.");
     }
 
