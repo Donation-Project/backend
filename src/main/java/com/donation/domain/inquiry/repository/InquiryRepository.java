@@ -13,6 +13,7 @@ import java.util.List;
 public interface InquiryRepository {
 
     void save(InquirySaveReqDto inquirySaveReqDto);
+    InquiryFindReqDto findById(Long inquiry_id);
     List<InquiryFindReqDto> findAll();
     void update(InquiryUpdateReqDto inquiryUpdateReqDto);
     List<InquiryFindReqDto> findByTitle(String title);

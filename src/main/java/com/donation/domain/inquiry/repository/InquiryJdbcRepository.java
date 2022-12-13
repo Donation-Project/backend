@@ -16,10 +16,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InquiryJdbcRepository implements InquiryRepository{
 
@@ -45,6 +42,18 @@ public class InquiryJdbcRepository implements InquiryRepository{
         params.put("content",dto.getContent());
         params.put("user_id",dto.getUser_id());
         jdbcInsert.executeAndReturnKey(params).longValue();
+    }
+
+    /**
+     * 게시글 조회
+     * @param inquiry_id
+     * @return
+     */
+    @Override
+    public InquiryFindReqDto findById(Long inquiry_id) {
+        String sql = "select * from INQUIRY where INQUIRY_ID = :inquiry_id";
+        Map<String, Object> param = Collections.singletonMap("inquiry_id",inquiry_id);
+        return template.queryForObject(sql, param, RowMapper());
     }
 
     /**
