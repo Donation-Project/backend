@@ -56,7 +56,6 @@ class InquiryServiceTest {
         List<InquiryFindReqDto> find = inquiryService.viewAll();
         assertThat(find.get(0).getTitle()).isEqualTo("제목1");
         assertThat(find.get(0).getContent()).isEqualTo("내용1");
-
     }
 
     @Test
@@ -121,6 +120,20 @@ class InquiryServiceTest {
     }
 
     @Test
+    @DisplayName("문의글 삭제 테스트")
     void delete() {
+        //given
+        User save = userRepository.save(createUser("eee@naver.com"));
+        InquirySaveReqDto build1 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목1").content("내용1").user_id(save.getId()).build();
+        InquirySaveReqDto build2 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목2").content("내용2").user_id(save.getId()).build();
+        inquiryService.createInquiry(build1);
+        inquiryService.createInquiry(build2);
+
+        //when
+        inquiryService.delete(1L);
+
+        //then
+        List<InquiryFindReqDto> result = inquiryService.viewAll();
+        assertThat(result.size()).isEqualTo(1);
     }
 }
