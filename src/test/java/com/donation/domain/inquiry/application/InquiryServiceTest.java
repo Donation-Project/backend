@@ -2,6 +2,7 @@ package com.donation.domain.inquiry.application;
 
 import com.donation.domain.inquiry.dto.InquiryFindReqDto;
 import com.donation.domain.inquiry.dto.InquirySaveReqDto;
+import com.donation.domain.inquiry.dto.InquiryUpdateReqDto;
 import com.donation.domain.inquiry.entity.InquiryState;
 import com.donation.domain.inquiry.repository.InquiryJdbcRepository;
 import com.donation.domain.user.entity.User;
@@ -80,7 +81,19 @@ class InquiryServiceTest {
     }
 
     @Test
+    @DisplayName("문의글 수정 테스트")
     void updateInquiry() {
+        //given
+        User save = userRepository.save(createUser("ccc@naver.com"));
+        InquirySaveReqDto build = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("안녕").content("하세요").user_id(save.getId()).build();
+        inquiryService.createInquiry(build);
+
+        //when
+        InquiryUpdateReqDto update = InquiryUpdateReqDto.builder().inquiry_id(save.getId()).title("수정된 제목").content("수정된 내용").build();
+        inquiryService.updateInquiry(update);
+
+        //then
+        assertThat(update.getTitle()).isEqualTo("수정된 제목");
     }
 
     @Test
