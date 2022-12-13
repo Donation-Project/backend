@@ -1,5 +1,6 @@
 package com.donation.global.config;
 
+import com.donation.domain.inquiry.application.InquiryService;
 import com.donation.domain.inquiry.repository.InquiryJdbcRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,5 +17,10 @@ public class JdbcConfig {
     @Bean
     public InquiryJdbcRepository inquiryJdbcRepository(){
         return new InquiryJdbcRepository(dataSource);
+    }
+
+    @Bean
+    public InquiryService inquiryService(){
+        return new InquiryService(inquiryJdbcRepository());
     }
 }

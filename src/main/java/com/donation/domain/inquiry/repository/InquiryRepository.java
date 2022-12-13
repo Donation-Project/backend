@@ -16,6 +16,6 @@ public interface InquiryRepository {
     List<InquiryFindReqDto> findAll();
     void update(InquiryUpdateReqDto inquiryUpdateReqDto);
     List<InquiryFindReqDto> findByTitle(String title);
-    void delete(Long writeId);
+    void delete(Long inquiry_id);
     void clear();
 }
