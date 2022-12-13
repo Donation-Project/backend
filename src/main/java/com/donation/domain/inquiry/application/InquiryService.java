@@ -23,6 +23,15 @@ public class InquiryService {
     }
 
     /**
+     * 문의글 조회
+     * @param inquiry_id
+     * @return
+     */
+    public InquiryFindReqDto viewInquiry(Long inquiry_id){
+        return inquiryJdbcRepository.findById(inquiry_id);
+    }
+
+    /**
      * 문의글 전체 조회
      * @return
      */
