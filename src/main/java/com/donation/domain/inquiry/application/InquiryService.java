@@ -54,4 +54,13 @@ public class InquiryService {
     public void delete(Long inquiry_id) {
         inquiryJdbcRepository.delete(inquiry_id);
     }
+
+
+
+    public void clear() {
+        List<InquiryFindReqDto> all = viewAll();
+        for(InquiryFindReqDto dto : all){
+            delete(dto.getInquiry_id());
+        }
+    }
 }
