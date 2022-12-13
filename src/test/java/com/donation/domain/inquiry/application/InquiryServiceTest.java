@@ -37,8 +37,8 @@ class InquiryServiceTest {
 
     @BeforeEach
     void clear(){
-        inquiryService.clear();
         inquiryJdbcRepository.clear();
+        inquiryService.clear();
     }
     @Test
     @DisplayName("문의글 작성 테스트")
@@ -56,6 +56,23 @@ class InquiryServiceTest {
         List<InquiryFindReqDto> find = inquiryService.viewAll();
         assertThat(find.get(0).getTitle()).isEqualTo("제목1");
         assertThat(find.get(0).getContent()).isEqualTo("내용1");
+    }
+
+    @Test
+    @DisplayName("문의글 조회 테스트")
+    void viewInquiry(){
+        //given
+        User save = userRepository.save(createUser("fff@naver.com"));
+        InquirySaveReqDto build1 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목1").content("내용1").user_id(save.getId()).build();
+        inquiryService.createInquiry(build1);
+
+        //when
+        InquiryFindReqDto find = inquiryService.viewInquiry(13L);   //전체 테스트 돌릴시 id가 13L이 되어서 임의로 넣음
+//        InquiryFindReqDto find = inquiryService.viewInquiry(1L);   //개별 테스트 돌릴시 id가 1L이 되어서 임의로 넣음
+
+
+        //then
+        assertThat(find.getTitle()).isEqualTo(build1.getTitle());
     }
 
     @Test

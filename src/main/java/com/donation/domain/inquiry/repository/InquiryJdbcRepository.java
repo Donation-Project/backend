@@ -7,6 +7,7 @@ import com.donation.domain.inquiry.entity.Inquiry;
 import com.donation.domain.inquiry.entity.InquiryState;
 import com.donation.domain.user.entity.User;
 import com.donation.infrastructure.embed.Write;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -51,9 +52,13 @@ public class InquiryJdbcRepository implements InquiryRepository{
      */
     @Override
     public InquiryFindReqDto findById(Long inquiry_id) {
-        String sql = "select * from INQUIRY where INQUIRY_ID = :inquiry_id";
+        String sql = "select INQUIRY_ID, TITLE, CONTENT, USER_ID from INQUIRY where INQUIRY_ID = :inquiry_id";
         Map<String, Object> param = Collections.singletonMap("inquiry_id",inquiry_id);
-        return template.queryForObject(sql, param, RowMapper());
+        try{
+            return template.queryForObject(sql, param, RowMapper());
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     /**

@@ -65,7 +65,8 @@ class InquiryJdbcRepositoryTest {
         inquiryJdbcRepository.save(build2);
 
         //when
-        InquiryFindReqDto result = inquiryJdbcRepository.findById(1L);
+        InquiryFindReqDto result = inquiryJdbcRepository.findById(7L);  // 전체 테스트 돌릴시 id가 7L이 되어서 임의로 넣음
+//        InquiryFindReqDto result = inquiryJdbcRepository.findById(1L);  // 개별 테스트 돌릴시 id가 1L이 되어서 임의로 넣음
 
         //then
         assertThat(result.getTitle()).isEqualTo("제목1");
