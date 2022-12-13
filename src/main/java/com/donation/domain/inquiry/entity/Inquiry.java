@@ -4,6 +4,7 @@ import com.donation.infrastructure.embed.Write;
 import com.donation.infrastructure.embed.BaseEntity;
 import com.donation.domain.user.entity.User;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Table(name = "inquiry")
 @Entity
 @NoArgsConstructor(access = PROTECTED)
+@Data
 public class Inquiry extends BaseEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "inquiry_id")
