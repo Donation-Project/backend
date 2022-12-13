@@ -97,7 +97,27 @@ class InquiryServiceTest {
     }
 
     @Test
+    @DisplayName("문의글 제목으로 검색 테스트")
     void findByTitle() {
+        //given
+        User save = userRepository.save(createUser("ddd@naver.com"));
+        InquirySaveReqDto build1 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목1").content("내용1").user_id(save.getId()).build();
+        InquirySaveReqDto build2 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목2").content("내용2").user_id(save.getId()).build();
+        InquirySaveReqDto build3 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("하이").content("내용3").user_id(save.getId()).build();
+        InquirySaveReqDto build4 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("1제목2").content("내용4").user_id(save.getId()).build();
+        inquiryService.createInquiry(build1);
+        inquiryService.createInquiry(build2);
+        inquiryService.createInquiry(build3);
+        inquiryService.createInquiry(build4);
+
+        //when
+        List<InquiryFindReqDto> actual = inquiryService.findByTitle("제목");
+
+        //then
+        assertThat(actual.get(0).getTitle()).isEqualTo("제목1");
+        for(int i=0;i< actual.size();i++){
+            System.out.println(actual.get(i).getTitle() + " / " + actual.get(i).getContent());
+        }
     }
 
     @Test
