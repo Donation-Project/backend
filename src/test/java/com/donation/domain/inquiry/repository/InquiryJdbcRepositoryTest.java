@@ -55,6 +55,24 @@ class InquiryJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("아이디로 검색 테스트")
+    void findById(){
+        //given
+        User save = userRepository.save(createUser("fff@naver.com"));
+        InquirySaveReqDto build1 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목1").content("내용1").user_id(save.getId()).build();
+        InquirySaveReqDto build2 = InquirySaveReqDto.builder().inquiryState(InquiryState.ETC).title("제목2").content("내용2").user_id(save.getId()).build();
+        inquiryJdbcRepository.save(build1);
+        inquiryJdbcRepository.save(build2);
+
+        //when
+        InquiryFindReqDto result = inquiryJdbcRepository.findById(1L);
+
+        //then
+        assertThat(result.getTitle()).isEqualTo("제목1");
+
+    }
+
+    @Test
     @DisplayName("전체 조회 테스트")
     void findAll(){
         //given
